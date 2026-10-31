@@ -3,7 +3,7 @@
 # Phân Tích Lãi Lỗ Và Hiệu Suất Kinh Doanh Thẻ Tín Dụng
 Báo cáo lãi lỗ 7 vùng + Xếp hạng giám đốc vùng | PostgreSQL | Python | Power BI | Excel
 
-**Trần Ngọc Đức** · Chuyên viên Phân tích Dữ liệu · [Email](mailto:tranduc22104@gmail.com) · [LinkedIn](https://www.linkedin.com/in/tr%E1%BA%A7n-ng%E1%BB%8Dc-%C4%91%E1%BB%A9c-48b3a7439/)
+**Trần Ngọc Đức** · Data Analyst · Business Intelligence · Data Science · Management Information Systems · Operations · [Email](mailto:tranduc22104@gmail.com) · [LinkedIn](https://www.linkedin.com/in/tr%E1%BA%A7n-ng%E1%BB%8Dc-%C4%91%E1%BB%A9c-48b3a7439/)
 
 <p>
   <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white">
@@ -62,7 +62,7 @@ Dự án nhận dữ liệu thô gồm **sổ cái kế toán, sao kê giao dị
 - **Phát hiện** — Lợi nhuận tháng 5 tăng **+4.390,9 triệu đồng** so với tháng 4 (tương đương +8,4%), trong đó **97,2%** đến từ một vùng duy nhất (Tây Nam Bộ) và phần lớn nhờ **dự phòng giảm**, không phải thu nhập tăng.
 - **Cảnh báo** — **1 trong 7 vùng lỗ** (Đông Nam Bộ, −8.787,4 triệu đồng); **3 trong 7 vùng giảm** lợi nhuận; vùng lãi nhất lại có nợ xấu cao nhất (**21,99%**) và **0 trong 16** giám đốc vào nhóm 25 vị trí đầu.
 - **Kiểm chứng** — **91 phép đối soát giữa Power BI và PostgreSQL: 0 sai lệch**; đối chiếu mẫu báo cáo gốc theo từng ô, khớp cả ba số tổng và toàn bộ ô đối chiếu được.
-- **Bàn giao** — Tệp Excel giữ nguyên mẫu ngân hàng (công thức, định dạng, trang tham số), kèm bộ tài liệu vận hành và **50 mục lỗi thực chiến** đã ghi cách xử lý.
+- **Bàn giao** — Tệp Excel giữ nguyên mẫu ngân hàng (công thức, định dạng, trang tham số), kèm bộ tài liệu vận hành và **51 mục lỗi thực chiến** đã ghi cách xử lý.
 
 Báo cáo phục vụ **rà soát và ra quyết định điều hành**; không thay thế quy trình kế toán chính thức và không dùng để tự động đánh giá hay thưởng cá nhân.
 
@@ -353,7 +353,7 @@ Dòng cuối là lỗi từng mắc ở bản nháp đầu: cộng dồn thu nh�
 | **Bảng xếp hạng giám đốc vùng** (Power BI) | 8 chỉ số, 2 trụ cột, xếp hạng theo tháng | Giám đốc khối kinh doanh |
 | **Trang chẩn đoán** (Power BI) | Ma trận nhiệt có dấu, 4 góc phần tư lợi nhuận và rủi ro, khối ba cột "Điều gì đã xảy ra · Kết luận điều tra · Hành động đề xuất" — mỗi dòng hành động ghi rõ khối chịu trách nhiệm và hạn hoàn thành, viết đầy đủ không dùng chữ tắt | Ban điều hành |
 | **Tệp Excel đúng mẫu** | Xuất tự động theo mẫu gốc (công thức, định dạng, trang tham số) | Kế toán quản trị |
-| **Bộ tài liệu vận hành** | Hiện trạng hệ thống, nhật ký công việc, 50 mục lỗi và cách xử lý | Người tiếp nhận bàn giao |
+| **Bộ tài liệu vận hành** | Hiện trạng hệ thống, nhật ký công việc, 51 mục lỗi và cách xử lý | Người tiếp nhận bàn giao |
 
 Tệp Excel **không được thiết kế lại**: người dùng cuối dán số vào quy trình có sẵn, nên định dạng và công thức phải giữ nguyên. Một báo cáo đẹp nhưng lệch mẫu là một báo cáo bị bỏ.
 
@@ -388,7 +388,7 @@ Tệp Excel **không được thiết kế lại**: người dùng cuối dán s
 ├── output/             # Sản phẩm: Excel xuất ra, tệp .pbix, theme JSON, hai tệp measure DAX
 ├── images/             # Ảnh minh hoạ dẫn từ README (tên không dấu)
 ├── docs/               # 5 tệp: HIEN_TRANG_HE_THONG, PIPELINE, NHAT_KY_CONG_VIEC,
-│                       # LOI_THUONG_GAP (50 mục lỗi), SESSION_PROMPT_LOG
+│                       # LOI_THUONG_GAP (51 mục lỗi), SESSION_PROMPT_LOG
 ├── .staging/           # CSV trung gian, log nạp liệu và CSV đối soát (không đưa vào kho mã)
 ├── requirements.txt    # psycopg2-binary, openpyxl — hai thư viện Python dự án dùng
 ├── .gitignore          # Chặn mật khẩu kết nối, dữ liệu trung gian và tệp nguồn bản gộp
@@ -437,7 +437,7 @@ Tệp Excel **không được thiết kế lại**: người dùng cuối dán s
 
 - [`docs/HIEN_TRANG_HE_THONG.md`](docs/HIEN_TRANG_HE_THONG.md) — lược đồ, số dòng, số đối chiếu
 - [`docs/NHAT_KY_CONG_VIEC.md`](docs/NHAT_KY_CONG_VIEC.md) — nhật ký từng công việc
-- [`docs/LOI_THUONG_GAP.md`](docs/LOI_THUONG_GAP.md) — 50 mục lỗi thực chiến và cách xử lý
+- [`docs/LOI_THUONG_GAP.md`](docs/LOI_THUONG_GAP.md) — 51 mục lỗi thực chiến và cách xử lý
 - [`docs/PIPELINE.md`](docs/PIPELINE.md) — kiến trúc luồng xử lý bốn bước, kèm số dòng từng bảng và lệnh vận hành
 - [`docs/SESSION_PROMPT_LOG.md`](docs/SESSION_PROMPT_LOG.md) — nhật ký yêu cầu, ghi lại từng lần đổi hướng của dự án
 
@@ -462,17 +462,11 @@ Bảy tệp hướng dẫn dài dòng khác (kiến trúc tầng SQL, cầm tay 
 
 <div align="center">
 
-**Trần Ngọc Đức** · Chuyên viên Phân tích Dữ liệu · Business Intelligence Analyst
+**Trần Ngọc Đức** · Data Analyst · Business Intelligence · Data Science · Management Information Systems · Operations
 
 *Phân tích lãi lỗ · Chỉ số quản trị · Kiểm chứng số liệu*
 
 [📧 tranduc22104@gmail.com](mailto:tranduc22104@gmail.com) · [💼 LinkedIn](https://www.linkedin.com/in/tr%E1%BA%A7n-ng%E1%BB%8Dc-%C4%91%E1%BB%A9c-48b3a7439/)
 
 </div>
-
-- **Học vấn:** Trường Đại học Tôn Đức Thắng, Cử nhân Toán Ứng dụng, tốt nghiệp tháng 5/2026 trước hạn một học kỳ, GPA 3,3 trên 4,0.
-- **Kinh nghiệm ngân hàng:** MB Bank, thực tập phát bán lẻ mảng tín dụng cá nhân và thẻ, từ tháng 12/2025 đến tháng 6/2026 — nền của phần bối cảnh nghiệp vụ trong dự án này.
-- **Ngoại ngữ:** TOEIC 825 trên 990, chứng chỉ quốc tế tháng 9/2023.
-- **Dự án khác trong hồ sơ xin việc:** [Mô hình rủi ro tín dụng và phân tích khách hàng vay](https://byvn.net/Zd4d) · [Bản demo Power BI công khai](https://app.powerbi.com/view?r=eyJrIjoiM2FjNjU5ODUtMjk4OC00NjY2LWI2ZWMtMTkxZTVjYzQ0M2FkIiwidCI6ImQ2ZDEzZTBlLTdjYTAtNDNkNC05OTY1LTQyZDM4ZWU1M2RkYSIsImMiOjEwfQ%3D%3D)
-- **Hồ sơ đầy đủ:** gửi trực tiếp khi ứng tuyển, không đăng công khai vì có thông tin liên lạc cá nhân.
 
