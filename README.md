@@ -378,21 +378,16 @@ Tệp Excel **không được thiết kế lại**: người dùng cuối dán s
 ├── input/              # Năm tệp Excel, bốn nguồn đầu vào (nguồn sao kê hợp đồng tách hai phần)
 │   └── README.md       # Ghi quyền sử dụng dữ liệu và lý do phải tách tệp nguồn lớn nhất
 ├── ingestion/          # Python nạp bốn nguồn Excel vào PostgreSQL (bốn bước nạp, chạy trọn luồng, xuất báo cáo)
-│                       # db_config.example.py — mẫu cấu hình kết nối (mật khẩu thật chặn ở .gitignore)
 │                       # export_pbi.ps1 + audit_pbi_vs_db.py: bộ đôi đối soát Power BI ↔ SQL
 ├── sql/                # Code SQL chia 4 nhóm theo lớp:
 │   ├── dim/            #   dim_month_headcount (trục tháng, trục ngày + nhân sự), dim_asm, dim_report_detail (50 chỉ tiêu, cây cha con)
 │   ├── tmp/            #   tmp_pnl_step, tmp_xh_step — cấu trúc 6 bảng tạm
 │   ├── fct/            #   fct_pnl_allocation (quy tắc 1 và quy tắc 2), fct_xephang_asm (2 trụ cột)
 │   └── rpt/            #   rpt_pnl_view, rpt_xephang_view — 4 view cho Power BI và Excel
-├── output/             # Sản phẩm: Excel xuất ra, tệp .pbix, theme JSON, hai tệp measure DAX
+├── output/             # Sản phẩm: Excel xuất ra, tệp .pbix
 ├── images/             # Ảnh minh hoạ dẫn từ README (tên không dấu)
 ├── docs/               # 5 tệp: HIEN_TRANG_HE_THONG, PIPELINE, NHAT_KY_CONG_VIEC,
-│                       # LOI_THUONG_GAP (51 mục lỗi), SESSION_PROMPT_LOG
-├── .staging/           # CSV trung gian, log nạp liệu và CSV đối soát (không đưa vào kho mã)
-├── requirements.txt    # psycopg2-binary, openpyxl — hai thư viện Python dự án dùng
-├── .gitignore          # Chặn mật khẩu kết nối, dữ liệu trung gian và tệp nguồn bản gộp
-├── AGENTS.md           # Quy trình làm việc dành cho trợ lý AI khi sửa kho này
+│                       # LOI_THUONG_GAP (51 mục lỗi)
 └── README.md
 ```
 
