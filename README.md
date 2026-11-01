@@ -62,7 +62,7 @@ Dự án nhận dữ liệu thô gồm **sổ cái kế toán, sao kê giao dị
 - **Phát hiện** — Lợi nhuận tháng 5 tăng **+4.390,9 triệu đồng** so với tháng 4 (tương đương +8,4%), trong đó **97,2%** đến từ một vùng duy nhất (Tây Nam Bộ) và phần lớn nhờ **dự phòng giảm**, không phải thu nhập tăng.
 - **Cảnh báo** — **1 trong 7 vùng lỗ** (Đông Nam Bộ, −8.787,4 triệu đồng); **3 trong 7 vùng giảm** lợi nhuận; vùng lãi nhất lại có nợ xấu cao nhất (**21,99%**) và **0 trong 16** giám đốc vào nhóm 25 vị trí đầu.
 - **Kiểm chứng** — **91 phép đối soát giữa Power BI và PostgreSQL: 0 sai lệch**; đối chiếu mẫu báo cáo gốc theo từng ô, khớp cả ba số tổng và toàn bộ ô đối chiếu được.
-- **Bàn giao** — Tệp Excel giữ nguyên mẫu ngân hàng (công thức, định dạng, trang tham số), kèm bộ tài liệu vận hành và **51 mục lỗi thực chiến** đã ghi cách xử lý.
+- **Bàn giao** — Tệp Excel giữ nguyên mẫu ngân hàng (công thức, định dạng, trang tham số), kèm bộ tài liệu vận hành và **56 mục lỗi thực chiến** đã ghi cách xử lý.
 
 Báo cáo phục vụ **rà soát và ra quyết định điều hành**; không thay thế quy trình kế toán chính thức và không dùng để tự động đánh giá hay thưởng cá nhân.
 
@@ -73,12 +73,14 @@ Báo cáo phục vụ **rà soát và ra quyết định điều hành**; không
 | Tầng | Công cụ | Vai trò |
 |---|---|---|
 | Nạp dữ liệu | Python 3.10.11, openpyxl, psycopg2 | Đọc bốn nguồn Excel (ba nguồn thô và tệp tham số), xoay bảng từ ngang sang dọc, chuẩn hoá tên tỉnh, chặn nạp trùng |
-| Kho dữ liệu | PostgreSQL 16, PL/pgSQL | 19 bảng, 4 view, 3 thủ tục lưu sẵn |
+| Kho dữ liệu | PostgreSQL 16, PL/pgSQL | 19 bảng, 4 view, 9 thủ tục lưu sẵn |
 | Kiểm tra | DBeaver | Soi số từng bước, đối chiếu bất biến |
 | Trực quan | Power BI Desktop, Import, DAX | 5 trang báo cáo, 72 measures |
 | Đối chiếu | ADOMD, Excel | 91 phép đối soát tự động, 0 lệch |
 
 Logo ứng dụng của từng tầng, cùng bộ huy hiệu ở đầu trang:
+
+<div align="center">
 
 <p>
   <img src="https://img.shields.io/badge/PostgreSQL-Kho%20d%E1%BB%AF%20li%E1%BB%87u-4169E1?style=flat-square&logo=postgresql&logoColor=white">
@@ -88,13 +90,19 @@ Logo ứng dụng của từng tầng, cùng bộ huy hiệu ở đầu trang:
   <img src="https://img.shields.io/badge/Excel-M%E1%BA%ABu%20b%C3%A1o%20c%C3%A1o-217346?style=flat-square&logo=microsoftexcel&logoColor=white">
 </p>
 
+</div>
+
 ---
 
 ## 🔄 Quy Trình Xử Lý Kỹ Thuật: 4 Giai Đoạn
 
 Từ cơ sở dữ liệu thô đến hệ thống báo cáo hoàn chỉnh — mỗi giai đoạn một công cụ, một đầu ra kiểm chứng được. Toàn bộ kho sau ba giai đoạn đầu: **19 bảng** (6 bảng danh mục, 3 bảng nạp thô, 6 bảng tạm, 2 bảng kết quả, 2 bảng điều khiển) và **4 view**.
 
+<div align="center">
+
 ![Quy trình xử lý kỹ thuật — 4 giai đoạn](images/quy-trinh.png)
+
+</div>
 
 | # | Giai đoạn | Công cụ | Đầu ra | Quy mô |
 |---|---|---|---|---|
@@ -107,7 +115,7 @@ Từ cơ sở dữ liệu thô đến hệ thống báo cáo hoàn chỉnh — m
 
 **Giai đoạn 2 — Nạp và làm sạch (Python) ra 5 bảng.** Bóc dữ liệu từng trang, **xoay bảng** (84 dòng giám đốc vùng nằm ngang chuyển thành dọc), **chuẩn hoá tên tỉnh** (`pos_city_norm`, ví dụ “Bà Rịa - Vũng Tàu” thuộc vùng H), chặn nạp trùng bằng dấu vân tay tệp. Tạo 1 bảng danh mục (`dim_param_area` 64 dòng), 3 bảng nạp thô (`stg_asm_target` 420, `stg_fact_txn_month` 63.134, `stg_fact_kpi_month` 2.932.922) và 1 bảng điều khiển (`log_data_fingerprint` 15). Index phục vụ thủ tục đọc bảng nào thì bước tạo bảng đó sinh luôn. Bảng `dim_asm` không còn được tạo ở giai đoạn này — từ ngày 2026-10-31 chỉ một tệp `sql/dim/dim_asm.sql` chịu trách nhiệm.
 
-**Giai đoạn 3 — Kho và tính toán (PostgreSQL, DBeaver) ra 14 bảng và 4 view.** Thủ tục `sp_baocao_tonghop` chia tiền Hội sở về 7 vùng theo 2 quy tắc; thủ tục `sp_xephang_asm` chấm điểm từng giám đốc vùng. Tạo 5 bảng danh mục (`dim_month` 5, `dim_date` 151 ngày, `dim_report_detail` 50 chỉ tiêu, `dim_sm_headcount` 35, `dim_asm` 84), 2 bảng kết quả (`fct_pnl_value` 1.115, `fct_asm_value` 8.536), 1 bảng nhật ký (`log_proc_run` 65), 6 bảng tạm (3 bước tính lãi lỗ và 3 bước tính xếp hạng) và 4 view: 2 view báo cáo (`v_baocao_tonghop`, `v_xephang_asm`) cùng 2 bản đơn vị đồng (`v_baocao_tonghop_vnd`, `v_xephang_asm_vnd`) để xuất Excel.
+**Giai đoạn 3 — Kho và tính toán (PostgreSQL, DBeaver) ra 14 bảng và 4 view.** Hai thủ tục điều phối `sp_baocao_tonghop` (chia tiền Hội sở về 7 vùng theo 2 quy tắc) và `sp_xephang_asm` (chấm điểm từng giám đốc vùng); mỗi thủ tục gọi lần lượt ba thủ tục bước, một thủ tục cho một bảng tạm. Tạo 5 bảng danh mục (`dim_month` 5, `dim_date` 151 ngày, `dim_report_detail` 50 chỉ tiêu, `dim_sm_headcount` 35, `dim_asm` 84), 2 bảng kết quả (`fct_pnl_value` 1.115, `fct_asm_value` 8.536), 1 bảng nhật ký (`log_proc_run` 95), 6 bảng tạm (3 bước tính lãi lỗ và 3 bước tính xếp hạng) và 4 view: 2 view báo cáo (`v_baocao_tonghop`, `v_xephang_asm`) cùng 2 bản đơn vị đồng (`v_baocao_tonghop_vnd`, `v_xephang_asm_vnd`) để xuất Excel.
 
 **Giai đoạn 4 — Vẽ báo cáo (Power BI).** Kết nối **Import** vào 2 view, lọc theo `dim_month`, dựng 5 trang: Tổng quan, Từ điển dữ liệu, Kết quả kinh doanh, Xếp hạng quản lý vùng, Phân tích chuyên sâu. Số liệu được nạp vào bộ nhớ của mô hình, nên đổi tháng trên slicer là số đổi theo ngay; khi cơ sở dữ liệu có tháng mới thì chạy Refresh để kéo thêm bản ghi.
 
@@ -122,8 +130,8 @@ Toàn bộ kho nằm trong một lược đồ duy nhất `banking_project`. Quy
 | Danh mục | 6 | `dim_param_area` 64 · `dim_asm` 84 · `dim_month` 5 · `dim_date` 151 · `dim_report_detail` 50 · `dim_sm_headcount` 35 | Định nghĩa vùng, giám đốc vùng, tháng kèm ngày đầu và ngày chốt số, từng ngày trong tháng, chỉ tiêu, nhân sự |
 | Nạp thô | 3 | `stg_fact_kpi_month` 2.932.922 · `stg_fact_txn_month` 63.134 · `stg_asm_target` 420 | Giữ nguyên dữ liệu gốc để đối chiếu lại |
 | Kết quả | 2 | `fct_pnl_value` 1.115 · `fct_asm_value` 8.536 | Số đã phân bổ và điểm xếp hạng |
-| Điều khiển | 2 | `log_proc_run` 65 · `log_data_fingerprint` 15 | Ghi lại mỗi lần chạy thủ tục, từng bước, trạng thái; giữ dấu vân tay từng nguồn để phát hiện tháng có số mới |
-| Tạm | 6 | 3 bảng `tmp_pnl_step1_driver`, `tmp_pnl_step2_ratio`, `tmp_pnl_step3_gl_split` · 3 bảng `tmp_xh_step1_asm_avg`, `tmp_xh_step2_npl_area`, `tmp_xh_step3_fin_area` | Mỗi bước tính để một bảng riêng, kiểm được ngay trong DBeaver; tên bảng gắn luôn số bước; cả 6 cùng khuôn dọc (khoá + `report_id` + một cột `value`), không có bảng ngang nào |
+| Điều khiển | 2 | `log_proc_run` 95 · `log_data_fingerprint` 15 | Ghi lại mỗi lần chạy thủ tục, từng bước, trạng thái; giữ dấu vân tay từng nguồn để phát hiện tháng có số mới |
+| Tạm | 6 | 3 bảng `tmp_pnl_step1_driver`, `tmp_pnl_step2_ratio`, `tmp_pnl_step3_gl_split` · 3 bảng `tmp_xh_step1_asm_avg`, `tmp_xh_step2_npl_area`, `tmp_xh_step3_fin_area` | Mỗi bước tính để một bảng riêng, kiểm được ngay trong DBeaver; tên bảng gắn luôn số bước; cả 6 cùng khuôn dọc (khoá + `report_id` + một cột `value`), không có bảng ngang nào. Bảng nào thì thủ tục nạp của bảng đó nằm cùng tệp, gọi là `sp_pnl_step1..3` và `sp_xh_step1..3` |
 
 **Độ chi tiết của bảng kết quả** — thông tin quan trọng nhất khi đọc một bảng:
 
@@ -179,7 +187,11 @@ Toàn bộ kho nằm trong một lược đồ duy nhất `banking_project`. Quy
 
 Sơ đồ xuất từ DBeaver ngày 2026-10-31, đọc trực tiếp từ lược đồ `banking_project` trong PostgreSQL: **23 đối tượng — 19 bảng và 4 view**. Mỗi hộp ghi tên đối tượng kèm danh sách cột và kiểu dữ liệu (`123` là số, `ABC` là chữ, biểu tượng chìa khoá là khoá chính, đồng hồ là ngày tháng); biểu tượng mắt trên bốn hộp view đánh dấu đó là khung nhìn, không chứa số.
 
+<div align="center">
+
 ![Sơ đồ quan hệ giữa các bảng trong lược đồ banking_project](images/thiet-ke-schema.png)
+
+</div>
 
 Cách đọc: **đường nối duy nhất có thật trong lược đồ** là `fct_asm_value.asm_id` trỏ về `dim_asm.asm_id` — đúng một khoá ngoại được khai báo. Các hộp còn lại đứng rời không phải vì không liên quan nhau, mà vì chỗ nối còn lại là join theo `month_key`, `area_code`, `report_id` viết trong từng view và từng thủ tục, không ràng buộc bằng khoá ngoại. Hai bảng `log_proc_run` và `log_data_fingerprint` đứng riêng vì chỉ phục vụ giám sát, không tham gia tính toán.
 
@@ -196,7 +208,7 @@ Cách đọc: **đường nối duy nhất có thật trong lược đồ** là 
 | **Quy tắc 1 — Gán thẳng** | Khoản phát sinh tại đơn vị nào tính 100% cho vùng đó (theo mã đơn vị trên sổ cái) | Đối chiếu tổng theo mã đơn vị với sổ cái gốc |
 | **Quy tắc 2 — Phân bổ** | Phần Hội sở chia theo tỉ lệ của tiêu thức nghiệp vụ thật: dư nợ nhóm 1, dư nợ nhóm 2 đến 5, doanh số phát sinh, số lượng nhân sự, tổng dư nợ | Tổng tỉ lệ 7 vùng bằng 1,000000 (sai số không quá 1e-6) |
 
-### Năm bước trong thủ tục `sp_baocao_tonghop`
+### Năm bước của báo cáo lãi lỗ, chia thành bốn thủ tục
 
 ```text
 Bước 1  Đọc đủ 9 tiêu thức phân bổ, tính theo vùng        → tmp_pnl_step1_driver    315 dòng
@@ -206,7 +218,7 @@ Bước 4  Cộng hai phần, ghi kết quả cuối                   → fct_p
 Bước 5  Tính các chỉ số tổng hợp (E, F, H, A và 4 tỉ số)  → fct_pnl_value
 ```
 
-Mỗi bước để lại một bảng tạm riêng, nên khi một con số sai thì biết sai ở bước nào thay vì mở một câu lệnh dài hàng trăm dòng. Ba bước đầu chỉ tính trung gian, từ bước 4 mới ghi vào bảng kết quả; tên bảng mang luôn số bước (`tmp_pnl_step{N}_...`) nên tra trong DBeaver là khớp với tên bước trong nhật ký. Thủ tục ghi nhật ký `START` và 5 dòng `OK` cho mỗi tháng chạy.
+Mỗi bước để lại một bảng tạm riêng, nên khi một con số sai thì biết sai ở bước nào thay vì mở một câu lệnh dài hàng trăm dòng. Ba bước đầu chỉ tính trung gian: **mỗi bước là một thủ tục riêng, đặt trong đúng tệp khai báo bảng tạm của nó** — `sp_pnl_step1_driver`, `sp_pnl_step2_ratio`, `sp_pnl_step3_gl_split` đều nằm ở `sql/tmp/tmp_pnl_step.sql`. Hai bước cuối ghi bảng kết quả nên ở lại thủ tục điều phối `sp_baocao_tonghop` trong `sql/fct/fct_pnl_allocation.sql`; thủ tục điều phối chỉ làm ba việc: xoá số của tháng chạy lại, gọi lần lượt ba thủ tục bước, rồi cộng hai quy tắc và chốt chỉ số tổng hợp. Tên bảng mang luôn số bước (`tmp_pnl_step{N}_...`) nên tra trong DBeaver là khớp với tên bước trong nhật ký. Mỗi thủ tục tự ghi `START` và `OK` dưới đúng tên nó, nên một tháng chạy lãi lỗ để lại 9 dòng `log_proc_run` (3 dòng của thủ tục điều phối, 6 dòng của ba thủ tục bước), và một `CALL` hỏng thì cả tháng bị huỷ chứ không còn nửa tháng.
 
 ### Cách tính xếp hạng giám đốc vùng trong SQL
 
@@ -220,7 +232,7 @@ Phần này làm theo đúng cách của phần lãi lỗ: mỗi bước ghi ra 
 | Kinh doanh (`diem_qm`) | Nợ xấu của vùng | Thấp là tốt | Dư nợ nhóm 3 đến 5 trên tổng dư nợ, giữ cả tử số và mẫu số (hai dòng riêng trong bảng tạm bước 2) để kiểm lại |
 | Tài chính (`diem_fin`) | Tỉ lệ chi phí trên thu nhập, biên lợi nhuận, hiệu suất vốn, hiệu suất vốn bình quân | Tỉ lệ chi phí thấp là tốt, ba chỉ số còn lại cao là tốt | Đọc lại từ kết quả lãi lỗ của vùng, không tính lại |
 
-**Sáu bước trong thủ tục `sp_xephang_asm`**
+**Sáu bước của báo cáo xếp hạng, chia thành bốn thủ tục**
 
 ```text
 Bước 1  Bình quân lũy kế 3 chỉ số của từng giám đốc                    → tmp_xh_step1_asm_avg    1.164 dòng
@@ -230,6 +242,8 @@ Bước 4  Xếp hạng 4 chỉ số, cộng điểm kinh doanh, hạng hiệu q
 Bước 5  Nhân điểm tài chính của vùng cho giám đốc thuộc vùng            → fct_asm_value       9 dòng/người
 Bước 6  Cộng hai trụ cột, xếp hạng tổng kết                             → fct_asm_value       3 dòng/người
 ```
+
+Ba bước đầu do `sp_xh_step1_asm_avg`, `sp_xh_step2_npl_area`, `sp_xh_step3_fin_area` đảm nhận, cả ba nằm trong `sql/tmp/tmp_xh_step.sql` cùng bảng tạm mà chúng nạp; ba bước ghi `fct_asm_value` ở lại thủ tục điều phối `sp_xephang_asm` trong `sql/fct/fct_xephang_asm.sql`. Bước 3 có chặn điều kiện: thủ tục đọc `fct_pnl_value` của vùng, nếu tháng chạy chưa đủ 7 vùng thì nó báo lỗi và từ chối ghi, thay vì âm thầm tính điểm tài chính trên số vùng ít hơn. Một tháng chạy xếp hạng để lại 10 dòng `log_proc_run` (4 dòng của thủ tục điều phối, 6 dòng của ba thủ tục bước).
 
 Điểm của mỗi trụ cột là **tổng hạng** chứ không phải điểm thô, nên các chỉ số khác đơn vị đo vẫn cộng được mà không phải quy đổi: hạng 1 là tốt nhất, tổng hạng càng nhỏ càng tốt. Phần tài chính tính theo vùng, nên mọi giám đốc cùng vùng nhận cùng điểm tài chính; chỉ trụ cột kinh doanh mới phân biệt người với người. Yêu cầu nghiệp vụ “không thưởng cho việc đẩy nợ xấu để chạy doanh số” nhờ vậy nằm ngay trong công thức: nợ xấu là một chỉ số riêng, chiều thấp là tốt, không phải lời khuyên bên lề.
 
@@ -329,7 +343,7 @@ Ba quy tắc chữ được giữ khi viết: không nêu ngưỡng chưa có c�
 | **Đối soát chéo Power BI và PostgreSQL** | 91 phép so sánh: 8 chỉ tiêu × 7 vùng, cộng 5 chỉ tiêu xếp hạng × 7 vùng | **0 sai lệch** |
 | **Tệp thô và cơ sở dữ liệu** | Đọc lại Excel nguồn (1.124.553 dòng cho 2 tháng), tự tính lại dư nợ theo vùng | **0 đồng lệch**, 7 trong 7 vùng |
 
-Dung sai đối soát: 0,02 triệu đồng cho giá trị tiền, 1e-4 cho tỷ lệ. Bộ lệnh chạy lại được bất kỳ lúc nào: `ingestion/export_pbi.ps1` xuất kết quả từ Power BI ra tệp, rồi `ingestion/audit_pbi_vs_db.py` tính lại bằng SQL và in bảng `chỉ tiêu | Power BI | SQL | lệch`.
+Dung sai đối soát: 0,02 triệu đồng cho giá trị tiền, 1e-4 cho tỷ lệ. Bộ đối soát gồm hai bước chạy trên máy làm dự án khi mô hình Power BI đang mở: `export_pbi.ps1` xuất kết quả từ mô hình ra tệp, rồi `audit_pbi_vs_db.py` tính lại bằng SQL và in bảng `chỉ tiêu | Power BI | SQL | lệch`. Hai tệp script đó **không nằm trong kho mã** vì pipeline dựng lại dự án không tham chiếu tới chúng — chúng là công cụ kiểm tra, không phải bước chạy.
 
 ### Những điều không kết luận
 
@@ -353,7 +367,7 @@ Dòng cuối là lỗi từng mắc ở bản nháp đầu: cộng dồn thu nh�
 | **Bảng xếp hạng giám đốc vùng** (Power BI) | 8 chỉ số, 2 trụ cột, xếp hạng theo tháng | Giám đốc khối kinh doanh |
 | **Trang chẩn đoán** (Power BI) | Ma trận nhiệt có dấu, 4 góc phần tư lợi nhuận và rủi ro, khối ba cột "Điều gì đã xảy ra · Kết luận điều tra · Hành động đề xuất" — mỗi dòng hành động ghi rõ khối chịu trách nhiệm và hạn hoàn thành, viết đầy đủ không dùng chữ tắt | Ban điều hành |
 | **Tệp Excel đúng mẫu** | Xuất tự động theo mẫu gốc (công thức, định dạng, trang tham số) | Kế toán quản trị |
-| **Bộ tài liệu vận hành** | Hiện trạng hệ thống, nhật ký công việc, 51 mục lỗi và cách xử lý | Người tiếp nhận bàn giao |
+| **Bộ tài liệu vận hành** | Hiện trạng hệ thống, nhật ký công việc, 56 mục lỗi và cách xử lý | Người tiếp nhận bàn giao |
 
 Tệp Excel **không được thiết kế lại**: người dùng cuối dán số vào quy trình có sẵn, nên định dạng và công thức phải giữ nguyên. Một báo cáo đẹp nhưng lệch mẫu là một báo cáo bị bỏ.
 
@@ -375,19 +389,23 @@ Tệp Excel **không được thiết kế lại**: người dùng cuối dán s
 
 ```text
 .
-├── input/              # Năm tệp Excel, bốn nguồn đầu vào (nguồn sao kê hợp đồng tách hai phần)
+├── input/              # Năm tệp Excel, bốn nguồn đầu vào — KHÔNG đưa lên kho mã
 │   └── README.md       # Ghi quyền sử dụng dữ liệu và lý do phải tách tệp nguồn lớn nhất
 ├── ingestion/          # Python nạp bốn nguồn Excel vào PostgreSQL (bốn bước nạp, chạy trọn luồng, xuất báo cáo)
-│                       # export_pbi.ps1 + audit_pbi_vs_db.py: bộ đôi đối soát Power BI ↔ SQL
+│                       # db_config.example.py — mẫu cấu hình kết nối; tệp cấu hình thật chứa mật khẩu đứng ngoài kho mã
+│                       # export_pbi.ps1 + audit_pbi_vs_db.py: bộ đôi đối soát Power BI ↔ SQL, chạy trên máy làm, đứng ngoài kho mã
 ├── sql/                # Code SQL chia 4 nhóm theo lớp:
 │   ├── dim/            #   dim_month_headcount (trục tháng, trục ngày + nhân sự), dim_asm, dim_report_detail (50 chỉ tiêu, cây cha con)
-│   ├── tmp/            #   tmp_pnl_step, tmp_xh_step — cấu trúc 6 bảng tạm
-│   ├── fct/            #   fct_pnl_allocation (quy tắc 1 và quy tắc 2), fct_xephang_asm (2 trụ cột)
+│   ├── tmp/            #   tmp_pnl_step, tmp_xh_step — 6 bảng tạm, mỗi bảng kèm thủ tục nạp riêng của nó
+│   ├── fct/            #   fct_pnl_allocation (quy tắc 1 và quy tắc 2), fct_xephang_asm (2 trụ cột) — thủ tục điều phối gọi bước
 │   └── rpt/            #   rpt_pnl_view, rpt_xephang_view — 4 view cho Power BI và Excel
-├── output/             # Sản phẩm: Excel xuất ra, tệp .pbix
+├── output/             # Sản phẩm: Excel xuất ra, tệp .pbix, theme JSON, hai tệp measure DAX
 ├── images/             # Ảnh minh hoạ dẫn từ README (tên không dấu)
-├── docs/               # 5 tệp: HIEN_TRANG_HE_THONG, PIPELINE, NHAT_KY_CONG_VIEC,
-│                       # LOI_THUONG_GAP (51 mục lỗi)
+├── docs/               # 4 tệp: HIEN_TRANG_HE_THONG, PIPELINE, NHAT_KY_CONG_VIEC,
+│                       # LOI_THUONG_GAP (56 mục lỗi); SESSION_PROMPT_LOG giữ trên máy, ngoài kho mã
+├── .staging/           # CSV trung gian, log nạp liệu và CSV đối soát — đứng ngoài kho mã
+├── requirements.txt    # psycopg2-binary, openpyxl — hai thư viện Python dự án dùng
+├── AGENTS.md           # Quy trình làm việc dành cho trợ lý AI khi sửa kho này
 └── README.md
 ```
 
@@ -396,8 +414,8 @@ Tệp Excel **không được thiết kế lại**: người dùng cuối dán s
 ## 🔒 Nguồn Dữ Liệu Và Quyền Sử Dụng
 
 - Bốn nguồn dữ liệu Excel là **dữ liệu thật do đơn vị cung cấp, có sự cho phép sử dụng của bên cung cấp dữ liệu** cho dự án cuối khoá và cho việc trình bày phương pháp.
-- Năm tệp trong `input/`, tệp `.pbix` và tệp Excel xuất ra đều đưa lên kho mã để người đọc xem được sản phẩm và đối chiếu số; chúng chứa số liệu vùng cùng họ tên và email giám đốc kinh doanh vùng đúng như dữ liệu được phép dùng.
-- Nguồn sao kê hợp đồng giao về một tệp 117,2 MB, vượt trần 100 MB cho mỗi tệp của GitHub, nên tách thành hai phần 83,6 MB và 33,6 MB. Phép tách chỉ chia tệp nén và viết lại phần cấu trúc trỏ tới các sheet, dữ liệu từng sheet giữ nguyên từng byte, số nạp vào kho vẫn đúng 2.932.922 bản ghi — đây là chuyện dung lượng lưu trữ, không phải vấn đề bản quyền.
+- **Kho mã không chứa `input/`.** Người đọc xem được mã Python, mã SQL, bảy ảnh chụp báo cáo, tệp `.pbix` và tệp Excel xuất ra — đủ để hiểu và soát toàn bộ cách tính; còn chạy lại trọn luồng cần bộ dữ liệu gốc, thứ chỉ có ở máy người làm dự án. Tệp `.pbix` và tệp Excel xuất ra chứa số liệu vùng cùng họ tên và email giám đốc kinh doanh vùng đúng như dữ liệu được phép dùng.
+- Nguồn sao kê hợp đồng giao về một tệp 117,2 MB nên được tách thành hai phần 83,6 MB và 33,6 MB ngay trên máy người làm để Python đọc được từng phần. Phép tách chỉ chia tệp nén và viết lại phần cấu trúc trỏ tới các sheet, dữ liệu từng sheet giữ nguyên từng byte, số nạp vào kho vẫn đúng 2.932.922 bản ghi.
 - Nếu cần bản che danh tính: chỉ phải thay cột `sale_name` và `email` trong `banking_project.dim_asm` — toàn bộ cách tính và số liệu vùng giữ nguyên.
 
 ---
@@ -432,11 +450,10 @@ Tệp Excel **không được thiết kế lại**: người dùng cuối dán s
 
 - [`docs/HIEN_TRANG_HE_THONG.md`](docs/HIEN_TRANG_HE_THONG.md) — lược đồ, số dòng, số đối chiếu
 - [`docs/NHAT_KY_CONG_VIEC.md`](docs/NHAT_KY_CONG_VIEC.md) — nhật ký từng công việc
-- [`docs/LOI_THUONG_GAP.md`](docs/LOI_THUONG_GAP.md) — 51 mục lỗi thực chiến và cách xử lý
+- [`docs/LOI_THUONG_GAP.md`](docs/LOI_THUONG_GAP.md) — 56 mục lỗi thực chiến và cách xử lý
 - [`docs/PIPELINE.md`](docs/PIPELINE.md) — kiến trúc luồng xử lý bốn bước, kèm số dòng từng bảng và lệnh vận hành
-- [`docs/SESSION_PROMPT_LOG.md`](docs/SESSION_PROMPT_LOG.md) — nhật ký yêu cầu, ghi lại từng lần đổi hướng của dự án
 
-Bảy tệp hướng dẫn dài dòng khác (kiến trúc tầng SQL, cầm tay chỉ từng dòng code, giáo trình dựng lược đồ, hỏi đáp toàn bộ code đo lường, ba cẩm nang dựng trang Power BI) không nằm trong kho mã để thư mục tài liệu gọn đúng năm tệp; cần bản nào thì hỏi người bàn giao.
+Bốn tệp trên là toàn bộ `docs/` trong kho mã. Nhật ký yêu cầu `docs/SESSION_PROMPT_LOG.md` — ghi lại từng lần đổi hướng của dự án — người làm **giữ trên máy và không đưa lên kho mã**, cùng bảy tệp hướng dẫn dài dòng khác (kiến trúc tầng SQL, cầm tay chỉ từng dòng code, giáo trình dựng lược đồ, hỏi đáp toàn bộ code đo lường, ba cẩm nang dựng trang Power BI); cần bản nào thì hỏi người bàn giao.
 
 ---
 
