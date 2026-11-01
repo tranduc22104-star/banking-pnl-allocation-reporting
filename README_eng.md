@@ -18,282 +18,412 @@
 ## 📑 Table Of Contents
 
 1. [🏢 Business Context And Executive Requirements](#1--business-context-and-executive-requirements)
-2. [🎯 Defining System "Outputs" (Output-First Thinking)](#2--defining-system-outputs-output-first-thinking)
-3. [🔍 Data Discovery, Sourcing, And Gap Analysis](#3--data-discovery-sourcing-and-gap-analysis)
-4. [🧮 Pipeline Architecture And Formula Design](#4--pipeline-architecture-and-formula-design)
-5. [🖥️ Visualization And Business Requirement Fulfillment](#5-️-visualization-and-business-requirement-fulfillment)
-6. [📊 Post-Visualization Data Insights And Strategic Recommendations](#6--post-visualization-data-insights-and-strategic-recommendations)
-7. [📚 Practical Implementation Lessons](#7--practical-implementation-lessons)
-8. [🗄️ Data Warehouse Architecture](#8-️-data-warehouse-architecture)
-9. [🛠️ Tools And Technologies Used](#9-️-tools-and-technologies-used)
-10. [📂 Project Structure](#10--project-structure)
-11. [🔒 Data Provenance And Usage Rights](#11--data-provenance-and-usage-rights)
-12. [📖 Handover Documentation](#12--handover-documentation)
-13. [💼 Applied Project Skills](#13--applied-project-skills)
+2. [🎯 Requirement Analysis And Report Output Design](#2--requirement-analysis-and-report-output-design)
+3. [🔍 Data Discovery And Assessment](#3--data-discovery-and-assessment)
+4. [🔄 Data Engineering And Warehouse Architecture](#4--data-engineering-and-warehouse-architecture)
+5. [🧮 Business Logic And Metric Design](#5--business-logic-and-metric-design)
+6. [🧪 Data Validation And Quality Assurance](#6--data-validation-and-quality-assurance)
+7. [🖥️ Dashboard Design And Visualization In Power BI](#7-️-dashboard-design-and-visualization-in-power-bi)
+8. [📊 Business Insights And Management Recommendations](#8--business-insights-and-management-recommendations)
+9. [📚 Lessons Learned And Implementation Takeaways](#9--lessons-learned-and-implementation-takeaways)
+10. [🛠️ Tools And Technologies](#10-️-tools-and-technologies)
+11. [📂 Project Repository Structure](#11--project-repository-structure)
+12. [🔒 Data Provenance And Usage Rights](#12--data-provenance-and-usage-rights)
+13. [📖 Handover Documentation](#13--handover-documentation)
 14. [👤 Author](#14--author)
 
 ---
 
 ## 1. 🏢 Business Context And Executive Requirements
 
-Across the bank's credit card operations (spanning **7 business regions** with **74 to 84 Area Sales Managers - ASMs**), Executive Leadership required a reporting system reflecting true business results as well as the actual performance of regional sales managers. Consequently, Leadership commissioned the Data Analytics team to architect a monthly management reporting system with **2 core mandates**:
+Across the bank's credit card operations, distribution networks are structured into **7 business regions**, managed directly by a field leadership network of **74 to 84 Area Sales Managers (ASMs)** depending on the period. In periodic executive committee meetings, leadership consistently faced chronic managerial dilemmas arising from conventional reporting methods:
 
-1. **Measure true economic profitability across 7 business regions:**
-   While operating revenues (interest and fee income) are recorded at regional branches, major expenses (funding costs, central marketing, technology, support salaries) are pooled centrally at Head Office. The Data Analytics team was tasked with developing an economically sound, auditable allocation engine to distribute Head Office revenues and expenses across the 7 regions, uncovering which territories are genuinely profitable and which are eroding margin.
+1. **True economic profitability was obscured:**
+   In general accounting ledgers, business regions directly record revenue from loan interest and card fees. However, major operating expenses such as funding costs, central marketing campaigns, core technology infrastructure, and back-office support salaries are booked centrally under the Head Office pool. Without an equitable, driver-based cost allocation mechanism, conventional reporting showed every region as profitable, masking territories that were actually eroding overall bank value.
 
-2. **Establish a balanced performance scorecard for Area Sales Managers:**
-   Eliminate evaluation based solely on gross card issuance volume, which incentivized loose underwriting standards and caused subsequent spikes in non-performing loans (NPL) and provision charges. Leadership required a balanced scorecard equally weighing **Commercial Scale** (50%) against **Credit Risk Discipline and Financial Efficiency** (50%).
+2. **Sales personnel evaluation incentivized credit risk expansion:**
+   When Area Sales Managers were evaluated purely on gross new lending volume or active card issuance counts, managers were naturally incentivized to lower underwriting standards to hit short-term targets. As a consequence, volume expanded rapidly in early months, but non-performing loan (NPL) ratios and provision charges surged in subsequent periods.
+
+3. **Limitations of conventional reporting:**
+   Standard financial accounting reports only provided static year-to-date (YTD) aggregates, lacking the capability to decompose monthly variations or differentiate between profit growth driven by core commercial expansion versus reductions in credit provision charges.
+
+Addressing these management dilemmas, Executive Leadership formulated 5 key business questions:
+
+| Management Dilemma | Core Question To Address | Objective To Achieve |
+|---|---|---|
+| **Commercial Performance** | Which regions are genuinely profitable after absorbing central costs? | Determine accurate 7-region P&L after Head Office allocation |
+| **Profit Variance** | What causes monthly profit fluctuations across regions? | Decompose profit flow into core revenue and cost components |
+| **Credit Quality** | Which regions carry elevated credit risks threatening capital safety? | Monitor credit balances across 5 debt buckets and regional NPL ratios |
+| **Managerial Performance** | Which ASMs demonstrate strong commercial growth alongside risk discipline? | Build an equitable multi-dimensional ranking system for 74 - 84 managers |
+| **Executive Governance** | How should performance metrics be delivered for timely decision-making? | Build an interactive executive dashboard and audit-grade reconciliation models |
 
 ---
 
-## 2. 🎯 Defining System "Outputs" (Output-First Thinking)
+## 2. 🎯 Requirement Analysis And Report Output Design
 
 Upon receiving executive directions, the primary challenge was that requirements were framed as high-level governance objectives without pre-existing reporting templates or technical specifications. Therefore, the approach began with **Output-First thinking (reverse-engineering from business decision needs)**: determining the critical management perspectives required by leadership before searching for data.
 
-The desired output framework comprises two analytical reporting pillars aligned with executive mandates, supported by multi-stakeholder delivery mechanisms:
+### Mapping executive requirements to concrete report deliverables:
+
+| Executive Requirement | Deliverable To Engineer | Information Displayed |
+|---|---|---|
+| **Monitor True P&L** | 7-Region Management P&L Report | Net card income, cost of funds, operating expenses, provision charges, profit before tax (PBT) |
+| **Decompose Variance** | Monthly Profit Flow Waterfall | Month-over-month (MoM) variance decomposing 6 revenue and cost drivers |
+| **Monitor Credit Risk** | Profit – Risk Quadrant Matrix | Classify 7 regions into 4 strategic governance quadrants along Profit and NPL axes |
+| **Evaluate Sales Managers** | ASM Balanced Scorecard | 8 indicators evaluated across 2 independent pillars (Commercial Scale vs Financial Efficiency/Risk) |
+| **Multi-Tier Delivery** | Integrated Reporting Ecosystem | Interactive Power BI dashboard for executives; cell-level Excel reconciliation workbook for finance |
+
+### Logical architecture from business requirements to reporting deliverables:
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                              DESIRED BUSINESS DELIVERABLES                             │
+│                              EXECUTIVE GOVERNANCE REQUIREMENTS                         │
+│   1. Measure true economic regional P&L  │   2. Establish balanced ASM scorecards      │
+└───────────────────────────────────┬────────────────────────────────────────────────────┘
+                                    │ (Output-First Design Methodology)
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                                TARGET REPORTING OUTPUT GROUPS                          │
 ├────────────────────────────────────────┬───────────────────────────────────────────────┤
-│ 7-REGION P&L MANAGEMENT REPORT         │ ASM BALANCED SCORECARD RANKING                │
-│ • Separate direct vs. allocated items  │ • Independent 2-pillar assessment: Scale vs.  │
-│ • Decompose 6 revenue/cost drivers     │   Financial Efficiency & Credit Risk Control  │
-│ • Isolate standalone monthly flows     │ • Prevent loosening credit to chase volume    │
-│ • 100% reconciliation with GL totals   │ • Fair, transparent scoring for 74-84 ASMs    │
-├────────────────────────────────────────┴───────────────────────────────────────────────┤
-│ DUAL DELIVERY FORMATS                                                                  │
-│ • Interactive Power BI Dashboard: For executive KPI tracking & variance diagnosis      │
-│ • Standardized Excel Workbooks: For accounting reconciliation with preserved formulas  │
+│ GROUP 1: REGIONAL MANAGEMENT P&L       │ GROUP 2: ASM PERFORMANCE RANKING              │
+│ • Gross card income, funding cost,     │ • Individual sales volume: Gross lending,     │
+│   operating expense, loan provisions   │   active credit cards, approval rate          │
+│ • Head Office cost allocation drivers  │ • Territorial stewardship: Regional NPL,      │
+│ • Monthly profit variance decomposition│   regional CIR, Margin, average profit / ASM  │
+└───────────────────────────────────┬────────────────────────────────────────────────────┘
+                                    │ (Translation to visual delivery layer)
+                                    ▼
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                          POWER BI MANAGEMENT DASHBOARD (5 PAGES)                       │
+│ • Page 1: Executive Overview           │ • Page 4: ASM Ranking Scorecard               │
+│ • Page 2: Data Glossary                │ • Page 5: Deep-Dive Diagnosis & Root Cause    │
+│ • Page 3: Regional P&L Management      │ + 7-Sheet Excel Accounting Reconciliation Model│
 └────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### Concrete output specifications:
-1. **Monthly Flow Variance Decomposition:** De-accumulate year-to-date (YTD) balances into standalone monthly figures, decomposing net variance across 6 core accounting items: Gross Card Income, Funding Cost, Other Operating Expense, General Admin Expense, Risk Provision Expense, and Rounding Residuals.
-2. **Profit–Risk Quadrant Matrix:** Map the 7 regions across 4 distinct operational playbooks based on two dimensions: Standalone Monthly Profit and Non-Performing Loan (NPL) Ratio.
-3. **Multi-dimensional ASM Scorecard:** Score each Area Sales Manager across 8 metrics balancing personal performance (new loan sales, active cards, approval rates) with territory health (regional NPL ratio, CIR, Margin, return on capital, profit per manager).
+### Functional distinction between metric groups:
+- **Commercial Performance Metrics (P&L, Regional NPL, CIR, Margin):** Measure the comprehensive financial viability of geographic territories after absorbing indirect Head Office costs, informing capital allocation and credit limit governance.
+- **Managerial Performance Metrics (8-Indicator ASM Ranking):** Balance individual sales achievement against regional risk discipline to encourage sustainable growth, disincentivizing loose credit standards for short-term volume.
 
 ---
 
-## 3. 🔍 Data Discovery, Sourcing, And Gap Analysis
+## 3. 🔍 Data Discovery And Assessment
 
-To produce the specified deliverables, an operational audit of data sources across multiple banking departments:
+The bank lacked a centralized data mart or a single comprehensive table capable of satisfying the target outputs. After establishing target deliverables, an active cross-departmental data discovery process was undertaken to gather the required operational data components:
 
-| Source Department | Data Asset | Volume | Characteristics |
+| Supplying Department | Source Dataset | Volume | Role In Fulfilling Desired Outputs |
 |---|---|---:|---|
-| **Finance & Accounting** | General Accounting Ledger (`fact_txn_month`) | **63,134** entries | Detailed journal entries: 62,953 direct regional entries with specific province codes and 181 shared entries centralized at Head Office (province code `'00'`). |
-| **Card Operations** | Contract Card Statement Extracts (`fact_kpi_month`) | **2,932,914** rows | Granular loan balances by delinquency bucket (Groups 1 to 5), written-off accounts, active revolving card counts, and transactional volumes over 5 months. |
-| **Branch Network Management** | Monthly ASM Target Sheets (`kpi_asm_data`) | **420** rows | Monthly target and actual tracking of new loan sales, active card volumes, and application approval rates for each Area Sales Manager. |
-| **Planning & Data Governance** | Parameter & Mapping Templates | **64** provinces | Province-to-region mapping table grouping 64 provinces into 8 territories (Head Office `'A'` and 7 business regions `'B'..'H'`) with reference financial templates. |
+| **Accounting & Finance** | General Ledger (`fact_txn_month`) | **63,134** entries | Captures line-item revenue and cost entries; includes 62,953 branch-tagged entries (direct regional assignment) and 181 centralized Head Office entries (pool `'00'`, requiring allocation). |
+| **Card Operations** | Card Contract Statements (`fact_kpi_month`) | **2,932,914** rows | Records customer-level credit balances across 5 debt buckets, written-off accounts, and turnover across 5 months; serves as the basis for regional NPL calculation and allocation driver ratios. |
+| **Network Sales Management** | Commercial Target Sheet (`kpi_asm_data`) | **420** rows | Tracks individual monthly sales targets: gross lending volume, active card count, and credit approval rates for 74 to 84 Area Sales Managers. |
+| **Planning & Data Governance** | Parameter Matrix & Template Mapping | **64** provinces | Maps 64 administrative provinces into 8 geographic management zones (Head Office `'A'` and 7 regions `'B'..'H'`) with standardized reporting layouts. |
 
-### Gap Analysis & Data Challenges
-The data audit revealed three technical obstacles that needed resolution prior to calculation:
-1. **Massive Contract File Exceeding Standard Tools:** With nearly 3 million rows and a 117.2 MB file size, standard spreadsheet applications crashed or ran out of memory.
-2. **Pivoted Wide-Format Target Data:** The ASM target sheet formatted monthly figures horizontally across columns, making direct SQL joins with transactional fact tables impossible.
-3. **Dimension Inconsistencies Across Systems:** Province naming conventions diverged across source systems (e.g., "Bà Rịa - Vũng Tàu" in statements vs. "Vũng Tàu" in parameters), which would have dropped over 36,000 contract rows when computing the Southeast region's NPL ratio.
+### Data Gap Analysis:
+
+| Target Deliverable | Required Data Inputs | Available Source Data | Data Assessment |
+|---|---|---|---|
+| **7-Region P&L Report** | Itemized income/expense, branch province codes, GL accounts | General Ledger and Regional Parameter Matrix | **Fully Satisfied**, but 181 Head Office entries require indirect allocation algorithms |
+| **NPL & Risk Analysis** | Credit balances across 5 buckets, written-off debt | 2.93M-row card contract statements | **Fully Satisfied** at regional level across 5 operating months |
+| **ASM Ranking Scorecard** | Individual sales targets, approval rates, personnel data | ASM Commercial Target Sheet | **Fully Satisfied** for 8 designed indicators |
+| **Individual ASM NPL Tracking**| Delinquent balances tagged directly to employee IDs | Statements contain branch codes, not employee IDs | **Partially Satisfied**: Regional NPL and financial metrics are calculated territory-wide and shared among ASMs in the same region |
+
+### Technical barriers identified in raw data:
+1. **Card statement data exceeded desktop spreadsheet limits:** Containing nearly 3 million rows and weighing **117.2 MB**, the statement file crashed conventional spreadsheet tools and exhausted memory.
+2. **Unpivoted wide-format target data:** The ASM target worksheet arranged monthly metrics across horizontal columns, preventing direct relational ingestion and table joins.
+3. **Entity resolution mismatch across systems:** Geographic naming inconsistencies (e.g., statements recording "Bà Rịa - Vũng Tàu" vs. parameter tables recording "Vũng Tàu") would drop over **36,000 credit card accounts** if joined directly, distorting Southeast regional NPL figures.
 
 ---
 
-## 4. 🧮 Pipeline Architecture And Formula Design
+## 4. 🔄 Data Engineering And Warehouse Architecture
 
-### 4.1. Engineering an automated 4-stage processing pipeline
-To replace manual spreadsheets, an end-to-end data pipeline was engineered:
+To transform multi-source raw files into an operational reporting system, an automated end-to-end 4-stage pipeline was engineered:
 
 <div align="center">
 
-![Technical processing pipeline — 4 stages](images/quy-trinh.png)
+![Technical Pipeline — 4 Processing Stages](images/quy-trinh.png)
 
 </div>
 
-- **Stage 1 (Data Ingestion):** Ingest 3 raw operational files and 1 parameter workbook.
-- **Stage 2 (Cleansing & Ingestion with Python):** Stream raw XML directly from zipped `.xlsx` containers via `openpyxl`, `zipfile`, and `xml.etree` without RAM bloat; standardize province naming keys (`pos_city_norm`); unpivot horizontal targets into vertical records and populate 3 `staging` tables (`stg_fact_kpi_month`, `stg_fact_txn_month`, `stg_asm_target`) along with 2 dimension tables (`dim_area`, `dim_param_area`).
-- **Stage 3 (Warehouse Calculations in PostgreSQL):** Orchestrate 9 `stored procedures` to execute multi-step cost allocations and ranking algorithms, recording audit steps into 6 intermediate `tmp_` tables and persisting official results into 2 vertical `fact` tables (`fct_pnl_value`, `fct_asm_value`).
-- **Stage 4 (Reporting & Governance):** Deploy the Power BI semantic model (`Import` mode, 72 DAX `measures`) and automate formatted Excel workbook generation via `run_report.py`.
+### Detailed engineering steps:
 
-### 4.2. Designing Head Office Cost Allocation Formulas (P&L Problem)
-Two management accounting rules were defined to process the 63,134 ledger entries:
-- **Rule 1 (Direct Assignment):** Ledger entries with specific province codes are assigned 100% to the region managing that territory.
-- **Rule 2 (Driver-Based Allocation):** Centralized Head Office entries (province `'00'`, region `'A'`) are distributed across the 7 regions according to their share of business drivers:
+- **Stage 1 – Data Ingestion (Python Streaming Ingestion):**
+  Utilized Python libraries (`openpyxl` combined with `zipfile` + `xml.etree` streaming parsing) to read the **117.2 MB** statement file containing nearly 3 million rows without memory overflows. Unpivoted the wide-format ASM target worksheet into normalized relational rows.
 
-$$\text{Allocation Ratio for Region } i = \frac{\text{Driver Value for Region } i}{\sum_{k=1}^7 \text{Driver Value for Region } k}$$
+- **Stage 2 – Data Cleaning (Standardization and Quality Enforcement):**
+  Enforced strict data types; handled null values; implemented Vietnamese text normalization (`pos_city_norm`) to resolve province naming mismatches, salvaging 36,000 credit card contracts. Loaded clean data into 3 staging tables (`stg_fact_kpi_month`, `stg_fact_txn_month`, `stg_asm_target`) and 2 regional dimension tables (`dim_area`, `dim_param_area`).
 
-*Driver Alignment:* Funding costs are allocated by Group 1 balances; shared loan-loss provisions by Group 2–5 balances plus write-offs; operating overhead by manager headcount or active card counts.
+- **Stage 3 – Data Warehouse Design (Kimball Star Schema in PostgreSQL):**
+  Structured within schema `banking_project` encompassing **19 tables and 4 `views`**:
+  - **7 Dimension Tables (`dim_`):** `dim_area` (8 zones), `dim_param_area` (64 provinces), `dim_month` (5 months), `dim_asm` (84 personnel), `dim_report_detail` (50 metrics), `dim_month_headcount` (35 rows), `dim_sm_headcount` (35 rows).
+  - **3 Staging Tables (`stg_`):** `stg_fact_kpi_month` (2,932,922 rows), `stg_fact_txn_month` (63,134 rows), `stg_asm_target` (420 rows).
+  - **6 Temporary Processing Tables (`tmp_`):** Unified vertical schema (`month_key`, `area_code`, `report_id`, `value`) storing intermediate computations for P&L (`tmp_pnl_step1..3`) and Ranking (`tmp_xh_step1..3`).
+  - **2 Core Fact Tables (`fct_`):** `fct_pnl_value` (1,115 rows) storing regional P&L results and `fct_asm_value` (8,536 rows) storing ASM ranking scores across 5 months.
+  - **1 Audit Log Table (`log_`):** `log_proc_run` recording procedure execution history (65 `START` and `OK` entries, 0 `FAIL` entries).
+  - **9 `Virtual Foreign Keys`:** Documenting relational integrity in DBeaver diagrams without degrading transactional batch ingestion speeds.
 
-### 4.3. Designing the ASM Balanced Scorecard Formula (Ranking Problem)
-To balance growth with risk control, the scorecard evaluates 8 metrics across **2 independent pillars**:
+<div align="center">
+
+![Mô hình kho dữ liệu Star Schema](images/thiet-ke-schema.png)
+
+</div>
+
+- **Stage 4 – Data Processing (PL/pgSQL Stored Procedures):**
+  Engineered 9 stored procedures executing allocation logic and ranking algorithms. Encapsulated processing in atomic transactions with automated error trapping and rollback safeguards.
+
+---
+
+## 5. 🧮 Business Logic And Metric Design
+
+### 5.1. Track A – Regional Management P&L Calculation
+
+The allocation engine processes 63,134 ledger transactions through 2 managerial accounting rules:
+
+- **Rule 1 (Direct Branch Assignment):** Transactions containing designated province codes (62,953 rows) are assigned 100% to their corresponding operational region.
+- **Rule 2 (Indirect Central Allocation):** Central Head Office transactions (181 pooled expense lines, province `'00'`, zone `'A'`) are distributed across the 7 regions using driver ratios:
+
+$$	ext{Allocation Ratio for Region } i = rac{	ext{Driver Metric Value for Region } i}{\sum_{k=1}^7 	ext{Driver Metric Value for Region } k}$$
+
+$$	ext{Allocated Cost to Region } i = 	ext{Head Office Cost Pool} 	imes 	ext{Allocation Ratio for Region } i$$
+
+*Allocation drivers matched to underlying economic nature:*
+- **Cost of Funds:** Allocated by Group 1 performing loan balances (regions utilizing higher funding absorb proportionate funding costs).
+- **Credit Provision Charges:** Allocated by Group 2 to Group 5 delinquent balances plus off-balance-sheet written-off debt.
+- **Operating & Administrative Expenses:** Allocated by Area Sales Manager headcount or active credit card counts.
+
+*Decomposing YTD Cumulative Figures into Monthly Flows:*
+Year-to-date accounting figures are converted into monthly flow streams:
+$$V_{	ext{Month } M} = V_{	ext{Cumulative } M} - V_{	ext{Cumulative } (M-1)}$$
+Enabling clean decomposition of Profit Before Tax (PBT) variance into 6 operational components.
+
+### 5.2. Track B – Area Sales Manager Balanced Scorecard
+
+To ensure equity across diverse territorial scales, performance is evaluated across 8 indicators within **2 independent pillars**:
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                               ASM BALANCED EVALUATION SYSTEM                           │
+│                              ASM EVALUATION SCORECARD                                  │
 ├──────────────────────────────────────────┬─────────────────────────────────────────────┤
 │ PILLAR 1: COMMERCIAL SCALE (diem_qm)     │ PILLAR 2: FINANCIAL EFFICIENCY (diem_fin)   │
-│ • Cumulative Avg New Loan Sales (Higher) │ • Cost-to-Income Ratio - CIR (Lower better) │
-│ • Cumulative Avg Active Cards (Higher)   │ • Profit Margin (Higher better)             │
-│ • Cumulative Avg Approval Rate (Higher)  │ • Return on Capital Factor (Higher better)  │
-│ • REGIONAL NPL RATIO (Lower is better)   │ • Profit per Manager (Higher better)        │
-│   (Acts as an automatic risk brake)      │   (Aligns manager with regional health)     │
+│ • Average new lending volume (Higher)    │ • Cost-to-Income Ratio - CIR (Lower)        │
+│ • Average active credit cards (Higher)   │ • Operating Margin (Higher)                 │
+│ • Average credit approval rate (Higher)  │ • Capital efficiency coefficient (Higher)   │
+│ • REGIONAL NPL RATIO (Lower is better)   │ • Average profit per manager (Higher)       │
+│   (Acts as an institutional risk brake)  │   (Ties leadership to regional results)     │
 └──────────────────────────────────────────┴─────────────────────────────────────────────┘
 ```
 
-Because component metrics use different measurement units, the algorithm **ranks each metric independently (Rank 1 is best) and sums the ranks into a composite score**:
-$$\text{Total Score} = \text{Scale Score } (diem\_qm) + \text{Financial Score } (diem\_fin)$$
-*A lower composite score indicates a higher overall bank-wide ranking.*
+*Ranking Algorithm (Rank-Sum Scoring):*
+Because individual metrics span differing measurement units (currency, unit counts, percentages), summing raw metric values is mathematically invalid. The model applies **ordinal ranking per metric (Rank 1 being optimal), then sums ordinal ranks to establish overall points**:
+$$	ext{Total Points} = 	ext{Scale Points } (diem\_qm) + 	ext{Financial Points } (diem\_fin)$$
+*Lower total rank-sum points indicate superior nationwide sales management performance.*
+
+*Operational Constraint:* Because delinquent balances and general ledgers are captured at branch/regional granularity rather than individual employee contract level, Pillar 2 metrics and regional NPL are computed regionally and applied uniformly to all ASMs within the same territory. The scorecard measures performance within available datasets rather than representing an exhaustive individual audit.
 
 ---
 
-## 5. 🖥️ Visualization And Business Requirement Fulfillment
+## 6. 🧪 Data Validation And Quality Assurance
 
-### Interactive Power BI Architecture
-The dashboard semantic model features **5 specialized analytical pages**, running on `Import` mode across 4 warehouse tables and 72 DAX `measures`:
-1. **Executive Summary:** High-level overview of portfolio growth and budget attainment.
-2. **Data Glossary:** Standardized business definitions and technical formulas for all KPIs.
-3. **Regional P&L Performance:** Post-allocation profit-and-loss statements and month-over-month variance drivers.
-4. **ASM Performance Leaderboard:** Granular rankings, composite scores, and period-over-period rank shifts for all 84 managers.
-5. **Advanced Diagnostics & Recommendations:** Dynamic heatmap tables and quadrant scatter plots pinpointing operational anomalies.
+To ensure absolute credibility before presenting findings to leadership, 4 independent cross-reconciliation procedures were executed:
 
-### Evaluation of Business Requirement Fulfillment
-The deployed solution resolved all initial executive requirements:
-- **Absolute Data Integrity:** 4 verification layers and 91 automated cross-reconciliation tests between Power BI DAX and PostgreSQL SQL confirmed 0 discrepancies. The sum across all 7 regions reconciles 100% with the general ledger.
-- **Fair, Objective Evaluation:** Integrating regional NPL into the commercial scale pillar effectively curbed aggressive lending volume expansion at the expense of loan quality.
-- **Serving Diverse Departmental Workflows:** Satisfied executive needs with responsive visual analytics while providing finance teams with cell-by-cell Excel workbooks preserving bank-standard formulas.
+1. **Reconciliation against institutional benchmark models:**
+   Calculated figures were reconciled cell-by-cell against financial models in `input/Tham so va mau doi chieu.xlsx`. Month 2/2023 PBT (**92,226.35 million VND**), Month 5/2023 PBT (**250,450.06 million VND**), and Top 1 ASM `nam.hoangvan` (**34 points**) matched exact figures.
 
----
+2. **Mathematical conservation of cost pools:**
+   Total expenses distributed to the 7 regions equal exactly 100% of centralized Head Office pools:
+   $$\left| \sum_{k=1}^7 	ext{Allocated Cost Region } k - 	ext{Head Office Cost Pool} ight| \le 10^{-6}$$
+   Zero capital leakages or phantom costs occurred.
 
-## 6. 📊 Post-Visualization Data Insights And Strategic Recommendations
+3. **Independent cross-engine reconciliation (PostgreSQL vs Power BI):**
+   Conducted independent reconciliation across **91 data points** (13 core financial metrics $	imes$ 7 regions for Month 5/2023) comparing SQL queries against DAX measures. Recorded **zero discrepancy across all 91 cells**.
 
-As of May 2023 (5/2023), cumulative profit before tax reached **250,450.06 million VND**, with standalone May profit expanding by **+4,390.9 million VND (+8.4%)** versus April. However, deeper visual diagnosis revealed critical underlying dynamics:
-
-| Business Regions | ASM Team Size (May) | Analysis Horizon | Processed Data Scale | 5-Month Cumulative Profit | May vs. April (Month 5 vs. 4) Profit Variance |
-| :---: | :---: | :---: | :---: | :---: | :---: |
-| **7 regions** | **84 managers** | **5 months** (month 1 – month 5/2023) | **2,996,476 rows** | **250,450.06 million VND** | **+4,390.9 million VND (+8.4%)** |
-
-### Key Analytical Findings
-1. **System-wide +8.4% profit growth was not driven by core sales momentum:**
-   Approximately **97.2%** of the bank's total monthly profit growth was concentrated in **Southwest** (+4,267.8 million VND). Yet net operating income from cards only edged up by +16.3 million VND, while operating expenses reduced profit by −195.9 million VND. Virtually the entire profit surge stemmed from **risk provision expenses decreasing by +4,447.3 million VND**. Crucially, Southwest carried the **highest NPL ratio across all 7 regions (21.99%)** and had zero managers in the bank-wide top 25.
-2. **Southeast posted losses due to bad debt provisioning, despite strong top-line sales:**
-   Southeast recorded a monthly loss of **−8,787.4 million VND**. Granular decomposition showed that the sales force generated solid commercial traction (**net operating income grew +3,210.7 million VND**), but this was completely erased by **provision expenses surging by −3,234.2 million VND**, pushing 16 out of 19 ASMs into the bottom 24 positions bank-wide.
-3. **Core revenue contraction was masked by provision relief in Red River Delta:**
-   Monthly profit in Red River Delta expanded by +1,310.9 million VND purely due to a +1,455.8 million VND provision drop, whereas underlying net operating income fell by −232.2 million VND, indicating slowing commercial demand in the bank's largest market.
-4. **Benchmark operational quality achieved in South Central Coast:**
-   Despite small headcount (5 ASMs), South Central Coast maintained the lowest NPL ratio bank-wide (**11.24%**) and placed **4 out of 5 ASMs** in the top 25 rankings.
-
-### Five Strategic Action Items for Executive Leadership
-Based on data evidence, 5 concrete operational recommendations were presentedendations:
-
-| # | Action Item | Data Evidence (May 2023 / 5/2023) | Responsible Unit · Timeline |
-|:---:|:---|:---|:---|
-| 01 | Separate gross provision charges from provision reversals; introduce pre-tax profit excluding reversals | Current reporting shows only net provisions, obscuring underlying commercial trends | Risk Management Division · Month 6 |
-| 02 | Audit loan cohorts migrating into higher delinquency buckets in Southeast, Northeast, and Northwest | Provision expenses across these 3 regions jumped by **6,035.1 million VND** in May | Regional ASMs + Risk Management · 30 days |
-| 03 | Conduct on-site inspections of underwriting and recovery operations in Southwest | NPL reached **21.99%** (highest in the bank) while accounting for **97.2%** of reported profit growth | Sales Division + Risk Management · Month 7 |
-| 04 | Conduct controlled pilot testing of South Central Coast's underwriting practices across select branches | Lowest NPL ratio bank-wide (**11.24%**) and 4/5 ASMs in the top 25 | Sales Division · Review in 2 months |
-| 05 | Adjust bonus formulas: Combine net operating income with NPL ratios rather than single-month profit flow | Prevents misallocating performance bonuses to territories benefiting from temporary provision drops | Executive Board · Immediate |
+4. **Source data row-count verification:**
+   Verified end-to-end pipeline ingestion counts: statement records matched exactly **2,932,922 rows**, general ledger entries matched **63,134 rows**, confirming zero data dropouts.
 
 ---
 
-## 7. 📚 Practical Implementation Lessons
+## 7. 🖥️ Dashboard Design And Visualization In Power BI
 
-1. **Adopt an "Output-First" mindset before touching data:** Defining exact reporting deliverables and decision questions upfront ensures the collection of only relevant fields and avoids aimless ETL iterations.
-2. **Master management accounting logic before writing SQL queries:** In banking analytics, understanding why funding costs carry negative ledger balances or why Head Office carries province code `'00'` and region code `'A'` is essential for building accurate SQL allocation procedures.
-3. **Dimension cleansing protects reporting integrity:** Catching spelling discrepancies between "Bà Rịa - Vũng Tàu" and "Vũng Tàu" during data ingestion prevented losing over 36,000 contracts and preserved the accuracy of the Southeast region's credit metrics.
-4. **Never assess business performance through a single aggregate figure:** A positive headline profit can easily mask contracting core commercial revenues or deteriorating credit quality. Component decomposition and multi-dimensional analysis are fundamental to professional data storytelling.
+The executive Power BI reporting system comprises **5 dashboard pages** running on optimized `Import` mode with **72 DAX measures**, supporting multi-tier exploration from macroeconomic overviews down to field personnel:
 
----
-
-## 8. 🗄️ Data Warehouse Architecture
-
-The data warehouse follows a `Star Schema` design within the `banking_project` schema comprising **19 tables and 4 `views`**:
-
-| Layer | Count | Object List and Row Counts | Role |
-|---|---:|---|---|
-| **Dimension (`dim_`)** | 7 | `dim_area` (8) · `dim_param_area` (64) · `dim_asm` (84) · `dim_month` (5) · `dim_date` (151) · `dim_report_detail` (50) · `dim_sm_headcount` (35) | Serves as authoritative dimensions: region catalog, province-to-region mapping, ASM roster, date/month axes, and 50-item report tree. |
-| **Staging (`stg_`)** | 3 | `stg_fact_kpi_month` (2,932,922) · `stg_fact_txn_month` (63,134) · `stg_asm_target` (420) | Stores unmodified operational extracts from source departments for auditability. |
-| **Intermediate (`tmp_`)** | 6 | `tmp_pnl_step1_driver` (315) · `tmp_pnl_step2_ratio` (560) · `tmp_pnl_step3_gl_split` (535) · `tmp_xh_step1_asm_avg` (1,164) · `tmp_xh_step2_npl_area` (105) · `tmp_xh_step3_fin_area` (315) | Holds step-by-step intermediate calculation results, enabling instant debugging via DBeaver. |
-| **Fact (`fct_`)** | 2 | `fct_pnl_value` (1,115) · `fct_asm_value` (8,536) | Stores official unpivoted results (Tall format), allowing easy metric additions without altering database schemas. |
-| **Audit Log (`log_`)** | 1 | `log_proc_run` (95) | Tracks execution timestamps, procedure statuses, and transactional integrity. |
-| **Reporting Views (`v_`)** | 4 | `v_baocao_tonghop` (35) · `v_baocao_tonghop_vnd` (35) · `v_xephang_asm` (388) · `v_xephang_asm_vnd` (388) | Pivots tall fact tables into wide formats tailored for Power BI and automated Excel export. |
+### Page 1: Executive Overview
+- **Design Purpose:** Provides executive leadership with an integrated monthly view of revenue, costs, PBT, and financial efficiency across the 7 business regions.
+- **Visual Structure:** 4 dynamic KPI cards (PBT, Gross Revenue, CIR, Average Profit/ASM with MoM variance indicators); Regional P&L matrix; Cost and revenue distribution charts; Multi-dimensional slicers by month and region.
+- **Analytical Utility:** Allows leadership to instantly identify regions generating primary profits versus territories carrying disproportionate operational overhead.
 
 <div align="center">
 
-![Entity relationship diagram of the banking_project schema](images/thiet-ke-schema.png)
+![Trang 1 — Tổng Quan Báo Cáo](images/tong-quan.png)
+
+</div>
+
+### Page 2: Data Glossary
+- **Design Purpose:** Standardizes governance terminology across the bank, ensuring Leadership, Sales, Risk, and Accounting maintain unified understanding of 50 reporting metrics.
+- **Visual Structure:** Metric lookup matrix categorized across 6 indicator groups (Income, Cost of Funds, OPEX, Provisions, Card Scale, Financial Ratios); Formula documentation and underlying SQL logic columns.
+- **Analytical Utility:** Eliminates metric interpretation disputes among divisions during performance reconciliations and sales management rankings.
+
+<div align="center">
+
+![Trang 2 — Từ Điển Dữ Liệu Quản Trị](images/tu-dien.png)
+
+</div>
+
+### Page 3: Regional P&L Management
+- **Design Purpose:** Answers executive questions regarding which regions generate profits after absorbing indirect Head Office costs and which cost components drive changes.
+- **Visual Structure:** Regional P&L statement across 7 regions; Profit Waterfall chart decomposing net changes across 6 components; Margin and CIR performance cards.
+- **Analytical Utility:** Distinguishes whether profit expansion stems from genuine commercial growth or technical adjustments in credit loss provisioning.
+
+<div align="center">
+
+![Trang 3 — Báo Cáo Kết Quả Kinh Doanh Lãi Lỗ 7 Vùng](images/ket-qua-lai-lo.png)
+
+</div>
+
+### Page 4: ASM Ranking Scorecard
+- **Design Purpose:** Evaluates and ranks nationwide field sales managers equitably across balanced metrics.
+- **Visual Structure:** Detailed scorecard table for 74 to 84 ASMs displaying Scale Points, Financial Points, and Final Nationwide Rank; Regional rank distribution charts; Personnel search slicer.
+- **Analytical Utility:** Enables sales executives to spot well-rounded leadership talent versus managers hitting gross targets while accumulating credit losses.
+
+<div align="center">
+
+![Trang 4 — Bảng Xếp Hạng Quản Lý Vùng](images/xep-hang.png)
+
+</div>
+
+### Page 5: Deep-Dive Diagnosis & Root Cause
+- **Design Purpose:** Delivers root cause diagnosis and concrete operational action recommendations for executive leadership.
+- **Visual Structure:** Profit – Risk Quadrant Matrix classifying 7 regions along Profit and NPL axes; 3-column diagnostic framework (Observed Symptom $ightarrow$ Data Root Cause $ightarrow$ Actionable Intervention with department and timeline).
+- **Analytical Utility:** Highlights "overheated" regions (high net profit accompanied by alarming NPL ratios) for timely executive intervention.
+
+<div align="center">
+
+![Trang 5 — Phân Tích Chuyên Sâu & Chẩn Đoán Quản Trị](images/ket-luan.png)
 
 </div>
 
 ---
 
-## 9. 🛠️ Tools And Technologies Used
+## 8. 📊 Business Insights And Management Recommendations
 
-| Technical Task | Tool Selected | Practical Rationale |
+### Part A – Executive Requirement Fulfillment Audit:
+
+| Original Leadership Requirement | Operational Deliverable | Evaluation Outcome |
 |---|---|---|
-| Streaming 3M-row Excel files, unpivoting targets, and cleansing dimension strings | Python 3.10 (`openpyxl`, `psycopg2`, XML streaming) | Streams zipped XML directly without RAM exhaustion; bulk-loads data into PostgreSQL via `COPY`. |
-| Central storage, 2-rule cost allocation, and multi-step ranking algorithms | PostgreSQL 16, PL/pgSQL (`stored procedure`) | Robust support for `Window Function` (`RANK()`), `CTE` (`WITH`), and transaction safety without partial commits. |
-| Schema management, relationship visualization, and intermediate step auditing | DBeaver | Visualizes 23 objects with 9 `Virtual Foreign Keys`; supports fast inspection of intermediate `tmp_` tables. |
-| Interactive dashboards, variance decomposition, and diagnostic storytelling | Power BI Desktop (`Import` mode), 72 DAX `measures` | Optimized month-filtering speed; renders dynamic heatmap matrices and scatter plots. |
+| **Measure true regional P&L** | P&L Allocation Engine | **100% Satisfied**: 7 regions absorb indirect costs with zero ledger variance. |
+| **Analyze monthly variance** | 6-Component Waterfall Chart | **100% Satisfied**: Monthly flows cleanly separated, identifying profit drivers. |
+| **Monitor credit risk** | Profit – Risk Quadrant Matrix | **Satisfied**: Territories with elevated delinquency identified for early risk containment. |
+| **Equitable ASM ranking** | 2-Pillar Balanced Scorecard | **Satisfied**: Balanced commercial scale against risk discipline for all 74 - 84 managers. |
+| **Interactive governance tools** | 5-Page Dashboard & Excel model | **100% Satisfied**: Instant visual exploration for executives; cell-level models for accounting. |
 
-<div align="center">
+### Part B – Key Findings from May 2023 Operational Data:
 
-<p>
-  <img src="https://img.shields.io/badge/PostgreSQL-Data%20Warehouse-4169E1?style=flat-square&logo=postgresql&logoColor=white">
-  <img src="https://img.shields.io/badge/Python-Data%20Ingestion-3776AB?style=flat-square&logo=python&logoColor=white">
-  <img src="https://img.shields.io/badge/DBeaver-Data%20Audit-000B19?style=flat-square&logo=dbeaver&logoColor=white">
-  <img src="https://img.shields.io/badge/Power%20BI-Visualization-F2C811?style=flat-square&logo=powerbi&logoColor=black">
-  <img src="https://img.shields.io/badge/Excel-Report%20Template-217346?style=flat-square&logo=microsoftexcel&logoColor=white">
-</p>
+1. **Southwest Region – Profit growth disconnected from core commercial operations:**
+   - *Observed Symptom:* Regional PBT surged by **+4,267.8 million VND**, accounting for **97.2%** of total system-wide profit growth in May.
+   - *Data Evidence:* Net card income increased marginally by +16.3 million VND while OPEX rose, reducing profit by −195.9 million VND. The entirety of profit growth stemmed from **provision charges dropping by +4,447.3 million VND**.
+   - *Root Cause in Data:* Provision reduction reflects technical recovery write-backs or loan restructuring rather than commercial expansion.
+   - *Governance Concern:* The Southwest region carries the **highest NPL ratio nationwide (21.99%)**, with zero ASMs qualifying for the top 25 nationwide ranking.
+   - *Action Proposed:* Suspend incentive compensation tied to single-month profit; dispatch Credit Risk specialists to audit debt recovery efficacy in July.
 
-</div>
+2. **Southeast Region – Net losses driven by surging credit provisioning:**
+   - *Observed Symptom:* The Southeast territory recorded an operating loss of **−8,787.4 million VND** during the month.
+   - *Data Evidence:* Field sales activity was highly robust with **net income surging by +3,210.7 million VND**, but this gain was entirely wiped out by **credit provision charges rising by −3,234.2 million VND**.
+   - *Root Cause in Data:* Delinquency migration from loans issued in prior quarters triggered mandatory provisioning charges.
+   - *Governance Concern:* Pushed **16 out of 19 Area Sales Managers** into the lower half of national rankings despite strong gross sales.
+   - *Action Proposed:* Audit credit underwriting files in the Southeast within 30 days to restructure credit screening criteria.
+
+3. **Red River Delta – Core income contraction masked by provision declines:**
+   - *Observed Symptom:* Regional profit rose by **+1,310.9 million VND** MoM.
+   - *Data Evidence:* Core net card income contracted by **−232.2 million VND**, while positive profit was created by a provision decrease of **+1,455.8 million VND**.
+   - *Governance Concern:* Surface-level reporting masked slowing commercial momentum in the bank's largest credit market.
+
+4. **South Central Coast – Operational benchmark for efficiency and credit discipline:**
+   - *Observed Symptom:* Despite smaller operational scale (5 ASMs), the region achieved superior, consistent performance.
+   - *Data Evidence:* Maintained lowest NPL nationwide (**11.24%**) with **4 out of 5 Area Sales Managers** ranking among the top 25 nationwide.
+   - *Action Proposed:* Synthesize underwriting and screening practices from the South Central Coast for pilot replication in other regions.
+
+### Five Concrete Management Action Plans:
+
+| # | Action Recommendation | Empirical Basis (May 2023) | Department Responsible · Timeline |
+|:---:|:---|:---|:---|
+| 01 | **Separate provision adjustments from core profit:** Break out new provision charges from write-back recoveries to measure core operational viability. | Current single-line reporting obscures operating realities | Credit Risk Division · June |
+| 02 | **Audit delinquent loan portfolios in 3 priority regions:** Inspect migration files across the Southeast, Northeast, and Northwest. | Combined provision charges across these 3 regions surged by **6,035.1 million VND** | Regional ASMs + Risk Division · 30 Days |
+| 03 | **Conduct field audits in the Southwest:** Re-audit credit approval standards and debt collection effectiveness. | NPL stands at **21.99%** (highest nationwide) while driving **97.2%** of profit growth | Retail Division + Risk Division · July |
+| 04 | **Pilot underwriting standards from the South Central Coast:** Replicate high-quality client screening protocols. | Lowest NPL ratio (**11.24%**) with 4/5 ASMs in top 25 | Retail Banking Division · Review in 2 Months |
+| 05 | **Recalibrate incentive compensation:** Combine net income with regional NPL thresholds rather than relying on unadjusted net profit. | Prevents rewarding territories displaying artificial profit gains from provision reductions | Executive Committee · Immediate |
 
 ---
 
-## 10. 📂 Project Structure
+## 9. 📚 Lessons Learned And Implementation Takeaways
+
+1. **Master banking domain principles before writing code:**
+   In institutional financial data, understanding why funding costs are signed negative and why Head Office cost centers bear province code `'00'` and zone `'A'` is essential for correct SQL allocation queries. Technical skill cannot compensate for a lack of domain understanding.
+
+2. **Entity resolution and dimensional cleaning are mission-critical:**
+   Identifying naming discrepancies between "Bà Rịa - Vũng Tàu" and "Vũng Tàu" during data ingestion salvaged over **36,000 credit card accounts**, preventing severe distortions in Southeast regional NPL metrics.
+
+3. **Transaction control and auditability in ETL pipelines:**
+   Designing 6 vertical temporary tables and maintaining strict transaction control in Stored Procedures ensures full auditability across calculation steps and permits safe rollbacks during batch failures.
+
+4. **Never evaluate performance through isolated aggregate metrics:**
+   Favorable aggregate profits frequently conceal underlying contractions in core revenue or severe surges in latent credit risk. Multi-dimensional decomposition is fundamental to professional data analytics.
+
+5. **Acknowledge data boundaries to avoid unjustified conclusions:**
+   When credit risk metrics are tracked at regional branch level rather than individual contract level, reports must explicitly state this boundary so leadership uses findings appropriately without drawing unsupported conclusions.
+
+---
+
+## 10. 🛠️ Tools And Technologies
+
+Tools were chosen based on fit for purpose across project stages:
+
+| Technology | Component | Technical Role | Selection Justification |
+|---|---|---|---|
+| **Python 3.10** | `openpyxl`, `zipfile`, `xml.etree` | Ingestion of raw 3M-row statements, text normalization, and database loading | Streaming parsing handles 117.2 MB file without memory exhaustion |
+| **PostgreSQL 15** | PL/pgSQL, Stored Procedures | Kimball Star Schema repository (19 tables, 4 `views`), cost allocation, and ranking logic | High-performance relational calculation with strict ACID transaction controls |
+| **Power BI Desktop** | Import Mode, 72 DAX Measures | 5-page interactive dashboard suite with multi-dimensional slicing | Delivers instant executive exploration and diagnostic drill-downs |
+| **Microsoft Excel** | XLSX, Advanced Formulas | Automated generation of 7-sheet management report workbooks | Accommodates accounting reconciliation habits with cell-level formulas |
+
+---
+
+## 11. 📂 Project Repository Structure
+
+Standardized across 6 operational directories:
 
 ```text
 .
-├── input/              # Stores parameter and template files; 3 raw data files exceed GitHub limits and are kept locally
-│   └── Tham so va mau doi chieu.xlsx  # 64-province mapping table, GL mapping, and official reporting templates
-├── ingestion/          # Python extraction, cleansing, database loading, and automated report generation
-│                       # db_config.example.py — sample database connection template
-│                       # run_all.py orchestrates 4 load steps · run_report.py generates formatted Excel reports
-├── sql/                # Structured SQL codebase organized by architectural layer:
-│   ├── dim/            #   dim_month_headcount (time and headcount axes), dim_asm, dim_report_detail (50 KPIs)
-│   ├── tmp/            #   tmp_pnl_step, tmp_xh_step — 6 intermediate step tables with dedicated procedures
-│   ├── fct/            #   fct_pnl_allocation (Rules 1 & 2), fct_xephang_asm (2 pillars) — 2 fact tables & orchestrators
-│   └── rpt/            #   rpt_pnl_view, rpt_xephang_view — 4 reporting views for Power BI and Excel
-├── output/             # Final deliverables: Cumulative Excel Workbooks and Power BI Report (.pbix)
-├── images/             # Pipeline diagrams, warehouse schemas, and dashboard screenshots
+├── input/              # Business parameter files and templates; 3 raw files managed locally due to GitHub limits
+│   └── Tham so va mau doi chieu.xlsx  # Maps 64 provinces to 8 zones, GL account crosswalk, report templates
+├── ingestion/          # Python extraction, transformation, database loading, and reporting scripts
+│                       # db_config.example.py — sample database connection configuration
+│                       # run_all.py orchestrates 4-stage ingestion · run_report.py generates Excel workbook
+├── sql/                # SQL DDL, temporary tables, stored procedures, and reporting views
+│   ├── dim/            # Dimension tables: dim_month_headcount, dim_asm, dim_report_detail
+│   ├── tmp/            # Temporary tables and procedures for P&L (step 1-3) and ASM ranking (step 1-3)
+│   ├── fct/            # Fact tables and orchestrators: fct_pnl_allocation, fct_xephang_asm
+│   └── rpt/            # Analytical views: rpt_pnl_view, rpt_xephang_view
+├── images/             # Technical pipeline diagrams, warehouse architecture, and dashboard screenshots
 ├── docs/               # Technical documentation: HIEN_TRANG_HE_THONG, PIPELINE, NHAT_KY_CONG_VIEC, LOI_THUONG_GAP
-├── requirements.txt    # Required Python libraries: psycopg2-binary and openpyxl
-├── README.md           # Vietnamese project case study (default landing page)
-└── README_eng.md       # English project case study
+├── output/             # Deliverables: Power BI report model (.pbix) and Excel workbook
+├── requirements.txt    # Python dependencies: psycopg2-binary and openpyxl
+├── README.md           # Vietnamese documentation (default)
+└── README_eng.md       # English documentation
 ```
 
 ---
 
-## 11. 🔒 Data Provenance And Usage Rights
+## 12. 🔒 Data Provenance And Usage Rights
 
-- The operational datasets utilized in this project are **real commercial banking data provided and authorized by the institution** for research and portfolio demonstration.
+- Datasets utilized in this project are **real commercial banking data provided and authorized by the institution** for research and portfolio demonstration.
 - **Repository Storage Policy:** Due to GitHub's 100 MB per-file upload policy, the raw card statement file weighing **117.2 MB** is managed locally alongside two other raw transactional files. The repository retains **`Tham so va mau doi chieu.xlsx`** (127,976 bytes) containing mapping parameters and template layouts, enabling external reviewers to audit all code, calculation logic, and reporting models.
 
 ---
 
-## 12. 📖 Handover Documentation
+## 13. 📖 Handover Documentation
 
-Comprehensive system documentation is maintained within the `docs/` directory:
+Comprehensive system documentation is maintained within `docs/`:
 - [`docs/HIEN_TRANG_HE_THONG.md`](docs/HIEN_TRANG_HE_THONG.md) — Warehouse status, row counts across 19 tables and 4 `views`, file ownership matrix, and reconciliation benchmarks.
 - [`docs/PIPELINE.md`](docs/PIPELINE.md) — 4-stage processing pipeline specifications and operational execution guides.
 - [`docs/NHAT_KY_CONG_VIEC.md`](docs/NHAT_KY_CONG_VIEC.md) — Worklog recording implementation steps, testing phases, and optimization history.
 - [`docs/LOI_THUONG_GAP.md`](docs/LOI_THUONG_GAP.md) — Troubleshooting manual cataloging **58 real-world error cases** spanning source data, SQL syntax, Python logic, and DAX expressions.
-
----
-
-## 13. 💼 Applied Project Skills
-
-<div align="center">
-
-`Business Problem Framing` · `Output-First Solution Design` · `Bank Management Accounting` ·  
-`Multi-Driver Cost Allocation` · `Profit Variance Decomposition` · `Star Schema Modeling` ·  
-`Advanced SQL & PL/pgSQL (Stored Procedures, Window Functions)` · `Large-Scale Data Engineering with Python` ·  
-`Power BI (Import Mode) & Advanced DAX` · `Automated Reconciliation & Data Governance`
-
-</div>
 
 ---
 
@@ -303,8 +433,6 @@ Comprehensive system documentation is maintained within the `docs/` directory:
 
 **Tran Ngoc Duc** · Data Analyst · Business Intelligence · Data Science · Management Information Systems · Operations
 
-*Management accounting analytics · Performance measurement frameworks · End-to-end data reconciliation*
-
-[📧 tranduc22104@gmail.com](mailto:tranduc22104@gmail.com) · [💼 LinkedIn](https://www.linkedin.com/in/tr%E1%BA%A7n-ng%E1%BB%8Dc-%C4%91%E1%BB%A9c-48b3a7439/)
+[Email](mailto:tranduc22104@gmail.com) · [LinkedIn](https://www.linkedin.com/in/tr%E1%BA%A7n-ng%E1%BB%8Dc-%C4%91%E1%BB%A9c-48b3a7439/)
 
 </div>
