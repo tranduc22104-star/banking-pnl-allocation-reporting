@@ -235,7 +235,7 @@ Kho dữ liệu được thiết kế theo mô hình `Star Schema` trong lược
 
 **Một số quy ước thiết kế trong kho dữ liệu:**
 - **Phân định rõ tệp quản lý từng bảng:** Mỗi bảng chỉ do một tệp mã nguồn chịu trách nhiệm khởi tạo cấu trúc, nạp dữ liệu và tạo chỉ mục (`index`), giúp việc tra cứu và bảo trì mã nguồn thuận tiện hơn.
-- **Sử dụng 9 `Virtual Foreign Keys` (khoá ngoại ảo):** Do các bảng `dimension` và `staging` được làm mới độc lập bằng lệnh `TRUNCATE` trong quá trình nạp dữ liệu, hệ thống không đặt ràng buộc khoá ngoại vật lý để tránh xung đột khi làm mới từng bảng. Toàn vẹn tham chiếu được kiểm tra bằng truy vấn SQL (đảm bảo 0 dòng mồ côi) và thể hiện trên sơ đồ DBeaver thông qua **9 `Virtual Foreign Keys`** nối về 3 bảng chiều chính (`dim_area`, `dim_month`, `dim_asm`).
+- **Sử dụng 9 `Virtual Foreign Keys` (khoá ngoại ảo):** Do các bảng `dimension` và `staging` được làm mới độc lập bằng lệnh `TRUNCATE` trong quá trình nạp dữ liệu, hệ thống không đặt ràng buộc khoá ngoại vật lý để tránh xung đột khi làm mới từng bảng. Toàn vẹn tham chiếu được kiểm tra bằng truy vấn SQL và thể hiện trên sơ đồ DBeaver thông qua **9 `Virtual Foreign Keys`** nối về 3 bảng chiều chính (`dim_area`, `dim_month`, `dim_asm`).
 
 ---
 
