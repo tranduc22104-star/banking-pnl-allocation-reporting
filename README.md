@@ -3,6 +3,8 @@
 # Phân Tích Lãi Lỗ Và Hiệu Suất Kinh Doanh Thẻ Tín Dụng
 Báo cáo lãi lỗ 7 vùng + Xếp hạng giám đốc vùng | PostgreSQL | Python | Power BI | Excel
 
+**Ngôn ngữ / Language**: **Tiếng Việt** · [English](README_eng.md)
+
 **Trần Ngọc Đức** · Data Analyst · Business Intelligence · Data Science · Management Information Systems · Operations · [Email](mailto:tranduc22104@gmail.com) · [LinkedIn](https://www.linkedin.com/in/tr%E1%BA%A7n-ng%E1%BB%8Dc-%C4%91%E1%BB%A9c-48b3a7439/)
 
 <p>
@@ -25,18 +27,20 @@ Báo cáo lãi lỗ 7 vùng + Xếp hạng giám đốc vùng | PostgreSQL | Pyt
 ## 📑 Mục Lục
 
 1. [📌 Tổng Quan Dự Án](#-tổng-quan-dự-án)
-2. [🔄 Quy Trình Xử Lý Kỹ Thuật: 4 Giai Đoạn](#-quy-trình-xử-lý-kỹ-thuật-4-giai-đoạn)
-3. [🗄️ Kho Dữ Liệu: 19 Bảng Và 4 View](#-kho-dữ-liệu-19-bảng-và-4-view)
-4. [🧮 Tầng Tính Toán Trong SQL](#-tầng-tính-toán-trong-sql)
-5. [📊 Phân Tích: Lợi Nhuận Và Rủi Ro Tập Trung Ở Đâu](#-phân-tích-lợi-nhuận-và-rủi-ro-tập-trung-ở-đâu)
-6. [🔍 Chẩn Đoán: Phân Rã, Ma Trận, Xếp Hạng](#-chẩn-đoán-phân-rã-ma-trận-xếp-hạng)
-7. [🧪 Kiểm Chứng Số Liệu](#-kiểm-chứng-số-liệu)
-8. [🖥️ Hệ Thống Hỗ Trợ Ra Quyết Định](#-hệ-thống-hỗ-trợ-ra-quyết-định)
-9. [📂 Cấu Trúc Dự Án](#-cấu-trúc-dự-án)
-10. [📚 Bài Học Rút Ra](#-bài-học-rút-ra)
-11. [📖 Tài Liệu](#-tài-liệu)
-12. [💼 Kỹ Năng Thể Hiện](#-kỹ-năng-thể-hiện)
-13. [👤 Tác Giả](#-tác-giả)
+2. [🛠️ Công Cụ Và Công Nghệ](#-công-cụ-và-công-nghệ)
+3. [🔄 Quy Trình Xử Lý Kỹ Thuật: 4 Giai Đoạn](#-quy-trình-xử-lý-kỹ-thuật-4-giai-đoạn)
+4. [🗄️ Kho Dữ Liệu: 19 Bảng Và 4 View](#-kho-dữ-liệu-19-bảng-và-4-view)
+5. [🧮 Tầng Tính Toán Trong SQL](#-tầng-tính-toán-trong-sql)
+6. [📊 Phân Tích: Lợi Nhuận Và Rủi Ro Tập Trung Ở Đâu](#-phân-tích-lợi-nhuận-và-rủi-ro-tập-trung-ở-đâu)
+7. [🔍 Chẩn Đoán: Phân Rã, Ma Trận, Xếp Hạng](#-chẩn-đoán-phân-rã-ma-trận-xếp-hạng)
+8. [🧪 Kiểm Chứng Số Liệu](#-kiểm-chứng-số-liệu)
+9. [🖥️ Hệ Thống Hỗ Trợ Ra Quyết Định](#-hệ-thống-hỗ-trợ-ra-quyết-định)
+10. [📂 Cấu Trúc Dự Án](#-cấu-trúc-dự-án)
+11. [🔒 Nguồn Dữ Liệu Và Quyền Sử Dụng](#-nguồn-dữ-liệu-và-quyền-sử-dụng)
+12. [📚 Bài Học Rút Ra](#-bài-học-rút-ra)
+13. [📖 Tài Liệu](#-tài-liệu)
+14. [💼 Kỹ Năng Thể Hiện](#-kỹ-năng-thể-hiện)
+15. [👤 Tác Giả](#-tác-giả)
 
 ---
 
@@ -62,7 +66,7 @@ Dự án nhận dữ liệu thô gồm **sổ cái kế toán, sao kê giao dị
 - **Phát hiện** — Lợi nhuận tháng 5 tăng **+4.390,9 triệu đồng** so với tháng 4 (tương đương +8,4%), trong đó **97,2%** đến từ một vùng duy nhất (Tây Nam Bộ) và phần lớn nhờ **dự phòng giảm**, không phải thu nhập tăng.
 - **Cảnh báo** — **1 trong 7 vùng lỗ** (Đông Nam Bộ, −8.787,4 triệu đồng); **3 trong 7 vùng giảm** lợi nhuận; vùng lãi nhất lại có nợ xấu cao nhất (**21,99%**) và **0 trong 16** giám đốc vào nhóm 25 vị trí đầu.
 - **Kiểm chứng** — **91 phép đối soát giữa Power BI và PostgreSQL: 0 sai lệch**; đối chiếu mẫu báo cáo gốc theo từng ô, khớp cả ba số tổng và toàn bộ ô đối chiếu được.
-- **Bàn giao** — Tệp Excel giữ nguyên mẫu ngân hàng (công thức, định dạng, trang tham số), kèm bộ tài liệu vận hành và **56 mục lỗi thực chiến** đã ghi cách xử lý.
+- **Bàn giao** — Tệp Excel giữ nguyên mẫu ngân hàng (công thức, định dạng, trang tham số), kèm bộ tài liệu vận hành và **57 mục lỗi thực chiến** đã ghi cách xử lý.
 
 Báo cáo phục vụ **rà soát và ra quyết định điều hành**; không thay thế quy trình kế toán chính thức và không dùng để tự động đánh giá hay thưởng cá nhân.
 
@@ -367,7 +371,7 @@ Dòng cuối là lỗi từng mắc ở bản nháp đầu: cộng dồn thu nh�
 | **Bảng xếp hạng giám đốc vùng** (Power BI) | 8 chỉ số, 2 trụ cột, xếp hạng theo tháng | Giám đốc khối kinh doanh |
 | **Trang chẩn đoán** (Power BI) | Ma trận nhiệt có dấu, 4 góc phần tư lợi nhuận và rủi ro, khối ba cột "Điều gì đã xảy ra · Kết luận điều tra · Hành động đề xuất" — mỗi dòng hành động ghi rõ khối chịu trách nhiệm và hạn hoàn thành, viết đầy đủ không dùng chữ tắt | Ban điều hành |
 | **Tệp Excel đúng mẫu** | Xuất tự động theo mẫu gốc (công thức, định dạng, trang tham số) | Kế toán quản trị |
-| **Bộ tài liệu vận hành** | Hiện trạng hệ thống, nhật ký công việc, 56 mục lỗi và cách xử lý | Người tiếp nhận bàn giao |
+| **Bộ tài liệu vận hành** | Hiện trạng hệ thống, nhật ký công việc, 57 mục lỗi và cách xử lý | Người tiếp nhận bàn giao |
 
 Tệp Excel **không được thiết kế lại**: người dùng cuối dán số vào quy trình có sẵn, nên định dạng và công thức phải giữ nguyên. Một báo cáo đẹp nhưng lệch mẫu là một báo cáo bị bỏ.
 
@@ -402,11 +406,12 @@ Tệp Excel **không được thiết kế lại**: người dùng cuối dán s
 ├── output/             # Sản phẩm: Excel xuất ra, tệp .pbix, theme JSON, hai tệp measure DAX
 ├── images/             # Ảnh minh hoạ dẫn từ README (tên không dấu)
 ├── docs/               # 4 tệp: HIEN_TRANG_HE_THONG, PIPELINE, NHAT_KY_CONG_VIEC,
-│                       # LOI_THUONG_GAP (56 mục lỗi); SESSION_PROMPT_LOG giữ trên máy, ngoài kho mã
+│                       # LOI_THUONG_GAP (57 mục lỗi); SESSION_PROMPT_LOG giữ trên máy, ngoài kho mã
 ├── .staging/           # CSV trung gian, log nạp liệu và CSV đối soát — đứng ngoài kho mã
 ├── requirements.txt    # psycopg2-binary, openpyxl — hai thư viện Python dự án dùng
 ├── AGENTS.md           # Quy trình làm việc dành cho trợ lý AI khi sửa kho này
-└── README.md
+├── README.md           # Bản tiếng Việt — trang mở đầu khi người đọc vào kho
+└── README_eng.md       # Bản tiếng Anh, dịch đối ứng từng mục; nút chuyển ở đầu mỗi tệp
 ```
 
 ---
@@ -450,7 +455,7 @@ Tệp Excel **không được thiết kế lại**: người dùng cuối dán s
 
 - [`docs/HIEN_TRANG_HE_THONG.md`](docs/HIEN_TRANG_HE_THONG.md) — lược đồ, số dòng, số đối chiếu
 - [`docs/NHAT_KY_CONG_VIEC.md`](docs/NHAT_KY_CONG_VIEC.md) — nhật ký từng công việc
-- [`docs/LOI_THUONG_GAP.md`](docs/LOI_THUONG_GAP.md) — 56 mục lỗi thực chiến và cách xử lý
+- [`docs/LOI_THUONG_GAP.md`](docs/LOI_THUONG_GAP.md) — 57 mục lỗi thực chiến và cách xử lý
 - [`docs/PIPELINE.md`](docs/PIPELINE.md) — kiến trúc luồng xử lý bốn bước, kèm số dòng từng bảng và lệnh vận hành
 
 Bốn tệp trên là toàn bộ `docs/` trong kho mã. Nhật ký yêu cầu `docs/SESSION_PROMPT_LOG.md` — ghi lại từng lần đổi hướng của dự án — người làm **giữ trên máy và không đưa lên kho mã**, cùng bảy tệp hướng dẫn dài dòng khác (kiến trúc tầng SQL, cầm tay chỉ từng dòng code, giáo trình dựng lược đồ, hỏi đáp toàn bộ code đo lường, ba cẩm nang dựng trang Power BI); cần bản nào thì hỏi người bàn giao.
