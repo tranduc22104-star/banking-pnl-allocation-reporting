@@ -4,22 +4,13 @@
 
 **Ngôn ngữ / Language**: **Tiếng Việt** · [English](README_eng.md)
 
-**Trần Ngọc Đức** · Data Analyst · Business Intelligence · Data Science · Management Information Systems · Operations · [Email](mailto:tranduc22104@gmail.com) · [LinkedIn](https://www.linkedin.com/in/tr%E1%BA%A7n-ng%E1%BB%8Dc-%C4%91%E1%BB%A9c-48b3a7439/)
+[Email](mailto:tranduc22104@gmail.com) · [LinkedIn](https://www.linkedin.com/in/tr%E1%BA%A7n-ng%E1%BB%8Dc-%C4%91%E1%BB%A9c-48b3a7439/)
 
 <p>
   <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white">
   <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white">
   <img src="https://img.shields.io/badge/Power%20BI-F2C811?style=for-the-badge&logo=powerbi&logoColor=black">
   <img src="https://img.shields.io/badge/Excel-217346?style=for-the-badge&logo=microsoftexcel&logoColor=white">
-</p>
-
-<p>
-  Một Case Study giải quyết bài toán quản trị thực tế của ngân hàng:
-  Từ đề bài của Ban Lãnh Đạo về việc đo lường <strong>lãi lỗ thực chất cho 7 vùng kinh doanh</strong>
-  và xây dựng <strong>thẻ điểm xếp hạng công bằng cho đội ngũ quản lý vùng</strong>,
-  Data Analyst chủ động định hình "đầu ra" báo cáo, khảo sát nguồn dữ liệu từ các phòng ban,
-  thiết kế quy trình xử lý tự động và công thức phân bổ chi phí trên <strong>2.996.476 dòng dữ liệu</strong>,
-  từ đó cung cấp góc nhìn phân tích sâu và đề xuất hành động cụ thể cho ban điều hành.
 </p>
 
 </div>

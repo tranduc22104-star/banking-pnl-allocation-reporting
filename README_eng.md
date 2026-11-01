@@ -4,22 +4,13 @@
 
 **Ngôn ngữ / Language**: [Tiếng Việt](README.md) · **English**
 
-**Tran Ngoc Duc** · Data Analyst · Business Intelligence · Data Science · Management Information Systems · Operations · [Email](mailto:tranduc22104@gmail.com) · [LinkedIn](https://www.linkedin.com/in/tr%E1%BA%A7n-ng%E1%BB%8Dc-%C4%91%E1%BB%A9c-48b3a7439/)
+[Email](mailto:tranduc22104@gmail.com) · [LinkedIn](https://www.linkedin.com/in/tr%E1%BA%A7n-ng%E1%BB%8Dc-%C4%91%E1%BB%A9c-48b3a7439/)
 
 <p>
   <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white">
   <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white">
   <img src="https://img.shields.io/badge/Power%20BI-F2C811?style=for-the-badge&logo=powerbi&logoColor=black">
   <img src="https://img.shields.io/badge/Excel-217346?style=for-the-badge&logo=microsoftexcel&logoColor=white">
-</p>
-
-<p>
-  A Case Study solving real-world management accounting and performance measurement challenges in banking:
-  Addressing executive requirements to measure <strong>true regional profitability across 7 business regions</strong>
-  and establish a <strong>balanced ranking scorecard for Area Sales Managers (ASMs)</strong>,
-  the Data Analyst applied an "Output-First" design framework, audited multi-departmental data sources,
-  and engineered an automated data pipeline and cost allocation engine across <strong>2,996,476 data rows</strong>,
-  delivering deep diagnostic insights and actionable governance recommendations.
 </p>
 
 </div>
