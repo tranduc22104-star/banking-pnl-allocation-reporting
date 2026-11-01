@@ -1,6 +1,6 @@
 <div align="center">
 
-# Theo Dõi Các Chỉ Số Kinh Doanh Và Đánh Giá Hiệu Suất Đội Ngũ Kinh Doanh Thẻ Tín Dụng
+# Xây Dựng Báo Cáo Quản Trị Kết Quả Kinh Doanh Thẻ Tín Dụng Và Xếp Hạng Năng Lực Kinh Doanh Của Quản Lý Vùng
 
 **Ngôn ngữ / Language**: **Tiếng Việt** · [English](README_eng.md)
 
