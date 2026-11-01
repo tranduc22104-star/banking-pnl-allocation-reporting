@@ -293,7 +293,7 @@ Các công cụ trong dự án được lựa chọn dựa trên yêu cầu xử
 ```text
 .
 ├── input/              # Lưu tệp tham số và mẫu báo cáo; 3 nguồn dữ liệu thô vượt trần dung lượng GitHub nên quản lý riêng
-│   └── Tham so va mau doi chieu.xlsx  # Quy đổi 64 tỉnh thành về 8 vùng, ánh xạ tài khoản sổ cái, biểu mẫu chuẩn của 2 báo cáo
+│   └── Tham so va mau doi chieu.xlsx  # Quy đổi 64 tỉnh thành về 8 vùng, đối chiếu tài khoản sổ cái, biểu mẫu chuẩn của 2 báo cáo
 ├── ingestion/          # Các chương trình Python đọc dữ liệu Excel, chuẩn hoá dữ liệu, nạp vào kho và xuất báo cáo
 │                       # db_config.example.py — tệp mẫu cấu hình kết nối cơ sở dữ liệu
 │                       # run_all.py điều phối chạy 4 bước nạp · run_report.py tự động kiểm tra số mới và xuất báo cáo Excel
