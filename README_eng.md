@@ -36,16 +36,13 @@
 
 ## 1. 🏢 Business Context And Executive Requirements
 
-Across the bank's credit card operations (spanning **7 business regions** with **74 to 84 Area Sales Managers - ASMs**), Executive Leadership recognized that conventional reporting masked true regional performance and overlooked credit risks. Consequently, Leadership commissioned the Data Analytics team to architect an automated monthly management reporting system with **3 core mandates**:
+Across the bank's credit card operations (spanning **7 business regions** with **74 to 84 Area Sales Managers - ASMs**), Executive Leadership required a reporting system reflecting true business results as well as the actual performance of regional sales managers. Consequently, Leadership commissioned the Data Analytics team to architect a monthly management reporting system with **2 core mandates**:
 
 1. **Measure true economic profitability across 7 business regions:**
    While operating revenues (interest and fee income) are recorded at regional branches, major expenses (funding costs, central marketing, technology, support salaries) are pooled centrally at Head Office. The Data Analytics team was tasked with developing an economically sound, auditable allocation engine to distribute Head Office revenues and expenses across the 7 regions, uncovering which territories are genuinely profitable and which are eroding margin.
 
 2. **Establish a balanced performance scorecard for Area Sales Managers:**
    Eliminate evaluation based solely on gross card issuance volume, which incentivized loose underwriting standards and caused subsequent spikes in non-performing loans (NPL) and provision charges. Leadership required a balanced scorecard equally weighing **Commercial Scale** (50%) against **Credit Risk Discipline and Financial Efficiency** (50%).
-
-3. **Automate the end-to-end data pipeline and serve multi-stakeholder needs:**
-   Fully automate data ingestion, transformation, and calculation pipelines across millions of ledger and statement records. Deliver interactive Power BI dashboards for executive decision-makers while automatically generating cell-level Excel reconciliation workbooks for Accounting and Finance.
 
 ---
 

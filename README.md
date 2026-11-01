@@ -36,16 +36,13 @@
 
 ## 1. 🏢 Bối Cảnh Và Bài Toán Ban Lãnh Đạo Đặt Ra
 
-Trong hoạt động kinh doanh thẻ tín dụng (vận hành trên **7 vùng kinh doanh** với đội ngũ từ **74 đến 84 quản lý vùng - ASM**), Ban Lãnh Đạo nhận thấy báo cáo hiện tại chưa phản ánh đúng hiệu quả thực tế và tiềm ẩn rủi ro nợ xấu. Do đó, Ban Lãnh Đạo giao cho Khối Phân tích Dữ liệu đề bài xây dựng hệ thống báo cáo quản trị hàng tháng với **3 yêu cầu trọng tâm**:
+Trong hoạt động kinh doanh thẻ tín dụng (vận hành trên **7 vùng kinh doanh** với đội ngũ từ **74 đến 84 quản lý vùng - ASM**), Ban Lãnh Đạo cần một bảng báo cáo phản ánh đúng thực tế kết quả kinh doanh cũng như là năng lực của các quản lý vùng. Do đó, Ban Lãnh Đạo giao cho Khối Phân tích Dữ liệu đề bài xây dựng hệ thống báo cáo quản trị hàng tháng với **2 yêu cầu trọng tâm**:
 
 1. **Đo lường lãi lỗ thực chất cho 7 vùng kinh doanh:**
    Phần lớn doanh thu (lãi vay, phí thẻ) được ghi nhận tại các vùng, nhưng các khoản chi phí lớn nhất (chi phí vốn huy động, tiếp thị, công nghệ, lương thưởng khối hỗ trợ) lại hạch toán tập trung tại Hội sở. Khối Phân tích Dữ liệu cần xây dựng cơ chế phân bổ toàn bộ chi phí và thu nhập Hội sở về 7 vùng theo các tiêu thức kinh tế hợp lý, minh bạch, giúp Ban Lãnh Đạo nhìn rõ vùng nào thực lãi và vùng nào thực chất đang lỗ.
 
 2. **Xây dựng thẻ điểm xếp hạng công bằng cho đội ngũ quản lý vùng:**
    Bỏ cơ chế đánh giá thuần tuý theo doanh số phát hành thẻ mới — vốn tạo động cơ nới lỏng thẩm định tín dụng khiến nợ xấu và chi phí dự phòng rủi ro phình to sau đó. Ban Lãnh Đạo yêu cầu thiết kế bộ chỉ số xếp hạng cân bằng giữa **Quy mô kinh doanh** (50%) và **Kỷ luật kiểm soát rủi ro, hiệu quả tài chính** (50%).
-
-3. **Tự động hoá luồng dữ liệu và phục vụ đa dạng nhu cầu điều hành:**
-   Tự động hoá toàn diện quy trình trích xuất, chuyển đổi và tính toán từ hàng triệu dòng dữ liệu sổ cái và sao kê thẻ; trực quan hoá lên dashboard Power BI tương tác tức thì cho Ban Lãnh Đạo, đồng thời tự động xuất tệp Excel chi tiết đối chiếu phục vụ Phòng Kế toán - Tài chính.
 
 ---
 
