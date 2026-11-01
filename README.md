@@ -36,20 +36,16 @@
 
 ## 1. 🏢 Bối Cảnh Và Bài Toán Ban Lãnh Đạo Đặt Ra
 
-### Tình huống thực tế tại khối kinh doanh thẻ
-Khối thẻ tín dụng của ngân hàng hoạt động trên **7 vùng kinh doanh**, được quản lý trực tiếp bởi mạng lưới gồm từ **74 đến 84 quản lý vùng (Area Sales Manager - ASM)** tuỳ từng thời điểm. Trong các cuộc họp điều hành định kỳ, Ban Lãnh Đạo luôn phải đối mặt với hai bài toán quản trị phức tạp:
+Trong hoạt động kinh doanh thẻ tín dụng (vận hành trên **7 vùng kinh doanh** với đội ngũ từ **74 đến 84 quản lý vùng - ASM**), Ban Lãnh Đạo nhận thấy báo cáo hiện tại chưa phản ánh đúng hiệu quả thực tế và tiềm ẩn rủi ro nợ xấu. Do đó, Ban Lãnh Đạo giao cho Khối Phân tích Dữ liệu đề bài xây dựng hệ thống báo cáo quản trị hàng tháng với **3 yêu cầu trọng tâm**:
 
-1. **Hiệu quả tài chính thực chất của từng vùng kinh doanh bị che mờ:**
-   Trên hệ thống sổ cái kế toán, các vùng kinh doanh trực tiếp ghi nhận thu nhập lãi vay và phí mở thẻ. Tuy nhiên, các khoản chi phí lớn nhất cấu thành hoạt động như chi phí vốn huy động, chi phí tiếp thị toàn ngân hàng, chi phí công nghệ lõi và lương thưởng của các phòng ban hỗ trợ lại được hạch toán tập trung tại quỹ Hội sở. Khi chưa có phương pháp phân bổ chi phí hợp lý, báo cáo bề nổi luôn cho thấy tất cả các vùng đều có lãi, dẫn đến nguy cơ che giấu những vùng thực tế đang hoạt động kém hiệu quả và ăn mòn lợi nhuận chung.
+1. **Đo lường lãi lỗ thực chất cho 7 vùng kinh doanh:**
+   Phần lớn doanh thu (lãi vay, phí thẻ) được ghi nhận tại các vùng, nhưng các khoản chi phí lớn nhất (chi phí vốn huy động, tiếp thị, công nghệ, lương thưởng khối hỗ trợ) lại hạch toán tập trung tại Hội sở. Khối Phân tích Dữ liệu cần xây dựng cơ chế phân bổ toàn bộ chi phí và thu nhập Hội sở về 7 vùng theo các tiêu thức kinh tế hợp lý, minh bạch, giúp Ban Lãnh Đạo nhìn rõ vùng nào thực lãi và vùng nào thực chất đang lỗ.
 
-2. **Cơ chế đánh giá năng lực đội ngũ quản lý vùng tiềm ẩn rủi ro tín dụng:**
-   Nếu chỉ dựa trên chỉ tiêu doanh số giải ngân mới hoặc số lượng thẻ phát hành, các quản lý vùng sẽ có xu hướng nới lỏng khẩu vị rủi ro và tiêu chuẩn thẩm định tín dụng để đạt số lượng ngắn hạn. Hậu quả là doanh số tăng trưởng nhanh trong vài tháng đầu, nhưng tỷ lệ nợ xấu và chi phí trích lập dự phòng sẽ phình to ở các kỳ tiếp theo.
+2. **Xây dựng thẻ điểm xếp hạng công bằng cho đội ngũ quản lý vùng:**
+   Bỏ cơ chế đánh giá thuần tuý theo doanh số phát hành thẻ mới — vốn tạo động cơ nới lỏng thẩm định tín dụng khiến nợ xấu và chi phí dự phòng rủi ro phình to sau đó. Ban Lãnh Đạo yêu cầu thiết kế bộ chỉ số xếp hạng cân bằng giữa **Quy mô kinh doanh** (50%) và **Kỷ luật kiểm soát rủi ro, hiệu quả tài chính** (50%).
 
-### Yêu cầu Ban Lãnh Đạo giao cho Data Analyst
-Ban Lãnh Đạo yêu cầu xây dựng một hệ thống báo cáo quản trị định kỳ hàng tháng nhằm giải quyết trọn vẹn:
-- Phân bổ chi phí và thu nhập Hội sở về 7 vùng theo các tiêu thức kinh tế hợp lý, minh bạch và có thể kiểm chứng độc lập.
-- Thiết kế cơ chế xếp hạng năng lực quản lý vùng kết hợp đồng thời giữa **Quy mô kinh doanh** và **Kỷ luật kiểm soát rủi ro, hiệu quả tài chính**.
-- Cung cấp công cụ phân tích tương tác tức thì cho Ban Lãnh Đạo, đồng thời giữ chuẩn biểu mẫu kế toán chi tiết cho Phòng Tài chính.
+3. **Tự động hoá luồng dữ liệu và phục vụ đa dạng nhu cầu điều hành:**
+   Tự động hoá toàn diện quy trình trích xuất, chuyển đổi và tính toán từ hàng triệu dòng dữ liệu sổ cái và sao kê thẻ; trực quan hoá lên dashboard Power BI tương tác tức thì cho Ban Lãnh Đạo, đồng thời tự động xuất tệp Excel chi tiết đối chiếu phục vụ Phòng Kế toán - Tài chính.
 
 ---
 

@@ -36,20 +36,16 @@
 
 ## 1. 🏢 Business Context And Executive Requirements
 
-### Real-world situation in the credit card division
-The bank's credit card division operates across **7 business regions**, managed directly by a field leadership network of **74 to 84 Area Sales Managers (ASMs)** depending on the period. In periodic executive committee meetings, leadership faced two chronic managerial dilemmas:
+Across the bank's credit card operations (spanning **7 business regions** with **74 to 84 Area Sales Managers - ASMs**), Executive Leadership recognized that conventional reporting masked true regional performance and overlooked credit risks. Consequently, Leadership commissioned the Data Analytics team to architect an automated monthly management reporting system with **3 core mandates**:
 
-1. **True regional profitability was obscured:**
-   In the general accounting ledger, business regions directly record interest income and card issuance fees. However, major operating expenses such as funding costs, central marketing campaigns, core technology infrastructure, and back-office support salaries are booked under the Head Office pool. Without an equitable, driver-based cost allocation mechanism, standard reporting showed every region as profitable, masking territories that were actually eroding overall bank value.
+1. **Measure true economic profitability across 7 business regions:**
+   While operating revenues (interest and fee income) are recorded at regional branches, major expenses (funding costs, central marketing, technology, support salaries) are pooled centrally at Head Office. The Data Analytics team was tasked with developing an economically sound, auditable allocation engine to distribute Head Office revenues and expenses across the 7 regions, uncovering which territories are genuinely profitable and which are eroding margin.
 
-2. **Sales personnel evaluation incentivized credit risk expansion:**
-   When Area Sales Managers were evaluated purely on gross new lending volume or active card counts, managers were naturally incentivized to lower underwriting standards to hit short-term targets. As a consequence, volume expanded rapidly in early months, but non-performing loan (NPL) ratios and provision charges surged in subsequent periods.
+2. **Establish a balanced performance scorecard for Area Sales Managers:**
+   Eliminate evaluation based solely on gross card issuance volume, which incentivized loose underwriting standards and caused subsequent spikes in non-performing loans (NPL) and provision charges. Leadership required a balanced scorecard equally weighing **Commercial Scale** (50%) against **Credit Risk Discipline and Financial Efficiency** (50%).
 
-### Executive mandate assigned to the Data Analyst
-Executive Leadership commissioned the Data Analyst to design and build an automated monthly management reporting system to:
-- Allocate Head Office revenues and expenses across the 7 regions using economically sound, auditable allocation drivers.
-- Establish a balanced ranking scorecard for Area Sales Managers that evaluates **Commercial Scale** alongside **Credit Risk Discipline and Financial Efficiency**.
-- Deliver an interactive analytical dashboard for executive decision-makers while retaining cell-level Excel reconciliation models for Accounting and Finance.
+3. **Automate the end-to-end data pipeline and serve multi-stakeholder needs:**
+   Fully automate data ingestion, transformation, and calculation pipelines across millions of ledger and statement records. Deliver interactive Power BI dashboards for executive decision-makers while automatically generating cell-level Excel reconciliation workbooks for Accounting and Finance.
 
 ---
 
