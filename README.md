@@ -317,7 +317,7 @@ Các công cụ trong dự án được lựa chọn dựa trên yêu cầu xử
 - Bốn nguồn dữ liệu Excel sử dụng trong dự án là **dữ liệu nghiệp vụ thực tế do đơn vị cung cấp và cho phép sử dụng** trong khuôn khổ dự án cuối khoá cũng như để trình bày phương pháp thực hiện dự án phân tích dữ liệu.
 - **Lý do thư mục `input/` trên kho mã chỉ lưu giữ 1 tệp:** GitHub giới hạn dung lượng tối đa 100 megabyte cho mỗi tệp đẩy lên (và dự án duy trì ngưỡng dưới 25 megabyte cho mỗi tệp để thuận tiện tải qua trình duyệt web). Tệp sao kê hợp đồng thẻ gốc có dung lượng **117,2 megabyte** nên không đẩy lên kho mã công khai; hai tệp dữ liệu phát sinh còn lại (sổ cái 1,95 megabyte và chỉ tiêu quản lý vùng 26 kilobyte) được lưu cùng bộ dữ liệu gốc. Kho mã giữ lại tệp **`Tham so va mau doi chieu.xlsx`** (127.976 byte) chứa bảng tham số quy đổi 64 tỉnh thành và biểu mẫu định dạng của hai báo cáo. Người xem có thể kiểm tra đầy đủ mã nguồn, logic tính toán, tệp `.pbix` và tệp báo cáo Excel đầu ra; trường hợp cần chạy nạp lại dữ liệu từ đầu có thể liên hệ để nhận thêm ba tệp dữ liệu thô.
 - Để đọc tệp sao kê hợp đồng 117,2 megabyte ổn định trong Python, tệp nén ban đầu được tách thành hai phần (`part1` nặng 83,6 megabyte và `part2` nặng 33,6 megabyte) ở tầng cấu trúc tệp nén mà không làm thay đổi nội dung dữ liệu bên trong; tổng số dòng nạp vào kho khớp **2.932.922 bản ghi**.
-- Trường hợp cần ẩn danh thông tin nhân sự khi trình chiếu: có thể thay thế giá trị cột họ tên (`sale_name`) và `email` trong bảng `banking_project.dim_asm` mà không ảnh hưởng đến kết quả tính lãi lỗ vùng và thứ hạng.
+
 
 ---
 
