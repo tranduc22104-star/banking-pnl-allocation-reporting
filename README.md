@@ -46,10 +46,10 @@
 
 ### 🏢 Vấn Đề Trong Quản Trị Thực Tế
 
-Khối thẻ tín dụng của ngân hàng hoạt động trên **7 vùng kinh doanh** với đội ngũ từ **74 đến 84 giám đốc vùng** tuỳ từng tháng. Trong quá trình theo dõi kết quả hoạt động hàng tháng, công tác báo cáo quản trị gặp ba vấn đề chính:
+Khối thẻ tín dụng của ngân hàng hoạt động trên **7 vùng kinh doanh** với đội ngũ từ **74 đến 84 quản lý vùng** tuỳ từng tháng. Trong quá trình theo dõi kết quả hoạt động hàng tháng, công tác báo cáo quản trị gặp ba vấn đề chính:
 
 1. **Chưa phản ánh đầy đủ lãi lỗ sau phân bổ của từng vùng:** Trên sổ cái kế toán, các vùng trực tiếp ghi nhận thu nhập lãi và phí thẻ, trong khi các khoản chi phí chung như chi phí vốn huy động, chi phí hệ thống công nghệ, chi phí tiếp thị toàn hàng và lương bộ phận hỗ trợ được hạch toán tại quỹ Hội sở. Khi chưa phân bổ các khoản chi phí này về từng vùng theo mức độ sử dụng nguồn lực, báo cáo khó phản ánh chính xác hiệu quả thực tế của từng địa bàn.
-2. **Đánh giá hiệu suất nhân sự cần kết hợp giữa quy mô và chất lượng tín dụng:** Việc đánh giá giám đốc vùng nếu chỉ dựa trên doanh số giải ngân mới hoặc lợi nhuận trước phân bổ dễ dẫn đến xu hướng mở rộng dư nợ nhanh kèm theo rủi ro nợ xấu tăng ở các kỳ sau.
+2. **Đánh giá hiệu suất nhân sự cần kết hợp giữa quy mô và chất lượng tín dụng:** Việc đánh giá quản lý vùng nếu chỉ dựa trên doanh số giải ngân mới hoặc lợi nhuận trước phân bổ dễ dẫn đến xu hướng mở rộng dư nợ nhanh kèm theo rủi ro nợ xấu tăng ở các kỳ sau.
 3. **Dữ liệu nguồn phân tán và khối lượng lớn:** Số liệu nằm ở ba nguồn khác nhau gồm sổ cái kế toán (**63.134 bút toán**), tệp sao kê hợp đồng thẻ (**2.932.914 dòng**, vượt giới hạn dòng của một trang tính Excel thông thường) và bảng chỉ tiêu bán hàng thiết kế dạng ngang theo tháng. Tổng hợp thủ công mất nhiều thời gian và khó kiểm tra nguyên nhân khi số liệu biến động giữa các kỳ.
 
 ### 🎯 Bốn Câu Hỏi Cần Trả Lời Mỗi Tháng
@@ -58,7 +58,7 @@ Khối thẻ tín dụng của ngân hàng hoạt động trên **7 vùng kinh d
 |---|---|---|
 | **Hiệu quả thực tế theo vùng** | Sau khi phân bổ chi phí Hội sở, kết quả lãi lỗ của từng vùng như thế nào? | Tách khoản phát sinh trực tiếp tại vùng và phân bổ khoản chung tại Hội sở theo tiêu thức tương ứng; kiểm tra tổng 7 vùng khớp với sổ cái toàn ngân hàng |
 | **Nguyên nhân biến động lợi nhuận** | Lợi nhuận tháng này thay đổi do hoạt động kinh doanh cốt lõi hay do biến động chi phí dự phòng? | Tách số phát sinh riêng từng tháng từ số lũy kế đầu năm và phân rã mức chênh lệch theo 6 cấu phần thu – chi |
-| **Đánh giá đội ngũ quản lý** | Giám đốc vùng nào duy trì đồng thời tốc độ phát triển quy mô, chất lượng nợ và hiệu quả tài chính? | Xây dựng bảng xếp hạng 8 chỉ số chia thành 2 trụ cột: **Phát triển quy mô** (bao gồm chỉ số kiểm soát nợ xấu) và **Hiệu quả tài chính** |
+| **Đánh giá đội ngũ quản lý** | Quản lý vùng nào duy trì đồng thời tốc độ phát triển quy mô, chất lượng nợ và hiệu quả tài chính? | Xây dựng bảng xếp hạng 8 chỉ số chia thành 2 trụ cột: **Phát triển quy mô** (bao gồm chỉ số kiểm soát nợ xấu) và **Hiệu quả tài chính** |
 | **Độ chính xác của số liệu** | Số liệu trên báo cáo có khớp với sổ cái gốc và biểu mẫu kế toán không? | Thiết lập 4 bước kiểm tra dữ liệu và đối soát tự động 91 chỉ số giữa báo cáo Power BI và cơ sở dữ liệu PostgreSQL |
 
 ---
@@ -69,23 +69,23 @@ Tính đến cuối tháng 5/2023, lợi nhuận trước thuế lũy kế của
 
 Khi bóc tách số liệu phát sinh theo từng vùng và từng cấu phần thu – chi, dữ liệu cho thấy sự phân hoá rõ rệt giữa các địa bàn:
 
-| Số vùng kinh doanh | Đội ngũ giám đốc vùng (tháng 5) | Chuỗi thời gian phân tích | Quy mô dữ liệu xử lý | Lợi nhuận lũy kế 5 tháng | Biến động lợi nhuận tháng 5 so với tháng 4 |
+| Số vùng kinh doanh | Đội ngũ quản lý vùng (tháng 5) | Chuỗi thời gian phân tích | Quy mô dữ liệu xử lý | Lợi nhuận lũy kế 5 tháng | Biến động lợi nhuận tháng 5 so với tháng 4 |
 | :---: | :---: | :---: | :---: | :---: | :---: |
 | **7 vùng** | **84 người** | **5 tháng** (tháng 1 – tháng 5/2023) | **2.996.476 dòng** | **250.450,06 triệu đồng** | **+4.390,9 triệu đồng (+8,4%)** |
 
 ### Những phát hiện chính từ dữ liệu
 
 **01. Lợi nhuận toàn hệ thống tăng 8,4% trong tháng 5, chủ yếu nhờ chi phí dự phòng giảm; thu nhập thuần từ hoạt động thẻ gần như không thay đổi.**
-Khoảng **97,2%** mức tăng lợi nhuận của toàn hệ thống trong tháng 5 tập trung tại vùng **Tây Nam Bộ** (**+4.267,8 triệu đồng**). Phân rã theo cấu phần cho thấy thu nhập thuần từ hoạt động thẻ của vùng này chỉ tăng **+16,3 triệu đồng**, chi phí hoạt động tăng làm giảm lợi nhuận **−195,9 triệu đồng**, trong khi **chi phí dự phòng rủi ro giảm đóng góp +4.447,3 triệu đồng**. Bên cạnh đó, Tây Nam Bộ đang có **tỷ lệ nợ xấu ở mức 21,99%** (cao nhất trong 7 vùng) và có **0 trên 16 giám đốc vùng** nằm trong nhóm 25 vị trí dẫn đầu toàn ngân hàng.
+Khoảng **97,2%** mức tăng lợi nhuận của toàn hệ thống trong tháng 5 tập trung tại vùng **Tây Nam Bộ** (**+4.267,8 triệu đồng**). Phân rã theo cấu phần cho thấy thu nhập thuần từ hoạt động thẻ của vùng này chỉ tăng **+16,3 triệu đồng**, chi phí hoạt động tăng làm giảm lợi nhuận **−195,9 triệu đồng**, trong khi **chi phí dự phòng rủi ro giảm đóng góp +4.447,3 triệu đồng**. Bên cạnh đó, Tây Nam Bộ đang có **tỷ lệ nợ xấu ở mức 21,99%** (cao nhất trong 7 vùng) và có **0 trên 16 quản lý vùng** nằm trong nhóm 25 vị trí dẫn đầu toàn ngân hàng.
 
 **02. Kết quả lỗ tại Đông Nam Bộ xuất phát từ chi phí dự phòng rủi ro tăng cao, trong khi thu nhập thuần vẫn tăng trưởng tốt.**
-**Đông Nam Bộ** là vùng duy nhất ghi nhận lợi nhuận âm trong tháng (**−8.787,4 triệu đồng**), giảm thêm **−322,2 triệu đồng** so với tháng 4. Xét riêng hoạt động kinh doanh cốt lõi, **thu nhập thuần của vùng tăng +3.210,7 triệu đồng**, nhưng mức tăng của **chi phí dự phòng rủi ro (−3.234,2 triệu đồng)** đã làm lợi nhuận trước thuế tiếp tục âm và khiến **16 trên 19 giám đốc vùng** xếp ở nhóm 24 vị trí cuối bảng. Trọng tâm cần rà soát tại Đông Nam Bộ là chất lượng thẩm định tín dụng và thu hồi nợ.
+**Đông Nam Bộ** là vùng duy nhất ghi nhận lợi nhuận âm trong tháng (**−8.787,4 triệu đồng**), giảm thêm **−322,2 triệu đồng** so với tháng 4. Xét riêng hoạt động kinh doanh cốt lõi, **thu nhập thuần của vùng tăng +3.210,7 triệu đồng**, nhưng mức tăng của **chi phí dự phòng rủi ro (−3.234,2 triệu đồng)** đã làm lợi nhuận trước thuế tiếp tục âm và khiến **16 trên 19 quản lý vùng** xếp ở nhóm 24 vị trí cuối bảng. Trọng tâm cần rà soát tại Đông Nam Bộ là chất lượng thẩm định tín dụng và thu hồi nợ.
 
 **03. Lợi nhuận tháng 5 tại Đồng bằng Sông Hồng tăng nhờ giảm chi phí dự phòng, trong khi thu nhập thuần thực tế giảm nhẹ.**
-Tại **Đồng bằng Sông Hồng** (vùng có quy mô nhân sự lớn nhất với 23 giám đốc vùng), lợi nhuận phát sinh tháng 5 tăng **+1.310,9 triệu đồng**. Tuy nhiên, **thu nhập thuần thực tế giảm −232,2 triệu đồng** so với tháng 4; mức tăng lợi nhuận trước thuế chủ yếu nhờ chi phí dự phòng giảm **+1.455,8 triệu đồng**. Số liệu này cho thấy tốc độ tăng thu phí và lãi thẻ tại địa bàn trọng điểm đang có dấu hiệu chững lại.
+Tại **Đồng bằng Sông Hồng** (vùng có quy mô nhân sự lớn nhất với 23 quản lý vùng), lợi nhuận phát sinh tháng 5 tăng **+1.310,9 triệu đồng**. Tuy nhiên, **thu nhập thuần thực tế giảm −232,2 triệu đồng** so với tháng 4; mức tăng lợi nhuận trước thuế chủ yếu nhờ chi phí dự phòng giảm **+1.455,8 triệu đồng**. Số liệu này cho thấy tốc độ tăng thu phí và lãi thẻ tại địa bàn trọng điểm đang có dấu hiệu chững lại.
 
 **04. Nam Trung Bộ có quy mô nhỏ nhưng duy trì tỷ lệ nợ xấu thấp nhất và hiệu suất nhân sự đồng đều.**
-**Nam Trung Bộ** chỉ có 5 giám đốc vùng nên quy mô lợi nhuận tuyệt đối không lớn, nhưng tỷ lệ nợ xấu được duy trì ở mức thấp nhất hệ thống (**11,24%**) và có **4 trên 5 giám đốc vùng** nằm trong nhóm 25 người dẫn đầu toàn hàng. Kết hợp đánh giá theo cả quy mô và hiệu quả giúp ghi nhận đúng kết quả của các vùng quy mô nhỏ nhưng kiểm soát chất lượng tín dụng tốt.
+**Nam Trung Bộ** chỉ có 5 quản lý vùng nên quy mô lợi nhuận tuyệt đối không lớn, nhưng tỷ lệ nợ xấu được duy trì ở mức thấp nhất hệ thống (**11,24%**) và có **4 trên 5 quản lý vùng** nằm trong nhóm 25 người dẫn đầu toàn hàng. Kết hợp đánh giá theo cả quy mô và hiệu quả giúp ghi nhận đúng kết quả của các vùng quy mô nhỏ nhưng kiểm soát chất lượng tín dụng tốt.
 
 ---
 
@@ -123,7 +123,7 @@ Các vùng được phân nhóm dựa trên 2 chỉ tiêu **Lợi nhuận phát 
 
 ### 3. Tổng hợp xếp hạng nhân sự và tỷ lệ nợ xấu theo vùng
 
-| Vùng trọng điểm | Tổng số giám đốc vùng (tháng 5) | Số người trong nhóm 25 dẫn đầu | Số người trong nhóm 24 cuối bảng | Tỷ lệ nợ xấu toàn vùng |
+| Vùng trọng điểm | Tổng số quản lý vùng (tháng 5) | Số người trong nhóm 25 dẫn đầu | Số người trong nhóm 24 cuối bảng | Tỷ lệ nợ xấu toàn vùng |
 | :--- | :---: | :---: | :---: | :---: |
 | **Tây Nam Bộ** | 16 | **0 người** | 4 người | **21,99%** (cao nhất) |
 | **Đông Nam Bộ** | 19 | 1 người | **16 người** | 19,86% |
@@ -137,9 +137,9 @@ Trên trang tổng hợp của báo cáo, kết quả phân tích được cụ 
 | # | Đề xuất thực hiện | Căn cứ từ số liệu tháng 5/2023 | Đơn vị phụ trách · Thời hạn |
 | :---: | :--- | :--- | :--- |
 | 01 | Tách riêng khoản trích lập dự phòng mới và khoản hoàn nhập dự phòng theo vùng; bổ sung chỉ tiêu lợi nhuận trước thuế chưa gồm hoàn nhập | Báo cáo hiện tại chỉ có một dòng dự phòng ròng, gây khó khăn khi tách biến động kinh doanh cốt lõi | Khối Quản lý rủi ro · tháng 6 |
-| 02 | Rà soát danh mục hồ sơ mới phát sinh chuyển nhóm nợ tại Đông Nam Bộ, Đông Bắc Bộ và Tây Bắc Bộ | Chi phí dự phòng của 3 vùng này tăng thêm **6.035,1 triệu đồng** trong tháng 5 | Giám đốc vùng + Khối Quản lý rủi ro · trong 30 ngày |
+| 02 | Rà soát danh mục hồ sơ mới phát sinh chuyển nhóm nợ tại Đông Nam Bộ, Đông Bắc Bộ và Tây Bắc Bộ | Chi phí dự phòng của 3 vùng này tăng thêm **6.035,1 triệu đồng** trong tháng 5 | Quản lý vùng + Khối Quản lý rủi ro · trong 30 ngày |
 | 03 | Kiểm tra quy trình thẩm định cấp thẻ và công tác thu hồi nợ tại vùng Tây Nam Bộ | Tỷ lệ nợ xấu ở mức **21,99%** (cao nhất hệ thống) trong khi vùng chiếm **97,2%** mức tăng lợi nhuận toàn hàng | Khối Kinh doanh + Khối Quản lý rủi ro · tháng 7 |
-| 04 | Nghiên cứu và thử nghiệm có kiểm soát quy trình sàng lọc khách hàng của Nam Trung Bộ kèm tiêu chí đo lường cụ thể | Có **4 trong 5** giám đốc vùng thuộc nhóm 25 vị trí dẫn đầu và tỷ lệ nợ xấu thấp nhất (**11,24%**) | Khối Kinh doanh · đánh giá sau 2 tháng |
+| 04 | Nghiên cứu và thử nghiệm có kiểm soát quy trình sàng lọc khách hàng của Nam Trung Bộ kèm tiêu chí đo lường cụ thể | Có **4 trong 5** quản lý vùng thuộc nhóm 25 vị trí dẫn đầu và tỷ lệ nợ xấu thấp nhất (**11,24%**) | Khối Kinh doanh · đánh giá sau 2 tháng |
 | 05 | Kết hợp chỉ tiêu thu nhập thuần và tỷ lệ nợ xấu thay vì chỉ dùng lợi nhuận phát sinh đơn lẻ khi đánh giá kết quả tháng | Lợi nhuận phát sinh một tháng chịu ảnh hưởng lớn từ biến động trích lập dự phòng | Ban điều hành · áp dụng ngay |
 
 ---
@@ -167,24 +167,24 @@ Bước 4  sp_baocao_tonghop: Cộng phần gán thẳng với phần Hội sở
 Bước 5  sp_baocao_tonghop: Tính dòng tổng hợp (E, F, H, A) và 4 tỷ số quản trị → fct_pnl_value
 ```
 
-### Bài toán 2: Đánh giá giám đốc vùng theo 2 trụ cột Quy mô và Hiệu quả tài chính
+### Bài toán 2: Đánh giá quản lý vùng theo 2 trụ cột Quy mô và Hiệu quả tài chính
 
-Bảng xếp hạng đánh giá giám đốc vùng dựa trên 8 chỉ số thuộc **2 trụ cột**:
+Bảng xếp hạng đánh giá quản lý vùng dựa trên 8 chỉ số thuộc **2 trụ cột**:
 
 | Trụ cột | Các chỉ số cấu thành | Chiều đánh giá | Mục đích trong công thức đánh giá |
 | :--- | :--- | :---: | :--- |
-| **1. Phát triển quy mô (`diem_qm`)** | Doanh số cho vay mới bình quân lũy kế, số thẻ phát sinh dư nợ bình quân lũy kế, tỷ lệ duyệt hồ sơ bình quân | Cao là tốt | Đo lường kết quả mở rộng thị trường và chất lượng hồ sơ đầu vào của từng giám đốc vùng (chỉ tính trung bình trên số tháng nhân sự thực tế làm việc) |
+| **1. Phát triển quy mô (`diem_qm`)** | Doanh số cho vay mới bình quân lũy kế, số thẻ phát sinh dư nợ bình quân lũy kế, tỷ lệ duyệt hồ sơ bình quân | Cao là tốt | Đo lường kết quả mở rộng thị trường và chất lượng hồ sơ đầu vào của từng quản lý vùng (chỉ tính trung bình trên số tháng nhân sự thực tế làm việc) |
 | **1. Phát triển quy mô (`diem_qm`)** | Tỷ lệ nợ xấu của vùng (dư nợ nhóm 3 đến 5 cộng nợ đã xoá trong năm chia cho tổng dư nợ trước xoá nợ) | Thấp là tốt | Kết hợp chỉ tiêu kiểm soát rủi ro vào trụ cột quy mô để hạn chế việc tăng doanh số nhưng làm tăng nợ xấu |
-| **2. Hiệu quả tài chính (`diem_fin`)** | Tỷ lệ chi phí trên thu nhập (`CIR`), biên lợi nhuận (`Margin`), hệ số hiệu quả vốn, lợi nhuận bình quân trên một quản lý | `CIR` thấp là tốt; 3 chỉ số còn lại cao là tốt | Gắn kết quả đánh giá của giám đốc vùng với hiệu quả tài chính của toàn vùng sau khi đã phân bổ chi phí Hội sở |
+| **2. Hiệu quả tài chính (`diem_fin`)** | Tỷ lệ chi phí trên thu nhập (`CIR`), biên lợi nhuận (`Margin`), hệ số hiệu quả vốn, lợi nhuận bình quân trên một quản lý | `CIR` thấp là tốt; 3 chỉ số còn lại cao là tốt | Gắn kết quả đánh giá của quản lý vùng với hiệu quả tài chính của toàn vùng sau khi đã phân bổ chi phí Hội sở |
 
 Do 8 chỉ số có đơn vị tính khác nhau (triệu đồng, số thẻ, phần trăm), hệ thống thực hiện **xếp hạng từng chỉ số (hạng 1 là cao nhất) rồi cộng các thứ hạng thành điểm tổng** — tổng điểm càng nhỏ thì thứ hạng chung cuộc càng cao. Quy trình tính điểm trong `stored procedure` điều phối `sp_xephang_asm` gồm **6 bước qua 3 `stored procedure` bước trung gian**:
 
 ```text
-Bước 1  sp_xh_step1: Tính trung bình lũy kế 3 chỉ số bán hàng từng giám đốc  → tmp_xh_step1_asm_avg    1.164 dòng
+Bước 1  sp_xh_step1: Tính trung bình lũy kế 3 chỉ số bán hàng từng quản lý   → tmp_xh_step1_asm_avg    1.164 dòng
 Bước 2  sp_xh_step2: Tính tỷ lệ nợ xấu từng vùng, lưu cả tử số và mẫu số     → tmp_xh_step2_npl_area     105 dòng
 Bước 3  sp_xh_step3: Đọc 4 chỉ số tài chính từ báo cáo lãi lỗ và xếp hạng    → tmp_xh_step3_fin_area     315 dòng
 Bước 4  sp_xephang_asm: Xếp hạng 4 chỉ số quy mô, tính điểm và hạng quy mô   → fct_asm_value      10 dòng/người
-Bước 5  sp_xephang_asm: Ghép bộ điểm tài chính của vùng sang từng giám đốc   → fct_asm_value       9 dòng/người
+Bước 5  sp_xephang_asm: Ghép bộ điểm tài chính của vùng sang từng quản lý    → fct_asm_value       9 dòng/người
 Bước 6  sp_xephang_asm: Cộng điểm hai trụ cột, xếp hạng chung cuộc toàn hàng → fct_asm_value       3 dòng/người
 ```
 
@@ -202,8 +202,8 @@ Hệ thống được tổ chức thành **luồng xử lý tự động 4 giai 
 
 | # | Giai đoạn | Nội dung xử lý | Công cụ thực hiện | Kết quả đầu ra |
 |---|---|---|---|---|
-| 1 | **Dữ liệu đầu vào (Excel)** | Tập hợp 3 nguồn số liệu thô (sao kê hợp đồng 2,93 triệu dòng, sổ cái 63 nghìn dòng, bảng chỉ tiêu 84 giám đốc vùng) và 1 tệp tham số & biểu mẫu đối chiếu | Excel | 3 tệp dữ liệu thô và 1 tệp tham số (2,99 triệu dòng) |
-| 2 | **Nạp và làm sạch (Python)** | Đọc tệp sao kê dung lượng lớn; chuyển bảng chỉ tiêu giám đốc vùng từ dạng ngang sang dạng dọc; chuẩn hoá tên tỉnh thành (ví dụ “Bà Rịa - Vũng Tàu” và “Vũng Tàu”) để khớp với bảng tham số vùng | Python (`openpyxl`, `psycopg2`), `run_all.py` điều phối 4 bước nạp | **5 bảng** trong kho: 2 bảng `dimension` (`dim_area` 8, `dim_param_area` 64) và 3 bảng `staging` (`stg_asm_target` 420, `stg_fact_txn_month` 63.134, `stg_fact_kpi_month` 2.932.922) |
+| 1 | **Dữ liệu đầu vào (Excel)** | Tập hợp 3 nguồn số liệu thô (sao kê hợp đồng 2,93 triệu dòng, sổ cái 63 nghìn dòng, bảng chỉ tiêu 84 quản lý vùng) và 1 tệp tham số & biểu mẫu đối chiếu | Excel | 3 tệp dữ liệu thô và 1 tệp tham số (2,99 triệu dòng) |
+| 2 | **Nạp và làm sạch (Python)** | Đọc tệp sao kê dung lượng lớn; chuyển bảng chỉ tiêu quản lý vùng từ dạng ngang sang dạng dọc; chuẩn hoá tên tỉnh thành (ví dụ “Bà Rịa - Vũng Tàu” và “Vũng Tàu”) để khớp với bảng tham số vùng | Python (`openpyxl`, `psycopg2`), `run_all.py` điều phối 4 bước nạp | **5 bảng** trong kho: 2 bảng `dimension` (`dim_area` 8, `dim_param_area` 64) và 3 bảng `staging` (`stg_asm_target` 420, `stg_fact_txn_month` 63.134, `stg_fact_kpi_month` 2.932.922) |
 | 3 | **Kho chứa và tính toán (PostgreSQL + DBeaver)** | Thực thi phân bổ chi phí và tính điểm xếp hạng theo từng tháng, lưu kết quả trung gian từng bước và ghi nhận lịch sử chạy | PostgreSQL, DBeaver thực thi **9 `stored procedure`** (`sp_load_dim`, `sp_baocao_tonghop`, `sp_xephang_asm` và 6 `stored procedure` bước) | **14 bảng** (5 bảng `dimension`, 6 bảng tạm `tmp_` theo bước, 2 bảng `fact` kết quả, 1 bảng `log_proc_run`) và **4 `view`** |
 | 4 | **Vẽ và xuất báo cáo (Power BI + Python)** | Xây dựng bảng điều khiển tương tác phục vụ phân tích quản trị và xuất tệp báo cáo Excel giữ nguyên công thức theo biểu mẫu của đơn vị | Power BI Desktop (chế độ `Import` nạp 4 bảng), tập lệnh `run_report.py` | **5 trang báo cáo Power BI** (**72 `measure` DAX**) và tệp báo cáo Excel chuẩn mẫu ngân hàng |
 
@@ -220,10 +220,10 @@ Kho dữ liệu được thiết kế theo mô hình `Star Schema` trong lược
 
 | Nhóm đối tượng | Số lượng | Các bảng cụ thể và số dòng | Vai trò trong hệ thống |
 |---|---:|---|---|
-| **Bảng `dimension` (`dim_`)** | 7 | `dim_area` 8 · `dim_param_area` 64 · `dim_asm` 84 · `dim_month` 5 · `dim_date` 151 · `dim_report_detail` 50 · `dim_sm_headcount` 35 | Quản lý danh sách vùng (`dim_area` là bảng duy nhất lưu `area_name`), ánh xạ tỉnh thành về vùng, danh sách giám đốc vùng, lịch ngày chốt số từng tháng, số lượng nhân sự quản lý và danh mục 50 chỉ tiêu báo cáo |
+| **Bảng `dimension` (`dim_`)** | 7 | `dim_area` 8 · `dim_param_area` 64 · `dim_asm` 84 · `dim_month` 5 · `dim_date` 151 · `dim_report_detail` 50 · `dim_sm_headcount` 35 | Quản lý danh sách vùng (`dim_area` là bảng duy nhất lưu `area_name`), ánh xạ tỉnh thành về vùng, danh sách quản lý vùng, lịch ngày chốt số từng tháng, số lượng nhân sự quản lý và danh mục 50 chỉ tiêu báo cáo |
 | **Bảng `staging` (`stg_`)** | 3 | `stg_fact_kpi_month` 2.932.922 · `stg_fact_txn_month` 63.134 · `stg_asm_target` 420 | Lưu trữ dữ liệu gốc từ các tệp Excel đầu vào để phục vụ đối chiếu khi cần thiết |
 | **Bảng trung gian (`tmp_`)** | 6 | `tmp_pnl_step1_driver` 315 · `tmp_pnl_step2_ratio` 560 · `tmp_pnl_step3_gl_split` 535 · `tmp_xh_step1_asm_avg` 1.164 · `tmp_xh_step2_npl_area` 105 · `tmp_xh_step3_fin_area` 315 | Lưu kết quả của từng bước tính toán trung gian, hỗ trợ việc kiểm tra số liệu của từng bước trong DBeaver |
-| **Bảng `fact` kết quả (`fct_`)** | 2 | `fct_pnl_value` 1.115 (223 dòng/tháng) · `fct_asm_value` 8.536 (22 dòng/người/tháng) | Lưu kết quả theo cấu trúc dọc (mỗi dòng ứng với 1 tháng × 1 vùng hoặc 1 giám đốc × 1 mã chỉ tiêu), cho phép thêm chỉ tiêu mới vào `dim_report_detail` mà không cần thay đổi cấu trúc bảng |
+| **Bảng `fact` kết quả (`fct_`)** | 2 | `fct_pnl_value` 1.115 (223 dòng/tháng) · `fct_asm_value` 8.536 (22 dòng/người/tháng) | Lưu kết quả theo cấu trúc dọc (mỗi dòng ứng với 1 tháng × 1 vùng hoặc 1 quản lý vùng × 1 mã chỉ tiêu), cho phép thêm chỉ tiêu mới vào `dim_report_detail` mà không cần thay đổi cấu trúc bảng |
 | **Bảng theo dõi (`log_`)** | 1 | `log_proc_run` 95 | Ghi lại thời gian và trạng thái thực thi của từng bước trong các `stored procedure` |
 | **`View` báo cáo (`v_`)** | 4 | `v_baocao_tonghop` 35 · `v_baocao_tonghop_vnd` 35 · `v_xephang_asm` 388 · `v_xephang_asm_vnd` 388 | Xoay dữ liệu từ cấu trúc dọc sang cấu trúc bảng ngang phục vụ Power BI và xuất Excel; kết nối `dim_area` để lấy tên vùng và lọc bỏ dòng Hội sở `'A'` |
 
@@ -256,10 +256,10 @@ Dựa trên cấu trúc và độ chi tiết của dữ liệu nguồn hiện c�
 
 | Những kết luận chưa đủ cơ sở từ dữ liệu | Nguyên nhân về mặt dữ liệu và nghiệp vụ | Cách diễn giải đúng trong báo cáo |
 | :--- | :--- | :--- |
-| “Giám đốc vùng A bị giảm thứ hạng do tỷ lệ nợ xấu cá nhân tăng cao” | Tỷ lệ nợ xấu và 4 chỉ số tài chính được tính ở **cấp độ toàn vùng**; các giám đốc thuộc cùng một vùng nhận chung kết quả của vùng đó | “Chỉ số nợ xấu và tài chính phản ánh kết quả chung của địa bàn, dùng để gắn trách nhiệm chung của đội ngũ quản lý trong vùng” |
+| “Quản lý vùng A bị giảm thứ hạng do tỷ lệ nợ xấu cá nhân tăng cao” | Tỷ lệ nợ xấu và 4 chỉ số tài chính được tính ở **cấp độ toàn vùng**; các quản lý vùng thuộc cùng một vùng nhận chung kết quả của vùng đó | “Chỉ số nợ xấu và tài chính phản ánh kết quả chung của địa bàn, dùng để gắn trách nhiệm chung của đội ngũ quản lý trong vùng” |
 | “Chi phí dự phòng tháng 5 giảm mạnh chứng tỏ khách hàng trả nợ tốt hơn” | Sổ cái hiện tại chỉ ghi nhận một dòng chi phí dự phòng ròng, chưa tách riêng phần trích lập dự phòng mới và phần hoàn nhập dự phòng | “Cần tách riêng số trích lập mới và số hoàn nhập dự phòng từ dữ liệu của Khối Quản lý rủi ro trước khi đánh giá biến động chất lượng tín dụng” |
 | “Doanh số giải ngân mới trong tháng 5 cao là nguyên nhân trực tiếp làm tăng lợi nhuận tháng 5” | Dư nợ thẻ giải ngân mới trong kỳ thường cần thời gian để tạo ra thu nhập lãi đáng kể ở các kỳ tiếp theo | “Doanh số giải ngân mới phản ánh tốc độ mở rộng quy mô khách hàng, chưa phải là yếu tố chính tạo ra biến động lợi nhuận ngay trong tháng đó” |
-| “Áp dụng ngay mô hình của Nam Trung Bộ cho cả 6 vùng còn lại” | Vùng có quy mô nhân sự nhỏ (5 giám đốc vùng) và chuỗi dữ liệu hiện tại mới quan sát trong 5 tháng | “Nam Trung Bộ là trường hợp có kết quả tốt để nghiên cứu và thử nghiệm có kiểm soát trước khi xem xét áp dụng rộng hơn” |
+| “Áp dụng ngay mô hình của Nam Trung Bộ cho cả 6 vùng còn lại” | Vùng có quy mô nhân sự nhỏ (5 quản lý vùng) và chuỗi dữ liệu hiện tại mới quan sát trong 5 tháng | “Nam Trung Bộ là trường hợp có kết quả tốt để nghiên cứu và thử nghiệm có kiểm soát trước khi xem xét áp dụng rộng hơn” |
 
 ---
 
@@ -315,7 +315,7 @@ Các công cụ trong dự án được lựa chọn dựa trên yêu cầu xử
 ## 🔒 Nguồn Dữ Liệu Và Quyền Sử Dụng
 
 - Bốn nguồn dữ liệu Excel sử dụng trong dự án là **dữ liệu nghiệp vụ thực tế do đơn vị cung cấp và cho phép sử dụng** trong khuôn khổ dự án cuối khoá cũng như để trình bày phương pháp thực hiện dự án phân tích dữ liệu.
-- **Lý do thư mục `input/` trên kho mã chỉ lưu giữ 1 tệp:** GitHub giới hạn dung lượng tối đa 100 megabyte cho mỗi tệp đẩy lên (và dự án duy trì ngưỡng dưới 25 megabyte cho mỗi tệp để thuận tiện tải qua trình duyệt web). Tệp sao kê hợp đồng thẻ gốc có dung lượng **117,2 megabyte** nên không đẩy lên kho mã công khai; hai tệp dữ liệu phát sinh còn lại (sổ cái 1,95 megabyte và chỉ tiêu giám đốc vùng 26 kilobyte) được lưu cùng bộ dữ liệu gốc. Kho mã giữ lại tệp **`Tham so va mau doi chieu.xlsx`** (127.976 byte) chứa bảng tham số quy đổi 64 tỉnh thành và biểu mẫu định dạng của hai báo cáo. Người xem có thể kiểm tra đầy đủ mã nguồn, logic tính toán, tệp `.pbix` và tệp báo cáo Excel đầu ra; trường hợp cần chạy nạp lại dữ liệu từ đầu có thể liên hệ để nhận thêm ba tệp dữ liệu thô.
+- **Lý do thư mục `input/` trên kho mã chỉ lưu giữ 1 tệp:** GitHub giới hạn dung lượng tối đa 100 megabyte cho mỗi tệp đẩy lên (và dự án duy trì ngưỡng dưới 25 megabyte cho mỗi tệp để thuận tiện tải qua trình duyệt web). Tệp sao kê hợp đồng thẻ gốc có dung lượng **117,2 megabyte** nên không đẩy lên kho mã công khai; hai tệp dữ liệu phát sinh còn lại (sổ cái 1,95 megabyte và chỉ tiêu quản lý vùng 26 kilobyte) được lưu cùng bộ dữ liệu gốc. Kho mã giữ lại tệp **`Tham so va mau doi chieu.xlsx`** (127.976 byte) chứa bảng tham số quy đổi 64 tỉnh thành và biểu mẫu định dạng của hai báo cáo. Người xem có thể kiểm tra đầy đủ mã nguồn, logic tính toán, tệp `.pbix` và tệp báo cáo Excel đầu ra; trường hợp cần chạy nạp lại dữ liệu từ đầu có thể liên hệ để nhận thêm ba tệp dữ liệu thô.
 - Để đọc tệp sao kê hợp đồng 117,2 megabyte ổn định trong Python, tệp nén ban đầu được tách thành hai phần (`part1` nặng 83,6 megabyte và `part2` nặng 33,6 megabyte) ở tầng cấu trúc tệp nén mà không làm thay đổi nội dung dữ liệu bên trong; tổng số dòng nạp vào kho khớp **2.932.922 bản ghi**.
 - Trường hợp cần ẩn danh thông tin nhân sự khi trình chiếu: có thể thay thế giá trị cột họ tên (`sale_name`) và `email` trong bảng `banking_project.dim_asm` mà không ảnh hưởng đến kết quả tính lãi lỗ vùng và thứ hạng.
 
