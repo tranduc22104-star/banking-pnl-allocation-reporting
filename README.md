@@ -17,7 +17,7 @@
   Trong hoạt động quản trị kinh doanh thẻ tín dụng, doanh thu thường được ghi nhận tại các vùng kinh doanh,
   trong khi một phần đáng kể chi phí vận hành và chi phí vốn được hạch toán tập trung tại Hội sở.
   Điều này gây khó khăn khi đánh giá hiệu quả kinh doanh thực tế của từng vùng nếu chưa thực hiện phân bổ chi phí phù hợp.
-  Dự án tập trung xây dựng hệ thống phân bổ thu nhập, chi phí và đánh giá hiệu quả kinh doanh của <strong>7 vùng</strong>
+  Dự án tập trung xây dựng hệ thống phân bổ thu nhập, chi phí và đánh giá hiệu quả kinh doanh cũng như nhân sự của <strong>7 vùng</strong>
   từ <strong>2.996.476 dòng dữ liệu</strong> sổ cái kế toán, sao kê hợp đồng thẻ và bảng chỉ tiêu kinh doanh.
 </p>
 
