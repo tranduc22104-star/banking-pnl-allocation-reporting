@@ -48,7 +48,9 @@ Across the bank's credit card operations (spanning **7 business regions** with *
 
 ## 2. 🎯 Defining System "Outputs" (Output-First Thinking)
 
-Starting from executive requirements, the Analyst employed an **Output-First design methodology** (reverse-engineering from desired deliverables) to map out the required deliverables:
+Upon receiving executive directions, the primary challenge was that requirements were framed as high-level governance objectives without pre-existing reporting templates or technical specifications. Therefore, the approach began with **Output-First thinking (reverse-engineering from business decision needs)**: determining the critical management perspectives required by leadership before searching for data.
+
+The desired output framework comprises two analytical reporting pillars aligned with executive mandates, supported by multi-stakeholder delivery mechanisms:
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
@@ -75,7 +77,7 @@ Starting from executive requirements, the Analyst employed an **Output-First des
 
 ## 3. 🔍 Data Discovery, Sourcing, And Gap Analysis
 
-To produce the specified deliverables, the Analyst conducted an audit of operational data sources across multiple banking departments:
+To produce the specified deliverables, an operational audit of data sources across multiple banking departments:
 
 | Source Department | Data Asset | Volume | Characteristics |
 |---|---|---:|---|
@@ -95,7 +97,7 @@ The data audit revealed three technical obstacles that needed resolution prior t
 ## 4. 🧮 Pipeline Architecture And Formula Design
 
 ### 4.1. Engineering an automated 4-stage processing pipeline
-To replace manual spreadsheets, the Analyst designed an end-to-end data pipeline:
+To replace manual spreadsheets, an end-to-end data pipeline was engineered:
 
 <div align="center">
 
@@ -176,7 +178,7 @@ As of May 2023 (5/2023), cumulative profit before tax reached **250,450.06 milli
    Despite small headcount (5 ASMs), South Central Coast maintained the lowest NPL ratio bank-wide (**11.24%**) and placed **4 out of 5 ASMs** in the top 25 rankings.
 
 ### Five Strategic Action Items for Executive Leadership
-Based on data evidence, the Analyst presented 5 concrete operational recommendations:
+Based on data evidence, 5 concrete operational recommendations were presentedendations:
 
 | # | Action Item | Data Evidence (May 2023 / 5/2023) | Responsible Unit · Timeline |
 |:---:|:---|:---|:---|
@@ -190,7 +192,7 @@ Based on data evidence, the Analyst presented 5 concrete operational recommendat
 
 ## 7. 📚 Practical Implementation Lessons
 
-1. **Adopt an "Output-First" mindset before touching data:** Defining exact reporting deliverables and decision questions upfront ensures the Analyst collects only relevant fields and avoids aimless ETL iterations.
+1. **Adopt an "Output-First" mindset before touching data:** Defining exact reporting deliverables and decision questions upfront ensures the collection of only relevant fields and avoids aimless ETL iterations.
 2. **Master management accounting logic before writing SQL queries:** In banking analytics, understanding why funding costs carry negative ledger balances or why Head Office carries province code `'00'` and region code `'A'` is essential for building accurate SQL allocation procedures.
 3. **Dimension cleansing protects reporting integrity:** Catching spelling discrepancies between "Bà Rịa - Vũng Tàu" and "Vũng Tàu" during data ingestion prevented losing over 36,000 contracts and preserved the accuracy of the Southeast region's credit metrics.
 4. **Never assess business performance through a single aggregate figure:** A positive headline profit can easily mask contracting core commercial revenues or deteriorating credit quality. Component decomposition and multi-dimensional analysis are fundamental to professional data storytelling.

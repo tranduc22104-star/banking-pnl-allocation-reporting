@@ -48,7 +48,9 @@ Trong hoạt động kinh doanh thẻ tín dụng (vận hành trên **7 vùng k
 
 ## 2. 🎯 Định Hình "Đầu Ra" Của Hệ Thống Báo Cáo
 
-Từ đề bài của Ban Lãnh Đạo, Data Analyst áp dụng tư duy **Output-First** (thiết kế ngược từ kết quả mong đợi) để phác thảo chân dung của hệ thống báo cáo cần đạt được:
+Khi tiếp nhận đề bài từ Ban Lãnh Đạo, khó khăn lớn nhất là yêu cầu chỉ dừng ở mục tiêu định hướng quản trị mà không có sẵn biểu mẫu hay đặc tả kỹ thuật chi tiết. Do đó, bước đi đầu tiên là áp dụng tư duy **Output-First (thiết kế ngược từ nhu cầu ra quyết định)**: tự đặt câu hỏi Ban Lãnh Đạo cần nhìn thấy những thông tin cốt lõi nào để điều hành, từ đó tự phác thảo cấu trúc "đầu ra" mong đợi trước khi đi tìm dữ liệu.
+
+Cấu trúc đầu ra được định hình gồm hai trụ cột báo cáo phục vụ trực tiếp cho 2 yêu cầu của bài toán, cùng công cụ phân phối đa đối tượng:
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
@@ -75,17 +77,17 @@ Từ đề bài của Ban Lãnh Đạo, Data Analyst áp dụng tư duy **Output
 
 ## 3. 🔍 Khảo Sát, Thu Thập Và Đánh Giá Dữ Liệu "Đầu Vào"
 
-Để đáp ứng được bộ chỉ tiêu "đầu ra" đã định hình, Analyst tiến hành khảo sát và thu thập dữ liệu từ các phòng ban nghiệp vụ trong ngân hàng:
+Ngân hàng không có sẵn một kho dữ liệu tập trung hay một bảng số liệu duy nhất đáp ứng ngay các yêu cầu đầu ra ở trên. Sau khi đã định hình rõ bức tranh đầu ra cần đạt được, bước tiếp theo là chủ động đi khảo sát, tìm kiếm nguồn dữ liệu từ nhiều phòng ban nghiệp vụ khác nhau để thu thập từng mảnh ghép thông tin:
 
-| Phòng ban cung cấp | Nguồn dữ liệu | Quy mô | Đặc điểm dữ liệu |
+| Phòng ban cung cấp | Nguồn dữ liệu | Quy mô | Vai trò đáp ứng đầu ra |
 |---|---|---:|---|
 | **Khối Kế toán & Tài chính** | Sổ cái tài khoản kế toán (`fact_txn_month`) | **63.134** bút toán | Ghi nhận chi tiết từng bút toán thu - chi; gồm 62.953 dòng gắn mã tỉnh thành cụ thể và 181 dòng hạch toán tập trung tại Hội sở (mã tỉnh `'00'`). |
-| **Khối Vận hành Thẻ** | Sao kê hợp đồng thẻ tín dụng (`fact_kpi_month`) | **2.932.914** dòng | Lưu trữ toàn bộ dư nợ theo nhóm nợ (nhóm 1 đến 5), nợ đã xử lý rủi ro (write-off), số lượng thẻ phát sinh dư nợ và doanh số của từng hợp đồng thẻ qua 5 tháng. |
-| **Khối Quản lý Mạng lưới** | Bảng chỉ tiêu kinh doanh (`kpi_asm_data`) | **420** dòng | Bảng theo dõi doanh số giải ngân mới, số thẻ hoạt động và tỷ lệ duyệt hồ sơ của từng quản lý vùng theo tháng. |
+| **Khối Vận hành Thẻ** | Sao kê hợp đồng thẻ tín dụng (`fact_kpi_month`) | **2.932.914** dòng | Cung cấp toàn bộ dư nợ theo 5 nhóm nợ, nợ đã xử lý rủi ro (write-off) và doanh số từng hợp đồng qua 5 tháng; làm căn cứ tính tỷ lệ nợ xấu và tạo tiêu thức phân bổ chi phí Hội sở. |
+| **Khối Quản lý Mạng lưới** | Bảng chỉ tiêu kinh doanh (`kpi_asm_data`) | **420** dòng | Cung cấp kết quả kinh doanh cá nhân: doanh số giải ngân mới, số thẻ hoạt động và tỷ lệ duyệt hồ sơ của từng quản lý vùng theo tháng để phục vụ xếp hạng. |
 | **Phòng Kế hoạch & Quản trị Dữ liệu** | Bảng tham số địa bàn và biểu mẫu đối chiếu | **64** tỉnh thành | Bảng quy đổi 64 tỉnh thành về 8 vùng địa lý (Hội sở `'A'` và 7 vùng kinh doanh `'B'..'H'`) kèm mẫu biểu báo cáo tài chính. |
 
 ### Đánh giá khoảng cách dữ liệu (Gap Analysis)
-Sau khi khảo sát dữ liệu thô, Analyst nhận diện ba rào cản kỹ thuật cần giải quyết trước khi đưa vào tính toán:
+Khi đối chiếu dữ liệu thu thập được từ các phòng ban với bộ chỉ tiêu đầu ra mong đợi, nhận thấy dữ liệu thô **chưa thể đưa vào tính toán ngay** do vấp phải ba rào cản kỹ thuật:
 1. **Dữ liệu sao kê hợp đồng thẻ vượt quá giới hạn Excel:** Tệp dữ liệu có gần 3 triệu dòng, nặng 117,2 MB khiến các công cụ xử lý bảng tính thông thường bị treo hoặc tràn bộ nhớ.
 2. **Dữ liệu chỉ tiêu tổ chức theo dạng ngang (Wide):** Bảng chỉ tiêu quản lý vùng trải dài các cột tháng sang ngang, không thể nạp trực tiếp vào cơ sở dữ liệu quan hệ để join với các bảng sự kiện khác.
 3. **Bất đồng bộ trong dữ liệu danh mục:** Tên địa danh giữa các phòng ban bị lệch chuẩn ký tự (ví dụ: sao kê ghi "Bà Rịa - Vũng Tàu" nhưng bảng tham số viết "Vũng Tàu"), nếu ghép trực tiếp sẽ làm mất hơn 36.000 hợp đồng thẻ khi tính toán tỷ lệ nợ xấu của vùng Đông Nam Bộ.
@@ -95,7 +97,7 @@ Sau khi khảo sát dữ liệu thô, Analyst nhận diện ba rào cản kỹ t
 ## 4. 🧮 Xây Dựng Quy Trình Xử Lý Và Thiết Kế Công Thức Tính Toán
 
 ### 4.1. Thiết kế luồng xử lý tự động 4 giai đoạn
-Để thay thế hoàn toàn các thao tác thủ công, Analyst thiết kế luồng xử lý khép kín từ tệp Excel thô đến kho dữ liệu và báo cáo:
+Để thay thế hoàn toàn các thao tác thủ công, một luồng xử lý tự động khép kín 4 giai đoạn được thiết kế từ tệp Excel thô đến kho dữ liệu và báo cáo:
 
 <div align="center">
 
@@ -109,7 +111,7 @@ Sau khi khảo sát dữ liệu thô, Analyst nhận diện ba rào cản kỹ t
 - **Giai đoạn 4 (Báo cáo và kiểm soát):** Dựng Dashboard Power BI (Import mode, 72 `measure` DAX) và tự động xuất file Excel hoàn chỉnh qua tập lệnh `run_report.py`.
 
 ### 4.2. Thiết kế công thức phân bổ chi phí Hội sở (Bài toán P&L)
-Analyst xây dựng 2 quy tắc kế toán quản trị để phân bổ 63.134 bút toán sổ cái:
+Hai quy tắc kế toán quản trị được thiết kế để phân bổ 63.134 bút toán sổ cái:
 - **Quy tắc 1 (Gán trực tiếp):** Bút toán nào có mã tỉnh cụ thể thì tính 100% thu/chi cho vùng quản lý địa bàn đó.
 - **Quy tắc 2 (Phân bổ theo tiêu thức):** Bút toán tại Hội sở (mã tỉnh `'00'`, vùng `'A'`) được chia về 7 vùng dựa trên tỷ lệ thực tế của từng tiêu thức:
 
@@ -176,7 +178,7 @@ Tính đến hết tháng 5/2023, lợi nhuận trước thuế lũy kế toàn 
    Mặc dù quy mô nhỏ (chỉ 5 quản lý vùng), Nam Trung Bộ duy trì tỷ lệ nợ xấu thấp nhất ngân hàng (**11,24%**) và có **4/5 quản lý vùng** nằm trong nhóm 25 vị trí dẫn đầu toàn quốc.
 
 ### Năm đề xuất hành động cụ thể gửi Ban Lãnh Đạo
-Từ kết quả phân tích, Analyst đề xuất 5 nội dung hành động gắn rõ trách nhiệm và thời hạn:
+Từ kết quả phân tích thực tế, 5 nội dung hành động quản trị cụ thể được đề xuất gắn rõ trách nhiệm và thời hạn:
 
 | # | Đề xuất quản trị | Căn cứ số liệu tháng 5/2023 | Đơn vị phụ trách · Thời hạn |
 |:---:|:---|:---|:---|
@@ -190,7 +192,7 @@ Từ kết quả phân tích, Analyst đề xuất 5 nội dung hành động g�
 
 ## 7. 📚 Kinh Nghiệm Triển Khai Thực Chiến
 
-1. **Tư duy định hình "Đầu ra" trước khi bắt tay vào dữ liệu:** Việc phác thảo cấu trúc báo cáo quản trị và các câu hỏi điều hành ngay từ đầu giúp Analyst xác định chính xác những trường thông tin cần lấy từ các phòng ban, tránh tình trạng thu thập dàn trải nhưng thiếu các chỉ số cốt lõi.
+1. **Tư duy định hình "Đầu ra" trước khi bắt tay vào dữ liệu:** Việc phác thảo cấu trúc báo cáo quản trị và các câu hỏi điều hành ngay từ đầu giúp xác định chính xác những trường thông tin cần lấy từ các phòng ban, tránh tình trạng thu thập dàn trải nhưng thiếu các chỉ số cốt lõi.
 2. **Hiểu bản chất kế toán quản trị và dòng tiền trước khi viết code:** Trong hệ thống ngân hàng, việc hiểu rõ tại sao chi phí vốn mang dấu âm, vì sao chi phí Hội sở mang mã tỉnh `'00'` và vùng `'A'` là điều kiện tiên quyết để xây dựng câu lệnh SQL phân bổ chính xác.
 3. **Làm sạch dữ liệu danh mục là yếu tố bảo vệ tính đúng đắn của báo cáo:** Phát hiện sự sai lệch giữa chuỗi ký tự "Bà Rịa - Vũng Tàu" và "Vũng Tàu" trong quá trình tiền xử lý đã giữ lại trọn vẹn hơn 36.000 hợp đồng thẻ, ngăn chặn sai lệch nghiêm trọng đối với tỷ lệ nợ xấu của vùng Đông Nam Bộ.
 4. **Không bao giờ đánh giá hiệu quả kinh doanh qua một con số tổng duy nhất:** Một con số lợi nhuận dương đẹp mắt có thể che giấu sự suy giảm của hoạt động kinh doanh cốt lõi hoặc sự bùng nổ của nợ xấu tiềm ẩn. Phân rã cấu phần và so sánh đa chiều là chìa khoá của phân tích dữ liệu chuyên nghiệp.
