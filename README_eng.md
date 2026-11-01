@@ -36,7 +36,22 @@
 
 ## 1. 🏢 Business Context And Executive Requirements
 
+### Credit card operational background
 Across the bank's credit card operations, distribution networks are structured into **7 business regions**, managed directly by a field leadership network of **74 to 84 Area Sales Managers (ASMs)** depending on the period. In periodic executive committee meetings, leadership consistently faced chronic managerial dilemmas arising from conventional reporting methods:
+
+### State 1 – Initial Broad Business Request
+Executive Leadership initiated the assignment with a broad managerial mandate:
+> *Build a management reporting system to monitor credit card business performance across regions and evaluate the operational effectiveness of the Area Sales Management network.*
+
+At the inception point, this mandate was entirely **unspecified in operational and technical detail**:
+- Profitability calculation formulas for individual regions were undefined.
+- Methods for distributing centralized Head Office costs were unspecified.
+- Performance and credit risk metrics were not yet selected.
+- Evaluation criteria for sales management remained unestablished.
+- Scoring algorithms, ranking methodologies, and dashboard architectures were wholly unmapped.
+
+### Identified business ambiguities and governance challenges
+Through field operational analysis, three critical challenges emerged from legacy reporting practices:
 
 1. **True economic profitability was obscured:**
    In general accounting ledgers, business regions directly record revenue from loan interest and card fees. However, major operating expenses such as funding costs, central marketing campaigns, core technology infrastructure, and back-office support salaries are booked centrally under the Head Office pool. Without an equitable, driver-based cost allocation mechanism, conventional reporting showed every region as profitable, masking territories that were actually eroding overall bank value.
@@ -61,26 +76,27 @@ Addressing these management dilemmas, Executive Leadership formulated 5 key busi
 
 ## 2. 🎯 Requirement Analysis And Report Output Design
 
-Upon receiving executive directions, the primary challenge was that requirements were framed as high-level governance objectives without pre-existing reporting templates or technical specifications. Therefore, the approach began with **Output-First thinking (reverse-engineering from business decision needs)**: determining the critical management perspectives required by leadership before searching for data.
+### State 2 – Refined Business Requirements through Domain Analysis
+To translate high-level governance mandates into an engineering blueprint, the approach began with **Output-First thinking (reverse-engineering from business decision needs)**: systematically analyzing each domain dimension, clarifying unresolved questions, and mapping target output deliverables prior to dataset sourcing.
 
-### Mapping executive requirements to concrete report deliverables:
+### Business clarification and deliverable definition matrix:
 
-| Executive Requirement | Deliverable To Engineer | Information Displayed |
-|---|---|---|
-| **Monitor True P&L** | 7-Region Management P&L Report | Net card income, cost of funds, operating expenses, provision charges, profit before tax (PBT) |
-| **Decompose Variance** | Monthly Profit Flow Waterfall | Month-over-month (MoM) variance decomposing 6 revenue and cost drivers |
-| **Monitor Credit Risk** | Profit – Risk Quadrant Matrix | Classify 7 regions into 4 strategic governance quadrants along Profit and NPL axes |
-| **Evaluate Sales Managers** | ASM Balanced Scorecard | 8 indicators evaluated across 2 independent pillars (Commercial Scale vs Financial Efficiency/Risk) |
-| **Multi-Tier Delivery** | Integrated Reporting Ecosystem | Interactive Power BI dashboard for executives; cell-level Excel reconciliation workbook for finance |
+| Initial Request | Unresolved Ambiguity | Business Domain Finding | Required Output Deliverable |
+|---|---|---|---|
+| **Monitor Commercial Results** | Does regional profit absorb Head Office expenses? What rules apply? | Must fully allocate indirect costs (funding, OPEX, provisions) across 7 regions using economic drivers | **7-Region Management P&L Report**: Net revenue, cost of funds, OPEX, provision charges, profit before tax (PBT) |
+| **Analyze Variance Dynamics** | Does profit variance stem from sales expansion or provision write-backs? | Must separate cumulative YTD balances into monthly flows, decomposing line-item contributions | **Monthly Profit Flow Waterfall**: Month-over-month (MoM) variance decomposing 6 revenue and cost drivers |
+| **Monitor Credit Risk** | How can leadership spot rising delinquency threatening capital soundness? | Must plot profit generation against territorial NPL ratios on a unified scale | **Profit – Risk Quadrant Matrix**: Classify 7 regions into 4 strategic governance quadrants |
+| **Evaluate Sales Managers** | What criteria evaluate ASMs without incentivizing loose credit underwriting? | Must balance Commercial Scale (50%) equally against Risk Discipline & Financial Efficiency (50%) | **ASM Balanced Scorecard & Ranking**: 8 indicators evaluated across 2 independent pillars |
+| **Multi-Tier Decision Support**| What reporting formats accommodate diverse divisional habits? | Executives require instant visual exploration; Finance requires cell-level formula auditability | **Integrated Ecosystem**: 5-page Power BI dashboard and audit-grade 7-sheet Excel model |
 
 ### Logical architecture from business requirements to reporting deliverables:
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                              EXECUTIVE GOVERNANCE REQUIREMENTS                         │
-│   1. Measure true economic regional P&L  │   2. Establish balanced ASM scorecards      │
+│                        INITIAL BROAD EXECUTIVE GOVERNANCE MANDATE                      │
+│   1. Regional card business P&L reporting        │   2. Field sales management evaluation│
 └───────────────────────────────────┬────────────────────────────────────────────────────┘
-                                    │ (Output-First Design Methodology)
+                                    │ (Domain analysis & Requirement refinement)
                                     ▼
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
 │                                TARGET REPORTING OUTPUT GROUPS                          │
@@ -109,23 +125,24 @@ Upon receiving executive directions, the primary challenge was that requirements
 
 ## 3. 🔍 Data Discovery And Assessment
 
-The bank lacked a centralized data mart or a single comprehensive table capable of satisfying the target outputs. After establishing target deliverables, an active cross-departmental data discovery process was undertaken to gather the required operational data components:
+### Data discovery tied to target metric feasibility
+The bank lacked a centralized data mart or a single comprehensive table capable of satisfying the target outputs. Data discovery was not conducted in isolation; every data attribute collected had to justify its existence by anchoring directly to a target deliverable metric:
 
-| Supplying Department | Source Dataset | Volume | Role In Fulfilling Desired Outputs |
+| Supplying Department | Source Dataset | Volume | Role In Fulfilling Desired Outputs & Key Joins |
 |---|---|---:|---|
-| **Accounting & Finance** | General Ledger (`fact_txn_month`) | **63,134** entries | Captures line-item revenue and cost entries; includes 62,953 branch-tagged entries (direct regional assignment) and 181 centralized Head Office entries (pool `'00'`, requiring allocation). |
-| **Card Operations** | Card Contract Statements (`fact_kpi_month`) | **2,932,914** rows | Records customer-level credit balances across 5 debt buckets, written-off accounts, and turnover across 5 months; serves as the basis for regional NPL calculation and allocation driver ratios. |
-| **Network Sales Management** | Commercial Target Sheet (`kpi_asm_data`) | **420** rows | Tracks individual monthly sales targets: gross lending volume, active card count, and credit approval rates for 74 to 84 Area Sales Managers. |
-| **Planning & Data Governance** | Parameter Matrix & Template Mapping | **64** provinces | Maps 64 administrative provinces into 8 geographic management zones (Head Office `'A'` and 7 regions `'B'..'H'`) with standardized reporting layouts. |
+| **Accounting & Finance** | General Ledger (`fact_txn_month`) | **63,134** entries | Captures line-item revenue and cost entries; includes 62,953 branch-tagged entries (direct regional assignment) and 181 centralized Head Office entries (pool `'00'`, requiring allocation). Join keys: `city_code`, `account_code`. |
+| **Card Operations** | Card Contract Statements (`fact_kpi_month`) | **2,932,914** rows | Records customer-level credit balances across 5 debt buckets, written-off accounts, and turnover across 5 months; serves as the basis for regional NPL calculation and allocation driver ratios. Join keys: `branch_code`, `month_key`. |
+| **Network Sales Management** | Commercial Target Sheet (`kpi_asm_data`) | **420** rows | Tracks individual monthly sales targets: gross lending volume, active card count, and credit approval rates for 74 to 84 Area Sales Managers. Join keys: `asm_id`, `month_key`. |
+| **Planning & Data Governance** | Parameter Matrix & Template Mapping | **64** provinces | Maps 64 administrative provinces into 8 geographic management zones (Head Office `'A'` and 7 regions `'B'..'H'`) with standardized reporting layouts. Join keys: `city_code`, `area_code`. |
 
-### Data Gap Analysis:
+### Data feasibility and granularity assessment (Gap Analysis):
 
-| Target Deliverable | Required Data Inputs | Available Source Data | Data Assessment |
+| Target Deliverable | Required Data Attributes | Available Source Data | Feasibility And Granularity Assessment |
 |---|---|---|---|
-| **7-Region P&L Report** | Itemized income/expense, branch province codes, GL accounts | General Ledger and Regional Parameter Matrix | **Fully Satisfied**, but 181 Head Office entries require indirect allocation algorithms |
-| **NPL & Risk Analysis** | Credit balances across 5 buckets, written-off debt | 2.93M-row card contract statements | **Fully Satisfied** at regional level across 5 operating months |
-| **ASM Ranking Scorecard** | Individual sales targets, approval rates, personnel data | ASM Commercial Target Sheet | **Fully Satisfied** for 8 designed indicators |
-| **Individual ASM NPL Tracking**| Delinquent balances tagged directly to employee IDs | Statements contain branch codes, not employee IDs | **Partially Satisfied**: Regional NPL and financial metrics are calculated territory-wide and shared among ASMs in the same region |
+| **7-Region P&L Report** | Itemized income/expense, branch province codes, GL accounts | General Ledger (`fact_txn_month`) & Regional Parameter Matrix | **Feasible**: 62,953 entries possess province keys for direct assignment; 181 Head Office pool lines (`'00'`) require indirect allocation algorithms |
+| **Regional NPL & Risk** | Credit balances across 5 buckets, written-off debt | Card contract statements (`fact_kpi_month`) | **Feasible at regional granularity**: Branch codes allow aggregation into regional totals across 5 operating months |
+| **ASM Scale Evaluation** | Individual lending targets, active cards, approval rates | Commercial target sheet (`kpi_asm_data`) | **Feasible**: Monthly individual manager metrics available for all 74 to 84 Area Sales Managers |
+| **Individual ASM NPL Tracking**| Delinquent balances tagged directly to employee IDs | Statements contain branch codes, not employee IDs | **Infeasible at individual level**: Delinquency and financial indicators must be measured regionally and applied uniformly to ASMs within the same region |
 
 ### Technical barriers identified in raw data:
 1. **Card statement data exceeded desktop spreadsheet limits:** Containing nearly 3 million rows and weighing **117.2 MB**, the statement file crashed conventional spreadsheet tools and exhausted memory.

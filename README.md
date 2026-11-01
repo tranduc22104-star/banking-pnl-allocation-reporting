@@ -36,7 +36,22 @@
 
 ## 1. 🏢 Bối Cảnh Kinh Doanh Và Yêu Cầu Quản Trị
 
-Trong hoạt động kinh doanh thẻ tín dụng của ngân hàng, mạng lưới phân phối được tổ chức thành **7 vùng kinh doanh**, vận hành dưới sự quản lý trực tiếp của đội ngũ từ **74 đến 84 quản lý vùng (Area Sales Manager - ASM)** tuỳ từng thời kỳ. Trong công tác điều hành định kỳ, Ban Lãnh Đạo luôn phải đối mặt với những vấn đề quản trị nan giải phát sinh từ phương pháp tổng hợp và báo cáo truyền thống:
+### Bối cảnh hoạt động kinh doanh thẻ tín dụng
+Hoạt động kinh doanh thẻ tín dụng của ngân hàng được phân bổ trên mạng lưới gồm **7 vùng kinh doanh**, vận hành dưới sự quản lý trực tiếp của đội ngũ từ **74 đến 84 quản lý vùng (Area Sales Manager - ASM)** tuỳ từng thời kỳ.
+
+### Trạng thái 1 – Yêu cầu ban đầu ở mức độ tổng quát (Initial Business Request)
+Ban Lãnh Đạo đưa ra một đề bài mang tính định hướng quản trị chung:
+> *Cần xây dựng hệ thống báo cáo quản trị để theo dõi kết quả kinh doanh thẻ tín dụng tại các vùng kinh doanh và đánh giá hiệu quả hoạt động của đội ngũ quản lý vùng (ASM).*
+
+Tại thời điểm tiếp nhận, đề bài ban đầu hoàn toàn **chưa được định nghĩa cụ thể**:
+- Chưa có phương pháp xác định lợi nhuận thực tế của từng vùng.
+- Chưa có nguyên tắc phân bổ các khoản chi phí hạch toán tập trung tại Hội sở.
+- Chưa xác định bộ chỉ tiêu đo lường hiệu quả kinh doanh và rủi ro tín dụng.
+- Chưa có tiêu chí đánh giá năng lực quản lý vùng.
+- Chưa có công thức tính điểm, cơ chế xếp hạng hay cấu trúc biểu mẫu báo cáo.
+
+### Nhận diện các điểm chưa rõ và vấn đề quản trị phát sinh
+Qua khảo sát nghiệp vụ thực tế, ba bài toán nan giải được nhận diện từ phương pháp báo cáo truyền thống:
 
 1. **Hiệu quả tài chính thực chất bị che mờ:**
    Trên hệ thống sổ cái kế toán, các vùng kinh doanh trực tiếp ghi nhận thu nhập từ lãi vay và phí mở thẻ. Tuy nhiên, các khoản chi phí lớn nhất cấu thành hoạt động như chi phí vốn huy động, chi phí tiếp thị toàn ngân hàng, chi phí công nghệ lõi và lương thưởng của các phòng ban hỗ trợ lại được hạch toán tập trung tại quỹ Hội sở. Khi chưa có phương pháp phân bổ chi phí hợp lý, báo cáo bề nổi luôn cho thấy tất cả các vùng đều có lãi, dẫn đến nguy cơ che giấu những vùng thực tế đang hoạt động kém hiệu quả và ăn mòn lợi nhuận chung.
@@ -44,12 +59,12 @@ Trong hoạt động kinh doanh thẻ tín dụng của ngân hàng, mạng lư�
 2. **Cơ chế đánh giá năng lực đội ngũ quản lý vùng tiềm ẩn rủi ro tín dụng:**
    Nếu chỉ dựa trên chỉ tiêu doanh số giải ngân mới hoặc số lượng thẻ phát hành, các quản lý vùng sẽ có xu hướng nới lỏng khẩu vị rủi ro và tiêu chuẩn thẩm định tín dụng để đạt số lượng ngắn hạn. Hậu quả là doanh số tăng trưởng nhanh trong vài tháng đầu, nhưng tỷ lệ nợ xấu và chi phí trích lập dự phòng sẽ phình to ở các kỳ tiếp theo.
 
-3. **Hạn chế của phương pháp báo cáo hiện tại:**
-   Báo cáo kế toán truyền thống chỉ cung cấp số lũy kế năm (YTD) dạng tĩnh, thiếu khả năng phân rã biến động theo từng tháng, không phân biệt được lợi nhuận tăng do kinh doanh cốt lõi khởi sắc hay do biến động trích lập dự phòng rủi ro.
+3. **Hạn chế của phương pháp báo cáo kế toán tĩnh:**
+   Báo cáo kế toán hiện tại chỉ cung cấp số lũy kế năm (YTD) dạng tĩnh, thiếu khả năng phân rã biến động theo từng tháng, không phân biệt được lợi nhuận tăng do kinh doanh cốt lõi khởi sắc hay do biến động trích lập dự phòng rủi ro.
 
-Từ bối cảnh đó, Ban Lãnh Đạo đặt ra 5 câu hỏi quản trị trọng tâm cần được giải quyết:
+Từ bối cảnh đó, 5 câu hỏi quản trị trọng tâm được xác định cần giải quyết:
 
-| Vấn đề quản trị | Câu hỏi cần trả lời | Mục tiêu cần đạt |
+| Vấn đề quản trị | Câu hỏi cần giải quyết | Mục tiêu quản trị cần đạt |
 |---|---|---|
 | **Hiệu quả kinh doanh** | Vùng nào đang thực sự có lợi nhuận sau khi gánh vác chi phí chung? | Xác định chính xác lãi lỗ 7 vùng sau phân bổ Hội sở |
 | **Biến động lợi nhuận** | Nguyên nhân tăng giảm lợi nhuận hàng tháng đến từ đâu? | Bóc tách dòng chảy lợi nhuận thành các cấu phần thu – chi |
@@ -61,26 +76,27 @@ Từ bối cảnh đó, Ban Lãnh Đạo đặt ra 5 câu hỏi quản trị tr�
 
 ## 2. 🎯 Phân Tích Yêu Cầu Và Thiết Kế Đầu Ra Báo Cáo
 
-Khi tiếp nhận đề bài từ Ban Lãnh Đạo, khó khăn lớn nhất là yêu cầu chỉ dừng ở mục tiêu định hướng quản trị mà không có sẵn biểu mẫu hay đặc tả kỹ thuật chi tiết. Do đó, bước đi đầu tiên là áp dụng tư duy **Output-First (thiết kế ngược từ nhu cầu ra quyết định)**: tự đặt câu hỏi Ban Lãnh Đạo cần nhìn thấy những thông tin cốt lõi nào để điều hành, từ đó xác định cấu trúc "đầu ra" dữ liệu cụ thể trước khi đi tìm nguồn dữ liệu.
+### Trạng thái 2 – Làm rõ yêu cầu thông qua phân tích nghiệp vụ (Refined Business Requirements)
+Để chuyển đổi yêu cầu quản trị tổng quát thành bài toán kỹ thuật có thể giải quyết được, phương pháp tiếp cận là áp dụng tư duy **Output-First (thiết kế ngược từ mục tiêu ra quyết định)**: phân tích từng khía cạnh nghiệp vụ, làm rõ những điểm còn bỏ ngỏ và phác thảo cấu trúc đầu ra cần đạt được trước khi tìm kiếm dữ liệu.
 
-### Bảng chuyển giao từ yêu cầu quản trị sang đầu ra báo cáo:
+### Bảng phân tích làm rõ nghiệp vụ và xác định đầu ra:
 
-| Yêu cầu quản trị | Đầu ra cần xây dựng | Các thông tin cần hiển thị |
-|---|---|---|
-| **Theo dõi lãi lỗ thực chất** | Báo cáo kết quả kinh doanh 7 vùng | Thu nhập thẻ thuần, chi phí vốn, chi phí hoạt động, chi phí dự phòng, lợi nhuận trước thuế (PBT) |
-| **Phân tích biến động** | Báo cáo dòng chảy lợi nhuận từng tháng | Chênh lệch tháng (MoM), bóc tách 6 cấu phần đóng góp vào mức tăng/giảm lợi nhuận |
-| **Theo dõi rủi ro tín dụng** | Ma trận Lợi nhuận – Rủi ro (Quadrant Matrix) | Phân loại 7 vùng vào 4 kịch bản quản trị theo 2 trục: Lợi nhuận phát sinh và Tỷ lệ nợ xấu |
-| **Đánh giá quản lý vùng** | Bảng xếp hạng quản lý vùng (ASM Scorecard) | Đánh giá 8 chỉ số trên 2 trụ cột (Quy mô kinh doanh và Hiệu quả tài chính/Kiểm soát rủi ro) |
-| **Hỗ trợ điều hành đa cấp** | Hệ sinh thái báo cáo tích hợp | Dashboard Power BI tương tác tức thì cho lãnh đạo; tệp Excel chuẩn đối soát cho kế toán |
+| Yêu cầu ban đầu | Nội dung cần làm rõ | Kết quả phân tích nghiệp vụ | Yêu cầu đầu ra cần xây dựng |
+|---|---|---|---|
+| **Theo dõi kết quả kinh doanh** | Lãi lỗ từng vùng có tính chi phí Hội sở không? Tính theo nguyên tắc nào? | Phải tính đầy đủ chi phí gián tiếp (vốn, vận hành, dự phòng) về 7 vùng theo tiêu thức kinh tế hợp lý | **Báo cáo P&L quản trị 7 vùng**: Thu nhập thuần, chi phí vốn, chi phí hoạt động, dự phòng rủi ro, lợi nhuận trước thuế (PBT) |
+| **Theo dõi biến động kinh doanh** | Lợi nhuận tăng/giảm do hoạt động bán hàng hay do biến động trích lập dự phòng? | Cần phân rã số lũy kế thành số phát sinh riêng từng tháng và bóc tách các cấu phần thu – chi | **Báo cáo dòng chảy lợi nhuận (Waterfall)**: Chênh lệch tháng (MoM), bóc tách mức đóng góp của 6 cấu phần |
+| **Theo dõi chất lượng tín dụng** | Làm sao phát hiện sớm rủi ro nợ xấu đe dọa an toàn vốn tại từng vùng? | Cần đối chiếu tương quan giữa tăng trưởng lợi nhuận và tỷ lệ nợ xấu trên cùng một mặt bằng | **Ma trận Lợi nhuận – Rủi ro (Quadrant Matrix)**: Phân loại 7 vùng vào 4 kịch bản quản trị |
+| **Đánh giá hiệu quả quản lý vùng** | Hiệu quả ASM cần được đo lường bằng những yếu tố nào để tránh chạy theo số lượng? | Cần kết hợp hài hoà giữa chỉ tiêu Quy mô kinh doanh (50%) và Kỷ luật tài chính / Rủi ro (50%) | **Thẻ điểm và Bảng xếp hạng ASM (Scorecard)**: Đánh giá 8 chỉ số trên 2 trụ cột độc lập |
+| **Hỗ trợ công tác điều hành** | Cần theo dõi thông tin theo hình thức nào để phục vụ đa dạng nhu cầu? | Lãnh đạo cần dashboard tương tác trực quan tức thì; Kế toán cần file Excel công thức đối soát | **Hệ sinh thái báo cáo tích hợp**: Dashboard Power BI 5 trang và tệp Excel 7 sheet đối soát |
 
 ### Sơ đồ luồng tư duy từ yêu cầu quản trị đến hệ thống báo cáo:
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                                YÊU CẦU CỦA BAN LÃNH ĐẠO                                │
-│   1. Đo lường lãi lỗ thực chất 7 vùng    │   2. Đánh giá công bằng năng lực quản lý ASM│
+│                          YÊU CẦU BAN ĐẦU TỔNG QUÁT CỦA BAN LÃNH ĐẠO                    │
+│   1. Báo cáo kết quả kinh doanh thẻ theo vùng    │   2. Đánh giá hiệu quả đội ngũ ASM  │
 └───────────────────────────────────┬────────────────────────────────────────────────────┘
-                                    │ (Tư duy thiết kế Output-First)
+                                    │ (Phân tích nghiệp vụ & Làm rõ yêu cầu)
                                     ▼
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
 │                              CÁC NHÓM ĐẦU RA DỮ LIỆU CẦN THIẾT                         │
@@ -109,23 +125,24 @@ Khi tiếp nhận đề bài từ Ban Lãnh Đạo, khó khăn lớn nhất là 
 
 ## 3. 🔍 Khảo Sát Nguồn Dữ Liệu Và Đánh Giá Mức Độ Đáp Ứng
 
-Ngân hàng không có sẵn một kho dữ liệu tập trung hay một bảng số liệu duy nhất đáp ứng ngay các yêu cầu đầu ra đã thiết kế. Sau khi đã định hình rõ bức tranh đầu ra cần đạt được, bước tiếp theo là chủ động đi khảo sát, tìm kiếm nguồn dữ liệu từ nhiều phòng ban nghiệp vụ khác nhau để thu thập từng mảnh ghép thông tin:
+### Khảo sát dữ liệu gắn liền với tính khả thi của bài toán
+Ngân hàng không có sẵn một kho dữ liệu tập trung hay một bảng số liệu duy nhất đáp ứng ngay các yêu cầu đầu ra đã thiết kế. Việc tìm kiếm dữ liệu không diễn ra độc lập, mà mỗi trường dữ liệu phải gắn chặt với một chỉ tiêu đầu ra cụ thể:
 
-| Phòng ban cung cấp | Nguồn dữ liệu | Quy mô | Vai trò đáp ứng đầu ra |
+| Phòng ban cung cấp | Nguồn dữ liệu | Quy mô | Vai trò đáp ứng đầu ra và Khóa kết nối |
 |---|---|---:|---|
-| **Khối Kế toán & Tài chính** | Sổ cái tài khoản kế toán (`fact_txn_month`) | **63.134** bút toán | Cung cấp số liệu thu - chi thực tế; gồm 62.953 dòng gắn mã tỉnh thành (gán trực tiếp cho vùng) và 181 dòng chi phí chung hạch toán tại Hội sở (mã tỉnh `'00'`, cần phân bổ). |
-| **Khối Vận hành Thẻ** | Sao kê hợp đồng thẻ tín dụng (`fact_kpi_month`) | **2.932.914** dòng | Cung cấp toàn bộ dư nợ theo 5 nhóm nợ, nợ đã xử lý rủi ro (write-off) và doanh số từng hợp đồng qua 5 tháng; làm căn cứ tính tỷ lệ nợ xấu và tạo tiêu thức phân bổ chi phí Hội sở. |
-| **Khối Quản lý Mạng lưới** | Bảng chỉ tiêu kinh doanh (`kpi_asm_data`) | **420** dòng | Cung cấp kết quả kinh doanh cá nhân: doanh số giải ngân mới, số thẻ hoạt động và tỷ lệ duyệt hồ sơ của 74 đến 84 quản lý vùng theo tháng để phục vụ xếp hạng. |
-| **Phòng Kế hoạch & Quản trị Dữ liệu** | Bảng tham số địa bàn và biểu mẫu đối chiếu | **64** tỉnh thành | Cung cấp quy tắc quy đổi 64 tỉnh thành về 8 vùng địa lý (Hội sở `'A'` và 7 vùng kinh doanh `'B'..'H'`) kèm mẫu biểu định dạng báo cáo. |
+| **Khối Kế toán & Tài chính** | Sổ cái tài khoản kế toán (`fact_txn_month`) | **63.134** bút toán | Cung cấp số liệu thu - chi thực tế; gồm 62.953 dòng gắn mã tỉnh thành (gán trực tiếp cho vùng) và 181 dòng chi phí chung hạch toán tại Hội sở (mã tỉnh `'00'`, cần phân bổ). Khóa liên kết: `city_code`, `account_code`. |
+| **Khối Vận hành Thẻ** | Sao kê hợp đồng thẻ tín dụng (`fact_kpi_month`) | **2.932.914** dòng | Cung cấp toàn bộ dư nợ theo 5 nhóm nợ, nợ đã xử lý rủi ro (write-off) và doanh số từng hợp đồng qua 5 tháng; làm căn cứ tính tỷ lệ nợ xấu và tạo tiêu thức phân bổ chi phí Hội sở. Khóa liên kết: `branch_code`, `month_key`. |
+| **Khối Quản lý Mạng lưới** | Bảng chỉ tiêu kinh doanh (`kpi_asm_data`) | **420** dòng | Cung cấp kết quả kinh doanh cá nhân: doanh số giải ngân mới, số thẻ hoạt động và tỷ lệ duyệt hồ sơ của 74 đến 84 quản lý vùng theo tháng để phục vụ xếp hạng. Khóa liên kết: `asm_id`, `month_key`. |
+| **Phòng Kế hoạch & Quản trị Dữ liệu** | Bảng tham số địa bàn và biểu mẫu đối chiếu | **64** tỉnh thành | Cung cấp quy tắc quy đổi 64 tỉnh thành về 8 vùng địa lý (Hội sở `'A'` và 7 vùng kinh doanh `'B'..'H'`) kèm mẫu biểu định dạng báo cáo. Khóa liên kết: `city_code`, `area_code`. |
 
-### Đánh giá mức độ đáp ứng của dữ liệu (Gap Analysis):
+### Đánh giá tính khả thi và khoảng cách dữ liệu (Gap Analysis):
 
-| Đầu ra cần xây dựng | Dữ liệu yêu cầu | Dữ liệu hiện có | Đánh giá mức độ đáp ứng |
+| Đầu ra cần xây dựng | Trường dữ liệu yêu cầu | Nguồn dữ liệu hiện có | Đánh giá tính khả thi và độ chi tiết (Granularity) |
 |---|---|---|---|
-| **Báo cáo lãi lỗ 7 vùng** | Thu nhập, chi phí chi tiết, mã tỉnh, mã tài khoản kế toán | Sổ cái kế toán và Bảng tham số vùng | **Đáp ứng tốt**, nhưng 181 dòng chi phí Hội sở cần thuật toán phân bổ gián tiếp |
-| **Báo cáo nợ xấu & rủi ro** | Dư nợ phân loại theo 5 nhóm nợ, nợ write-off | Sao kê hợp đồng thẻ 2,93 triệu dòng | **Đáp ứng tốt** ở cấp độ toàn vùng qua 5 tháng |
-| **Xếp hạng quản lý vùng** | Chỉ tiêu kinh doanh cá nhân và nhân sự | Bảng chỉ tiêu kinh doanh ASM | **Đáp ứng đầy đủ** cho 8 chỉ số theo thiết kế |
-| **Đánh giá nợ xấu từng cá nhân ASM** | Dư nợ xấu gắn trực tiếp theo mã nhân sự ASM | Dữ liệu thẻ chỉ có mã chi nhánh, không có mã ASM | **Chưa đáp ứng chi tiết**: Nợ xấu và chỉ số tài chính tính ở cấp vùng và dùng chung cho các ASM cùng vùng |
+| **Báo cáo lãi lỗ 7 vùng** | Thu nhập, chi phí chi tiết, mã tỉnh, mã tài khoản | Sổ cái kế toán (`fact_txn_month`) & Bảng tham số | **Khả thi**: 62.953 dòng có mã tỉnh để gán trực tiếp; 181 dòng chi phí Hội sở (mã `'00'`) cần thuật toán phân bổ gián tiếp theo tiêu thức |
+| **Báo cáo nợ xấu & rủi ro vùng** | Dư nợ 5 nhóm nợ, nợ write-off theo chi nhánh | Sao kê hợp đồng thẻ (`fact_kpi_month`) | **Khả thi ở cấp vùng**: Dữ liệu có mã chi nhánh, tổng hợp được dư nợ và nợ xấu cho 7 vùng qua 5 tháng |
+| **Xếp hạng quản lý vùng** | Chỉ tiêu kinh doanh cá nhân và nhân sự | Bảng chỉ tiêu kinh doanh ASM (`kpi_asm_data`) | **Khả thi**: Dữ liệu theo dõi chi tiết từng tháng cho 74 đến 84 quản lý vùng |
+| **Đánh giá nợ xấu từng cá nhân ASM** | Dư nợ xấu gắn trực tiếp theo mã nhân sự ASM | Dữ liệu hợp đồng thẻ chỉ gắn mã chi nhánh, không có mã ASM | **Chưa đáp ứng chi tiết**: Không thể phân định nợ xấu riêng lẻ từng người; chỉ số nợ xấu và tài chính phải tính chung cấp vùng và áp dụng đồng nhất cho các ASM trong vùng |
 
 ### Nhận diện ba rào cản kỹ thuật của dữ liệu thô:
 1. **Dữ liệu sao kê hợp đồng thẻ vượt quá giới hạn Excel:** Tệp dữ liệu có gần 3 triệu dòng, nặng **117,2 MB** khiến các công cụ xử lý bảng tính thông thường bị treo hoặc tràn bộ nhớ.
