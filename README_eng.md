@@ -33,30 +33,30 @@
 ## 1. 🏢 Business Context And Executive Requirements
 
 ### Credit card operational background
-Across the bank's credit card operations, distribution networks are structured into **7 business regions**, managed directly by a field leadership network of **74 to 84 Area Sales Managers (ASMs)** depending on the period. In periodic executive committee meetings, leadership consistently faced chronic managerial dilemmas arising from conventional reporting methods:
+Credit card operations are distributed across **7 business regions** nationwide. Each region is managed directly by an Area Sales Management team, with total managerial headcount fluctuating between **74 to 84 Area Sales Managers (ASMs)** depending on the period.
 
 ### State 1 – Initial Broad Business Request
-Executive Leadership initiated the assignment with a broad managerial mandate:
+Executive Leadership initiated the assignment with a general management mandate:
 > *Build a management reporting system to monitor credit card business performance across regions and evaluate the operational effectiveness of the Area Sales Management network.*
 
-At the inception point, this mandate was entirely **unspecified in operational and technical detail**:
-- Profitability calculation formulas for individual regions were undefined.
-- Methods for distributing centralized Head Office costs were unspecified.
-- Performance and credit risk metrics were not yet selected.
-- Evaluation criteria for sales management remained unestablished.
-- Scoring algorithms, ranking methodologies, and dashboard architectures were wholly unmapped.
+At the inception point, this request was entirely **unspecified in technical and business details**:
+- Profitability calculation methods for individual regions were undefined.
+- Principles for allocating centralized Head Office costs were unspecified.
+- Business performance and credit risk metrics were not yet defined.
+- Evaluation criteria for Area Sales Managers remained unestablished.
+- Scoring formulas, ranking mechanisms, and report templates were wholly unmapped.
 
-### Identified business ambiguities and governance challenges
-Through field operational analysis, three key management issues emerged from legacy reporting practices:
+### Identified ambiguities and business management challenges
+Reviewing legacy reporting methods revealed three core management challenges:
 
-1. **True economic profitability was obscured:**
-   In general accounting ledgers, business regions directly record revenue from loan interest and card fees. However, major operating expenses such as funding costs, central marketing campaigns, core technology infrastructure, and back-office support salaries are booked centrally under the Head Office pool. Without an equitable, driver-based cost allocation mechanism, conventional reporting showed every region as profitable, masking territories that were actually significantly reducing overall bank value.
+1. **Financial profitability was not fully reflected:**
+   In general accounting ledgers, business branches directly record revenue from loan interest and card fees. However, major operating expenses such as funding costs, central marketing, core technology, and back-office support salaries are booked centrally under the Head Office pool. Without cost allocation, current reports showed all regions as profitable, making it difficult to identify underperforming regions.
 
-2. **Sales personnel evaluation incentivized credit risk expansion:**
-   When Area Sales Managers were evaluated purely on gross new lending volume or active card issuance counts, managers were naturally incentivized to lower underwriting standards to hit short-term targets. As a consequence, volume expanded rapidly in early months, but non-performing loan (NPL) ratios and provision charges surged in subsequent periods.
+2. **Sales manager evaluation incentivized credit risk expansion:**
+   Evaluating Area Sales Managers purely on gross lending volume or active card issuance encouraged relaxing underwriting criteria to meet short-term targets. While this delivered rapid initial growth, non-performing loans (NPL) and provision expenses increased substantially in subsequent periods.
 
-3. **Limitations of conventional reporting:**
-   Standard financial accounting reports only provided static year-to-date (YTD) aggregates, lacking the capability to decompose monthly variations or differentiate between profit growth driven by core commercial expansion versus reductions in credit provision charges.
+3. **Limitations of static financial reporting:**
+   Current accounting reports only provided static year-to-date (YTD) aggregates without monthly variance breakdowns, failing to distinguish whether profit growth came from core business expansion or provision expense fluctuations.
 
 Addressing these management dilemmas, Executive Leadership formulated 5 key business questions:
 
@@ -73,7 +73,7 @@ Addressing these management dilemmas, Executive Leadership formulated 5 key busi
 ## 2. 🎯 Requirement Analysis And Report Output Design
 
 ### State 2 – Refined Business Requirements through Domain Analysis
-To translate high-level governance mandates into an engineering blueprint, the approach began with **Output-First thinking (reverse-engineering from business decision needs)**: systematically analyzing each domain dimension, clarifying unresolved questions, and mapping target output deliverables prior to dataset sourcing.
+Translating initial requests into an analytical solution required determining what information leadership needed to monitor regional performance and evaluate Area Sales Managers (ASMs). Therefore, reporting outputs were designed first (Output-First) and refined based on data exploration results.
 
 ### Business clarification and deliverable definition matrix:
 
@@ -83,7 +83,7 @@ To translate high-level governance mandates into an engineering blueprint, the a
 | **Analyze Variance Dynamics** | Does profit variance stem from sales expansion or provision write-backs? | Must separate cumulative YTD balances into monthly flows, decomposing line-item contributions | **Monthly Profit Flow Waterfall**: Month-over-month (MoM) variance decomposing 6 revenue and cost drivers |
 | **Monitor Credit Risk** | How can leadership spot rising delinquency threatening capital soundness? | Must plot profit generation against territorial NPL ratios on a unified scale | **Profit – Risk Quadrant Matrix**: Classify 7 regions into 4 strategic governance quadrants |
 | **Evaluate Sales Managers** | What criteria evaluate ASMs without incentivizing loose credit underwriting? | Must balance Commercial Scale (50%) equally against Risk Discipline & Financial Efficiency (50%) | **ASM Balanced Scorecard & Ranking**: 8 indicators evaluated across 2 independent pillars |
-| **Multi-Tier Decision Support**| What reporting formats accommodate diverse divisional habits? | Executives require instant visual exploration; Finance requires cell-level formula auditability | **Integrated Ecosystem**: 5-page Power BI dashboard and audit-grade 7-sheet Excel model |
+| **Multi-Tier Decision Support**| What reporting formats accommodate diverse divisional habits? | Executives require instant visual exploration; Finance requires cell-level formula auditability | **Integrated Reporting System**: 5-page Power BI dashboard and audit-grade 7-sheet Excel model |
 
 ### Logical architecture from business requirements to reporting deliverables:
 
@@ -96,13 +96,13 @@ To translate high-level governance mandates into an engineering blueprint, the a
                                     ▼
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
 │                                TARGET REPORTING OUTPUT GROUPS                          │
-├────────────────────────────────────────┬───────────────────────────────────────────────┤
-│ GROUP 1: REGIONAL MANAGEMENT P&L       │ GROUP 2: AREA SALES MANAGEMENT RANKING        │
-│ • Gross card income, funding cost,     │ • Individual sales volume: Gross lending,     │
-│   operating expense, loan provisions   │   active credit cards, approval rate          │
-│ • Head Office cost allocation drivers  │ • Territorial stewardship: Regional NPL,      │
-│ • Monthly profit variance decomposition│   regional CIR, Margin, average profit / ASM  │
-└───────────────────────────────────┬────────────────────────────────────────────────────┘
+99: ├────────────────────────────────────────┬───────────────────────────────────────────────┤
+100: │ GROUP 1: REGIONAL MANAGEMENT P&L       │ GROUP 2: AREA SALES MANAGEMENT RANKING        │
+101: │ • Gross card income, funding cost,     │ • Individual sales volume: Gross lending,     │
+102: │   operating expense, loan provisions   │   active credit cards, approval rate          │
+103: │ • Head Office cost allocation drivers  │ • Territorial stewardship: Regional NPL,      │
+104: │ • Monthly profit variance decomposition│   regional CIR, Margin, average profit / ASM  │
+105: └───────────────────────────────────┬────────────────────────────────────────────────────┘
                                     │ (Translation to visual delivery layer)
                                     ▼
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
@@ -113,16 +113,16 @@ To translate high-level governance mandates into an engineering blueprint, the a
 └────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### Functional distinction between metric groups:
-- **Commercial Performance Metrics (P&L, Regional NPL, CIR, Margin):** Measure the comprehensive financial viability of geographic territories after absorbing indirect Head Office costs, informing capital allocation and credit limit governance.
-- **Managerial Performance Metrics (8-Indicator Area Sales Management - ASM Ranking):** Balance individual sales achievement against regional risk discipline to encourage sustainable growth, disincentivizing loose credit standards for short-term volume.
+### Roles of the two indicator groups:
+- **Commercial Performance Metrics (P&L, Regional NPL, CIR, Margin):** Reflect the comprehensive financial health of each region after absorbing indirect Head Office costs, supporting leadership decisions on capital and credit limit allocation.
+- **Area Sales Management Evaluation Metrics (8 ranking indicators):** Combine individual sales achievement with regional credit quality to foster sustainable motivation, preventing the pursuit of short-term volume at the expense of credit risk.
 
 ---
 
 ## 3. 🔍 Data Discovery And Assessment
 
-### Data discovery tied to target metric feasibility
-The bank lacked a centralized data mart or a single comprehensive table capable of satisfying the target outputs. Data discovery was not conducted in isolation; every data attribute collected had to justify its existence by anchoring directly to a target deliverable metric:
+### Data discovery aligned with target output requirements
+The bank lacked a centralized data mart or single comprehensive table meeting all target output requirements. Data exploration was directly anchored to specific deliverable metrics:
 
 | Supplying Department | Source Dataset | Volume | Role In Fulfilling Desired Outputs & Key Joins |
 |---|---|---:|---|
@@ -140,16 +140,16 @@ The bank lacked a centralized data mart or a single comprehensive table capable 
 | **ASM Scale Evaluation** | Individual lending targets, active cards, approval rates | Commercial target sheet (`kpi_asm_data`) | **Feasible**: Monthly individual manager metrics available for all 74 to 84 Area Sales Managers |
 | **Individual ASM NPL Tracking**| Delinquent balances tagged directly to employee IDs | Statements contain branch codes, not employee IDs | **Infeasible at individual level**: Delinquency and financial indicators must be measured regionally and applied uniformly to ASMs within the same region |
 
-### Technical barriers identified in raw data:
-1. **Card statement data exceeded desktop spreadsheet limits:** Containing nearly 3 million rows and weighing **117.2 MB**, the statement file crashed conventional spreadsheet tools and exhausted memory.
-2. **Unpivoted wide-format target data:** The ASM target worksheet arranged monthly metrics across horizontal columns, preventing direct relational ingestion and table joins.
-3. **Entity resolution mismatch across systems:** Geographic naming inconsistencies (e.g., statements recording "Bà Rịa - Vũng Tàu" vs. parameter tables recording "Vũng Tàu") would drop over **36,000 credit card accounts** if joined directly, distorting Southeast regional NPL figures.
+### Three key challenges in raw data:
+1. **Card statement data exceeded standard spreadsheet limits:** Containing nearly 3 million rows and weighing **117.2 MB**, the file overwhelmed conventional spreadsheet tools.
+2. **Wide-format ASM target data:** The target worksheet arranged monthly metrics across horizontal columns, requiring transformation into a vertical (tall) relational structure.
+3. **Inconsistent dimensional naming:** Name discrepancies between departments (e.g., statements recording "Bà Rịa - Vũng Tàu" vs. parameter tables recording "Vũng Tàu") would drop over **36,000 credit card accounts** if joined directly, distorting Southeast regional NPL figures.
 
 ---
 
 ## 4. 🔄 Data Engineering And Warehouse Architecture
 
-To transform multi-source raw files into an operational reporting system, an automated end-to-end 4-stage pipeline was engineered:
+To transform multi-source raw data into a complete reporting system, the workflow is structured into 4 engineering stages:
 
 <div align="center">
 
@@ -160,7 +160,7 @@ To transform multi-source raw files into an operational reporting system, an aut
 ### Detailed engineering steps:
 
 - **Stage 1 – Data Ingestion (Python Streaming Ingestion):**
-  Utilized Python libraries (`openpyxl` combined with `zipfile` + `xml.etree` streaming parsing) to read the **117.2 MB** statement file containing nearly 3 million rows without memory overflows. Unpivoted the wide-format ASM target worksheet into normalized relational rows.
+  Utilized Python libraries (`openpyxl` combined with `zipfile` + `xml.etree` streaming parsing) to read the **117.2 MB** statement file containing nearly 3 million rows without memory overflows. Transformed the wide-format ASM target worksheet into a vertical relational data structure.
 
 - **Stage 2 – Data Cleaning (Standardization and Quality Enforcement):**
   Enforced strict data types; handled null values; implemented Vietnamese text normalization (`pos_city_norm`) to resolve province naming mismatches, salvaging 36,000 credit card contracts. Loaded clean data into 3 staging tables (`stg_fact_kpi_month`, `stg_fact_txn_month`, `stg_asm_target`) and 2 regional dimension tables (`dim_area`, `dim_param_area`).
@@ -187,7 +187,7 @@ To transform multi-source raw files into an operational reporting system, an aut
 
 ## 5. 🧮 Business Logic And Metric Design
 
-**Business Context:** In enterprise data analytics, executive leadership provides broad directional objectives rather than pre-packaged mathematical formulas, standardized KPI scorecards, or pre-calculated reconciliation workbooks. The entire calculation methodology must be independently formulated through domain analysis of financial causality, economic principles, and balanced performance governance.
+**Business Context:** In practice, Executive Leadership provides general goals rather than pre-calculated formulas, standardized KPI scorecards, or sample benchmark data. The entire calculation logic was independently built based on financial cash flow principles and management accounting standards.
 
 ### 5.1. P&L Allocation Framework
 
@@ -214,8 +214,8 @@ $$\text{Allocated Expense to Region } i = \text{Head Office Expense} \times \tex
 
 *Economic Rationale for Head Office Cost Drivers:*
 - **Treasury Cost of Funds:** Represents the bank's wholesale funding costs to finance cardholder credit balances. Driven directly by credit exposure $\rightarrow$ Allocated by **Average Performing Loan Balance (Bucket 1)**. Regions carrying higher performing credit volumes consume more internal liquidity and must bear proportional funding expenses.
-- **Credit Risk Provisioning:** Represents expected credit loss allowances. Allocated based on **Overdue Loan Balance (Buckets 2 to 5) plus Off-Balance-Sheet Write-Offs** (`d25_sau` or `dtruoc`). This driver reflects regional risk exposure as a managerial allocation proxy under centralized Head Office GL accounting, rather than an exact contract-level tracing of loan-loss provisioning.
-- **Card Technology and Operations:** IT infrastructure, telecommunications, and core banking processing costs $\rightarrow$ Allocated by **Active Card Count** or **Transaction Volume**, reflecting actual processing capacity utilization.
+- **Credit Risk Provisioning:** Represents expected credit loss allowances. Allocated based on **Overdue Loan Balance (Buckets 2 to 5) plus Off-Balance-Sheet Write-Offs** (`d25_sau` or `dtruoc`). This driver reflects regional risk exposure as an indirect managerial allocation proxy under centralized Head Office GL accounting, not contract-level tracing.
+- **Card Technology and Operations:** IT infrastructure, telecommunications, and core banking processing costs $\rightarrow$ Allocated by **Average Active Contracts with Balance** (`psdn`), representing active card portfolio scale and core infrastructure servicing rather than asserting direct transaction frequency per cardholder.
 - **Corporate Overhead and Support Headcount:** Administrative, compliance, and centralized human resource expenses $\rightarrow$ Allocated by regional **Staff Headcount**.
 - *Assumptions and Limitations:* The allocation model assumes linear cost elasticity and uniform resource consumption per driver unit across all regions; targeted local marketing campaigns are not individually isolated.
 
@@ -228,13 +228,12 @@ Enabling variance decomposition of Profit Before Tax (PBT) across 6 distinct rev
 
 Core analytical question: *If Area Sales Manager (ASM) performance is evaluated solely on new card volume, does the scorecard truly capture business profitability and risk control?*
 
-**Addressing the Single-Metric Agency Problem:**
-In commercial banking, evaluating Area Sales Managers (ASMs) strictly on gross sales volume or newly issued cards creates a perverse incentive to lower credit underwriting thresholds. This drives rapid short-term acquisition but causes delinquency spikes 3 to 6 months later, where credit risk provisions erode all gross profits.
+**Scorecard combining sales results with territorial stewardship:**
+The scorecard was designed to combine individual Area Sales Manager (ASM) sales achievements with territorial financial health and credit quality. This evaluation helps prevent focusing solely on sales volume while ignoring credit risk. However, because several metrics are available only at the regional level, the ranking results do not fully capture individual manager capability in isolation.
 
-**Designing an Area Sales Management operational scorecard (Multi-dimensional ASM Scorecard):**
-The ranking architecture is designed as an **operational scorecard aligning sales origination with territorial stewardship**, rather than a comprehensive measure of individual capability. To mitigate the agency problem between regional managers and long-term capital safety, the framework establishes 8 metrics distributed equally across 2 independent pillars, balanced by metric count and nominal rank contributions (4 metrics per pillar, each contributing an independent rank from 1 to $N$ to the composite score, without asserting an econometrically calibrated 50% weight):
-- **Pillar 1: Commercial Results and Quality Growth Control (`diem_qm`):** Combines 3 individual origination metrics (New lending volume, Average active contracts with balance, Approval rate) with 1 territorial credit quality indicator (Regional extended credit risk ratio). Crucially, a **higher approval rate is not unconditionally superior**: elevated approval rates can reflect efficient origination or relaxed underwriting thresholds. Therefore, approval rates must be evaluated concurrently with territorial risk ratios.
-- **Pillar 2: Financial Efficiency (`diem_fin`):** Encompasses 4 regional indicators (Cost-to-Income Ratio CIR, Profit Margin, Capital Productivity, Average Profit per ASM). Because credit card loan accounts lack individual ASM identifier tags (mapped only to branches and territories), assigning regional financial and risk metrics to individual scorecards enforces collective territorial accountability, eliminating myopic pursuit of short-term card counts at the expense of asset quality.
+The framework establishes 8 metrics distributed across 2 independent pillars, balanced by metric count (4 metrics per pillar, each contributing an independent rank from 1 to $N$ to the composite score, without assuming an econometrically calibrated 50% weight):
+- **Pillar 1: Commercial Results and Quality Growth Control (`diem_qm`):** Combines 3 individual sales metrics (New lending volume, Average active contracts with balance, Approval rate) with 1 territorial credit quality indicator (Regional extended credit risk ratio). Crucially, a **higher approval rate is not necessarily better**: elevated approval rates can reflect efficient origination or relaxed underwriting standards. Therefore, approval rates must be evaluated alongside regional delinquency ratios.
+- **Pillar 2: Financial Efficiency (`diem_fin`):** Encompasses 4 regional indicators (Cost-to-Income Ratio CIR, Profit Margin, Capital Productivity, Average Profit per ASM). Because card contracts lack individual manager identifiers (tracked only by branch and region), assigning regional financial and risk metrics to individual scorecards is an essential mechanism to enforce collective territorial accountability, curbing short-term volume growth at the expense of portfolio asset quality.
 
 **Clarifying the Extended Credit Risk Ratio (Including Written-Off Debts):**
 Within SQL Stored Procedures (`report_id = 204`), the implemented metric is:
@@ -282,7 +281,7 @@ $$\text{Total Score} = \text{Scale Rank Score } (diem\_qm) + \text{Financial Ran
 
 ## 6. 🧪 Data Validation And Quality Assurance
 
-**Independent Verification Context:** In real-world enterprise deployments, executive leadership does not supply pre-computed benchmark answers. The validation framework must therefore be designed as an independent 5-layer quality assurance architecture founded on mathematical invariants, double-entry accounting principles, and data integrity tests.
+**Independent Verification Context:** In real-world enterprise deployments, executive leadership does not supply pre-computed benchmark answers. The validation framework was therefore designed with 5 independent quality control layers, ensuring internal consistency and calculation accuracy across the entire data pipeline.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
@@ -360,24 +359,24 @@ All division expressions are guarded with `NULLIF(denominator, 0)`.
 ### Part B – Key Findings from May 2023 Operational Data:
 
 1. **Southwest Region – Profit growth driven primarily by declining net provisioning:**
-   - *Dữ kiện quan sát được (Observed Facts):* Regional PBT surged by **+4,267.8 million VND**, accounting for **97.2%** of total system-wide profit growth in May. However, net card income rose marginally by +16.3 million VND while OPEX reduced profit by −195.9 million VND, with net **provision charges decreasing by +4,447.3 million VND**. The territory carries the **highest extended risk ratio nationwide (21.99%)** with zero Area Sales Managers (ASMs) qualifying for the top 25 nationwide ranking.
-   - *Suy luận nghiệp vụ (Business Inferences):* Profit expansion in May was primarily driven by declining net provision charges. Concurrently, net card income increased by only 16.3 million VND, displaying limited operational revenue improvement during the period.
-   - *Giả thuyết cần xác minh thêm (Hypotheses Requiring Further Verification):* Audit whether provision reductions represent genuine recovery collections or technical restructuring; conduct on-site credit quality reviews in July.
+   - *Observed Facts:* Regional PBT surged by **+4,267.8 million VND**, accounting for **97.2%** of total system-wide profit growth in May. However, net card income rose marginally by +16.3 million VND while OPEX reduced profit by −195.9 million VND, with net **provision charges decreasing by +4,447.3 million VND**. The territory carries the **highest extended risk ratio nationwide (21.99%)** with zero Area Sales Managers (ASMs) qualifying for the top 25 nationwide ranking.
+   - *Business Inferences:* May profit growth was driven primarily by declining net provision expenses. Net income from card operations increased by only 16.3 million VND compared to the previous month, remaining essentially flat and indicating minimal improvement in core business earnings.
+   - *Hypotheses Requiring Further Verification:* Verify whether provision declines reflect genuine recovery collections or technical restructuring; conduct on-site credit quality audits in July.
 
 2. **Southeast Region – Net income expanded but bottom line remained negative under provisioning pressure:**
-   - *Dữ kiện quan sát được (Observed Facts):* The Southeast territory recorded an operating loss of **−8,787.4 million VND** during the month. Commercial sales expanded robustly with **net income surging by +3,210.7 million VND**, but was offset by **credit provision charges rising by −3,234.2 million VND**, pushing **16 out of 19 Area Sales Managers** into the lower half of national rankings despite high gross sales.
-   - *Suy luận nghiệp vụ (Business Inferences):* Negative operating income was an empirical accounting reality as monthly provision charges exceeded net commercial revenues generated during the period.
-   - *Giả thuyết cần xác minh thêm (Hypotheses Requiring Further Verification):* Conduct vintage/cohort analysis to verify the hypothesis that rapid lending expansion in prior cycles triggered overdue migrations; audit delinquent files in the Southeast within 30 days to evaluate transition rates and refine underwriting criteria.
+   - *Observed Facts:* The Southeast territory recorded an operating loss of **−8,787.4 million VND** during the month. Commercial sales expanded robustly with **net income surging by +3,210.7 million VND**, but was offset by **credit provision charges rising by −3,234.2 million VND**, pushing **16 out of 19 Area Sales Managers** into the lower half of national rankings despite high gross sales.
+   - *Business Inferences:* Operating loss was recorded because monthly credit risk provision expenses exceeded the net revenue gains generated from new business originations.
+   - *Hypotheses Requiring Further Verification:* Conduct vintage/cohort analysis to determine whether rapid past lending growth is migrating into overdue buckets; audit delinquent files in the Southeast within 30 days to evaluate transition rates and adjust underwriting standards.
 
 3. **Red River Delta – Profit Increased Due To Reduced Net Provision Expenses:**
-   - *Dữ kiện quan sát được (Observed Facts):* Regional profit expanded by **+1,310.9 million VND** MoM, whereas core net card income contracted by **−232.2 million VND** and net provision charges dropped by **+1,455.8 million VND**.
-   - *Suy luận nghiệp vụ (Business Inferences):* Contraction in net card revenue during May represents an operating signal warranting ongoing monitoring in subsequent periods, particularly as headline profit rose due to net provision decreases.
-   - *Giả thuyết cần xác minh thêm (Hypotheses Requiring Further Verification):* Because accounting entries aggregate new provisioning and recoveries into one net line, internal risk audits must inspect raw provision ledgers to differentiate between organic risk declines and technical write-backs before concluding long-term trends.
+   - *Observed Facts:* Regional profit expanded by **+1,310.9 million VND** MoM, whereas core net card income contracted by **−232.2 million VND** and net provision charges dropped by **+1,455.8 million VND**.
+   - *Business Inferences:* Contraction in net card revenue during May is a signal warranting continued monitoring in subsequent periods, especially as headline profit increased due to declining net provision expenses.
+   - *Hypotheses Requiring Further Verification:* Because accounting ledgers aggregate new provisioning and recoveries into one net line, internal audits should inspect raw provision entries to distinguish organic risk improvement from technical accounting adjustments before concluding long-term trends.
 
 4. **South Central Coast – Favorable ranking performance accompanied by low delinquency:**
-   - *Dữ kiện quan sát được (Observed Facts):* Operating with 5 ASMs, the region maintained the lowest extended risk ratio nationwide (**11.24%**) with **4 out of 5 Area Sales Managers** ranking among the top 25 nationwide.
-   - *Suy luận nghiệp vụ (Business Inferences):* These results indicate that the South Central Coast warrants further examination regarding customer origination methodologies and risk control practices.
-   - *Giả thuyết cần xác minh thêm (Hypotheses Requiring Further Verification):* Given the compact sample size (5 Area Sales Managers), detailed field surveys of local screening practices are necessary to assess feasibility prior to considering controlled pilot replication in other regions.
+   - *Observed Facts:* Operating with 5 ASMs, the region maintained the lowest extended risk ratio nationwide (**11.24%**) with **4 out of 5 Area Sales Managers** ranking among the top 25 nationwide.
+   - *Business Inferences:* These results show that the South Central Coast is an area worth studying further regarding customer origination methods and credit risk management.
+   - *Hypotheses Requiring Further Verification:* Given the compact sample size (5 Area Sales Managers), detailed field surveys of local screening practices are necessary to evaluate feasibility before considering controlled pilot replication in other regions.
 
 ### Five Concrete Management Action Plans:
 

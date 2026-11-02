@@ -12,6 +12,15 @@
 
 ## ĐÃ XONG
 ### 2026-11-02
+163. **Biên Tập Văn Phong README Tự Nhiên Theo Góc Nhìn Chuyên Môn Data Analyst**
+   - Tiếp thu phản hồi nghiệp vụ chi tiết của người dùng về việc làm tự nhiên hoá câu từ, loại bỏ văn phong cứng/AI dịch máy:
+     + Thay thế các từ ngữ quá trang trọng, khuôn mẫu ("chuyển hóa", "phân định", "hấp thụ", "triệt tiêu", "cấu thành", "định hướng quản trị", v.v.) bằng lối diễn đạt trực diện, tự nhiên của người làm phân tích dữ liệu ngân hàng.
+     + Chuyển đổi các cụm từ dịch gượng ("đóng góp thứ hạng danh nghĩa" $\rightarrow$ "đóng góp một thứ hạng vào điểm tổng", "các thứ nguyên hoàn toàn khác nhau" $\rightarrow$ "đơn vị đo lường khác nhau", "được phân bổ trên mạng lưới" $\rightarrow$ "được triển khai tại", "thiết kế ngược từ mục tiêu ra quyết định" $\rightarrow$ "xác định đầu ra cần có trước khi tìm dữ liệu", v.v.).
+     + Tách các câu dài, chứa quá nhiều ý thành câu đơn gọn gàng, rõ nghĩa.
+     + Viết lại 5 đoạn văn trọng tâm theo đúng góp ý chi tiết của người dùng: Bối cảnh hoạt động (Mục 1), Ba vấn đề quản trị cần giải quyết (Mục 1), Phân tích yêu cầu và thiết kế đầu ra Output-First (Mục 2), Bộ chỉ tiêu đánh giá quản lý vùng (Mục 5.2), và Phân tích kết quả thực tế tháng 5 (Mục 7).
+     + Đồng bộ văn phong tự nhiên song ngữ sang `README_eng.md` và `.staging/README_thuan_viet.md`, bảo toàn tuyệt đối 100% các số liệu $\ge 10$ và cấu trúc 12 chương.
+   - **Verify**: chạy `.staging/check_toc.py` (`ok`), `.staging/check_int_pair.py` (`ok`, 0 lệch số $\ge 10$), `.staging/check_readme_pair.py` (`ok`, 468 dòng đối xứng), `.staging/push_check.py` (`32 tệp, 4.86 MiB`, 0 liên kết gãy, 0 liên kết ngoài kho).
+
 162. **Làm Rõ Thuật Ngữ Quản Lý Vùng (ASM) Trong Tiêu Đề Và Toàn Bộ Nội Dung README**
    - Người dùng yêu cầu: "Xây Dựng Báo Cáo Quản Trị Kết Quả Kinh Doanh Thẻ Tín Dụng Và Đánh Giá Hiệu Quả Hoạt Động ASM, asm ghi rõ ra là quản lý vùng và các chỗ khác tương tự".
    - Đổi tiêu đề H1 thành: *Xây Dựng Báo Cáo Quản Trị Kết Quả Kinh Doanh Thẻ Tín Dụng Và Đánh Giá Hiệu Quả Hoạt Động Của Quản Lý Vùng (ASM)* (bản tiếng Anh: *Building Credit Card Business Management Reporting And Evaluating Area Sales Management Performance (ASM)*).
@@ -371,13 +380,6 @@
     - Bỏ chữ viết tắt và mũi tên trong hai câu văn của `README.md`: 'khoá ngoại thật (`fct_asm_value` → `dim_asm`)' đổi thành 'trỏ về', và chuỗi thứ tự dựng kho ở bước 5 đổi sang 'rồi / tiếp đó / cuối cùng'. Mười một mũi tên còn lại nằm trong khối mã liệt kê các bước, chỗ đó mũi tên giữ vai trò căn cột nên để nguyên.
     - Kiểm lại sau khi dời: **45 tệp sẽ đẩy lên, tổng 6,7 megabyte, tệp lớn nhất 2,79 megabyte**, không tệp vượt trần, không liên kết nội bộ gãy; `docs/` còn đúng 5 tệp.
 
-113. **Quet Lai tệp Power BI Sau Khi Người Dung Luu Va Sua Tai Lieu Theo Tệp**
-    - Người dùng lưu tệp `output/Bao cao quan tri va phan tich (Ngan Hang).pbix` lúc 10:04 ngày 2026-10-31 (2.921.894 byte). Quét lại bằng cách đọc trực tiếp `Report/definition/pages`: trang 5 **vẫn là 1920×1500 với 5 khối HTML**, khối nền và ba hộp chữ tiêu đề vẫn nằm trên trang. Kết luận: bố cục 8 khối mà tài liệu mô tả **chưa từng được lưu**, nên bên sai là tài liệu, không phải tệp.
-    - Đọc mô hình đang mở qua `Microsoft.PowerBI.AdomdClient.dll` và câu truy vấn `$SYSTEM.MDSCHEMA_MEASURES`: **73 measure**, và **đủ cả 8 measure** loại `Page3_*_HTML` / `Page5_*_HTML` đều tồn tại trong mô hình; nhóm trang 5 có 5 measure, nhóm trang 3 có 18 measure, cộng lại 23 nằm chung một thư mục đo lường — khớp phần measure của hướng dẫn dựng trang 5, chỉ khác phần bố cục.
-    - Sửa tài liệu theo tệp: viết lại đoạn trang 5 trong `docs/HIEN_TRANG_HE_THONG.md` (cỡ khung 1920×1500, năm khối kèm tọa độ thật `x/y/cao/rộng`, đáy khối cuối 1484 vừa khít khung, nêu tên ba measure bị bỏ trống là `Page5_Header_HTML`, `Page3_Quadrant_HTML`, `Page5_Method_Note_HTML` và ghi rõ bản 8 khối cao 1760 là mô tả của bản nháp chưa lưu); cập nhật số measure từ 72 lên **73** ở `README.md` và hai chỗ trong `docs/PIPELINE.md`; cập nhật dung lượng tệp `.pbix` trong `docs/PIPELINE.md`.
-    - Kiểm lại danh sách đẩy lên: **52 tệp, tổng 6,75 megabyte, tệp lớn nhất 2,79 megabyte** (chính là tệp `.pbix`), không tệp nào vượt trần 100 megabyte, không tệp nào vượt 5 megabyte ngoài nhóm ảnh và tệp `.pbix`; quét liên kết nội bộ trong mọi tệp Markdown: **không có liên kết gãy** (một chỗ bị công cụ báo là câu ghi trong nhật ký kể về việc đã bỏ liên kết, không phải liên kết thật).
-    - **Còn treo, cần người dùng quyết:** tệp `HUONG_DAN_DUNG_TRANG_5.md` (nay nằm ngoài kho mã) vẫn hướng dẫn dựng 8 khối trên khung 1920×1760 trong khi tệp hiện có 5 khối trên khung 1920×1500. Hoặc anh dựng đủ 8 khối trong Power BI Desktop rồi lưu để tệp theo kịp hướng dẫn, hoặc tôi viết lại hướng dẫn theo đúng 5 khối đang có.
-
-_Ghi chú biên tập:_ mục ĐÃ XONG giữ **50 task gần nhất (162 xuống 113)** theo trần quy định ở `AGENTS.md`. Các mục nhỏ hơn số 98 đã chuyển ra ngoài kho mã: phần lớn nằm trong `NHAT_KY_CONG_VIEC_ban_day_du_truoc_cat_20261030.md`; riêng các mục 60 đến 65, các mục 68 đến 83, các mục 84 đến 96 mục 97 mục 98 mục 99 mục 100 mục 101 mục 102 và mục 103 lưu ở thư mục lưu trữ `ARCHIVE_LESSON_11_1_20261030` trên máy người làm dự án, hỏi người bàn giao khi cần.
+_Ghi chú biên tập:_ mục ĐÃ XONG giữ **50 task gần nhất (163 xuống 114)** theo trần quy định ở `AGENTS.md`. Các mục nhỏ hơn số 98 đã chuyển ra ngoài kho mã: phần lớn nằm trong `NHAT_KY_CONG_VIEC_ban_day_du_truoc_cat_20261030.md`; riêng các mục 60 đến 65, các mục 68 đến 83, các mục 84 đến 96 mục 97 mục 98 mục 99 mục 100 mục 101 mục 102 và mục 103 lưu ở thư mục lưu trữ `ARCHIVE_LESSON_11_1_20261030` trên máy người làm dự án, hỏi người bàn giao khi cần.
 
 _Ghi chú về đường dẫn:_ các mục từ 01 đến 106 ghi theo cấu trúc thư mục **tại thời điểm viết** — `input_data/`, `pbi/`, `audit/`, `csv_staging/`, `scratch/`, `SQL/` và tên tệp `123.pbix`. Từ task 107 kho đổi sang `input/` · `ingestion/` · `sql/` · `docs/` · `output/` · `images/`; đọc đối chiếu hai cấu trúc ở `docs/HIEN_TRANG_HE_THONG.md`.
