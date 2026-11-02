@@ -97,7 +97,7 @@ To translate high-level governance mandates into an engineering blueprint, the a
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
 │                                TARGET REPORTING OUTPUT GROUPS                          │
 ├────────────────────────────────────────┬───────────────────────────────────────────────┤
-│ GROUP 1: REGIONAL MANAGEMENT P&L       │ GROUP 2: ASM PERFORMANCE RANKING              │
+│ GROUP 1: REGIONAL MANAGEMENT P&L       │ GROUP 2: AREA SALES MANAGEMENT RANKING        │
 │ • Gross card income, funding cost,     │ • Individual sales volume: Gross lending,     │
 │   operating expense, loan provisions   │   active credit cards, approval rate          │
 │ • Head Office cost allocation drivers  │ • Territorial stewardship: Regional NPL,      │
@@ -115,7 +115,7 @@ To translate high-level governance mandates into an engineering blueprint, the a
 
 ### Functional distinction between metric groups:
 - **Commercial Performance Metrics (P&L, Regional NPL, CIR, Margin):** Measure the comprehensive financial viability of geographic territories after absorbing indirect Head Office costs, informing capital allocation and credit limit governance.
-- **Managerial Performance Metrics (8-Indicator ASM Ranking):** Balance individual sales achievement against regional risk discipline to encourage sustainable growth, disincentivizing loose credit standards for short-term volume.
+- **Managerial Performance Metrics (8-Indicator Area Sales Management - ASM Ranking):** Balance individual sales achievement against regional risk discipline to encourage sustainable growth, disincentivizing loose credit standards for short-term volume.
 
 ---
 
@@ -224,14 +224,14 @@ Year-to-date accounting figures are converted into discrete monthly cash flows:
 $$V_{\text{Month } M} = V_{\text{Cumulative } M} - V_{\text{Cumulative } (M-1)}$$
 Enabling variance decomposition of Profit Before Tax (PBT) across 6 distinct revenue and expense components.
 
-### 5.2. Designing Multi-dimensional ASM Operational Scorecard
+### 5.2. Designing Area Sales Management Operational Scorecard (Multi-dimensional ASM Scorecard)
 
-Core analytical question: *If sales management performance is evaluated solely on new card volume, does the scorecard truly capture business profitability and risk control?*
+Core analytical question: *If Area Sales Manager (ASM) performance is evaluated solely on new card volume, does the scorecard truly capture business profitability and risk control?*
 
 **Addressing the Single-Metric Agency Problem:**
-In commercial banking, evaluating managers strictly on gross sales volume or newly issued cards creates a perverse incentive to lower credit underwriting thresholds. This drives rapid short-term acquisition but causes delinquency spikes 3 to 6 months later, where credit risk provisions erode all gross profits.
+In commercial banking, evaluating Area Sales Managers (ASMs) strictly on gross sales volume or newly issued cards creates a perverse incentive to lower credit underwriting thresholds. This drives rapid short-term acquisition but causes delinquency spikes 3 to 6 months later, where credit risk provisions erode all gross profits.
 
-**Designing a multi-dimensional ASM operational scorecard:**
+**Designing an Area Sales Management operational scorecard (Multi-dimensional ASM Scorecard):**
 The ranking architecture is designed as an **operational scorecard aligning sales origination with territorial stewardship**, rather than a comprehensive measure of individual capability. To mitigate the agency problem between regional managers and long-term capital safety, the framework establishes 8 metrics distributed equally across 2 independent pillars, balanced by metric count and nominal rank contributions (4 metrics per pillar, each contributing an independent rank from 1 to $N$ to the composite score, without asserting an econometrically calibrated 50% weight):
 - **Pillar 1: Commercial Results and Quality Growth Control (`diem_qm`):** Combines 3 individual origination metrics (New lending volume, Average active contracts with balance, Approval rate) with 1 territorial credit quality indicator (Regional extended credit risk ratio). Crucially, a **higher approval rate is not unconditionally superior**: elevated approval rates can reflect efficient origination or relaxed underwriting thresholds. Therefore, approval rates must be evaluated concurrently with territorial risk ratios.
 - **Pillar 2: Financial Efficiency (`diem_fin`):** Encompasses 4 regional indicators (Cost-to-Income Ratio CIR, Profit Margin, Capital Productivity, Average Profit per ASM). Because credit card loan accounts lack individual ASM identifier tags (mapped only to branches and territories), assigning regional financial and risk metrics to individual scorecards enforces collective territorial accountability, eliminating myopic pursuit of short-term card counts at the expense of asset quality.
@@ -257,7 +257,7 @@ Unlike conventional accounting NPL (which tracks only on-balance Buckets 3–5 o
 └──────────────────────────────────────────┴─────────────────────────────────────────────┘
 ```
 
-**Detailed Matrix of 8 Evaluation Metrics:**
+**Detailed Matrix of 8 Area Sales Manager Evaluation Metrics (ASM):**
 
 | Metric | Dimension Measured | Strategic Rationale | Source Table | Preferred Direction | Granularity | Analytical Limitation |
 |---|---|---|---|---|---|---|
@@ -334,13 +334,13 @@ All division expressions are guarded with `NULLIF(denominator, 0)`.
 - **Control Risk:** Latent logic divergence between PostgreSQL database storage and Power BI analytical measures.
 - **Control Principle:** Single-case reverse auditing and end-to-end multi-platform cross-validation.
 - **Implementation Method:**
-  1. *Sample Reverse Audit:* Randomly sampled 3 representative entities (Southeast Region, Northwest Region, and 1 specific ASM); recalculated numbers manually outside SQL.
+  1. *Sample Reverse Audit:* Randomly sampled 3 representative entities (Southeast Region, Northwest Region, and 1 specific Area Sales Manager - ASM); recalculated numbers manually outside SQL.
   2. *Cross-System Audit:* Exhaustive **91-cell matrix audit** (13 core financial indicators $\times$ 7 regions for May 2023) between PostgreSQL SQL queries and 72 DAX measures in Power BI.
-  3. *Independent Benchmark Comparison:* Verified against historical reference workbook `input/Tham so va mau doi chieu.xlsx` (providing mapping parameters in the Param sheet, report layout templates in BaoCaoTongHop and XepHang sheets, and historical benchmark checkpoints: February 2023 PBT reached 92,226.35 million VND, May 2023 reached 250,450.06 million VND, and Top 1 ASM nationwide awarded to regional manager nam.hoangvan with 34 points). The 5-layer verification framework operates independently, treating this file as an established historical benchmark rather than relying on external files.
+  3. *Independent Benchmark Comparison:* Verified against historical reference workbook `input/Tham so va mau doi chieu.xlsx` (providing mapping parameters in the Param sheet, report layout templates in BaoCaoTongHop and XepHang sheets, and historical benchmark checkpoints: February 2023 PBT reached 92,226.35 million VND, May 2023 reached 250,450.06 million VND, and Top 1 Area Sales Manager (ASM) nationwide awarded to regional manager nam.hoangvan with 34 points). The 5-layer verification framework operates independently, treating this file as an established historical benchmark rather than relying on external files.
 - **Observed Result:**
   - Independent manual calculations matched stored procedure outputs with zero variance.
   - All **91 audited cells between PostgreSQL and Power BI yielded exactly 0 variance**.
-  - Exact digit-level match against benchmark data: February 2023 PBT reached **92,226.35 million VND**, May 2023 reached **250,450.06 million VND**, and Top 1 ASM `nam.hoangvan` attained **34 points**.
+  - Exact digit-level match against benchmark data: February 2023 PBT reached **92,226.35 million VND**, May 2023 reached **250,450.06 million VND**, and Top 1 Area Sales Manager (ASM) nationwide awarded to manager `nam.hoangvan` with **34 points**.
 - **Known Limitation:** Manual recalculation can only cover representative audit samples; full 3-million-row coverage relies on the preceding 4 automated control layers.
 
 ---
@@ -360,7 +360,7 @@ All division expressions are guarded with `NULLIF(denominator, 0)`.
 ### Part B – Key Findings from May 2023 Operational Data:
 
 1. **Southwest Region – Profit growth driven primarily by declining net provisioning:**
-   - *Dữ kiện quan sát được (Observed Facts):* Regional PBT surged by **+4,267.8 million VND**, accounting for **97.2%** of total system-wide profit growth in May. However, net card income rose marginally by +16.3 million VND while OPEX reduced profit by −195.9 million VND, with net **provision charges decreasing by +4,447.3 million VND**. The territory carries the **highest extended risk ratio nationwide (21.99%)** with zero ASMs qualifying for the top 25 nationwide ranking.
+   - *Dữ kiện quan sát được (Observed Facts):* Regional PBT surged by **+4,267.8 million VND**, accounting for **97.2%** of total system-wide profit growth in May. However, net card income rose marginally by +16.3 million VND while OPEX reduced profit by −195.9 million VND, with net **provision charges decreasing by +4,447.3 million VND**. The territory carries the **highest extended risk ratio nationwide (21.99%)** with zero Area Sales Managers (ASMs) qualifying for the top 25 nationwide ranking.
    - *Suy luận nghiệp vụ (Business Inferences):* Profit expansion in May was primarily driven by declining net provision charges. Concurrently, net card income increased by only 16.3 million VND, displaying limited operational revenue improvement during the period.
    - *Giả thuyết cần xác minh thêm (Hypotheses Requiring Further Verification):* Audit whether provision reductions represent genuine recovery collections or technical restructuring; conduct on-site credit quality reviews in July.
 
@@ -377,7 +377,7 @@ All division expressions are guarded with `NULLIF(denominator, 0)`.
 4. **South Central Coast – Favorable ranking performance accompanied by low delinquency:**
    - *Dữ kiện quan sát được (Observed Facts):* Operating with 5 ASMs, the region maintained the lowest extended risk ratio nationwide (**11.24%**) with **4 out of 5 Area Sales Managers** ranking among the top 25 nationwide.
    - *Suy luận nghiệp vụ (Business Inferences):* These results indicate that the South Central Coast warrants further examination regarding customer origination methodologies and risk control practices.
-   - *Giả thuyết cần xác minh thêm (Hypotheses Requiring Further Verification):* Given the compact sample size (5 ASMs), detailed field surveys of local screening practices are necessary to assess feasibility prior to considering controlled pilot replication in other regions.
+   - *Giả thuyết cần xác minh thêm (Hypotheses Requiring Further Verification):* Given the compact sample size (5 Area Sales Managers), detailed field surveys of local screening practices are necessary to assess feasibility prior to considering controlled pilot replication in other regions.
 
 ### Five Concrete Management Action Plans:
 

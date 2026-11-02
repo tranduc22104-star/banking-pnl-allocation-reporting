@@ -12,6 +12,12 @@
 
 ## ĐÃ XONG
 ### 2026-11-02
+162. **Làm Rõ Thuật Ngữ Quản Lý Vùng (ASM) Trong Tiêu Đề Và Toàn Bộ Nội Dung README**
+   - Người dùng yêu cầu: "Xây Dựng Báo Cáo Quản Trị Kết Quả Kinh Doanh Thẻ Tín Dụng Và Đánh Giá Hiệu Quả Hoạt Động ASM, asm ghi rõ ra là quản lý vùng và các chỗ khác tương tự".
+   - Đổi tiêu đề H1 thành: *Xây Dựng Báo Cáo Quản Trị Kết Quả Kinh Doanh Thẻ Tín Dụng Và Đánh Giá Hiệu Quả Hoạt Động Của Quản Lý Vùng (ASM)* (bản tiếng Anh: *Building Credit Card Business Management Reporting And Evaluating Area Sales Management Performance (ASM)*).
+   - Rà soát và viết rõ toàn bộ các vị trí xuất hiện của "ASM" trong bài viết thành "quản lý vùng (ASM)", "đội ngũ quản lý vùng", hoặc "Area Sales Manager (ASM)".
+   - **Verify**: chạy `.staging/check_toc.py` (`ok`), `.staging/check_int_pair.py` (`ok`, 0 lệch số $\ge 10$), `.staging/check_readme_pair.py` (`ok`, 468 dòng đối xứng), `.staging/push_check.py` (`32 tệp, 4.86 MiB`, 0 liên kết gãy, 0 liên kết ngoài kho).
+
 161. **Hiệu Chỉnh Chuyên Môn Sâu Sắc Cho Chương 5 Và Chương 7 Theo Phản Hồi Nghiệp Vụ**
    - Hiệu chỉnh chi tiết Chương 5:
      + Chuẩn hoá giải thích Cost Driver chi phí công nghệ: đại diện cho quy mô danh mục thẻ đang hoạt động và mức độ phục vụ của hệ thống, không khẳng định phản ánh trực tiếp tần suất giao dịch của từng chủ thẻ.
@@ -372,12 +378,6 @@
     - Kiểm lại danh sách đẩy lên: **52 tệp, tổng 6,75 megabyte, tệp lớn nhất 2,79 megabyte** (chính là tệp `.pbix`), không tệp nào vượt trần 100 megabyte, không tệp nào vượt 5 megabyte ngoài nhóm ảnh và tệp `.pbix`; quét liên kết nội bộ trong mọi tệp Markdown: **không có liên kết gãy** (một chỗ bị công cụ báo là câu ghi trong nhật ký kể về việc đã bỏ liên kết, không phải liên kết thật).
     - **Còn treo, cần người dùng quyết:** tệp `HUONG_DAN_DUNG_TRANG_5.md` (nay nằm ngoài kho mã) vẫn hướng dẫn dựng 8 khối trên khung 1920×1760 trong khi tệp hiện có 5 khối trên khung 1920×1500. Hoặc anh dựng đủ 8 khối trong Power BI Desktop rồi lưu để tệp theo kịp hướng dẫn, hoặc tôi viết lại hướng dẫn theo đúng 5 khối đang có.
 
-112. **Bổ sung hai mục lỗi vào `docs/LOI_THUONG_GAP.md` sau đợt kiểm đồng bộ**
-    - Mục 39: tài liệu vẫn ghi cột `pct` trong khi bảng tạm `tmp_pnl_step2_ratio` lưu tỉ lệ ở cột `value` — người đọc chép câu kiểm `SUM(pct)=1` sẽ gặp `column "pct" does not exist`. Đã tra `information_schema.columns` để xác nhận cột thật là `month_key · area_code · area_name · report_id · value`, rồi ghi cách xử lý kèm câu kiểm đúng.
-    - Mục 40: hai đề mục cùng tên "Xếp hạng giám đốc vùng" trong `README.md` (nguyên nhân của hiện tượng người dùng gọi là "lỗi gù") — ghi lại cách đặt tên phân biệt theo phạm vi và lưu ý bảng mục lục chỉ neo ở mức `##` nên đổi tên mức `###` không làm gãy link.
-    - Cập nhật số đếm trong `README.md` ở hai chỗ: cây thư mục và mục **Tài Liệu** — từ 41 lên **43 mục lỗi** (đếm theo số mục có thật, không theo số in cuối tệp vì mục 16/18/19 vẫn đánh trùng).
-    - Cắt task 61 và 62 khỏi mục ĐÃ XONG để giữ đúng trần 50 task; hai bản này đã lưu ở tệp archive ngoài kho mã.
-
-_Ghi chú biên tập:_ mục ĐÃ XONG giữ **50 task gần nhất (161 xuống 112)** theo trần quy định ở `AGENTS.md`. Các mục nhỏ hơn số 98 đã chuyển ra ngoài kho mã: phần lớn nằm trong `NHAT_KY_CONG_VIEC_ban_day_du_truoc_cat_20261030.md`; riêng các mục 60 đến 65, các mục 68 đến 83, các mục 84 đến 96 mục 97 mục 98 mục 99 mục 100 mục 101 mục 102 và mục 103 lưu ở thư mục lưu trữ `ARCHIVE_LESSON_11_1_20261030` trên máy người làm dự án, hỏi người bàn giao khi cần.
+_Ghi chú biên tập:_ mục ĐÃ XONG giữ **50 task gần nhất (162 xuống 113)** theo trần quy định ở `AGENTS.md`. Các mục nhỏ hơn số 98 đã chuyển ra ngoài kho mã: phần lớn nằm trong `NHAT_KY_CONG_VIEC_ban_day_du_truoc_cat_20261030.md`; riêng các mục 60 đến 65, các mục 68 đến 83, các mục 84 đến 96 mục 97 mục 98 mục 99 mục 100 mục 101 mục 102 và mục 103 lưu ở thư mục lưu trữ `ARCHIVE_LESSON_11_1_20261030` trên máy người làm dự án, hỏi người bàn giao khi cần.
 
 _Ghi chú về đường dẫn:_ các mục từ 01 đến 106 ghi theo cấu trúc thư mục **tại thời điểm viết** — `input_data/`, `pbi/`, `audit/`, `csv_staging/`, `scratch/`, `SQL/` và tên tệp `123.pbix`. Từ task 107 kho đổi sang `input/` · `ingestion/` · `sql/` · `docs/` · `output/` · `images/`; đọc đối chiếu hai cấu trúc ở `docs/HIEN_TRANG_HE_THONG.md`.

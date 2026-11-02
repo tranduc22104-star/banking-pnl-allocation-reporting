@@ -1,6 +1,6 @@
 <div align="center">
 
-# Xây Dựng Báo Cáo Quản Trị Kết Quả Kinh Doanh Thẻ Tín Dụng Và Đánh Giá Hiệu Quả Hoạt Động ASM
+# Xây Dựng Báo Cáo Quản Trị Kết Quả Kinh Doanh Thẻ Tín Dụng Và Đánh Giá Hiệu Quả Hoạt Động Của Quản Lý Vùng (ASM)
 
 **Ngôn ngữ / Language**: **Tiếng Việt** · [English](README_eng.md)
 
@@ -82,7 +82,7 @@ Từ bối cảnh đó, 5 câu hỏi quản trị trọng tâm được xác đ�
 | **Theo dõi kết quả kinh doanh** | Lãi lỗ từng vùng có tính chi phí Hội sở không? Tính theo nguyên tắc nào? | Phải tính đầy đủ chi phí gián tiếp (vốn, vận hành, dự phòng) về 7 vùng theo tiêu thức kinh tế hợp lý | **Báo cáo P&L quản trị 7 vùng**: Thu nhập thuần, chi phí vốn, chi phí hoạt động, dự phòng rủi ro, lợi nhuận trước thuế (PBT) |
 | **Theo dõi biến động kinh doanh** | Lợi nhuận tăng/giảm do hoạt động bán hàng hay do biến động trích lập dự phòng? | Cần phân rã số lũy kế thành số phát sinh riêng từng tháng và bóc tách các cấu phần thu – chi | **Báo cáo dòng chảy lợi nhuận (Waterfall)**: Chênh lệch tháng (MoM), bóc tách mức đóng góp của 6 cấu phần |
 | **Theo dõi chất lượng tín dụng** | Làm sao phát hiện sớm rủi ro nợ xấu đe dọa an toàn vốn tại từng vùng? | Cần đối chiếu tương quan giữa tăng trưởng lợi nhuận và tỷ lệ nợ xấu trên cùng một mặt bằng | **Ma trận Lợi nhuận – Rủi ro (Quadrant Matrix)**: Phân loại 7 vùng vào 4 kịch bản quản trị |
-| **Đánh giá hiệu quả quản lý vùng** | Hiệu quả ASM cần được đo lường bằng những yếu tố nào để tránh chạy theo số lượng? | Cần kết hợp hài hoà giữa chỉ tiêu Quy mô kinh doanh (50%) và Kỷ luật tài chính / Rủi ro (50%) | **Thẻ điểm và Bảng xếp hạng ASM (Scorecard)**: Đánh giá 8 chỉ số trên 2 trụ cột độc lập |
+| **Đánh giá hiệu quả quản lý vùng** | Hiệu quả của quản lý vùng (ASM) cần được đo lường bằng những yếu tố nào để tránh chạy theo số lượng? | Cần kết hợp hài hoà giữa chỉ tiêu Quy mô kinh doanh (50%) và Kỷ luật tài chính / Rủi ro (50%) | **Thẻ điểm và Bảng xếp hạng Quản lý vùng (Scorecard)**: Đánh giá 8 chỉ số trên 2 trụ cột độc lập |
 | **Hỗ trợ công tác điều hành** | Cần theo dõi thông tin theo hình thức nào để phục vụ đa dạng nhu cầu? | Lãnh đạo cần dashboard tương tác trực quan tức thì; Kế toán cần file Excel công thức đối soát | **Hệ sinh thái báo cáo tích hợp**: Dashboard Power BI 5 trang và tệp Excel 7 sheet đối soát |
 
 ### Sơ đồ luồng tư duy từ yêu cầu quản trị đến hệ thống báo cáo:
@@ -90,7 +90,7 @@ Từ bối cảnh đó, 5 câu hỏi quản trị trọng tâm được xác đ�
 ```text
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
 │                          YÊU CẦU BAN ĐẦU TỔNG QUÁT CỦA BAN LÃNH ĐẠO                    │
-│   1. Báo cáo kết quả kinh doanh thẻ theo vùng    │   2. Đánh giá hiệu quả đội ngũ ASM  │
+│   1. Báo cáo kết quả kinh doanh thẻ theo vùng    │   2. Đánh giá hiệu quả quản lý vùng (ASM)   │
 └───────────────────────────────────┬────────────────────────────────────────────────────┘
                                     │ (Phân tích nghiệp vụ & Làm rõ yêu cầu)
                                     ▼
@@ -115,7 +115,7 @@ Từ bối cảnh đó, 5 câu hỏi quản trị trọng tâm được xác đ�
 
 ### Phân định vai trò hai nhóm chỉ tiêu:
 - **Nhóm chỉ tiêu theo dõi kết quả kinh doanh (P&L, NPL vùng, CIR, Margin):** Phản ánh sức khỏe tài chính tổng thể của từng vùng địa lý sau khi đã hấp thụ đầy đủ chi phí gián tiếp từ Hội sở, phục vụ quyết định phân bổ nguồn vốn và hạn mức tín dụng.
-- **Nhóm chỉ tiêu đánh giá quản lý vùng (8 chỉ số xếp hạng ASM):** Kết hợp giữa kết quả bán hàng cá nhân và kỷ luật kiểm soát rủi ro địa bàn nhằm tạo động lực thi đua lành mạnh, triệt tiêu động cơ nới lỏng tiêu chuẩn phê duyệt để chạy theo số lượng ngắn hạn.
+- **Nhóm chỉ tiêu đánh giá quản lý vùng (8 chỉ số xếp hạng quản lý vùng - ASM):** Kết hợp giữa kết quả bán hàng cá nhân và kỷ luật kiểm soát rủi ro địa bàn nhằm tạo động lực thi đua lành mạnh, triệt tiêu động cơ nới lỏng tiêu chuẩn phê duyệt để chạy theo số lượng ngắn hạn.
 
 ---
 
@@ -224,14 +224,14 @@ Dữ liệu sổ cái tích lũy từ đầu năm được chuyển đổi thàn
 $$V_{\text{tháng } M} = V_{\text{lũy kế } M} - V_{\text{lũy kế } (M-1)}$$
 Từ đó phân rã biến động Lợi nhuận trước thuế (PBT) thành 6 cấu phần thu – chi cụ thể.
 
-### 5.2. Xây dựng bộ chỉ tiêu đánh giá hiệu quả hoạt động ASM (Multi-dimensional ASM Scorecard)
+### 5.2. Xây dựng bộ chỉ tiêu đánh giá hiệu quả hoạt động quản lý vùng (Multi-dimensional ASM Scorecard)
 
-Câu hỏi nghiệp vụ đặt ra: *Nếu chỉ sử dụng doanh số phát hành thẻ để đánh giá ASM, liệu kết quả có phản ánh đầy đủ hiệu quả hoạt động và kiểm soát rủi ro không?*
+Câu hỏi nghiệp vụ đặt ra: *Nếu chỉ sử dụng doanh số phát hành thẻ để đánh giá quản lý vùng (ASM), liệu kết quả có phản ánh đầy đủ hiệu quả hoạt động và kiểm soát rủi ro không?*
 
 **Phân tích hạn chế của cơ chế đánh giá đơn chiều (Agency Problem):**
-Trong mô hình kinh doanh ngân hàng, nếu chỉ trao thưởng dựa trên chỉ tiêu số lượng thẻ phát hành hoặc doanh số giải ngân mới, các ASM sẽ bị thúc đẩy bởi động cơ tối đa hóa số lượng ngắn hạn mà nới lỏng khẩu vị rủi ro và tiêu chuẩn thẩm định tín dụng. Hệ quả là tăng trưởng nóng trong vài tháng đầu nhưng nợ xấu bùng nổ sau 3 đến 6 tháng, chi phí trích lập dự phòng sẽ làm giảm sút nghiêm trọng lợi nhuận của toàn hệ thống.
+Trong mô hình kinh doanh ngân hàng, nếu chỉ trao thưởng dựa trên chỉ tiêu số lượng thẻ phát hành hoặc doanh số giải ngân mới, các quản lý vùng (ASM) sẽ bị thúc đẩy bởi động cơ tối đa hóa số lượng ngắn hạn mà nới lỏng khẩu vị rủi ro và tiêu chuẩn thẩm định tín dụng. Hệ quả là tăng trưởng nóng trong vài tháng đầu nhưng nợ xấu bùng nổ sau 3 đến 6 tháng, chi phí trích lập dự phòng sẽ làm giảm sút nghiêm trọng lợi nhuận của toàn hệ thống.
 
-**Thiết kế bộ thẻ điểm đánh giá hiệu quả hoạt động ASM (Multi-dimensional ASM Scorecard):**
+**Thiết kế bộ thẻ điểm đánh giá hiệu quả hoạt động quản lý vùng (Multi-dimensional ASM Scorecard):**
 Bảng xếp hạng được thiết kế như một **bộ chỉ tiêu đánh giá hiệu quả kinh doanh gắn với trách nhiệm quản lý địa bàn**, chứ không phải phép đo toàn diện năng lực cá nhân. Để giải quyết xung đột lợi ích giữa người quản lý vùng và sự an toàn vốn dài hạn (Agency Problem), hệ thống thiết lập bộ thẻ điểm gồm 8 chỉ tiêu phân bổ đều trên 2 trụ cột độc lập, cân bằng về số lượng chỉ tiêu và đóng góp thứ hạng danh nghĩa (mỗi trụ cột 4 chỉ tiêu, mỗi chỉ tiêu đóng góp một thứ hạng độc lập từ 1 đến $N$ vào điểm tổng, không mặc định là trọng số kinh tế 50% hiệu chỉnh bằng mô hình định lượng):
 - **Trụ cột 1: Kết quả kinh doanh và kiểm soát chất lượng tăng trưởng (`diem_qm`):** Kết hợp 3 chỉ tiêu bán hàng cá nhân (Doanh số cho vay mới, Số thẻ phát sinh dư nợ bình quân, Tỷ lệ duyệt hồ sơ) cùng 1 chỉ tiêu kiểm soát chất lượng tín dụng toàn địa bàn (Tỷ lệ rủi ro tín dụng mở rộng toàn vùng). Cần lưu ý rằng **tỷ lệ phê duyệt hồ sơ càng cao chưa chắc càng tốt**: tỷ lệ duyệt cao có thể phản ánh khả năng khai thác khách hàng tốt nhưng cũng có thể xuất phát từ việc nới lỏng tiêu chuẩn thẩm định tín dụng. Do đó, chỉ tiêu này bắt buộc phải được đánh giá song hành cùng tỷ lệ rủi ro nợ xấu địa bàn.
 - **Trụ cột 2: Hiệu quả tài chính (`diem_fin`):** Gồm 4 chỉ tiêu cấp vùng (Hệ số CIR, Biên lợi nhuận Margin, Hệ số hiệu quả vốn, Lợi nhuận bình quân/ASM). Do hợp đồng thẻ không gắn mã định danh cá nhân từng ASM (chỉ quản lý theo chi nhánh/vùng), việc gắn kết quả tài chính và rủi ro địa bàn vào thẻ điểm cá nhân là giải pháp bắt buộc để ràng buộc trách nhiệm quản trị chung, ngăn chặn tư duy chạy theo doanh số ngắn hạn bỏ mặc chất lượng tài sản.
@@ -245,7 +245,7 @@ Khác với tỷ lệ NPL thông thường (chỉ tính nợ nhóm 3–5 nội b
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                   BỘ CHỈ TIÊU ĐÁNH GIÁ HIỆU QUẢ HOẠT ĐỘNG ASM (SCORECARD)              │
+│          BỘ CHỈ TIÊU ĐÁNH GIÁ HIỆU QUẢ HOẠT ĐỘNG QUẢN LÝ VÙNG (SCORECARD)              │
 ├──────────────────────────────────────────┬─────────────────────────────────────────────┤
 │ TRỤ CỘT 1: KẾT QUẢ KINH DOANH & KIỂM SOÁT│ TRỤ CỘT 2: HIỆU QUẢ TÀI CHÍNH (diem_fin)    │
 │ CHẤT LƯỢNG TĂNG TRƯỞNG (diem_qm)         │                                             │
@@ -257,7 +257,7 @@ Khác với tỷ lệ NPL thông thường (chỉ tính nợ nhóm 3–5 nội b
 └──────────────────────────────────────────┴─────────────────────────────────────────────┘
 ```
 
-**Bảng chi tiết 8 chỉ tiêu đánh giá ASM:**
+**Bảng chi tiết 8 chỉ tiêu đánh giá quản lý vùng (ASM):**
 
 | Chỉ tiêu | Khía cạnh đo lường | Tại sao cần thiết? | Nguồn dữ liệu | Chiều đánh giá | Cấp độ hạt | Giới hạn cần lưu ý |
 |---|---|---|---|---|---|---|
@@ -334,13 +334,13 @@ Mọi phép chia đều phải được bọc qua điều kiện kiểm tra mẫ
 - **Rủi ro kiểm soát:** Sai lệch logic ẩn trong quá trình chuyển hóa giữa cơ sở dữ liệu PostgreSQL và tầng trình diễn Power BI.
 - **Nguyên tắc kiểm soát:** Kiểm toán chéo trên mẫu đơn lẻ (*Single-Case Reverse Audit*) và đối soát toàn diện giữa các hệ sinh thái độc lập.
 - **Cách thức triển khai:**
-  1. *Kiểm toán ngược trên mẫu:* Bốc ngẫu nhiên 3 trường hợp đại diện (Vùng Đông Nam Bộ, Vùng Tây Bắc Bộ và 1 ASM cụ thể), tự tính toán lại bằng công thức nháp ngoài hệ sinh thái SQL và so sánh kết quả.
+  1. *Kiểm toán ngược trên mẫu:* Bốc ngẫu nhiên 3 trường hợp đại diện (Vùng Đông Nam Bộ, Vùng Tây Bắc Bộ và 1 quản lý vùng (ASM) cụ thể), tự tính toán lại bằng công thức nháp ngoài hệ sinh thái SQL và so sánh kết quả.
   2. *Đối soát hệ thống chéo:* Thực hiện kiểm tra toàn diện **91 ô dữ liệu** (13 chỉ tiêu tài chính cốt lõi $\times$ 7 vùng tại tháng 5/2023) giữa câu lệnh truy vấn PostgreSQL và 72 measure DAX trên Power BI.
-  3. *Đối chiếu tệp tham số và mẫu đối chứng lịch sử:* So sánh kết quả với `input/Tham so va mau doi chieu.xlsx` (cung cấp bảng tham số ánh xạ tại sheet Param, quy cách biểu mẫu báo cáo tại sheet BaoCaoTongHop và XepHang, cùng các mốc kiểm chứng lịch sử: LNTT tháng 2/2023 đạt 92.226,35 triệu đồng, tháng 5/2023 đạt 250.450,06 triệu đồng, Top 1 ASM toàn quốc thuộc về quản lý vùng nam.hoangvan với 34 điểm). Khung kiểm chứng 5 lớp vận hành độc lập, coi tệp này là thước đo chuẩn mực lịch sử chứ không phụ thuộc thụ động vào tệp ngoài.
+  3. *Đối chiếu tệp tham số và mẫu đối chứng lịch sử:* So sánh kết quả với `input/Tham so va mau doi chieu.xlsx` (cung cấp bảng tham số ánh xạ tại sheet Param, quy cách biểu mẫu báo cáo tại sheet BaoCaoTongHop và XepHang, cùng các mốc kiểm chứng lịch sử: LNTT tháng 2/2023 đạt 92.226,35 triệu đồng, tháng 5/2023 đạt 250.450,06 triệu đồng, Top 1 quản lý vùng (ASM) toàn quốc thuộc về nhân sự nam.hoangvan với 34 điểm). Khung kiểm chứng 5 lớp vận hành độc lập, coi tệp này là thước đo chuẩn mực lịch sử chứ không phụ thuộc thụ động vào tệp ngoài.
 - **Kết quả thực tế:**
   - Kết quả tính toán tay độc lập trùng khớp tuyệt đối với kết quả xuất ra từ hệ thống Stored Procedure SQL.
   - Toàn bộ **91 ô dữ liệu đối soát giữa PostgreSQL và Power BI ghi nhận mức chênh lệch bằng đúng 0**.
-  - Khớp chuẩn xác từng chữ số với nguồn đối chứng: LNTT tháng 2/2023 đạt **92.226,35 triệu đồng**, tháng 5/2023 đạt **250.450,06 triệu đồng**, Top 1 ASM toàn quốc thuộc về quản lý vùng `nam.hoangvan` với **34 điểm**.
+  - Khớp chuẩn xác từng chữ số với nguồn đối chứng: LNTT tháng 2/2023 đạt **92.226,35 triệu đồng**, tháng 5/2023 đạt **250.450,06 triệu đồng**, Top 1 quản lý vùng (ASM) toàn quốc thuộc về nhân sự `nam.hoangvan` với **34 điểm**.
 - **Giới hạn còn tồn tại:** Phép tính toán lại thủ công chỉ áp dụng được trên mẫu kiểm toán đại diện, việc kiểm soát toàn bộ hàng triệu giao dịch phụ thuộc hoàn toàn vào 4 lớp kiểm tra tự động trước đó.
 
 ---
@@ -360,7 +360,7 @@ Mọi phép chia đều phải được bọc qua điều kiện kiểm tra mẫ
 ### Phần B – Phân tích các phát hiện chính từ số liệu tháng 5/2023:
 
 1. **Tây Nam Bộ – Mức tăng lợi nhuận chủ yếu đến từ giảm chi phí dự phòng ròng:**
-   - *Dữ kiện quan sát được (Observed Facts):* Lợi nhuận trước thuế của vùng tăng vọt **+4.267,8 triệu đồng**, đóng góp tới **97,2%** mức tăng lợi nhuận toàn hệ thống trong tháng 5. Tuy nhiên, thu nhập thuần từ thẻ chỉ tăng nhẹ +16,3 triệu đồng, chi phí hoạt động làm giảm lợi nhuận −195,9 triệu đồng, trong khi **chi phí trích lập dự phòng ròng giảm +4.447,3 triệu đồng**. Vùng ghi nhận **tỷ lệ rủi ro nợ xấu mở rộng cao nhất hệ thống (21,99%)** và không có ASM nào lọt vào nhóm 25 vị trí dẫn đầu.
+   - *Dữ kiện quan sát được (Observed Facts):* Lợi nhuận trước thuế của vùng tăng vọt **+4.267,8 triệu đồng**, đóng góp tới **97,2%** mức tăng lợi nhuận toàn hệ thống trong tháng 5. Tuy nhiên, thu nhập thuần từ thẻ chỉ tăng nhẹ +16,3 triệu đồng, chi phí hoạt động làm giảm lợi nhuận −195,9 triệu đồng, trong khi **chi phí trích lập dự phòng ròng giảm +4.447,3 triệu đồng**. Vùng ghi nhận **tỷ lệ rủi ro nợ xấu mở rộng cao nhất hệ thống (21,99%)** và không có quản lý vùng (ASM) nào lọt vào nhóm 25 vị trí dẫn đầu.
    - *Suy luận nghiệp vụ (Business Inferences):* Mức tăng lợi nhuận trong tháng 5 chủ yếu đến từ việc giảm chi phí dự phòng ròng. Trong khi đó, thu nhập thuần từ hoạt động thẻ chỉ tăng 16,3 triệu đồng, chưa cho thấy sự cải thiện đáng kể về nguồn thu kinh doanh cốt lõi trong kỳ.
    - *Giả thuyết cần xác minh thêm (Hypotheses Requiring Further Verification):* Cần xác minh liệu chi phí dự phòng giảm có thực chất đến từ thu hồi nợ xấu hay do điều chỉnh kỹ thuật giãn nợ; đề xuất kiểm tra thực địa chất lượng thu hồi nợ trong tháng 7.
 
@@ -377,7 +377,7 @@ Mọi phép chia đều phải được bọc qua điều kiện kiểm tra mẫ
 4. **Nam Trung Bộ – Kết quả xếp hạng tốt đi cùng tỷ lệ nợ xấu thấp:**
    - *Dữ kiện quan sát được (Observed Facts):* Địa bàn quy mô 5 quản lý vùng duy trì tỷ lệ rủi ro nợ xấu mở rộng thấp nhất toàn ngân hàng (**11,24%**) và có tới **4 trong số 5 quản lý vùng** nằm trong nhóm 25 vị trí dẫn đầu cả nước.
    - *Suy luận nghiệp vụ (Business Inferences):* Kết quả này cho thấy Nam Trung Bộ là địa bàn đáng được nghiên cứu thêm về phương pháp phát triển khách hàng và kiểm soát chất lượng tín dụng.
-   - *Giả thuyết cần xác minh thêm (Hypotheses Requiring Further Verification):* Do quy mô địa bàn nhỏ (5 ASM), cần khảo sát chi tiết quy trình thẩm định và sàng lọc khách hàng thực địa của Nam Trung Bộ để đánh giá tính khả thi trước khi xem xét thí điểm nhân rộng có kiểm soát sang các vùng khác.
+   - *Giả thuyết cần xác minh thêm (Hypotheses Requiring Further Verification):* Do quy mô địa bàn nhỏ (5 quản lý vùng), cần khảo sát chi tiết quy trình thẩm định và sàng lọc khách hàng thực địa của Nam Trung Bộ để đánh giá tính khả thi trước khi xem xét thí điểm nhân rộng có kiểm soát sang các vùng khác.
 
 ### Năm đề xuất hành động cụ thể gửi Ban Lãnh Đạo:
 
