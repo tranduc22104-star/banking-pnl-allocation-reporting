@@ -22,10 +22,10 @@
 5. [🧮 Business Logic And Metric Design](#5--business-logic-and-metric-design)
 6. [🧪 Data Validation And Quality Assurance](#6--data-validation-and-quality-assurance)
 7. [📊 Business Insights And Management Recommendations](#7--business-insights-and-management-recommendations)
-8. [📚 Lessons Learned And Implementation Takeaways](#8--lessons-learned-and-implementation-takeaways)
-9. [🛠️ Tools And Technologies](#9--tools-and-technologies)
+8. [📚 Key Takeaways](#8--key-takeaways)
+9. [🛠️ Tools Used](#9--tools-used)
 10. [📂 Project Repository Structure](#10--project-repository-structure)
-11. [📖 Handover Documentation](#11--handover-documentation)
+11. [📖 Reference Documentation](#11--reference-documentation)
 12. [👤 Author](#12--author)
 
 ---
@@ -96,13 +96,13 @@ Translating initial requests into an analytical solution required determining wh
                                     ▼
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
 │                                TARGET REPORTING OUTPUT GROUPS                          │
-99: ├────────────────────────────────────────┬───────────────────────────────────────────────┤
-100: │ GROUP 1: REGIONAL MANAGEMENT P&L       │ GROUP 2: AREA SALES MANAGEMENT RANKING        │
-101: │ • Gross card income, funding cost,     │ • Individual sales volume: Gross lending,     │
-102: │   operating expense, loan provisions   │   active credit cards, approval rate          │
-103: │ • Head Office cost allocation drivers  │ • Territorial stewardship: Regional NPL,      │
-104: │ • Monthly profit variance decomposition│   regional CIR, Margin, average profit / ASM  │
-105: └───────────────────────────────────┬────────────────────────────────────────────────────┘
+├────────────────────────────────────────┬───────────────────────────────────────────────┤
+│ GROUP 1: REGIONAL MANAGEMENT P&L       │ GROUP 2: AREA SALES MANAGEMENT RANKING        │
+│ • Gross card income, funding cost,     │ • Individual sales volume: Gross lending,     │
+│   operating expense, loan provisions   │   active credit cards, approval rate          │
+│ • Head Office cost allocation drivers  │ • Territorial stewardship: Regional NPL,      │
+│ • Monthly profit variance decomposition│   regional CIR, Margin, average profit / ASM  │
+└───────────────────────────────────┬────────────────────────────────────────────────────┘
                                     │ (Translation to visual delivery layer)
                                     ▼
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
@@ -258,7 +258,7 @@ Unlike conventional accounting NPL (which tracks only on-balance Buckets 3–5 o
 
 **Detailed Matrix of 8 Area Sales Manager Evaluation Metrics (ASM):**
 
-| Metric | Dimension Measured | Strategic Rationale | Source Table | Preferred Direction | Granularity | Analytical Limitation |
+| Metric | Dimension Measured | Strategic Rationale | Source Table | Preferred Direction | Data Granularity | Analytical Limitation |
 |---|---|---|---|---|---|---|
 | **New Loan Volume** | Direct sales execution | Reflects market acquisition speed | Target KPI Table | Higher is better | Individual ASM | Does not penalize post-issuance churn |
 | **Average Active Cards** | Customer card usage | Measures retained transactional base | Contract Statement | Higher is better | Individual ASM | Requires active stimulation spending |
@@ -390,7 +390,7 @@ All division expressions are guarded with `NULLIF(denominator, 0)`.
 
 ---
 
-## 8. 📚 Lessons Learned And Implementation Takeaways
+## 8. 📚 Key Takeaways
 
 1. **Master banking domain principles before writing code:**
    In institutional financial data, understanding why funding costs are signed negative and why Head Office cost centers bear province code `'00'` and zone `'A'` is essential for correct SQL allocation queries. Technical skill cannot compensate for a lack of domain understanding.
@@ -409,7 +409,7 @@ All division expressions are guarded with `NULLIF(denominator, 0)`.
 
 ---
 
-## 9. 🛠️ Tools And Technologies
+## 9. 🛠️ Tools Used
 
 Tools were chosen based on fit for purpose across project stages:
 
@@ -446,7 +446,7 @@ Standardized across 6 operational directories:
 
 ---
 
-## 11. 📖 Handover Documentation
+## 11. 📖 Reference Documentation
 
 Comprehensive system documentation is maintained within `docs/`:
 - [`docs/HIEN_TRANG_HE_THONG.md`](docs/HIEN_TRANG_HE_THONG.md) — Warehouse status, row counts across 19 tables and 4 `views`, file ownership matrix, and reconciliation benchmarks.
@@ -460,8 +460,6 @@ Comprehensive system documentation is maintained within `docs/`:
 
 <div align="center">
 
-**Tran Ngoc Duc** · Data Analyst · Business Intelligence · Data Science · Management Information Systems · Operations
-
-[Email](mailto:tranduc22104@gmail.com) · [LinkedIn](https://www.linkedin.com/in/tr%E1%BA%A7n-ng%E1%BB%8Dc-%C4%91%E1%BB%A9c-48b3a7439/)
+**Tran Ngoc Duc** · [Email](mailto:tranduc22104@gmail.com) · [LinkedIn](https://www.linkedin.com/in/tr%E1%BA%A7n-ng%E1%BB%8Dc-%C4%91%E1%BB%A9c-48b3a7439/)
 
 </div>

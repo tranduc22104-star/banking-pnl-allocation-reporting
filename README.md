@@ -22,10 +22,10 @@
 5. [🧮 Xây Dựng Logic Tính Toán Và Chỉ Tiêu Quản Trị](#5--xây-dựng-logic-tính-toán-và-chỉ-tiêu-quản-trị)
 6. [🧪 Kiểm Tra Và Đối Soát Dữ Liệu](#6--kiểm-tra-và-đối-soát-dữ-liệu)
 7. [📊 Kết Quả Phân Tích Và Đề Xuất Quản Trị](#7--kết-quả-phân-tích-và-đề-xuất-quản-trị)
-8. [📚 Kinh Nghiệm Triển Khai Thực Chiến](#8--kinh-nghiệm-triển-khai-thực-chiến)
-9. [🛠️ Công Nghệ Sử Dụng](#9--công-nghệ-sử-dụng)
+8. [📚 Kinh Nghiệm Nhận Được](#8--kinh-nghiệm-nhận-được)
+9. [🛠️ Công Cụ Sử Dụng](#9--công-cụ-sử-dụng)
 10. [📂 Cấu Trúc Thư Mục Dự Án](#10--cấu-trúc-thư-mục-dự-án)
-11. [📖 Tài Liệu Bàn Giao](#11--tài-liệu-bàn-giao)
+11. [📖 Tài Liệu Tham Khảo](#11--tài-liệu-tham-khảo)
 12. [👤 Tác Giả](#12--tác-giả)
 
 ---
@@ -258,7 +258,7 @@ Khác với tỷ lệ NPL thông thường (chỉ tính nợ nhóm 3–5 nội b
 
 **Bảng chi tiết 8 chỉ tiêu đánh giá quản lý vùng (ASM):**
 
-| Chỉ tiêu | Khía cạnh đo lường | Tại sao cần thiết? | Nguồn dữ liệu | Chiều đánh giá | Cấp độ hạt | Giới hạn cần lưu ý |
+| Chỉ tiêu | Khía cạnh đo lường | Tại sao cần thiết? | Nguồn dữ liệu | Chiều đánh giá | Mức độ chi tiết dữ liệu | Giới hạn cần lưu ý |
 |---|---|---|---|---|---|---|
 | **Doanh số giải ngân mới** | Năng lực bán hàng trực tiếp | Phản ánh tốc độ mở rộng thị trường | Bảng chỉ tiêu KPI | Càng cao càng tốt | Cá nhân ASM | Chưa tính đến tỷ lệ hủy thẻ sau phát hành |
 | **Số thẻ active bình quân** | Mức độ thâm nhập khách hàng | Đo lường khách hàng thực sự sử dụng thẻ | Sao kê hợp đồng | Càng cao càng tốt | Cá nhân ASM | Cần duy trì chi phí kích hoạt thẻ |
@@ -390,7 +390,7 @@ Mọi phép chia đều phải được bọc qua điều kiện kiểm tra mẫ
 
 ---
 
-## 8. 📚 Kinh Nghiệm Triển Khai Thực Chiến
+## 8. 📚 Kinh Nghiệm Nhận Được
 
 1. **Hiểu rõ bản chất nghiệp vụ trước khi viết code:**
    Trong hệ thống dữ liệu tài chính, việc hiểu rõ tại sao chi phí vốn mang dấu âm, vì sao chi phí Hội sở mang mã tỉnh `'00'` và vùng `'A'` là điều kiện tiên quyết để xây dựng câu lệnh SQL phân bổ chính xác. Không thể giải quyết bài toán dữ liệu ngân hàng nếu chỉ tiếp cận thuần tuý dưới góc độ công nghệ.
@@ -409,7 +409,7 @@ Mọi phép chia đều phải được bọc qua điều kiện kiểm tra mẫ
 
 ---
 
-## 9. 🛠️ Công Nghệ Sử Dụng
+## 9. 🛠️ Công Cụ Sử Dụng
 
 Các công cụ được lựa chọn dựa trên sự phù hợp với yêu cầu thực tế của từng giai đoạn trong dự án:
 
@@ -446,7 +446,7 @@ Cấu trúc dự án được chuẩn hoá thành 6 thư mục nghiệp vụ rõ
 
 ---
 
-## 11. 📖 Tài Liệu Bàn Giao
+## 11. 📖 Tài Liệu Tham Khảo
 
 Hệ thống được tài liệu hoá đầy đủ trong thư mục `docs/`:
 - [`docs/HIEN_TRANG_HE_THONG.md`](docs/HIEN_TRANG_HE_THONG.md) — Chi tiết hiện trạng kho dữ liệu, số dòng của 19 bảng và 4 `view`, phân quyền quản lý từng bảng và các mốc đối soát chuẩn.
@@ -460,8 +460,6 @@ Hệ thống được tài liệu hoá đầy đủ trong thư mục `docs/`:
 
 <div align="center">
 
-**Trần Ngọc Đức** · Data Analyst · Business Intelligence · Data Science · Management Information Systems · Operations
-
-[Email](mailto:tranduc22104@gmail.com) · [LinkedIn](https://www.linkedin.com/in/tr%E1%BA%A7n-ng%E1%BB%8Dc-%C4%91%E1%BB%A9c-48b3a7439/)
+**Trần Ngọc Đức** · [Email](mailto:tranduc22104@gmail.com) · [LinkedIn](https://www.linkedin.com/in/tr%E1%BA%A7n-ng%E1%BB%8Dc-%C4%91%E1%BB%A9c-48b3a7439/)
 
 </div>

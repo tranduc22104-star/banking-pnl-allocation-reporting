@@ -12,6 +12,15 @@
 
 ## ĐÃ XONG
 ### 2026-11-02
+164. **Áp Dụng Bản README.md Chốt Bởi Người Dùng Và Đồng Bộ Song Ngữ README_eng.md**
+   - Người dùng gửi toàn văn bản README đã chốt và yêu cầu cập nhật kho mã:
+     + Cập nhật tiêu đề Mục 8 thành *Kinh Nghiệm Nhận Được* (bản tiếng Anh: *Key Takeaways*), Mục 9 thành *Công Cụ Sử Dụng* (bản tiếng Anh: *Tools Used*), Mục 11 thành *Tài Liệu Tham Khảo* (bản tiếng Anh: *Reference Documentation*).
+     + Cập nhật tiêu đề cột bảng Mục 5.2 thành *Mức độ chi tiết dữ liệu* (bản tiếng Anh: *Data Granularity*).
+     + Rút gọn thông tin phần Tác giả ở Mục 12 chỉ còn họ tên kèm 2 liên kết Email và LinkedIn.
+     + Cập nhật toàn bộ các thẻ anchor slug trong Mục lục khớp 100% với các thẻ heading mới.
+     + Đồng bộ tương ứng sang `README_eng.md` và `.staging/README_thuan_viet.md`, đảm bảo tuyệt đối khớp đa tập số liệu $\ge 10$.
+   - **Verify**: chạy `.staging/check_toc.py` (`ok`), `.staging/check_int_pair.py` (`ok`, 0 lệch số $\ge 10$), `.staging/check_readme_pair.py` (`ok`, 468 dòng đối xứng), `.staging/push_check.py` (`32 tệp, 4.86 MiB`, 0 liên kết gãy, 0 liên kết ngoài kho).
+
 163. **Biên Tập Văn Phong README Tự Nhiên Theo Góc Nhìn Chuyên Môn Data Analyst**
    - Tiếp thu phản hồi nghiệp vụ chi tiết của người dùng về việc làm tự nhiên hoá câu từ, loại bỏ văn phong cứng/AI dịch máy:
      + Thay thế các từ ngữ quá trang trọng, khuôn mẫu ("chuyển hóa", "phân định", "hấp thụ", "triệt tiêu", "cấu thành", "định hướng quản trị", v.v.) bằng lối diễn đạt trực diện, tự nhiên của người làm phân tích dữ liệu ngân hàng.
@@ -373,13 +382,6 @@
     - Kiểm lại: `README.md` còn 467 dòng; không còn chuỗi 'pip install', 'py ingestion', 'Chạy Từ Đầu Đến Nơi Ra Số' nào trong tệp.
     - **Ba điểm lệch còn tồn tại cho mục tiêu tuyển dụng** (đã báo, chờ người dùng quyết): năm ảnh dashboard trong `images/` không được README dẫn nên người đọc không thấy sản phẩm; dòng liên hệ ở phần Tác Giả vẫn ghi 'GitHub · LinkedIn · Email' dạng chữ, chưa trỏ liên kết nào; `docs/PIPELINE.md` mục 3 vẫn là khối lệnh vận hành.
 
-114. **Thu Gọn Thư Mục Tài Liệu Xuống Đúng Năm Tệp Và Viết Lại Header README Theo Khuôn Tham Chiếu**
-    - Người dùng chốt: `docs/` chỉ giữ năm tệp `HIEN_TRANG_HE_THONG.md`, `PIPELINE.md`, `NHAT_KY_CONG_VIEC.md`, `LOI_THUONG_GAP.md`, `SESSION_PROMPT_LOG.md`. Bảy tệp còn lại (trình bày cấu trúc SQL, giao trình SQL, giao trình theo code, giải thích toàn bộ code DAX, hướng dẫn dựng trang chẩn đoán, hướng dẫn dựng trang 5, layout căn chỉnh Power BI) **dời sang `ARCHIVE_LESSON_11_1_20261030/docs_ben_ngoai/`**, không xoá, còn đường lấy lại.
-    - Sửa mọi chỗ tham chiếu: mục **Tài Liệu** trong `README.md` còn năm liên kết kèm một câu nói rõ bảy tệp hướng dẫn nằm ngoài kho; cây thư mục `README.md`; dòng mô tả `docs/` trong `AGENTS.md` và trong `docs/HIEN_TRANG_HE_THONG.md`; mục 39 của `docs/LOI_THUONG_GAP.md` (bỏ tên tệp đã dời khỏi câu mô tả triệu chứng).
-    - Viết lại header `README.md` theo đúng khuôn `nova-bank-credit-risk-analysis`: khối căn giữa, tiêu đề một dòng, **dòng phụ nêu bộ công nghệ ngay dưới tiêu đề** (không đề mục con, không dấu chấm giữa), hàng bốn huy hiệu shields kiểu `for-the-badge` chỉ tên công nghệ và màu thương hiệu (bỏ nhãn phụ 'Import', 'Mẫu báo cáo', '3.10'), rồi đoạn mô tả trong thẻ `<p>` mở đầu bằng 'Một dự án **Phân tích dữ liệu** theo quy trình từ đầu đến cuối'. **Chưa gắn dòng chuyển ngữ** vì tệp tiếng Anh sẽ làm sau khi bản tiếng Việt được duyệt, gắn link bây giờ là link chết.
-    - Bỏ chữ viết tắt và mũi tên trong hai câu văn của `README.md`: 'khoá ngoại thật (`fct_asm_value` → `dim_asm`)' đổi thành 'trỏ về', và chuỗi thứ tự dựng kho ở bước 5 đổi sang 'rồi / tiếp đó / cuối cùng'. Mười một mũi tên còn lại nằm trong khối mã liệt kê các bước, chỗ đó mũi tên giữ vai trò căn cột nên để nguyên.
-    - Kiểm lại sau khi dời: **45 tệp sẽ đẩy lên, tổng 6,7 megabyte, tệp lớn nhất 2,79 megabyte**, không tệp vượt trần, không liên kết nội bộ gãy; `docs/` còn đúng 5 tệp.
-
-_Ghi chú biên tập:_ mục ĐÃ XONG giữ **50 task gần nhất (163 xuống 114)** theo trần quy định ở `AGENTS.md`. Các mục nhỏ hơn số 98 đã chuyển ra ngoài kho mã: phần lớn nằm trong `NHAT_KY_CONG_VIEC_ban_day_du_truoc_cat_20261030.md`; riêng các mục 60 đến 65, các mục 68 đến 83, các mục 84 đến 96 mục 97 mục 98 mục 99 mục 100 mục 101 mục 102 và mục 103 lưu ở thư mục lưu trữ `ARCHIVE_LESSON_11_1_20261030` trên máy người làm dự án, hỏi người bàn giao khi cần.
+_Ghi chú biên tập:_ mục ĐÃ XONG giữ **50 task gần nhất (164 xuống 115)** theo trần quy định ở `AGENTS.md`. Các mục nhỏ hơn số 98 đã chuyển ra ngoài kho mã: phần lớn nằm trong `NHAT_KY_CONG_VIEC_ban_day_du_truoc_cat_20261030.md`; riêng các mục 60 đến 65, các mục 68 đến 83, các mục 84 đến 96 mục 97 mục 98 mục 99 mục 100 mục 101 mục 102 và mục 103 lưu ở thư mục lưu trữ `ARCHIVE_LESSON_11_1_20261030` trên máy người làm dự án, hỏi người bàn giao khi cần.
 
 _Ghi chú về đường dẫn:_ các mục từ 01 đến 106 ghi theo cấu trúc thư mục **tại thời điểm viết** — `input_data/`, `pbi/`, `audit/`, `csv_staging/`, `scratch/`, `SQL/` và tên tệp `123.pbix`. Từ task 107 kho đổi sang `input/` · `ingestion/` · `sql/` · `docs/` · `output/` · `images/`; đọc đối chiếu hai cấu trúc ở `docs/HIEN_TRANG_HE_THONG.md`.
