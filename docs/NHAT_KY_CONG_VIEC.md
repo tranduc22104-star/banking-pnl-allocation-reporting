@@ -2,8 +2,6 @@
 
 ## DANG DỞ
 - **Chờ người dùng chốt khổ hồ sơ**: giữ bản **3 trang** đang áp, hay về **2 trang** bằng một trong hai họ phương án đã đo — (i) bỏ nhãn Output, rút Steps còn ba gạch và Gained Value còn một gạch, kèm nén khoảng cách toàn bài; (ii) quay lại bản gọn của task 127 (không có Gained Value, không nén).
-- **Nếu chốt 3 trang**: thay chữ "2" cứng ở đầu trang 2 (`cv_tran_ngoc_duc.tex`, khối `flushright \small \color{gray}`) bằng bộ đếm `\thepage`, vì hiện trang 3 không in số trang.
-- **Điền địa chỉ kho GitHub thật vào hồ sơ**: kho GitHub của dự án là `https://github.com/tranduc22104-star/banking-pnl-allocation-reporting` (chờ điền vào dòng `% TODO` trong mục dự án của hồ sơ `cv_tran_ngoc_duc.tex`).
 - **Chờ xác định số phận ba tệp từng bị gỡ khỏi `output/`**: theme JSON và hai tệp measure DAX không còn trên đĩa (bộ đẩy tụt từ 46 xuống 43). Lời mô tả ở cây thư mục `README.md` và bảng cấu trúc `AGENTS.md` **đã sửa thành khớp đĩa** từ task 136 nên không còn chỗ nào gây hiểu sai; câu hỏi còn lại chỉ là **có lấy lại ba tệp đó không** — nếu lấy lại thì sửa mô tả một lượt nữa và bộ đẩy tăng lên 38 tệp.
 - **Chờ xác nhận việc lộ thông tin trong tệp mẫu vừa đưa vào kho**: `input/Tham so va mau doi chieu.xlsx` nay nằm trong kho mã công khai, mà hai sheet mẫu của nó chứa số liệu theo vùng kèm họ tên và email giám đốc vùng. `README.md` và `README_eng.md` đã ghi rõ trong mục Nguồn Dữ Liệu Và Quyền Sử Dụng; cần người dùng chốt là chấp nhận hay gỡ tệp mẫu ra khỏi bộ đẩy.
 - **Thiếu ảnh thẻ** `avatar_option_1.png` ở thư mục gốc máy người làm: bản kiểm chỉ thay bằng `\rule{2.6cm}{3.4cm}`, bản nộp thật phải biên dịch lại khi có ảnh.
@@ -12,6 +10,17 @@
 
 ## ĐÃ XONG
 ### 2026-11-02
+167. **Cập Nhật Toàn Diện Nội Dung Project Báo Cáo Quản Trị Thẻ Trong CV (`CV/cv_tran_ngoc_duc.tex`)**
+   - Nâng cấp nội dung Project 1 trong CV theo đúng góc nhìn Data Analyst chuyên nghiệp và đồng bộ 100% với phiên bản README mới nhất:
+     + Đổi tên đề mục: *Report: Credit Card Business Management Reporting & ASM Performance Scorecard*.
+     + Bổ sung liên kết GitHub chính thức vào mục Output: `https://github.com/tranduc22104-star/banking-pnl-allocation-reporting`.
+     + Viết lại **Objective**: làm rõ bài toán kinh doanh thực tế (chi phí Hội sở tập trung không mã vùng, đánh giá quản lý vùng thiếu điều chỉnh rủi ro).
+     + Viết lại **Steps** (4 điểm chuyên sâu): (1) Khung phân bổ 2 quy tắc (Direct Tracing + Driver-based Allocation qua 4 Cost Drivers); (2) Tách số lũy kế YTD thành phát sinh tháng theo 6 nhân tố thu-chi; (3) Thẻ điểm ASM đa chiều 8 chỉ tiêu trên 2 trụ cột (Chất lượng thương mại `diem_qm` và Hiệu quả tài chính `diem_fin`); (4) Hệ thống kiểm soát 5 lớp và phát hiện thực tế tháng 5 (97,2% tăng trưởng LNTT do hoàn nhập/giảm trích lập dự phòng tại Tây Nam Bộ).
+     + Nâng cấp **Gained Value**: Kỹ thuật dữ liệu streaming ETL Python, Kiến trúc kho Kimball Star Schema và Stored Procedure PL/pgSQL, Kế toán quản trị & BI.
+     + Bố cục lại trang: chèn ngắt trang tự nhiên giữa 2 dự án, thêm số trang 3 ở góc trên bên phải đồng bộ với trang 2. Cả 3 trang đều vuông vắn, tròn trịa, không bị cắt xẻ dòng bullet nào giữa các trang.
+   - **Verify**: biên dịch `pdflatex` thành công tuyệt đối, sinh file `cv_tran_ngoc_duc.pdf` 3 trang (552 KB) chuẩn chỉnh.
+   - Xóa task 117 ở cuối `## ĐÃ XONG`, duy trì nghiêm ngặt trần 50 task (167 xuống 118).
+
 166. **Tái Cấu Trúc Thứ Tự Chương 4 Và Chương 5 Theo Mạch Nghiệp Vụ Data Analyst**
    - Đảo vị trí hai chương cốt lõi trong `README.md` và `README_eng.md`:
      + Đưa logic tính toán và chỉ tiêu quản trị lên trước thành **Chương 4**: *Xây dựng cách tính và các chỉ tiêu quản trị* (Mục 4.1 P&L Allocation Framework và 4.2 Multi-dimensional ASM Scorecard). Thể hiện tư duy Business-driven: làm rõ công thức và giải pháp nghiệp vụ trước khi thiết kế hệ thống.
@@ -380,15 +389,6 @@
    - Verify: `py_compile` năm tệp Python; chạy lại bước 01 · 02 · 03 · 04 (`stg_fact_kpi_month` 2.932.922 dòng, dư nợ từng tháng khớp từng đồng với mốc cũ); chạy trọn chuỗi bốn lớp SQL hết 29,6 giây. **Sau lớp dim còn 4 view và 1 khóa ngoại** (điều trước đây không bao giờ có); 18 bảng đủ số dòng (64 · 5 · 35 · 84 · 50 · 420 · 63.134 · 2.932.922 · 15 · 315 · 560 · 535 · 1.164 · 105 · 315 · 1.115 · 8.536 · 65); bốn view 35 · 35 · 388 · 388; `log_proc_run` 65 dòng, 0 dòng thất bại; 0 dòng mồ côi trên khóa ngoại; lợi nhuận trước thuế toàn hàng tháng 2 bằng **92.226,347 triệu đồng**; hạng nhất bảng xếp hạng vẫn là Hoàng Văn Nam **34 điểm**.
    - Tài liệu cập nhật: `README.md` (bảng bốn giai đoạn, bảng đếm theo nhóm, bảng sáu lớp, cây thư mục), `AGENTS.md` (tên tệp mới và quy ước mỗi bảng một chủ), `docs/HIEN_TRANG_HE_THONG.md` (thêm mục "Chủ Của Từng Bảng" liệt kê đủ 18 bảng theo tệp, sửa thứ tự chạy và ghi chú CASCADE), `docs/PIPELINE.md` (sơ đồ khối, mô tả bước 1 đến bước 4, số dòng mã từng tệp), `docs/LOI_THUONG_GAP.md` mục 42 thêm dòng "đã gỡ nguyên nhân". Script chạy trọn chuỗi đặt ở `.staging/run_full_chain.py`.
 
-117. **Bổ Sung Cột Ngày Vào `dim_month` Cho Khung Báo Cáo Lũy Kế Trong Tháng**
-   - Yêu cầu: báo cáo làm theo khung lũy kế trong tháng nhưng số chỉ cập nhật theo tháng; người dùng muốn trục thời gian trong kho có yếu tố ngày cho chuẩn mực.
-   - `sql/dim/DIM_DATE_PNL_ASM.sql` (59 lên 70 dòng): `dim_month` thêm `ngay_dau_thang`, `ngay_cuoi_thang` (ngày chốt số của tháng, để đầu báo ghi được "số chốt đến ngày 31/05/2023") và `so_ngay_trong_thang`; bảng vẫn giữ đúng hạt tháng, không dựng bảng ngày vì nguồn không phát sinh số theo ngày.
-   - Ngày **tính tự động** từ `nam` và `thang` bằng `make_date` cộng `INTERVAL '1 month - 1 day'`, không nhập tay; gom danh sách tháng về ghi một chỗ trong `sp_load_dim()` (trước đây ghi hai lần: lúc tạo bảng và lúc nạp), kèm lệnh kiểm tra in ra trục tháng ở cuối tệp.
-   - Kiểm trước khi sửa: không view nào và không thủ tục nào tham chiếu `dim_month`; truy vấn của bảng này trong mô hình Power BI là điều hướng trực tiếp, không khóa danh sách cột, nên bấm Refresh là mô hình thấy cột mới, không measure nào gãy.
-   - **Sự cố khi verify** (ghi thành mục 42 trong `docs/LOI_THUONG_GAP.md`): chạy tắt riêng lớp dim khiến `DROP dim_asm CASCADE` xoá luôn `v_xephang_asm`, `v_xephang_asm_vnd` và khóa ngoại `fk_fct_asm_dim_asm` trên `fct_asm_value` mà không báo lỗi; số vẫn ra đúng nên rất khó tự phát hiện. Đã khôi phục bằng cách chạy trọn thứ tự tài liệu.
-   - Verify (chạy đủ `sql/dim/` ba tệp → `sql/tmp/` hai tệp → `sql/fct/` hai tệp kèm gọi lại thủ tục năm tháng cho mỗi tệp → `sql/rpt/` hai tệp, tổng 30,3 giây): `dim_month` 5 dòng với ngày và số ngày đúng từng tháng (31 · 28 · 31 · 30 · 31, tháng 2 năm 2023 không nhuận), `dim_sm_headcount` 35, `dim_asm` 84, `dim_report_detail` 50, `fct_pnl_value` 1.115, `fct_asm_value` 8.536, `log_proc_run` 65, bốn view 35 · 35 · 388 · 388, đúng một khóa ngoại `fk_fct_asm_dim_asm`, lợi nhuận trước thuế toàn hàng tháng 2 bằng **92.226,347 triệu đồng**, quán quân xếp hạng vẫn là Hoàng Văn Nam **34 điểm**.
-   - Tài liệu cập nhật: `docs/PIPELINE.md` (mô tả tệp dim, kiểm chứng ngày chốt số, cảnh báo CASCADE nêu cả mất khóa ngoại), `docs/HIEN_TRANG_HE_THONG.md` (thêm dòng `dim_month` vào bảng liệt kê, ghi chú Power BI cần Refresh, bổ sung bước 2 của thứ tự chạy), `README.md` (cột mô tả nhóm danh mục, số mục lỗi 44 lên 45), `docs/LOI_THUONG_GAP.md` thêm mục 42. Script chạy lớp SQL đặt ở `.staging/run_sql_layer.py`.
-
-_Ghi chú biên tập:_ mục ĐÃ XONG giữ **50 task gần nhất (166 xuống 117)** theo trần quy định ở `AGENTS.md`. Các mục nhỏ hơn số 98 đã chuyển ra ngoài kho mã: phần lớn nằm trong `NHAT_KY_CONG_VIEC_ban_day_du_truoc_cat_20261030.md`; riêng các mục 60 đến 65, các mục 68 đến 83, các mục 84 đến 96 mục 97 mục 98 mục 99 mục 100 mục 101 mục 102 và mục 103 lưu ở thư mục lưu trữ `ARCHIVE_LESSON_11_1_20261030` trên máy người làm dự án, hỏi người bàn giao khi cần.
+_Ghi chú biên tập:_ mục ĐÃ XONG giữ **50 task gần nhất (167 xuống 118)** theo trần quy định ở `AGENTS.md`. Các mục nhỏ hơn số 98 đã chuyển ra ngoài kho mã: phần lớn nằm trong `NHAT_KY_CONG_VIEC_ban_day_du_truoc_cat_20261030.md`; riêng các mục 60 đến 65, các mục 68 đến 83, các mục 84 đến 96 mục 97 mục 98 mục 99 mục 100 mục 101 mục 102 và mục 103 lưu ở thư mục lưu trữ `ARCHIVE_LESSON_11_1_20261030` trên máy người làm dự án, hỏi người bàn giao khi cần.
 
 _Ghi chú về đường dẫn:_ các mục từ 01 đến 106 ghi theo cấu trúc thư mục **tại thời điểm viết** — `input_data/`, `pbi/`, `audit/`, `csv_staging/`, `scratch/`, `SQL/` và tên tệp `123.pbix`. Từ task 107 kho đổi sang `input/` · `ingestion/` · `sql/` · `docs/` · `output/` · `images/`; đọc đối chiếu hai cấu trúc ở `docs/HIEN_TRANG_HE_THONG.md`.
