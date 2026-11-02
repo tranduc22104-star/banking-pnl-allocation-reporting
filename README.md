@@ -1,6 +1,6 @@
 <div align="center">
 
-# Xây Dựng Báo Cáo Quản Trị Kết Quả Kinh Doanh Thẻ Tín Dụng Và Xếp Hạng Năng Lực Kinh Doanh Của Quản Lý Vùng
+# Xây Dựng Báo Cáo Quản Trị Kết Quả Kinh Doanh Thẻ Tín Dụng Và Đánh Giá Hiệu Quả Hoạt Động ASM
 
 **Ngôn ngữ / Language**: **Tiếng Việt** · [English](README_eng.md)
 
@@ -13,6 +13,9 @@
 
 </div>
 
+> **TỔNG QUAN DỰ ÁN**  
+> Dự án giải quyết bài toán quản trị kinh doanh thẻ tín dụng tại một ngân hàng thương mại quy mô 7 vùng kinh doanh và 74 đến 84 quản lý vùng (ASM). Xuất phát từ yêu cầu quản trị định hướng của Ban Lãnh Đạo, dự án làm rõ phương pháp luận, xây dựng hệ thống phân bổ thu nhập - chi phí gián tiếp từ Hội sở theo nguyên lý kế toán quản trị, thiết kế bộ thẻ điểm đánh giá đa chiều (Multi-dimensional Scorecard) cân bằng giữa tăng trưởng quy mô và kiểm soát rủi ro tín dụng. Toàn bộ giải pháp được kiểm chứng qua khung đối soát độc lập 5 lớp, tự động hoá quy trình dữ liệu trên PostgreSQL và trực quan hoá trên dashboard Power BI 5 trang phục vụ công tác điều hành chiến lược.
+
 ## 📑 Mục Lục
 
 1. [🏢 Bối Cảnh Kinh Doanh Và Yêu Cầu Quản Trị](#1--bối-cảnh-kinh-doanh-và-yêu-cầu-quản-trị)
@@ -21,10 +24,10 @@
 4. [🔄 Thiết Kế Quy Trình Xử Lý Và Kho Dữ Liệu](#4--thiết-kế-quy-trình-xử-lý-và-kho-dữ-liệu)
 5. [🧮 Xây Dựng Logic Tính Toán Và Chỉ Tiêu Quản Trị](#5--xây-dựng-logic-tính-toán-và-chỉ-tiêu-quản-trị)
 6. [🧪 Kiểm Tra Và Đối Soát Dữ Liệu](#6--kiểm-tra-và-đối-soát-dữ-liệu)
-7. [🖥️ Thiết Kế Và Trực Quan Hóa Báo Cáo Trên Power BI](#7-️-thiết-kế-và-trực-quan-hóa-báo-cáo-trên-power-bi)
+7. [🖥️ Thiết Kế Và Trực Quan Hóa Báo Cáo Trên Power BI](#7--thiết-kế-và-trực-quan-hóa-báo-cáo-trên-power-bi)
 8. [📊 Kết Quả Phân Tích Và Đề Xuất Quản Trị](#8--kết-quả-phân-tích-và-đề-xuất-quản-trị)
 9. [📚 Kinh Nghiệm Triển Khai Thực Chiến](#9--kinh-nghiệm-triển-khai-thực-chiến)
-10. [🛠️ Công Nghệ Sử Dụng](#10-️-công-nghệ-sử-dụng)
+10. [🛠️ Công Nghệ Sử Dụng](#10--công-nghệ-sử-dụng)
 11. [📂 Cấu Trúc Thư Mục Dự Án](#11--cấu-trúc-thư-mục-dự-án)
 12. [📖 Tài Liệu Bàn Giao](#12--tài-liệu-bàn-giao)
 13. [👤 Tác Giả](#13--tác-giả)
@@ -48,10 +51,10 @@ Tại thời điểm tiếp nhận, đề bài ban đầu hoàn toàn **chưa đ
 - Chưa có công thức tính điểm, cơ chế xếp hạng hay cấu trúc biểu mẫu báo cáo.
 
 ### Nhận diện các điểm chưa rõ và vấn đề quản trị phát sinh
-Qua khảo sát nghiệp vụ thực tế, ba bài toán nan giải được nhận diện từ phương pháp báo cáo truyền thống:
+Qua khảo sát nghiệp vụ thực tế, ba vấn đề quản trị chính được nhận diện từ phương pháp báo cáo truyền thống:
 
 1. **Hiệu quả tài chính thực chất bị che mờ:**
-   Trên hệ thống sổ cái kế toán, các vùng kinh doanh trực tiếp ghi nhận thu nhập từ lãi vay và phí mở thẻ. Tuy nhiên, các khoản chi phí lớn nhất cấu thành hoạt động như chi phí vốn huy động, chi phí tiếp thị toàn ngân hàng, chi phí công nghệ lõi và lương thưởng của các phòng ban hỗ trợ lại được hạch toán tập trung tại quỹ Hội sở. Khi chưa có phương pháp phân bổ chi phí hợp lý, báo cáo bề nổi luôn cho thấy tất cả các vùng đều có lãi, dẫn đến nguy cơ che giấu những vùng thực tế đang hoạt động kém hiệu quả và ăn mòn lợi nhuận chung.
+   Trên hệ thống sổ cái kế toán, các vùng kinh doanh trực tiếp ghi nhận thu nhập từ lãi vay và phí mở thẻ. Tuy nhiên, các khoản chi phí lớn nhất cấu thành hoạt động như chi phí vốn huy động, chi phí tiếp thị toàn ngân hàng, chi phí công nghệ lõi và lương thưởng của các phòng ban hỗ trợ lại được hạch toán tập trung tại quỹ Hội sở. Khi chưa có phương pháp phân bổ chi phí hợp lý, báo cáo bề nổi luôn cho thấy tất cả các vùng đều có lãi, dẫn đến nguy cơ che giấu những vùng thực tế đang hoạt động kém hiệu quả và làm giảm đáng kể lợi nhuận chung.
 
 2. **Cơ chế đánh giá năng lực đội ngũ quản lý vùng tiềm ẩn rủi ro tín dụng:**
    Nếu chỉ dựa trên chỉ tiêu doanh số giải ngân mới hoặc số lượng thẻ phát hành, các quản lý vùng sẽ có xu hướng nới lỏng khẩu vị rủi ro và tiêu chuẩn thẩm định tín dụng để đạt số lượng ngắn hạn. Hậu quả là doanh số tăng trưởng nhanh trong vài tháng đầu, nhưng tỷ lệ nợ xấu và chi phí trích lập dự phòng sẽ phình to ở các kỳ tiếp theo.
@@ -128,7 +131,7 @@ Ngân hàng không có sẵn một kho dữ liệu tập trung hay một bảng 
 | Phòng ban cung cấp | Nguồn dữ liệu | Quy mô | Vai trò đáp ứng đầu ra và Khóa kết nối |
 |---|---|---:|---|
 | **Khối Kế toán & Tài chính** | Sổ cái tài khoản kế toán (`fact_txn_month`) | **63.134** bút toán | Cung cấp số liệu thu - chi thực tế; gồm 62.953 dòng gắn mã tỉnh thành (gán trực tiếp cho vùng) và 181 dòng chi phí chung hạch toán tại Hội sở (mã tỉnh `'00'`, cần phân bổ). Khóa liên kết: `city_code`, `account_code`. |
-| **Khối Vận hành Thẻ** | Sao kê hợp đồng thẻ tín dụng (`fact_kpi_month`) | **2.932.914** dòng | Cung cấp toàn bộ dư nợ theo 5 nhóm nợ, nợ đã xử lý rủi ro (write-off) và doanh số từng hợp đồng qua 5 tháng; làm căn cứ tính tỷ lệ nợ xấu và tạo tiêu thức phân bổ chi phí Hội sở. Khóa liên kết: `branch_code`, `month_key`. |
+| **Khối Vận hành Thẻ** | Sao kê hợp đồng thẻ tín dụng (`fact_kpi_month`) | **2.932.922** dòng | Cung cấp toàn bộ dư nợ theo 5 nhóm nợ, nợ đã xử lý rủi ro (write-off) và doanh số từng hợp đồng qua 5 tháng; làm căn cứ tính tỷ lệ nợ xấu và tạo tiêu thức phân bổ chi phí Hội sở. Khóa liên kết: `branch_code`, `month_key`. |
 | **Khối Quản lý Mạng lưới** | Bảng chỉ tiêu kinh doanh (`kpi_asm_data`) | **420** dòng | Cung cấp kết quả kinh doanh cá nhân: doanh số giải ngân mới, số thẻ hoạt động và tỷ lệ duyệt hồ sơ của 74 đến 84 quản lý vùng theo tháng để phục vụ xếp hạng. Khóa liên kết: `asm_id`, `month_key`. |
 | **Phòng Kế hoạch & Quản trị Dữ liệu** | Bảng tham số địa bàn và biểu mẫu đối chiếu | **64** tỉnh thành | Cung cấp quy tắc quy đổi 64 tỉnh thành về 8 vùng địa lý (Hội sở `'A'` và 7 vùng kinh doanh `'B'..'H'`) kèm mẫu biểu định dạng báo cáo. Khóa liên kết: `city_code`, `area_code`. |
 
@@ -216,7 +219,7 @@ $$\text{Chi phí phân bổ về vùng } i = \text{Chi phí Hội sở} \times \
 *Cơ sở kinh tế lựa chọn tiêu thức phân bổ cho từng nhóm chi phí Hội sở:*
 - **Chi phí vốn huy động (Treasury Cost):** Bản chất là chi phí ngân hàng huy động vốn từ thị trường để tài trợ cho danh mục cho vay thẻ. Nguyên nhân phát sinh trực tiếp từ quy mô tín dụng $\rightarrow$ Phân bổ theo **Dư nợ cho vay bình quân nhóm 1**. Vùng nào nắm giữ quy mô dư nợ lớn hơn thì sử dụng nhiều vốn điều chuyển nội bộ hơn và phải gánh chịu chi phí vốn tương ứng.
 - **Chi phí dự phòng rủi ro tín dụng (Credit Provisioning):** Bản chất là khoản trích lập phòng ngừa tổn thất tín dụng tiềm tàng. Phát sinh trực tiếp từ rủi ro nợ quá hạn $\rightarrow$ Phân bổ theo **Dư nợ nhóm 2 đến nhóm 5 cộng với Nợ đã xử lý rủi ro ngoại bảng (write-off)**. Tiêu thức này phản ánh trung thực mức độ rủi ro danh mục của từng vùng thay vì cào bằng theo tổng dư nợ.
-- **Chi phí công nghệ và vận hành thẻ (IT & Operations):** Chi phí duy trì hệ thống Core thẻ, hạ tầng viễn thông và máy chủ $\rightarrow$ Phân bổ theo **Số lượng thẻ phát sinh dư nợ** hoặc **Doanh số giao dịch (Volume)**, phản ánh đúng tần suất sử dụng hạ tầng thanh toán.
+- **Chi phí công nghệ và vận hành thẻ (IT & Operations):** Chi phí duy trì hệ thống Core thẻ, hạ tầng viễn thông và máy chủ $\rightarrow$ Phân bổ theo **Số hợp đồng phát sinh dư nợ bình quân** (`psdn`), phản ánh đúng mức độ phục vụ và tần suất sử dụng hạ tầng công nghệ lõi.
 - **Chi phí vận hành và quản trị khối hỗ trợ (General Overhead):** Lương thưởng, phúc lợi của các phòng ban Hội sở phục vụ mạng lưới $\rightarrow$ Phân bổ theo **Định biên nhân sự (Headcount)** của từng vùng.
 - *Giả định và giới hạn:* Phương pháp giả định mối quan hệ phân bổ là tuyến tính và mức độ tiêu hao tài nguyên bình quân trên mỗi đơn vị driver giữa các vùng là đồng nhất; chưa bóc tách riêng lẻ các chiến dịch tiếp thị mang tính đặc thù cho từng địa phương.
 
@@ -225,15 +228,24 @@ Dữ liệu sổ cái tích lũy từ đầu năm được chuyển đổi thàn
 $$V_{\text{tháng } M} = V_{\text{lũy kế } M} - V_{\text{lũy kế } (M-1)}$$
 Từ đó phân rã biến động Lợi nhuận trước thuế (PBT) thành 6 cấu phần thu – chi cụ thể.
 
-### 5.2. Xây dựng hệ thống chỉ tiêu và thẻ điểm đánh giá ASM (Balanced Scorecard)
+### 5.2. Xây dựng hệ thống chỉ tiêu và thẻ điểm đánh giá ASM (Multi-dimensional Scorecard)
 
 Câu hỏi nghiệp vụ đặt ra: *Nếu chỉ sử dụng doanh số phát hành thẻ để đánh giá ASM, liệu kết quả có phản ánh đầy đủ hiệu quả hoạt động và kiểm soát rủi ro không?*
 
 **Phân tích hạn chế của cơ chế đánh giá đơn chiều (Agency Problem):**
-Trong mô hình kinh doanh ngân hàng, nếu chỉ trao thưởng dựa trên chỉ tiêu số lượng thẻ phát hành hoặc doanh số giải ngân mới, các ASM sẽ bị thúc đẩy bởi động cơ tối đa hóa số lượng ngắn hạn mà nới lỏng khẩu vị rủi ro và tiêu chuẩn thẩm định tín dụng. Hệ quả là tăng trưởng nóng trong vài tháng đầu nhưng nợ xấu bùng nổ sau 3 đến 6 tháng, chi phí trích lập dự phòng sẽ ăn mòn toàn bộ lợi nhuận ngân hàng.
+Trong mô hình kinh doanh ngân hàng, nếu chỉ trao thưởng dựa trên chỉ tiêu số lượng thẻ phát hành hoặc doanh số giải ngân mới, các ASM sẽ bị thúc đẩy bởi động cơ tối đa hóa số lượng ngắn hạn mà nới lỏng khẩu vị rủi ro và tiêu chuẩn thẩm định tín dụng. Hệ quả là tăng trưởng nóng trong vài tháng đầu nhưng nợ xấu bùng nổ sau 3 đến 6 tháng, chi phí trích lập dự phòng sẽ làm giảm sút nghiêm trọng lợi nhuận của toàn hệ thống.
 
-**Thiết kế hệ thống đánh giá cân bằng 2 trụ cột (Balanced Scorecard):**
-Để triệt tiêu động cơ trục lợi rủi ro, hệ thống thiết kế 8 chỉ số trên 2 trụ cột độc lập với trọng số cân bằng 50% Quy mô và 50% Kỷ luật tài chính / Rủi ro:
+**Thiết kế bộ thẻ điểm đánh giá đa chiều (Multi-dimensional Scorecard):**
+Để triệt tiêu động cơ trục lợi rủi ro (Agency Problem), hệ thống thiết kế bộ thẻ điểm đa chiều gồm 8 chỉ tiêu trên 2 trụ cột độc lập với tỷ trọng cân bằng danh nghĩa 50% Quy mô (4 chỉ tiêu) và 50% Kỷ luật tài chính / Rủi ro (4 chỉ tiêu). Mỗi chỉ tiêu đóng góp một thứ hạng độc lập từ 1 đến $N$, trong đó phân định rõ 2 cấp độ đo lường:
+- **Cấp cá nhân (3 chỉ tiêu bán hàng trực tiếp):** Doanh số cho vay mới, số thẻ phát sinh dư nợ và tỷ lệ duyệt hồ sơ phản ánh năng lực khai thác thị trường trực tiếp của từng quản lý vùng.
+- **Cấp trách nhiệm vùng (5 chỉ tiêu tài chính và rủi ro dùng chung địa bàn):** Tỷ lệ nợ xấu mở rộng (NPL trước Write-Off lũy kế), hệ số CIR, biên lợi nhuận (Margin), hệ số hiệu quả vốn và lợi nhuận bình quân/ASM. Trong hoạt động thẻ tín dụng, hợp đồng thẻ không gắn mã định danh cá nhân từng ASM (chỉ gắn theo chi nhánh và vùng). Việc phân bổ chỉ tiêu rủi ro và tài chính vùng vào thẻ điểm cá nhân là giải pháp bắt buộc nhằm buộc các quản lý vùng chia sẻ trách nhiệm quản trị chung trên toàn địa bàn, triệt tiêu tư duy chạy theo doanh số ngắn hạn bỏ mặc chất lượng tín dụng.
+
+**Làm rõ định nghĩa Tỷ lệ nợ xấu mở rộng (NPL trước Write-Off lũy kế):**
+Trong thủ tục Stored Procedure SQL (`report_id = 204`), chỉ tiêu được triển khai là:
+
+$$\text{NPL mở rộng} = \frac{\text{Dư nợ nhóm 3–5} + \text{Write-off lũy kế}}{\text{Tổng dư nợ} + \text{Write-off lũy kế}} \times 100$$
+
+Cần phân biệt với tỷ lệ NPL thông thường (chỉ tính nợ nhóm 3–5 trên tổng dư nợ nội bảng). Trong quản trị thẻ tín dụng, ngân hàng định kỳ thực hiện xóa nợ ngoại bảng (write-off) đối với các khoản nợ xấu khó đòi. Nếu chỉ tính nợ nội bảng, tỷ lệ nợ xấu sẽ bị làm sạch cơ học sau các đợt xóa nợ kỹ thuật. Do đó, chỉ tiêu thực tế bắt buộc phải cộng gộp toàn bộ nợ đã xử lý rủi ro ngoại bảng lũy kế để phản ánh trung thực chất lượng danh mục và lịch sử tổn thất tín dụng của từng vùng.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
@@ -318,7 +330,7 @@ Mọi phép chia đều phải được bọc qua điều kiện kiểm tra mẫ
   - Chi phí trích lập dự phòng phải đồng biến với tốc độ dịch chuyển của nợ xấu nhóm 3 đến nhóm 5.
   - Cảnh báo cờ đỏ (*Red Flag*) đối với các khoản mục chi phí có mức biến động tháng $MoM > \pm 50\%$.
 - **Cách thức triển khai:** Thực hiện các truy vấn kiểm tra miền giá trị trên bảng sự kiện và phân tích độ nhạy xu hướng theo chuỗi thời gian từ tháng 1 đến tháng 5/2023.
-- **Kết quả thực tế:** Tỷ lệ nợ xấu 7 vùng dao động thực tế trong biên độ hợp lý từ 1,15% đến 3,24%. Phát hiện và giải thích thỏa đáng việc chi phí dự phòng tháng 5/2023 tăng đột biến là do trích lập nợ nhóm 3 đến nhóm 5 phát sinh từ đợt mở rộng tín dụng quý trước đó.
+- **Kết quả thực tế:** Tỷ lệ nợ xấu 7 vùng dao động thực tế trong biên độ từ 10,11% đến 21,99% xuyên suốt 5 tháng (riêng tháng 5/2023 từ 11,24% đến 21,99%). Phát hiện và giải thích thỏa đáng việc chi phí dự phòng tháng 5/2023 tăng đột biến là do trích lập nợ nhóm 3 đến nhóm 5 phát sinh từ đợt mở rộng tín dụng quý trước đó.
 - **Giới hạn còn tồn tại:** Phương pháp kiểm tra ngưỡng biến động không phân biệt được biến động do hoạt động kinh doanh tự nhiên với các điều chỉnh chính sách kế toán hồi tố nếu phòng kế toán không cung cấp thuyết minh đi kèm.
 
 ### Lớp 5 – Tính toán lại độc lập và đối soát hệ thống (Independent Recalculation & Cross-Audit)
@@ -327,7 +339,7 @@ Mọi phép chia đều phải được bọc qua điều kiện kiểm tra mẫ
 - **Cách thức triển khai:**
   1. *Kiểm toán ngược trên mẫu:* Bốc ngẫu nhiên 3 trường hợp đại diện (Vùng Đông Nam Bộ, Vùng Tây Bắc Bộ và 1 ASM cụ thể), tự tính toán lại bằng công thức nháp ngoài hệ sinh thái SQL và so sánh kết quả.
   2. *Đối soát hệ thống chéo:* Thực hiện kiểm tra toàn diện **91 ô dữ liệu** (13 chỉ tiêu tài chính cốt lõi $\times$ 7 vùng tại tháng 5/2023) giữa câu lệnh truy vấn PostgreSQL và 72 measure DAX trên Power BI.
-  3. *So sánh với nguồn chuẩn độc lập:* Đối chiếu với tệp kiểm tra đối chứng `input/Tham so va mau doi chieu.xlsx`.
+  3. *Đối chiếu tệp tham số và mẫu đối chứng lịch sử:* So sánh kết quả với `input/Tham so va mau doi chieu.xlsx` (cung cấp bảng tham số ánh xạ tại sheet Param, quy cách biểu mẫu báo cáo tại sheet BaoCaoTongHop và XepHang, cùng các mốc kiểm chứng lịch sử: LNTT tháng 2/2023 đạt 92.226,35 triệu đồng, tháng 5/2023 đạt 250.450,06 triệu đồng, Top 1 ASM toàn quốc thuộc về quản lý vùng nam.hoangvan với 34 điểm). Khung kiểm chứng 5 lớp vận hành độc lập, coi tệp này là thước đo chuẩn mực lịch sử chứ không phụ thuộc thụ động vào tệp ngoài.
 - **Kết quả thực tế:**
   - Kết quả tính toán tay độc lập trùng khớp tuyệt đối với kết quả xuất ra từ hệ thống Stored Procedure SQL.
   - Toàn bộ **91 ô dữ liệu đối soát giữa PostgreSQL và Power BI ghi nhận mức chênh lệch bằng đúng 0**.
@@ -414,28 +426,24 @@ ightarrow$ Đề xuất hành động kèm đơn vị phụ trách và thời h�
 ### Phần B – Phân tích các phát hiện chính từ số liệu tháng 5/2023:
 
 1. **Tây Nam Bộ – Tăng trưởng lợi nhuận không đến từ kinh doanh cốt lõi:**
-   - *Hiện tượng quan sát:* Lợi nhuận trước thuế của vùng tăng vọt **+4.267,8 triệu đồng**, đóng góp tới **97,2%** mức tăng lợi nhuận của toàn hệ thống trong tháng 5.
-   - *Số liệu minh chứng:* Thu nhập thuần từ thẻ của vùng chỉ tăng nhẹ +16,3 triệu đồng, chi phí hoạt động tăng làm giảm lợi nhuận −195,9 triệu đồng. Toàn bộ mức tăng lợi nhuận thực chất đến từ việc **chi phí trích lập dự phòng giảm +4.447,3 triệu đồng**.
-   - *Nguyên nhân từ dữ liệu:* Chi phí dự phòng giảm có thể do hoàn nhập dự phòng hoặc chính sách giãn nợ kỹ thuật chứ không phản ánh sự khởi sắc của hoạt động bán hàng.
-   - *Vấn đề quản trị:* Vùng Tây Nam Bộ đang có **tỷ lệ nợ xấu cao nhất hệ thống (21,99%)** và không có bất kỳ quản lý vùng nào lọt vào nhóm 25 vị trí dẫn đầu toàn quốc.
-   - *Đề xuất xử lý:* Tạm dừng khen thưởng dựa trên lợi nhuận đơn lẻ; yêu cầu Khối Quản lý rủi ro kiểm tra thực địa chất lượng thu hồi nợ tại Tây Nam Bộ trong tháng 7.
+   - *Dữ kiện quan sát được (Observed Facts):* Lợi nhuận trước thuế của vùng tăng vọt **+4.267,8 triệu đồng**, đóng góp tới **97,2%** mức tăng lợi nhuận toàn hệ thống trong tháng 5. Tuy nhiên, thu nhập thuần từ thẻ chỉ tăng nhẹ +16,3 triệu đồng, chi phí hoạt động tăng làm giảm lợi nhuận −195,9 triệu đồng, trong khi **chi phí trích lập dự phòng giảm +4.447,3 triệu đồng**. Vùng ghi nhận **tỷ lệ nợ xấu cao nhất hệ thống (21,99%)** và không có ASM nào lọt vào nhóm 25 vị trí dẫn đầu.
+   - *Suy luận nghiệp vụ (Business Inferences):* Mức tăng lợi nhuận của Tây Nam Bộ hoàn toàn mang tính kế toán từ việc giảm chi phí dự phòng ròng, không phản ánh sự tăng trưởng của năng lực bán hàng cốt lõi.
+   - *Giả thuyết cần xác minh thêm (Hypotheses Requiring Further Verification):* Cần xác minh liệu chi phí dự phòng giảm có thực chất đến từ thu hồi nợ xấu hay do điều chỉnh kỹ thuật giãn nợ; đề xuất kiểm tra thực địa chất lượng danh mục tín dụng trong tháng 7.
 
 2. **Đông Nam Bộ – Kết quả lợi nhuận âm do áp lực dự phòng nợ xấu:**
-   - *Hiện tượng quan sát:* Vùng Đông Nam Bộ ghi nhận mức lỗ trước thuế **−8.787,4 triệu đồng** trong tháng.
-   - *Số liệu minh chứng:* Hoạt động kinh doanh thực tế diễn ra rất tích cực khi **thu nhập thuần tăng tới +3.210,7 triệu đồng**, nhưng mức tăng này bị xóa sạch bởi **chi phí trích lập dự phòng tăng thêm −3.234,2 triệu đồng**.
-   - *Nguyên nhân từ dữ liệu:* Tỷ lệ chuyển nhóm nợ xấu của các hợp đồng phát hành trong giai đoạn trước bắt đầu phát tác, đòi hỏi trích lập dự phòng bổ sung lớn.
-   - *Vấn đề quản trị:* Khiến **16 trong số 19 quản lý vùng** rơi xuống nửa cuối bảng xếp hạng toàn quốc dù doanh số bán hàng mới của họ vẫn thuộc nhóm cao.
-   - *Đề xuất xử lý:* Rà soát danh mục hợp đồng chuyển nhóm nợ xấu tại Đông Nam Bộ trong vòng 30 ngày để tái cơ cấu quy trình thẩm định.
+   - *Dữ kiện quan sát được (Observed Facts):* Vùng ghi nhận mức lỗ trước thuế **−8.787,4 triệu đồng** trong tháng. Hoạt động bán hàng tăng trưởng mạnh khi **thu nhập thuần tăng tới +3.210,7 triệu đồng**, nhưng bị xóa sạch do **chi phí dự phòng tăng thêm −3.234,2 triệu đồng**, khiến **16 trong số 19 quản lý vùng** rơi xuống nửa cuối bảng xếp hạng dù doanh số cao.
+   - *Suy luận nghiệp vụ (Business Inferences):* Hiện tượng "lời giả lỗ thật" xuất phát từ việc các khoản cho vay tăng trưởng nóng trong quá khứ nay chuyển nhóm nợ xấu, tạo áp lực trích lập dự phòng vượt quá lợi nhuận kinh doanh mới tạo ra.
+   - *Giả thuyết cần xác minh thêm (Hypotheses Requiring Further Verification):* Cần rà soát danh mục hợp đồng nợ xấu tại Đông Nam Bộ trong 30 ngày để kiểm tra tỷ lệ dịch chuyển nợ quá hạn và tái cơ cấu chuẩn phê duyệt.
 
-3. **Đồng bằng Sông Hồng – Thu nhập cốt lõi giảm bị che khuất bởi hoàn nhập:**
-   - *Hiện tượng quan sát:* Lợi nhuận của vùng tăng thêm **+1.310,9 triệu đồng** so với tháng trước.
-   - *Số liệu minh chứng:* Thu nhập thuần từ thẻ thực tế giảm **−232,2 triệu đồng**, nhưng con số lợi nhuận dương đạt được là nhờ chi phí dự phòng giảm **+1.455,8 triệu đồng**.
-   - *Vấn đề quản trị:* Báo cáo bề nổi cho thấy vùng vẫn tăng trưởng lợi nhuận, che giấu dấu hiệu suy giảm đà kinh doanh tại thị trường lớn nhất của ngân hàng.
+3. **Đồng bằng Sông Hồng – Lợi nhuận tăng nhờ chi phí dự phòng ròng giảm:**
+   - *Dữ kiện quan sát được (Observed Facts):* Lợi nhuận vùng tăng thêm **+1.310,9 triệu đồng** so với tháng trước, trong khi thu nhập thuần từ thẻ thực tế giảm **−232,2 triệu đồng** và chi phí dự phòng ghi nhận giảm **+1.455,8 triệu đồng**.
+   - *Suy luận nghiệp vụ (Business Inferences):* Báo cáo lợi nhuận tổng dương che giấu dấu hiệu suy giảm đà kinh doanh cốt lõi tại thị trường lớn nhất của ngân hàng.
+   - *Giả thuyết cần xác minh thêm (Hypotheses Requiring Further Verification):* Khi sổ sách chưa bóc tách dòng trích lập dự phòng mới và hoàn nhập, cần kiểm toán nội bộ số liệu dự phòng chi tiết để phân biệt giữa suy giảm tự nhiên và hoàn nhập kỹ thuật.
 
 4. **Nam Trung Bộ – Mô hình điểm về hiệu quả và chất lượng tín dụng:**
-   - *Hiện tượng quan sát:* Quy mô địa bàn nhỏ (chỉ có 5 quản lý vùng) nhưng đạt hiệu quả hoạt động đồng đều và bền vững nhất toàn hàng.
-   - *Số liệu minh chứng:* Tỷ lệ nợ xấu thấp nhất ngân hàng (**11,24%**) và có tới **4 trong số 5 quản lý vùng** nằm trong nhóm 25 vị trí dẫn đầu cả nước.
-   - *Đề xuất xử lý:* Đúc kết quy trình sàng lọc và thẩm định hồ sơ của Nam Trung Bộ để thí điểm nhân rộng sang các địa bàn khác.
+   - *Dữ kiện quan sát được (Observed Facts):* Địa bàn quy mô 5 quản lý vùng duy trì tỷ lệ nợ xấu thấp nhất toàn ngân hàng (**11,24%**) và có tới **4 trong số 5 quản lý vùng** nằm trong nhóm 25 vị trí dẫn đầu cả nước.
+   - *Suy luận nghiệp vụ (Business Inferences):* Vùng duy trì được sự cân bằng tối ưu giữa việc sàng lọc khách hàng chất lượng và kiểm soát rủi ro thu hồi nợ địa bàn.
+   - *Giả thuyết cần xác minh thêm (Hypotheses Requiring Further Verification):* Cần khảo sát chi tiết quy trình thẩm định tín dụng thực địa của Nam Trung Bộ để đánh giá tính khả thi trước khi thí điểm nhân rộng sang các vùng khác.
 
 ### Năm đề xuất hành động cụ thể gửi Ban Lãnh Đạo:
 

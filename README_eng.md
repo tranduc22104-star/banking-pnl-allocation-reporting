@@ -13,6 +13,9 @@
 
 </div>
 
+> **PROJECT OVERVIEW**  
+> This project addresses credit card business management reporting at a commercial bank with 7 business regions and 74 to 84 Area Sales Managers (ASMs). Starting from high-level leadership directives, the project clarifies methodology, establishes an indirect head-office cost and revenue allocation engine based on management accounting principles, and designs a multi-dimensional balanced scorecard balancing volume growth with credit risk control. The entire solution is validated through a 5-layer independent audit framework, automated via PostgreSQL data pipelines, and visualized on a 5-page Power BI dashboard for strategic decision-making.
+
 ## 📑 Table Of Contents
 
 1. [🏢 Business Context And Executive Requirements](#1--business-context-and-executive-requirements)
@@ -21,10 +24,10 @@
 4. [🔄 Data Engineering And Warehouse Architecture](#4--data-engineering-and-warehouse-architecture)
 5. [🧮 Business Logic And Metric Design](#5--business-logic-and-metric-design)
 6. [🧪 Data Validation And Quality Assurance](#6--data-validation-and-quality-assurance)
-7. [🖥️ Dashboard Design And Visualization In Power BI](#7-️-dashboard-design-and-visualization-in-power-bi)
+7. [🖥️ Dashboard Design And Visualization In Power BI](#7--dashboard-design-and-visualization-in-power-bi)
 8. [📊 Business Insights And Management Recommendations](#8--business-insights-and-management-recommendations)
 9. [📚 Lessons Learned And Implementation Takeaways](#9--lessons-learned-and-implementation-takeaways)
-10. [🛠️ Tools And Technologies](#10-️-tools-and-technologies)
+10. [🛠️ Tools And Technologies](#10--tools-and-technologies)
 11. [📂 Project Repository Structure](#11--project-repository-structure)
 12. [📖 Handover Documentation](#12--handover-documentation)
 13. [👤 Author](#13--author)
@@ -48,10 +51,10 @@ At the inception point, this mandate was entirely **unspecified in operational a
 - Scoring algorithms, ranking methodologies, and dashboard architectures were wholly unmapped.
 
 ### Identified business ambiguities and governance challenges
-Through field operational analysis, three critical challenges emerged from legacy reporting practices:
+Through field operational analysis, three key management issues emerged from legacy reporting practices:
 
 1. **True economic profitability was obscured:**
-   In general accounting ledgers, business regions directly record revenue from loan interest and card fees. However, major operating expenses such as funding costs, central marketing campaigns, core technology infrastructure, and back-office support salaries are booked centrally under the Head Office pool. Without an equitable, driver-based cost allocation mechanism, conventional reporting showed every region as profitable, masking territories that were actually eroding overall bank value.
+   In general accounting ledgers, business regions directly record revenue from loan interest and card fees. However, major operating expenses such as funding costs, central marketing campaigns, core technology infrastructure, and back-office support salaries are booked centrally under the Head Office pool. Without an equitable, driver-based cost allocation mechanism, conventional reporting showed every region as profitable, masking territories that were actually significantly reducing overall bank value.
 
 2. **Sales personnel evaluation incentivized credit risk expansion:**
    When Area Sales Managers were evaluated purely on gross new lending volume or active card issuance counts, managers were naturally incentivized to lower underwriting standards to hit short-term targets. As a consequence, volume expanded rapidly in early months, but non-performing loan (NPL) ratios and provision charges surged in subsequent periods.
@@ -128,7 +131,7 @@ The bank lacked a centralized data mart or a single comprehensive table capable 
 | Supplying Department | Source Dataset | Volume | Role In Fulfilling Desired Outputs & Key Joins |
 |---|---|---:|---|
 | **Accounting & Finance** | General Ledger (`fact_txn_month`) | **63,134** entries | Captures line-item revenue and cost entries; includes 62,953 branch-tagged entries (direct regional assignment) and 181 centralized Head Office entries (pool `'00'`, requiring allocation). Join keys: `city_code`, `account_code`. |
-| **Card Operations** | Card Contract Statements (`fact_kpi_month`) | **2,932,914** rows | Records customer-level credit balances across 5 debt buckets, written-off accounts, and turnover across 5 months; serves as the basis for regional NPL calculation and allocation driver ratios. Join keys: `branch_code`, `month_key`. |
+| **Card Operations** | Card Contract Statements (`fact_kpi_month`) | **2,932,922** rows | Records customer-level credit balances across 5 debt buckets, written-off accounts, and turnover across 5 months; serves as the basis for regional NPL calculation and allocation driver ratios. Join keys: `branch_code`, `month_key`. |
 | **Network Sales Management** | Commercial Target Sheet (`kpi_asm_data`) | **420** rows | Tracks individual monthly sales targets: gross lending volume, active card count, and credit approval rates for 74 to 84 Area Sales Managers. Join keys: `asm_id`, `month_key`. |
 | **Planning & Data Governance** | Parameter Matrix & Template Mapping | **64** provinces | Maps 64 administrative provinces into 8 geographic management zones (Head Office `'A'` and 7 regions `'B'..'H'`) with standardized reporting layouts. Join keys: `city_code`, `area_code`. |
 
@@ -225,15 +228,24 @@ Year-to-date accounting figures are converted into discrete monthly cash flows:
 $$V_{\text{Month } M} = V_{\text{Cumulative } M} - V_{\text{Cumulative } (M-1)}$$
 Enabling variance decomposition of Profit Before Tax (PBT) across 6 distinct revenue and expense components.
 
-### 5.2. Regional Sales Management (ASM) Balanced Scorecard
+### 5.2. Designing ASM Evaluation Metrics And Multi-dimensional Scorecard
 
 Core analytical question: *If sales management performance is evaluated solely on new card volume, does the scorecard truly capture business profitability and risk control?*
 
 **Addressing the Single-Metric Agency Problem:**
 In commercial banking, evaluating managers strictly on gross sales volume or newly issued cards creates a perverse incentive to lower credit underwriting thresholds. This drives rapid short-term acquisition but causes delinquency spikes 3 to 6 months later, where credit risk provisions erode all gross profits.
 
-**Designing a Balanced Two-Pillar Scorecard:**
-To eliminate moral hazard, the evaluation framework assesses 8 indicators across two independent pillars balanced at 50% Commercial Scale and 50% Financial Discipline / Risk Control:
+**Designing a multi-dimensional balanced scorecard architecture:**
+To neutralize agency problems and risk-taking incentives, the framework establishes a multi-dimensional scorecard comprising 8 metrics across 2 independent pillars, with nominal 50% Volume (4 metrics) and 50% Financial Discipline / Risk (4 metrics). Each metric contributes an independent rank from 1 to $N$, clearly distinguishing between 2 operational tiers:
+- **Individual tier (3 direct sales metrics):** Gross new lending volume, active contracts with balance, and approval rates reflect direct market origination capability.
+- **Territory responsibility tier (5 regional financial and risk metrics):** Extended NPL ratio (cumulative NPL before Write-Off), CIR, Margin, Capital Efficiency, and Average Profit per ASM. In credit card operations, individual loan contracts lack ASM-level identifier tags (carrying only branch and territory codes). Allocating regional metrics to individual ASMs enforces collective territorial stewardship, eliminating individual incentives to pursue short-term issuance volumes while ignoring portfolio credit quality.
+
+**Clarifying Extended NPL Definition (Cumulative NPL Before Write-Off):**
+Within SQL Stored Procedures (`report_id = 204`), the implemented metric is:
+
+$$\text{Extended NPL} = \frac{\text{Bucket 3–5 Balances} + \text{Cumulative Write-offs}}{\text{Total Balances} + \text{Cumulative Write-offs}} \times 100$$
+
+This metric differs crucially from conventional accounting NPL (which measures only on-balance-sheet Buckets 3–5 over total on-balance-sheet loans). In retail credit card risk management, banks regularly execute off-balance-sheet write-offs for irrecoverable debts. Evaluating purely on-balance-sheet loans creates an artificial cosmetic cleansing effect following write-off cycles. Therefore, the operational metric must integrate cumulative off-balance write-offs into both numerator and denominator to reflect true underlying asset quality and cumulative loss history across territories:
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
@@ -318,7 +330,7 @@ All division expressions are guarded with `NULLIF(denominator, 0)`.
   - Credit risk provisioning must correlate positively with delinquent loan movements in Buckets 3 to 5.
   - Red Flag threshold triggers for expense lines with month-over-month variance $MoM > \pm 50\%$.
 - **Implementation Method:** Boundary query assertions on fact tables and time-series sensitivity monitoring from January through May 2023.
-- **Observed Result:** Regional NPL ratios fluctuated within a realistic range of 1.15% to 3.24%. The sharp spike in May 2023 credit provisioning was verified as expected provisioning on Buckets 3 to 5 from earlier credit expansion.
+- **Observed Result:** Regional NPL across all 7 regions fluctuated within 10.11% to 21.99% throughout the 5 months (specifically 11.24% to 21.99% in May 2023). The sharp spike in May 2023 credit provisioning was verified as expected provisioning on Buckets 3 to 5 from earlier credit expansion.
 - **Known Limitation:** Threshold scanning cannot distinguish organic business expansion from retroactive accounting policy adjustments without accountant notes.
 
 ### Layer 5 – Independent Recalculation And Cross-Audit
@@ -327,7 +339,7 @@ All division expressions are guarded with `NULLIF(denominator, 0)`.
 - **Implementation Method:**
   1. *Sample Reverse Audit:* Randomly sampled 3 representative entities (Southeast Region, Northwest Region, and 1 specific ASM); recalculated numbers manually outside SQL.
   2. *Cross-System Audit:* Exhaustive **91-cell matrix audit** (13 core financial indicators $\times$ 7 regions for May 2023) between PostgreSQL SQL queries and 72 DAX measures in Power BI.
-  3. *Independent Benchmark Comparison:* Verified against external reference workbook `input/Tham so va mau doi chieu.xlsx`.
+  3. *Independent Benchmark Comparison:* Verified against historical reference workbook `input/Tham so va mau doi chieu.xlsx` (providing mapping parameters in the Param sheet, report layout templates in BaoCaoTongHop and XepHang sheets, and historical benchmark checkpoints: February 2023 PBT reached 92,226.35 million VND, May 2023 reached 250,450.06 million VND, and Top 1 ASM nationwide awarded to regional manager nam.hoangvan with 34 points). The 5-layer verification framework operates independently, treating this file as an established historical benchmark rather than relying on external files.
 - **Observed Result:**
   - Independent manual calculations matched stored procedure outputs with zero variance.
   - All **91 audited cells between PostgreSQL and Power BI yielded exactly 0 variance**.
@@ -414,28 +426,24 @@ ightarrow$ Actionable Intervention with department and timeline).
 ### Part B – Key Findings from May 2023 Operational Data:
 
 1. **Southwest Region – Profit growth disconnected from core commercial operations:**
-   - *Observed Symptom:* Regional PBT surged by **+4,267.8 million VND**, accounting for **97.2%** of total system-wide profit growth in May.
-   - *Data Evidence:* Net card income increased marginally by +16.3 million VND while OPEX rose, reducing profit by −195.9 million VND. The entirety of profit growth stemmed from **provision charges dropping by +4,447.3 million VND**.
-   - *Root Cause in Data:* Provision reduction reflects technical recovery write-backs or loan restructuring rather than commercial expansion.
-   - *Governance Concern:* The Southwest region carries the **highest NPL ratio nationwide (21.99%)**, with zero ASMs qualifying for the top 25 nationwide ranking.
-   - *Action Proposed:* Suspend incentive compensation tied to single-month profit; dispatch Credit Risk specialists to audit debt recovery efficacy in July.
+   - *Dữ kiện quan sát được (Observed Facts):* Regional PBT surged by **+4,267.8 million VND**, accounting for **97.2%** of total system-wide profit growth in May. However, net card income rose marginally by +16.3 million VND while OPEX reduced profit by −195.9 million VND, with net **provision charges decreasing by +4,447.3 million VND**. The territory carries the **highest NPL ratio nationwide (21.99%)** with zero ASMs qualifying for the top 25 nationwide ranking.
+   - *Suy luận nghiệp vụ (Business Inferences):* Profit expansion in the Southwest is an accounting artifact of declining net provisions rather than organic commercial expansion.
+   - *Giả thuyết cần xác minh thêm (Hypotheses Requiring Further Verification):* Audit whether provision reductions represent genuine recovery collections or technical restructuring; conduct on-site credit quality reviews in July.
 
 2. **Southeast Region – Net losses driven by surging credit provisioning:**
-   - *Observed Symptom:* The Southeast territory recorded an operating loss of **−8,787.4 million VND** during the month.
-   - *Data Evidence:* Field sales activity was highly robust with **net income surging by +3,210.7 million VND**, but this gain was entirely wiped out by **credit provision charges rising by −3,234.2 million VND**.
-   - *Root Cause in Data:* Delinquency migration from loans issued in prior quarters triggered mandatory provisioning charges.
-   - *Governance Concern:* Pushed **16 out of 19 Area Sales Managers** into the lower half of national rankings despite strong gross sales.
-   - *Action Proposed:* Audit credit underwriting files in the Southeast within 30 days to restructure credit screening criteria.
+   - *Dữ kiện quan sát được (Observed Facts):* The Southeast territory recorded an operating loss of **−8,787.4 million VND** during the month. Commercial sales expanded robustly with **net income surging by +3,210.7 million VND**, but was wiped out by **credit provision charges rising by −3,234.2 million VND**, pushing **16 out of 19 Area Sales Managers** into the lower half of national rankings despite high gross sales.
+   - *Suy luận nghiệp vụ (Business Inferences):* Legacy delinquent vintages migrated across credit buckets, generating provisioning burdens that eclipsed newly originated commercial value.
+   - *Giả thuyết cần xác minh thêm (Hypotheses Requiring Further Verification):* Audit delinquent portfolio files in the Southeast within 30 days to quantify migration velocity and recalibrate underwriting scorecards.
 
-3. **Red River Delta – Core income contraction masked by provision declines:**
-   - *Observed Symptom:* Regional profit rose by **+1,310.9 million VND** MoM.
-   - *Data Evidence:* Core net card income contracted by **−232.2 million VND**, while positive profit was created by a provision decrease of **+1,455.8 million VND**.
-   - *Governance Concern:* Surface-level reporting masked slowing commercial momentum in the bank's largest credit market.
+3. **Red River Delta – Profit Increased Due To Reduced Net Provision Expenses:**
+   - *Dữ kiện quan sát được (Observed Facts):* Regional profit expanded by **+1,310.9 million VND** MoM, whereas core net card income contracted by **−232.2 million VND** and provision charges dropped by **+1,455.8 million VND**.
+   - *Suy luận nghiệp vụ (Business Inferences):* Surface-level positive profitability masked commercial deceleration in the bank's largest retail credit market.
+   - *Giả thuyết cần xác minh thêm (Hypotheses Requiring Further Verification):* Because accounting entries aggregate new provisioning and recoveries into one net line, internal risk audits must inspect raw provision ledgers to differentiate between organic risk declines and technical write-backs.
 
 4. **South Central Coast – Operational benchmark for efficiency and credit discipline:**
-   - *Observed Symptom:* Despite smaller operational scale (5 ASMs), the region achieved superior, consistent performance.
-   - *Data Evidence:* Maintained lowest NPL nationwide (**11.24%**) with **4 out of 5 Area Sales Managers** ranking among the top 25 nationwide.
-   - *Action Proposed:* Synthesize underwriting and screening practices from the South Central Coast for pilot replication in other regions.
+   - *Dữ kiện quan sát được (Observed Facts):* Operating with 5 ASMs, the region maintained the lowest NPL nationwide (**11.24%**) with **4 out of 5 Area Sales Managers** ranking among the top 25 nationwide.
+   - *Suy luận nghiệp vụ (Business Inferences):* The territory demonstrated superior execution in balancing customer creditworthiness screening with disciplined collection management.
+   - *Giả thuyết cần xác minh thêm (Hypotheses Requiring Further Verification):* Conduct an operational study of local underwriting controls in the South Central Coast to evaluate feasibility before piloting replication in other territories.
 
 ### Five Concrete Management Action Plans:
 
