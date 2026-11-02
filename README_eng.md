@@ -18,8 +18,8 @@
 1. [🏢 Business Context And Executive Requirements](#1--business-context-and-executive-requirements)
 2. [🎯 Requirement Analysis And Report Output Design](#2--requirement-analysis-and-report-output-design)
 3. [🔍 Data Discovery And Assessment](#3--data-discovery-and-assessment)
-4. [🔄 Data Engineering And Warehouse Architecture](#4--data-engineering-and-warehouse-architecture)
-5. [🧮 Business Logic And Metric Design](#5--business-logic-and-metric-design)
+4. [🧮 Business Logic And Metric Design](#4--business-logic-and-metric-design)
+5. [🔄 Data Engineering And Warehouse Architecture](#5--data-engineering-and-warehouse-architecture)
 6. [🧪 Data Validation And Quality Assurance](#6--data-validation-and-quality-assurance)
 7. [📊 Business Insights And Management Recommendations](#7--business-insights-and-management-recommendations)
 8. [📚 Key Takeaways](#8--key-takeaways)
@@ -147,49 +147,11 @@ The bank lacked a centralized data mart or single comprehensive table meeting al
 
 ---
 
-## 4. 🔄 Data Engineering And Warehouse Architecture
-
-To transform multi-source raw data into a complete reporting system, the workflow is structured into 4 engineering stages:
-
-<div align="center">
-
-![Technical Pipeline — 4 Processing Stages](images/quy-trinh.png)
-
-</div>
-
-### Detailed engineering steps:
-
-- **Stage 1 – Data Ingestion (Python Streaming Ingestion):**
-  Utilized Python libraries (`openpyxl` combined with `zipfile` + `xml.etree` streaming parsing) to read the **117.2 MB** statement file containing nearly 3 million rows without memory overflows. Transformed the wide-format ASM target worksheet into a vertical relational data structure.
-
-- **Stage 2 – Data Cleaning (Standardization and Quality Enforcement):**
-  Enforced strict data types; handled null values; implemented Vietnamese text normalization (`pos_city_norm`) to resolve province naming mismatches, salvaging 36,000 credit card contracts. Loaded clean data into 3 staging tables (`stg_fact_kpi_month`, `stg_fact_txn_month`, `stg_asm_target`) and 2 regional dimension tables (`dim_area`, `dim_param_area`).
-
-- **Stage 3 – Data Warehouse Design (Kimball Star Schema in PostgreSQL):**
-  Structured within schema `banking_project` encompassing **19 tables and 4 `views`**:
-  - **7 Dimension Tables (`dim_`):** `dim_area` (8 zones), `dim_param_area` (64 provinces), `dim_month` (5 months), `dim_asm` (84 personnel), `dim_report_detail` (50 metrics), `dim_month_headcount` (35 rows), `dim_sm_headcount` (35 rows).
-  - **3 Staging Tables (`stg_`):** `stg_fact_kpi_month` (2,932,922 rows), `stg_fact_txn_month` (63,134 rows), `stg_asm_target` (420 rows).
-  - **6 Temporary Processing Tables (`tmp_`):** Unified vertical schema (`month_key`, `area_code`, `report_id`, `value`) storing intermediate computations for P&L (`tmp_pnl_step1..3`) and Ranking (`tmp_xh_step1..3`).
-  - **2 Core Fact Tables (`fct_`):** `fct_pnl_value` (1,115 rows) storing regional P&L results and `fct_asm_value` (8,536 rows) storing ASM ranking scores across 5 months.
-  - **1 Audit Log Table (`log_`):** `log_proc_run` recording procedure execution history (65 `START` and `OK` entries, 0 `FAIL` entries).
-  - **9 `Virtual Foreign Keys`:** Documenting relational integrity in DBeaver diagrams without degrading transactional batch ingestion speeds.
-
-<div align="center">
-
-![Mô hình kho dữ liệu Star Schema](images/thiet-ke-schema.png)
-
-</div>
-
-- **Stage 4 – Data Processing (PL/pgSQL Stored Procedures):**
-  Engineered 9 stored procedures executing allocation logic and ranking algorithms. Encapsulated processing in atomic transactions with automated error trapping and rollback safeguards.
-
----
-
-## 5. 🧮 Business Logic And Metric Design
+## 4. 🧮 Business Logic And Metric Design
 
 **Business Context:** In practice, Executive Leadership provides general goals rather than pre-calculated formulas, standardized KPI scorecards, or sample benchmark data. The entire calculation logic was independently built based on financial cash flow principles and management accounting standards.
 
-### 5.1. P&L Allocation Framework
+### 4.1. P&L Allocation Framework
 
 Core analytical question: *How can actual regional operating profitability be determined when major revenues and corporate overheads are centralized at Head Office?*
 
@@ -224,7 +186,7 @@ Year-to-date accounting figures are converted into discrete monthly cash flows:
 $$V_{\text{Month } M} = V_{\text{Cumulative } M} - V_{\text{Cumulative } (M-1)}$$
 Enabling variance decomposition of Profit Before Tax (PBT) across 6 distinct revenue and expense components.
 
-### 5.2. Designing Area Sales Management Operational Scorecard (Multi-dimensional ASM Scorecard)
+### 4.2. Designing Area Sales Management Operational Scorecard (Multi-dimensional ASM Scorecard)
 
 Core analytical question: *If Area Sales Manager (ASM) performance is evaluated solely on new card volume, does the scorecard truly capture business profitability and risk control?*
 
@@ -276,6 +238,44 @@ Because the indicators feature non-commensurate measurement units (million VND, 
 - Total performance score equals the sum of ranks from both pillars:
 $$\text{Total Score} = \text{Scale Rank Score } (diem\_qm) + \text{Financial Rank Score } (diem\_fin)$$
 - Regional managers with a **lower total score achieve a superior final nationwide ranking**. The evaluation scale applies across active sales management cohorts numbering 74 to 84 ASMs across monthly periods.
+
+---
+
+## 5. 🔄 Data Engineering And Warehouse Architecture
+
+To transform multi-source raw data into a complete reporting system, the workflow is structured into 4 engineering stages:
+
+<div align="center">
+
+![Technical Pipeline — 4 Processing Stages](images/quy-trinh.png)
+
+</div>
+
+### Detailed engineering steps:
+
+- **Stage 1 – Data Ingestion (Python Streaming Ingestion):**
+  Utilized Python libraries (`openpyxl` combined with `zipfile` + `xml.etree` streaming parsing) to read the **117.2 MB** statement file containing nearly 3 million rows without memory overflows. Transformed the wide-format ASM target worksheet into a vertical relational data structure.
+
+- **Stage 2 – Data Cleaning (Standardization and Quality Enforcement):**
+  Enforced strict data types; handled null values; implemented Vietnamese text normalization (`pos_city_norm`) to resolve province naming mismatches, salvaging 36,000 credit card contracts. Loaded clean data into 3 staging tables (`stg_fact_kpi_month`, `stg_fact_txn_month`, `stg_asm_target`) and 2 regional dimension tables (`dim_area`, `dim_param_area`).
+
+- **Stage 3 – Data Warehouse Design (Kimball Star Schema in PostgreSQL):**
+  Structured within schema `banking_project` encompassing **19 tables and 4 `views`**:
+  - **7 Dimension Tables (`dim_`):** `dim_area` (8 zones), `dim_param_area` (64 provinces), `dim_month` (5 months), `dim_asm` (84 personnel), `dim_report_detail` (50 metrics), `dim_month_headcount` (35 rows), `dim_sm_headcount` (35 rows).
+  - **3 Staging Tables (`stg_`):** `stg_fact_kpi_month` (2,932,922 rows), `stg_fact_txn_month` (63,134 rows), `stg_asm_target` (420 rows).
+  - **6 Temporary Processing Tables (`tmp_`):** Unified vertical schema (`month_key`, `area_code`, `report_id`, `value`) storing intermediate computations for P&L (`tmp_pnl_step1..3`) and Ranking (`tmp_xh_step1..3`).
+  - **2 Core Fact Tables (`fct_`):** `fct_pnl_value` (1,115 rows) storing regional P&L results and `fct_asm_value` (8,536 rows) storing ASM ranking scores across 5 months.
+  - **1 Audit Log Table (`log_`):** `log_proc_run` recording procedure execution history (65 `START` and `OK` entries, 0 `FAIL` entries).
+  - **9 `Virtual Foreign Keys`:** Documenting relational integrity in DBeaver diagrams without degrading transactional batch ingestion speeds.
+
+<div align="center">
+
+![Mô hình kho dữ liệu Star Schema](images/thiet-ke-schema.png)
+
+</div>
+
+- **Stage 4 – Data Processing (PL/pgSQL Stored Procedures):**
+  Engineered 9 stored procedures executing allocation logic and ranking algorithms. Encapsulated processing in atomic transactions with automated error trapping and rollback safeguards.
 
 ---
 

@@ -18,8 +18,8 @@
 1. [🏢 Bối cảnh kinh doanh và yêu cầu quản trị](#1--bối-cảnh-kinh-doanh-và-yêu-cầu-quản-trị)
 2. [🎯 Phân tích yêu cầu và thiết kế báo cáo](#2--phân-tích-yêu-cầu-và-thiết-kế-báo-cáo)
 3. [🔍 Khảo sát dữ liệu và đánh giá mức độ đáp ứng](#3--khảo-sát-dữ-liệu-và-đánh-giá-mức-độ-đáp-ứng)
-4. [🔄 Thiết kế quy trình xử lý và kho dữ liệu](#4--thiết-kế-quy-trình-xử-lý-và-kho-dữ-liệu)
-5. [🧮 Xây dựng cách tính và các chỉ tiêu quản trị](#5--xây-dựng-cách-tính-và-các-chỉ-tiêu-quản-trị)
+4. [🧮 Xây dựng cách tính và các chỉ tiêu quản trị](#4--xây-dựng-cách-tính-và-các-chỉ-tiêu-quản-trị)
+5. [🔄 Thiết kế quy trình xử lý và kho dữ liệu](#5--thiết-kế-quy-trình-xử-lý-và-kho-dữ-liệu)
 6. [🧪 Kiểm tra và đối soát dữ liệu](#6--kiểm-tra-và-đối-soát-dữ-liệu)
 7. [📊 Kết quả phân tích và đề xuất quản trị](#7--kết-quả-phân-tích-và-đề-xuất-quản-trị)
 8. [📚 Kinh nghiệm rút ra](#8--kinh-nghiệm-rút-ra)
@@ -147,49 +147,11 @@ Ngân hàng chưa có kho dữ liệu tập trung hoặc một bảng số liệ
 
 ---
 
-## 4. 🔄 Thiết kế quy trình xử lý và kho dữ liệu
-
-Để kết hợp dữ liệu từ nhiều nguồn và xây dựng hệ thống báo cáo, quy trình xử lý được chia thành 4 bước:
-
-<div align="center">
-
-![Quy trình xử lý kỹ thuật — 4 giai đoạn](images/quy-trinh.png)
-
-</div>
-
-### Quy trình xử lý dữ liệu gồm 4 bước:
-
-- **Bước 1 – Data Ingestion (Thu thập và trích xuất bằng Python):**
-  Sử dụng `openpyxl` kết hợp `zipfile` và `xml.etree` để đọc theo từng phần tệp sao kê hợp đồng thẻ có dung lượng **117,2 MB**, gồm gần 3 triệu dòng. Cách làm này giúp hạn chế lượng RAM cần sử dụng. Đồng thời, chuyển bảng chỉ tiêu ASM từ dạng ngang (Wide) sang dạng dọc (Tall) để thuận tiện lưu trữ và xử lý.
-
-- **Bước 2 – Data Cleaning (Làm sạch và chuẩn hóa dữ liệu):**
-  Kiểm tra kiểu dữ liệu, xử lý các bản ghi NULL và dùng hàm chuẩn hóa chuỗi tiếng Việt không dấu (`pos_city_norm`) để thống nhất tên địa danh giữa sao kê thẻ với bảng tham số. Bước này khắc phục lỗi ghép dữ liệu có nguy cơ làm mất hơn 36.000 hợp đồng thẻ. Sau đó, nạp dữ liệu đã xử lý vào 3 bảng `staging` (`stg_fact_kpi_month`, `stg_fact_txn_month`, `stg_asm_target`) và 2 bảng danh mục vùng (`dim_area`, `dim_param_area`).
-
-- **Bước 3 – Data Warehouse Design (Mô hình Star Schema trong PostgreSQL):**
-  Kho dữ liệu được xây dựng theo phương pháp Kimball trong schema `banking_project`, gồm **19 bảng và 4 `view`**:
-  - **7 bảng chiều (`dim_`):** `dim_area` (8 vùng), `dim_param_area` (64 tỉnh thành), `dim_month` (5 tháng), `dim_asm` (84 nhân sự), `dim_report_detail` (50 chỉ tiêu), `dim_month_headcount` (35 dòng), `dim_sm_headcount` (35 dòng).
-  - **3 bảng nạp thô (`stg_`):** `stg_fact_kpi_month` (2.932.922 dòng), `stg_fact_txn_month` (63.134 dòng), `stg_asm_target` (420 dòng).
-  - **6 bảng trung gian (`tmp_`):** Cùng cấu trúc dữ liệu dạng dọc (`month_key`, `area_code`, `report_id`, `value`) phục vụ tính trung gian cho P&L (`tmp_pnl_step1..3`) và Xếp hạng (`tmp_xh_step1..3`).
-  - **2 bảng sự kiện cốt lõi (`fct_`):** `fct_pnl_value` (1.115 dòng) lưu kết quả tài chính 7 vùng và `fct_asm_value` (8.536 dòng) lưu thứ hạng chi tiết từng quản lý vùng qua 5 tháng.
-  - **1 bảng nhật ký (`log_`):** `log_proc_run` ghi nhận lịch sử thực thi thủ tục (65 bản ghi `START` và `OK`, 0 bản ghi `FAIL`).
-  - **9 `Virtual Foreign Keys` (Khoá ngoại ảo):** Hỗ trợ kiểm tra các mối liên kết tham chiếu trong DBeaver mà không làm chậm tốc độ nạp dữ liệu định kỳ.
-
-<div align="center">
-
-![Mô hình kho dữ liệu Star Schema](images/thiet-ke-schema.png)
-
-</div>
-
-- **Bước 4 – Data Processing (Tính toán tự động bằng Stored Procedure):**
-  Hệ thống gồm 9 `stored procedure`, chạy lần lượt các bước phân bổ chi phí và xếp hạng. Các thao tác được thực hiện trong transaction để kiểm soát lỗi và rollback khi xảy ra sự cố.
-
----
-
-## 5. 🧮 Xây dựng cách tính và các chỉ tiêu quản trị
+## 4. 🧮 Xây dựng cách tính và các chỉ tiêu quản trị
 
 **Bối cảnh của bài toán:** Ban lãnh đạo chỉ đưa ra yêu cầu chung, không cung cấp sẵn công thức tính, bảng điểm KPI hay bộ số liệu mẫu. Vì vậy, các phương pháp tính toán trong dự án được xây dựng từ việc phân tích dòng tiền và vận dụng các nguyên tắc kế toán quản trị.
 
-### 5.1. Xây dựng logic phân bổ thu nhập và chi phí (P&L Allocation Framework)
+### 4.1. Xây dựng logic phân bổ thu nhập và chi phí (P&L Allocation Framework)
 
 Câu hỏi chính cần giải quyết là: *Làm thế nào xác định kết quả kinh doanh của từng vùng khi nhiều khoản thu và chi được hạch toán tập trung tại Hội sở?*
 
@@ -224,7 +186,7 @@ Dữ liệu sổ cái tích lũy từ đầu năm được tách thành số ph�
 $$V_{\text{tháng } M} = V_{\text{lũy kế } M} - V_{\text{lũy kế } (M-1)}$$
 Nhờ vậy, có thể phân tích mức tăng, giảm của lợi nhuận trước thuế (PBT) theo 6 khoản thu và chi cấu thành.
 
-### 5.2. Xây dựng bộ chỉ tiêu đánh giá hiệu quả hoạt động quản lý vùng (Multi-dimensional ASM Scorecard)
+### 4.2. Xây dựng bộ chỉ tiêu đánh giá hiệu quả hoạt động quản lý vùng (Multi-dimensional ASM Scorecard)
 
 Câu hỏi cần giải quyết: *Nếu chỉ sử dụng doanh số phát hành thẻ để đánh giá quản lý vùng (ASM), liệu kết quả có phản ánh đầy đủ hiệu quả hoạt động và kiểm soát rủi ro không?*
 
@@ -276,6 +238,44 @@ Do các chỉ số có đơn vị đo lường khác nhau (triệu đồng, số
 - Điểm tổng được tính bằng tổng điểm của hai trụ cột:
 $$\text{Điểm tổng} = \text{Điểm Quy mô } (diem\_qm) + \text{Điểm Tài chính } (diem\_fin)$$
 - Quản lý vùng nào có **Điểm tổng càng thấp thì thứ hạng chung cuộc trên bảng xếp hạng toàn quốc càng cao**. Cách tính này được áp dụng cho đội ngũ từ 74 đến 84 quản lý vùng trong từng tháng.
+
+---
+
+## 5. 🔄 Thiết kế quy trình xử lý và kho dữ liệu
+
+Để kết hợp dữ liệu từ nhiều nguồn và xây dựng hệ thống báo cáo, quy trình xử lý được chia thành 4 bước:
+
+<div align="center">
+
+![Quy trình xử lý kỹ thuật — 4 giai đoạn](images/quy-trinh.png)
+
+</div>
+
+### Quy trình xử lý dữ liệu gồm 4 bước:
+
+- **Bước 1 – Data Ingestion (Thu thập và trích xuất bằng Python):**
+  Sử dụng `openpyxl` kết hợp `zipfile` và `xml.etree` để đọc theo từng phần tệp sao kê hợp đồng thẻ có dung lượng **117,2 MB**, gồm gần 3 triệu dòng. Cách làm này giúp hạn chế lượng RAM cần sử dụng. Đồng thời, chuyển bảng chỉ tiêu ASM từ dạng ngang (Wide) sang dạng dọc (Tall) để thuận tiện lưu trữ và xử lý.
+
+- **Bước 2 – Data Cleaning (Làm sạch và chuẩn hóa dữ liệu):**
+  Kiểm tra kiểu dữ liệu, xử lý các bản ghi NULL và dùng hàm chuẩn hóa chuỗi tiếng Việt không dấu (`pos_city_norm`) để thống nhất tên địa danh giữa sao kê thẻ với bảng tham số. Bước này khắc phục lỗi ghép dữ liệu có nguy cơ làm mất hơn 36.000 hợp đồng thẻ. Sau đó, nạp dữ liệu đã xử lý vào 3 bảng `staging` (`stg_fact_kpi_month`, `stg_fact_txn_month`, `stg_asm_target`) và 2 bảng danh mục vùng (`dim_area`, `dim_param_area`).
+
+- **Bước 3 – Data Warehouse Design (Mô hình Star Schema trong PostgreSQL):**
+  Kho dữ liệu được xây dựng theo phương pháp Kimball trong schema `banking_project`, gồm **19 bảng và 4 `view`**:
+  - **7 bảng chiều (`dim_`):** `dim_area` (8 vùng), `dim_param_area` (64 tỉnh thành), `dim_month` (5 tháng), `dim_asm` (84 nhân sự), `dim_report_detail` (50 chỉ tiêu), `dim_month_headcount` (35 dòng), `dim_sm_headcount` (35 dòng).
+  - **3 bảng nạp thô (`stg_`):** `stg_fact_kpi_month` (2.932.922 dòng), `stg_fact_txn_month` (63.134 dòng), `stg_asm_target` (420 dòng).
+  - **6 bảng trung gian (`tmp_`):** Cùng cấu trúc dữ liệu dạng dọc (`month_key`, `area_code`, `report_id`, `value`) phục vụ tính trung gian cho P&L (`tmp_pnl_step1..3`) và Xếp hạng (`tmp_xh_step1..3`).
+  - **2 bảng sự kiện cốt lõi (`fct_`):** `fct_pnl_value` (1.115 dòng) lưu kết quả tài chính 7 vùng và `fct_asm_value` (8.536 dòng) lưu thứ hạng chi tiết từng quản lý vùng qua 5 tháng.
+  - **1 bảng nhật ký (`log_`):** `log_proc_run` ghi nhận lịch sử thực thi thủ tục (65 bản ghi `START` và `OK`, 0 bản ghi `FAIL`).
+  - **9 `Virtual Foreign Keys` (Khoá ngoại ảo):** Hỗ trợ kiểm tra các mối liên kết tham chiếu trong DBeaver mà không làm chậm tốc độ nạp dữ liệu định kỳ.
+
+<div align="center">
+
+![Mô hình kho dữ liệu Star Schema](images/thiet-ke-schema.png)
+
+</div>
+
+- **Bước 4 – Data Processing (Tính toán tự động bằng Stored Procedure):**
+  Hệ thống gồm 9 `stored procedure`, chạy lần lượt các bước phân bổ chi phí và xếp hạng. Các thao tác được thực hiện trong transaction để kiểm soát lỗi và rollback khi xảy ra sự cố.
 
 ---
 

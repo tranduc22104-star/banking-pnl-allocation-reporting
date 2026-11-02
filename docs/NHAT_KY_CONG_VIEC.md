@@ -12,6 +12,18 @@
 
 ## ĐÃ XONG
 ### 2026-11-02
+166. **Tái Cấu Trúc Thứ Tự Chương 4 Và Chương 5 Theo Mạch Nghiệp Vụ Data Analyst**
+   - Đảo vị trí hai chương cốt lõi trong `README.md` và `README_eng.md`:
+     + Đưa logic tính toán và chỉ tiêu quản trị lên trước thành **Chương 4**: *Xây dựng cách tính và các chỉ tiêu quản trị* (Mục 4.1 P&L Allocation Framework và 4.2 Multi-dimensional ASM Scorecard). Thể hiện tư duy Business-driven: làm rõ công thức và giải pháp nghiệp vụ trước khi thiết kế hệ thống.
+     + Đưa thiết kế kho dữ liệu và quy trình xử lý ra sau thành **Chương 5**: *Thiết kế quy trình xử lý và kho dữ liệu* (4 bước Ingestion, Cleaning, Kimball Star Schema 19 bảng và Stored Procedure). Giải thích tự nhiên lý do cần 6 bảng tạm dạng dọc và 2 bảng fact để hiện thực hóa logic tính toán ở Chương 4.
+     + Đồng bộ Mục lục, các thẻ heading và anchor slug hai chiều ở cả hai bản song ngữ.
+   - **Verify**: chạy 4 script kiểm tra độc lập:
+     + `.staging/check_toc.py`: `ok` (12 mục mục lục khớp 100% heading).
+     + `.staging/check_int_pair.py`: `ok` (0 lệch số $\ge 10$).
+     + `.staging/check_readme_pair.py`: `ok` (cân bằng cấu trúc).
+     + `.staging/push_check.py`: `32 tệp, 4.86 MiB`.
+   - Xóa task 116 ở cuối `## ĐÃ XONG`, duy trì nghiêm ngặt trần 50 task (166 xuống 117).
+
 165. **Tinh Chỉnh Ba Lỗi Kỹ Thuật Cuối Cùng, Đồng Bộ Song Ngữ Và Hoàn Tất Đẩy Kho GitHub**
    - Người dùng duyệt bản đề xuất tự nhiên (9,5/10) và yêu cầu cải thiện ba chi tiết kỹ thuật nhỏ trước khi đẩy lên repo:
      + Sửa lỗi lặp từ ở Mục 5.1 ("phát sinh tại phát sinh tại chi nhánh" $\rightarrow$ "phát sinh tại chi nhánh").
@@ -377,16 +389,6 @@
    - Verify (chạy đủ `sql/dim/` ba tệp → `sql/tmp/` hai tệp → `sql/fct/` hai tệp kèm gọi lại thủ tục năm tháng cho mỗi tệp → `sql/rpt/` hai tệp, tổng 30,3 giây): `dim_month` 5 dòng với ngày và số ngày đúng từng tháng (31 · 28 · 31 · 30 · 31, tháng 2 năm 2023 không nhuận), `dim_sm_headcount` 35, `dim_asm` 84, `dim_report_detail` 50, `fct_pnl_value` 1.115, `fct_asm_value` 8.536, `log_proc_run` 65, bốn view 35 · 35 · 388 · 388, đúng một khóa ngoại `fk_fct_asm_dim_asm`, lợi nhuận trước thuế toàn hàng tháng 2 bằng **92.226,347 triệu đồng**, quán quân xếp hạng vẫn là Hoàng Văn Nam **34 điểm**.
    - Tài liệu cập nhật: `docs/PIPELINE.md` (mô tả tệp dim, kiểm chứng ngày chốt số, cảnh báo CASCADE nêu cả mất khóa ngoại), `docs/HIEN_TRANG_HE_THONG.md` (thêm dòng `dim_month` vào bảng liệt kê, ghi chú Power BI cần Refresh, bổ sung bước 2 của thứ tự chạy), `README.md` (cột mô tả nhóm danh mục, số mục lỗi 44 lên 45), `docs/LOI_THUONG_GAP.md` thêm mục 42. Script chạy lớp SQL đặt ở `.staging/run_sql_layer.py`.
 
-116. **Tách Nguồn Sao Kê Hợp Đồng 117,2 MB Thành Hai Phần Dưới Trần Dung Lượng Và Sửa Bước 04 Đọc Cả Hai Phần**
-   - Lý do: `input/fact_kpi_month_raw_data_202402020653.xlsx` (122.843.542 byte) bị `.gitignore` chặn vì vượt trần 100 MB cho mỗi tệp của GitHub, nên người nhận kho mã không tái tạo được bảng `stg_fact_kpi_month` 2.932.922 dòng.
-   - Cách tách: làm việc ở tầng tệp nén, chép nguyên xi ba phần sheet và các phần dùng chung, chỉ viết lại `[Content_Types].xml`, `xl/workbook.xml`, `xl/_rels/workbook.xml.rels`; không mở bằng `openpyxl` vì thư viện này dựng lại toàn bộ XML. Ra `..._part1.xlsx` (83,6 MB, hai sheet) và `..._part2.xlsx` (33,6 MB, một sheet).
-   - Kiểm tính nguyên vẹn: mã CRC và kích thước giải nén của từng sheet trong hai phần **khớp từng byte** với tệp gốc (713105978 · 1289482887 · 545784925); script tách đặt trong `.staging/split_kpi_xlsx.py`, script đối soát đặt trong `.staging/check_kpi_csv.py`.
-   - `ingestion/04_load_stg_fact_kpi_month.py`: `FILE_KPI_XLSX` chuyển thành danh sách hai tệp; `extract_data()` duyệt lần lượt từng tệp và **tự liệt kê phần worksheet có trong tệp** thay vì gõ cứng ba đường dẫn sheet, nên số phần của nguồn không còn ràng buộc code; xoá câu "Smart Cache (chỉ bóc lại khi có cờ ép buộc)" trong docstring và câu tương ứng ở `docs/PIPELINE.md` vì code chưa từng có cơ chế đó.
-   - Verify: chạy riêng bước bóc tách ra CSV 2.932.922 dòng, đối chiếu với mốc trong database khớp từng chỉ tiêu — tổng dư nợ 47.055.450.472.633,00 · tổng dư nợ xoá nợ 10.152.885.130.648,00 · 2.285.977 dòng có nhóm nợ · năm tháng 554.644 / 569.909 / 585.721 / 600.019 / 622.629 · top thành phố `hậu giang` 122.394; sau đó chạy trọn bước 04 (bóc 228 giây, COPY 15,64 giây) và kiểm lớp dưới: `fct_pnl_value` 1.115 dòng, bốn view 35 · 35 · 388 · 388 dòng, LNTT toàn hàng tháng 2 bằng **92.226,347 triệu đồng**, quán quân xếp hạng vẫn là Hoàng Văn Nam 34 điểm.
-   - Tài liệu sửa theo: `input/README.md` viết lại bảng đầu vào thành năm tệp và bỏ câu "chạy theo sáu bước ở README.md" đã mất tệp tham chiếu; `.gitignore` đổi chú thích nhưng vẫn chặn tên tệp gốc để không ai copy trở lại; `README.md` sửa cây thư mục, bảng công nghệ, mục Nguồn Dữ Liệu Và Quyền Sử Dụng và số mục lỗi (43 lên 44); `AGENTS.md` sửa hai dòng bảng cấu trúc (`input/`, `output/`); `docs/HIEN_TRANG_HE_THONG.md` sửa mô tả `input/` và `output/`; `docs/PIPELINE.md` sửa đầu vào và mô tả bước 04; thêm mục 41 vào `docs/LOI_THUONG_GAP.md` kể cách tách và cách kiểm bằng mã CRC.
-   - Gỡ Deneb kèm theo: `output/deneb_bieudo1_quan_quan.json` dời sang `ARCHIVE_LESSON_11_1_20261030/` (không visual nào trong `.pbix` dùng; gói nhúng chiếm 69,7 phần trăm dung lượng tệp), bỏ chữ "cấu hình Deneb" khỏi `README.md` và `AGENTS.md`. Bản `.pbix` không còn gói Deneb (880.525 byte, giảm từ 2.921.894) đã tạo và để ở `.staging/pbix_khong_deneb.pbix`, **chưa thay được vào `output/` vì Power BI Desktop đang mở tệp và giữ khóa**; bản gốc đã backup tại `ARCHIVE_LESSON_11_1_20261030/pbix_truoc_xoa_deneb_20261031.pbix`.
-   - Kiểm lại kho: 46 tệp đủ điều kiện đẩy lên, tổng 123,86 MiB, tệp lớn nhất 83,59 MiB, không tệp vượt trần, không liên kết gãy trong README.
-
-_Ghi chú biên tập:_ mục ĐÃ XONG giữ **50 task gần nhất (165 xuống 116)** theo trần quy định ở `AGENTS.md`. Các mục nhỏ hơn số 98 đã chuyển ra ngoài kho mã: phần lớn nằm trong `NHAT_KY_CONG_VIEC_ban_day_du_truoc_cat_20261030.md`; riêng các mục 60 đến 65, các mục 68 đến 83, các mục 84 đến 96 mục 97 mục 98 mục 99 mục 100 mục 101 mục 102 và mục 103 lưu ở thư mục lưu trữ `ARCHIVE_LESSON_11_1_20261030` trên máy người làm dự án, hỏi người bàn giao khi cần.
+_Ghi chú biên tập:_ mục ĐÃ XONG giữ **50 task gần nhất (166 xuống 117)** theo trần quy định ở `AGENTS.md`. Các mục nhỏ hơn số 98 đã chuyển ra ngoài kho mã: phần lớn nằm trong `NHAT_KY_CONG_VIEC_ban_day_du_truoc_cat_20261030.md`; riêng các mục 60 đến 65, các mục 68 đến 83, các mục 84 đến 96 mục 97 mục 98 mục 99 mục 100 mục 101 mục 102 và mục 103 lưu ở thư mục lưu trữ `ARCHIVE_LESSON_11_1_20261030` trên máy người làm dự án, hỏi người bàn giao khi cần.
 
 _Ghi chú về đường dẫn:_ các mục từ 01 đến 106 ghi theo cấu trúc thư mục **tại thời điểm viết** — `input_data/`, `pbi/`, `audit/`, `csv_staging/`, `scratch/`, `SQL/` và tên tệp `123.pbix`. Từ task 107 kho đổi sang `input/` · `ingestion/` · `sql/` · `docs/` · `output/` · `images/`; đọc đối chiếu hai cấu trúc ở `docs/HIEN_TRANG_HE_THONG.md`.
