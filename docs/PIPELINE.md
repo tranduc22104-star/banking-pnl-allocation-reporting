@@ -131,7 +131,7 @@ Môi trường kiểm chứng: Python 3.10.11 (`psycopg2-binary` 2.9.13, `openpy
 
 ### 3.1. Chạy Luồng Đầy Đủ (Mặc Định)
 ```bash
-pip install -r requirements.txt
+pip install psycopg2-binary openpyxl
 py ingestion/run_all.py
 ```
 Tiếp đó dựng mã SQL trong DBeaver **theo đúng thứ tự**: `sql/dim/` (ba tệp) → `sql/tmp/` (hai tệp) → `sql/fct/fct_pnl_allocation.sql` rồi gọi `sp_baocao_tonghop` cho từng tháng từ 202301 đến 202305 → `sql/fct/fct_xephang_asm.sql` rồi gọi `sp_xephang_asm` cho từng tháng (bảng xếp hạng đọc số từ nhánh lãi lỗ nên chạy sau) → cuối cùng `sql/rpt/` (hai tệp). Thứ tự này là bắt buộc vì đảo chỗ sẽ vỡ ở một trong ba điểm: `dim_asm.sql` cần bảng staging đã có dữ liệu, lệnh gọi thủ tục cần sáu bảng tạm đã khai báo cấu trúc, `sql/rpt/` cần bảng sự kiện vừa tạo lại xong. Mỗi tệp `sql/` đã có sẵn `SET search_path TO banking_project, public;`; viết script gọi thủ tục riêng thì phải đặt lại dòng đó, vì thân thủ tục tham chiếu bảng không kèm tên lược đồ.

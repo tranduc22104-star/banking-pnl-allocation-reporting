@@ -493,7 +493,6 @@ Standardized across 6 operational directories:
 ├── input/              # Business parameter files and templates; 3 raw files managed locally due to GitHub limits
 │   └── Tham so va mau doi chieu.xlsx  # Maps 64 provinces to 8 zones, GL account crosswalk, report templates
 ├── ingestion/          # Python extraction, transformation, database loading, and reporting scripts
-│                       # db_config.example.py — sample database connection configuration
 │                       # run_all.py orchestrates 4-stage ingestion · run_report.py generates Excel workbook
 ├── sql/                # SQL DDL, temporary tables, stored procedures, and reporting views
 │   ├── dim/            # Dimension tables: dim_month_headcount, dim_asm, dim_report_detail
@@ -503,7 +502,6 @@ Standardized across 6 operational directories:
 ├── images/             # Technical pipeline diagrams, warehouse architecture, and dashboard screenshots
 ├── docs/               # Technical documentation: HIEN_TRANG_HE_THONG, PIPELINE, NHAT_KY_CONG_VIEC, LOI_THUONG_GAP
 ├── output/             # Deliverables: Power BI report model (.pbix) and Excel workbook
-├── requirements.txt    # Python dependencies: psycopg2-binary and openpyxl
 ├── README.md           # Vietnamese documentation (default)
 └── README_eng.md       # English documentation
 ```

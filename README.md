@@ -493,7 +493,6 @@ Cấu trúc dự án được chuẩn hoá thành 6 thư mục nghiệp vụ rõ
 ├── input/              # Lưu tệp tham số và mẫu báo cáo; 3 nguồn dữ liệu thô vượt trần dung lượng GitHub nên quản lý riêng
 │   └── Tham so va mau doi chieu.xlsx  # Quy đổi 64 tỉnh thành về 8 vùng, đối chiếu tài khoản sổ cái, biểu mẫu chuẩn của 2 báo cáo
 ├── ingestion/          # Các chương trình Python đọc dữ liệu Excel, chuẩn hoá dữ liệu, nạp vào kho và xuất báo cáo
-│                       # db_config.example.py — tệp mẫu cấu hình kết nối cơ sở dữ liệu
 │                       # run_all.py điều phối chạy 4 bước nạp · run_report.py tự động kiểm tra số mới và xuất báo cáo Excel
 ├── sql/                # Mã nguồn SQL tạo bảng, bảng tạm, thủ tục lưu trữ và khung nhìn báo cáo
 │   ├── dim/            # Bảng danh mục: dim_month_headcount, dim_asm, dim_report_detail
@@ -503,7 +502,6 @@ Cấu trúc dự án được chuẩn hoá thành 6 thư mục nghiệp vụ rõ
 ├── images/             # Sơ đồ quy trình kỹ thuật, kiến trúc kho dữ liệu và ảnh chụp các trang dashboard
 ├── docs/               # Bộ tài liệu vận hành chi tiết: HIEN_TRANG_HE_THONG, PIPELINE, NHAT_KY_CONG_VIEC, LOI_THUONG_GAP
 ├── output/             # Sản phẩm đầu ra: Báo cáo quản trị Power BI (.pbix) và báo cáo Excel
-├── requirements.txt    # Khai báo các thư viện Python: psycopg2-binary và openpyxl
 ├── README.md           # Tài liệu dự án bằng tiếng Việt (mặc định)
 └── README_eng.md       # Tài liệu dự án bằng tiếng Anh
 ```
