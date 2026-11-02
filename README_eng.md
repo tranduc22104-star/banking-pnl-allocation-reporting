@@ -21,13 +21,12 @@
 4. [🔄 Data Engineering And Warehouse Architecture](#4--data-engineering-and-warehouse-architecture)
 5. [🧮 Business Logic And Metric Design](#5--business-logic-and-metric-design)
 6. [🧪 Data Validation And Quality Assurance](#6--data-validation-and-quality-assurance)
-7. [🖥️ Dashboard Design And Visualization In Power BI](#7--dashboard-design-and-visualization-in-power-bi)
-8. [📊 Business Insights And Management Recommendations](#8--business-insights-and-management-recommendations)
-9. [📚 Lessons Learned And Implementation Takeaways](#9--lessons-learned-and-implementation-takeaways)
-10. [🛠️ Tools And Technologies](#10--tools-and-technologies)
-11. [📂 Project Repository Structure](#11--project-repository-structure)
-12. [📖 Handover Documentation](#12--handover-documentation)
-13. [👤 Author](#13--author)
+7. [📊 Business Insights And Management Recommendations](#7--business-insights-and-management-recommendations)
+8. [📚 Lessons Learned And Implementation Takeaways](#8--lessons-learned-and-implementation-takeaways)
+9. [🛠️ Tools And Technologies](#9--tools-and-technologies)
+10. [📂 Project Repository Structure](#10--project-repository-structure)
+11. [📖 Handover Documentation](#11--handover-documentation)
+12. [👤 Author](#12--author)
 
 ---
 
@@ -345,70 +344,7 @@ All division expressions are guarded with `NULLIF(denominator, 0)`.
 
 ---
 
-## 7. 🖥️ Dashboard Design And Visualization In Power BI
-
-The executive Power BI reporting system comprises **5 dashboard pages** running on optimized `Import` mode with **72 DAX measures**, supporting multi-tier exploration from macroeconomic overviews down to field personnel:
-
-### Page 1: Executive Overview
-- **Design Purpose:** Provides executive leadership with an integrated monthly view of revenue, costs, PBT, and financial efficiency across the 7 business regions.
-- **Visual Structure:** 4 dynamic KPI cards (PBT, Gross Revenue, CIR, Average Profit/ASM with MoM variance indicators); Regional P&L matrix; Cost and revenue distribution charts; Multi-dimensional slicers by month and region.
-- **Analytical Utility:** Allows leadership to instantly identify regions generating primary profits versus territories carrying disproportionate operational overhead.
-
-<div align="center">
-
-![Trang 1 — Tổng Quan Báo Cáo](images/tong-quan.png)
-
-</div>
-
-### Page 2: Data Glossary
-- **Design Purpose:** Standardizes governance terminology across the bank, ensuring Leadership, Sales, Risk, and Accounting maintain unified understanding of 50 reporting metrics.
-- **Visual Structure:** Metric lookup matrix categorized across 6 indicator groups (Income, Cost of Funds, OPEX, Provisions, Card Scale, Financial Ratios); Formula documentation and underlying SQL logic columns.
-- **Analytical Utility:** Eliminates metric interpretation disputes among divisions during performance reconciliations and sales management rankings.
-
-<div align="center">
-
-![Trang 2 — Từ Điển Dữ Liệu Quản Trị](images/tu-dien.png)
-
-</div>
-
-### Page 3: Regional P&L Management
-- **Design Purpose:** Answers executive questions regarding which regions generate profits after absorbing indirect Head Office costs and which cost components drive changes.
-- **Visual Structure:** Regional P&L statement across 7 regions; Profit Waterfall chart decomposing net changes across 6 components; Margin and CIR performance cards.
-- **Analytical Utility:** Distinguishes whether profit expansion stems from genuine commercial growth or technical adjustments in credit loss provisioning.
-
-<div align="center">
-
-![Trang 3 — Báo Cáo Kết Quả Kinh Doanh Lãi Lỗ 7 Vùng](images/ket-qua-lai-lo.png)
-
-</div>
-
-### Page 4: ASM Ranking Scorecard
-- **Design Purpose:** Evaluates and ranks nationwide field sales managers equitably across balanced metrics.
-- **Visual Structure:** Detailed scorecard table for 74 to 84 ASMs displaying Scale Points, Financial Points, and Final Nationwide Rank; Regional rank distribution charts; Personnel search slicer.
-- **Analytical Utility:** Enables sales executives to spot well-rounded leadership talent versus managers hitting gross targets while accumulating credit losses.
-
-<div align="center">
-
-![Trang 4 — Bảng Xếp Hạng Quản Lý Vùng](images/xep-hang.png)
-
-</div>
-
-### Page 5: Deep-Dive Diagnosis & Root Cause
-- **Design Purpose:** Delivers root cause diagnosis and concrete operational action recommendations for executive leadership.
-- **Visual Structure:** Profit – Risk Quadrant Matrix classifying 7 regions along Profit and NPL axes; 3-column diagnostic framework (Observed Symptom $
-ightarrow$ Data Root Cause $
-ightarrow$ Actionable Intervention with department and timeline).
-- **Analytical Utility:** Highlights "overheated" regions (high net profit accompanied by alarming NPL ratios) for timely executive intervention.
-
-<div align="center">
-
-![Trang 5 — Phân Tích Chuyên Sâu & Chẩn Đoán Quản Trị](images/ket-luan.png)
-
-</div>
-
----
-
-## 8. 📊 Business Insights And Management Recommendations
+## 7. 📊 Business Insights And Management Recommendations
 
 ### Part A – Executive Requirement Fulfillment Audit:
 
@@ -454,7 +390,7 @@ ightarrow$ Actionable Intervention with department and timeline).
 
 ---
 
-## 9. 📚 Lessons Learned And Implementation Takeaways
+## 8. 📚 Lessons Learned And Implementation Takeaways
 
 1. **Master banking domain principles before writing code:**
    In institutional financial data, understanding why funding costs are signed negative and why Head Office cost centers bear province code `'00'` and zone `'A'` is essential for correct SQL allocation queries. Technical skill cannot compensate for a lack of domain understanding.
@@ -473,7 +409,7 @@ ightarrow$ Actionable Intervention with department and timeline).
 
 ---
 
-## 10. 🛠️ Tools And Technologies
+## 9. 🛠️ Tools And Technologies
 
 Tools were chosen based on fit for purpose across project stages:
 
@@ -486,7 +422,7 @@ Tools were chosen based on fit for purpose across project stages:
 
 ---
 
-## 11. 📂 Project Repository Structure
+## 10. 📂 Project Repository Structure
 
 Standardized across 6 operational directories:
 
@@ -510,7 +446,7 @@ Standardized across 6 operational directories:
 
 ---
 
-## 12. 📖 Handover Documentation
+## 11. 📖 Handover Documentation
 
 Comprehensive system documentation is maintained within `docs/`:
 - [`docs/HIEN_TRANG_HE_THONG.md`](docs/HIEN_TRANG_HE_THONG.md) — Warehouse status, row counts across 19 tables and 4 `views`, file ownership matrix, and reconciliation benchmarks.
@@ -520,7 +456,7 @@ Comprehensive system documentation is maintained within `docs/`:
 
 ---
 
-## 13. 👤 Author
+## 12. 👤 Author
 
 <div align="center">
 

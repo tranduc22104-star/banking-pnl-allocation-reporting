@@ -21,13 +21,12 @@
 4. [🔄 Thiết Kế Quy Trình Xử Lý Và Kho Dữ Liệu](#4--thiết-kế-quy-trình-xử-lý-và-kho-dữ-liệu)
 5. [🧮 Xây Dựng Logic Tính Toán Và Chỉ Tiêu Quản Trị](#5--xây-dựng-logic-tính-toán-và-chỉ-tiêu-quản-trị)
 6. [🧪 Kiểm Tra Và Đối Soát Dữ Liệu](#6--kiểm-tra-và-đối-soát-dữ-liệu)
-7. [🖥️ Thiết Kế Và Trực Quan Hóa Báo Cáo Trên Power BI](#7--thiết-kế-và-trực-quan-hóa-báo-cáo-trên-power-bi)
-8. [📊 Kết Quả Phân Tích Và Đề Xuất Quản Trị](#8--kết-quả-phân-tích-và-đề-xuất-quản-trị)
-9. [📚 Kinh Nghiệm Triển Khai Thực Chiến](#9--kinh-nghiệm-triển-khai-thực-chiến)
-10. [🛠️ Công Nghệ Sử Dụng](#10--công-nghệ-sử-dụng)
-11. [📂 Cấu Trúc Thư Mục Dự Án](#11--cấu-trúc-thư-mục-dự-án)
-12. [📖 Tài Liệu Bàn Giao](#12--tài-liệu-bàn-giao)
-13. [👤 Tác Giả](#13--tác-giả)
+7. [📊 Kết Quả Phân Tích Và Đề Xuất Quản Trị](#7--kết-quả-phân-tích-và-đề-xuất-quản-trị)
+8. [📚 Kinh Nghiệm Triển Khai Thực Chiến](#8--kinh-nghiệm-triển-khai-thực-chiến)
+9. [🛠️ Công Nghệ Sử Dụng](#9--công-nghệ-sử-dụng)
+10. [📂 Cấu Trúc Thư Mục Dự Án](#10--cấu-trúc-thư-mục-dự-án)
+11. [📖 Tài Liệu Bàn Giao](#11--tài-liệu-bàn-giao)
+12. [👤 Tác Giả](#12--tác-giả)
 
 ---
 
@@ -345,70 +344,7 @@ Mọi phép chia đều phải được bọc qua điều kiện kiểm tra mẫ
 
 ---
 
-## 7. 🖥️ Thiết Kế Và Trực Quan Hóa Báo Cáo Trên Power BI
-
-Hệ thống báo cáo quản trị trên Power BI gồm **5 trang dashboard**, được kết nối ở chế độ `Import` tối ưu hoá hiệu năng với **72 measure DAX**, phục vụ theo dõi đa chiều từ toàn hệ thống xuống từng nhân sự:
-
-### Trang 1: Tổng Quan Báo Cáo (Executive Overview)
-- **Mục đích thiết kế:** Cung cấp cho Ban Lãnh Đạo góc nhìn điều hành cấp cao về tiến độ hoàn thành các chỉ tiêu kinh doanh trọng yếu, tình hình phân bổ nhân sự và hiệu suất tổng thể của 7 vùng kinh doanh.
-- **Nội dung hiển thị:** 4 thẻ KPI động (Lợi nhuận trước thuế, Tổng thu nhập hoạt động, Tỷ lệ CIR, Lợi nhuận bình quân/ASM kèm màu sắc và tỷ lệ tăng giảm MoM); Biểu đồ cơ cấu dư nợ và số lượng thẻ hoạt động theo vùng; Bộ lọc đa chiều theo tháng và vùng.
-- **Khả năng hỗ trợ phân tích:** Giúp lãnh đạo nắm bắt ngay sức khỏe kinh doanh tổng quan mà không phải đọc qua các bảng biểu chi tiết, phát hiện nhanh các vùng có dấu hiệu suy giảm hiệu suất.
-
-<div align="center">
-
-![Trang 1 — Tổng Quan Báo Cáo](images/tong-quan.png)
-
-</div>
-
-### Trang 2: Từ Điển Dữ Liệu Quản Trị (Data Glossary)
-- **Mục đích thiết kế:** Chuẩn hoá ngôn ngữ quản trị chung cho toàn ngân hàng, đảm bảo Ban Lãnh Đạo, Khối Kinh doanh, Khối Rủi ro và Phòng Kế toán cùng hiểu thống nhất về định nghĩa và công thức của 50 chỉ tiêu báo cáo.
-- **Nội dung hiển thị:** Bảng ma trận tra cứu từ điển dữ liệu phân loại theo 6 nhóm chỉ tiêu (Thu nhập, Chi phí vốn, Chi phí hoạt động, Dự phòng rủi ro, Chỉ tiêu quy mô thẻ, Chỉ tiêu tài chính vùng); Cột diễn giải công thức SQL và nguồn dữ liệu tương ứng.
-- **Khả năng hỗ trợ phân tích:** Giải quyết triệt để sự tranh luận về mặt số liệu giữa các đơn vị khi đối soát kết quả kinh doanh và xếp hạng thi đua.
-
-<div align="center">
-
-![Trang 2 — Từ Điển Dữ Liệu Quản Trị](images/tu-dien.png)
-
-</div>
-
-### Trang 3: Báo Cáo Kết Quả Kinh Doanh Lãi Lỗ 7 Vùng (Regional P&L)
-- **Mục đích thiết kế:** Trả lời câu hỏi trọng tâm của Ban Lãnh Đạo: "Sau khi phân bổ đầy đủ chi phí gián tiếp từ Hội sở, vùng nào thực sự có lãi và cấu phần nào đóng góp lớn nhất vào lợi nhuận?".
-- **Nội dung hiển thị:** Bảng kết quả kinh doanh chi tiết theo 7 vùng với đầy đủ các khoản mục thu – chi; Biểu đồ phân rã biến động lợi nhuận (Waterfall) bóc tách 6 cấu phần; Thẻ đo lường biên lợi nhuận (Margin) và hệ số CIR từng vùng.
-- **Khả năng hỗ trợ phân tích:** Giúp lãnh đạo bóc tách rõ nguyên nhân tăng/giảm lợi nhuận giữa các tháng đến từ hoạt động bán hàng thực chất hay do biến động trích lập dự phòng nợ xấu.
-
-<div align="center">
-
-![Trang 3 — Báo Cáo Kết Quả Kinh Doanh Lãi Lỗ 7 Vùng](images/ket-qua-lai-lo.png)
-
-</div>
-
-### Trang 4: Bảng Xếp Hạng Quản Lý Vùng (ASM Scorecard)
-- **Mục đích thiết kế:** Đánh giá và xếp hạng công bằng năng lực của toàn bộ đội ngũ từ 74 đến 84 quản lý vùng (ASM) trên cả nước dựa trên sự cân bằng giữa phát triển quy mô và kiểm soát rủi ro.
-- **Nội dung hiển thị:** Bảng xếp hạng chi tiết từng quản lý vùng với Điểm Quy mô, Điểm Tài chính và Thứ hạng chung cuộc; Biểu đồ phân phối thứ hạng theo vùng; Thẻ tìm kiếm thông tin chi tiết từng nhân sự.
-- **Khả năng hỗ trợ phân tích:** Giúp nhận diện những quản lý vùng xuất sắc toàn diện, đồng thời cảnh báo các trường hợp có doanh số mở thẻ cao nhưng nợ xấu địa bàn vượt ngưỡng an toàn.
-
-<div align="center">
-
-![Trang 4 — Bảng Xếp Hạng Quản Lý Vùng](images/xep-hang.png)
-
-</div>
-
-### Trang 5: Phân Tích Chuyên Sâu & Chẩn Đoán Quản Trị (Diagnosis & Root Cause)
-- **Mục đích thiết kế:** Cung cấp công cụ chẩn đoán nguyên nhân gốc rễ (Root Cause Analysis) và đưa ra các khuyến nghị hành động cụ thể cho Ban Lãnh Đạo.
-- **Nội dung hiển thị:** Ma trận 4 góc Lợi nhuận – Rủi ro (Quadrant Matrix) định vị 7 vùng theo 2 trục Lợi nhuận và Nợ xấu; Khung hành động chẩn đoán 3 cột (Hiện tượng quan sát $
-ightarrow$ Nguyên nhân dữ liệu $
-ightarrow$ Đề xuất hành động kèm đơn vị phụ trách và thời hạn).
-- **Khả năng hỗ trợ phân tích:** Giúp Ban Lãnh Đạo ra các quyết định điều hành can thiệp có căn cứ số liệu, ví dụ siết tín dụng tại các vùng tăng trưởng nóng hoặc điều chỉnh cơ chế giao chỉ tiêu KPI.
-
-<div align="center">
-
-![Trang 5 — Phân Tích Chuyên Sâu & Chẩn Đoán Quản Trị](images/ket-luan.png)
-
-</div>
-
----
-
-## 8. 📊 Kết Quả Phân Tích Và Đề Xuất Quản Trị
+## 7. 📊 Kết Quả Phân Tích Và Đề Xuất Quản Trị
 
 ### Phần A – Đánh giá mức độ đáp ứng yêu cầu ban đầu:
 
@@ -454,7 +390,7 @@ ightarrow$ Đề xuất hành động kèm đơn vị phụ trách và thời h�
 
 ---
 
-## 9. 📚 Kinh Nghiệm Triển Khai Thực Chiến
+## 8. 📚 Kinh Nghiệm Triển Khai Thực Chiến
 
 1. **Hiểu sâu bản chất nghiệp vụ ngân hàng trước khi viết code:**
    Trong hệ thống dữ liệu tài chính, việc hiểu rõ tại sao chi phí vốn mang dấu âm, vì sao chi phí Hội sở mang mã tỉnh `'00'` và vùng `'A'` là điều kiện tiên quyết để xây dựng câu lệnh SQL phân bổ chính xác. Không thể giải quyết bài toán dữ liệu ngân hàng nếu chỉ tiếp cận thuần tuý dưới góc độ công nghệ.
@@ -473,7 +409,7 @@ ightarrow$ Đề xuất hành động kèm đơn vị phụ trách và thời h�
 
 ---
 
-## 10. 🛠️ Công Nghệ Sử Dụng
+## 9. 🛠️ Công Nghệ Sử Dụng
 
 Các công cụ được lựa chọn dựa trên sự phù hợp với yêu cầu thực tế của từng giai đoạn trong dự án:
 
@@ -486,7 +422,7 @@ Các công cụ được lựa chọn dựa trên sự phù hợp với yêu c�
 
 ---
 
-## 11. 📂 Cấu Trúc Thư Mục Dự Án
+## 10. 📂 Cấu Trúc Thư Mục Dự Án
 
 Cấu trúc dự án được chuẩn hoá thành 6 thư mục nghiệp vụ rõ ràng:
 
@@ -510,7 +446,7 @@ Cấu trúc dự án được chuẩn hoá thành 6 thư mục nghiệp vụ rõ
 
 ---
 
-## 12. 📖 Tài Liệu Bàn Giao
+## 11. 📖 Tài Liệu Bàn Giao
 
 Hệ thống được tài liệu hoá đầy đủ trong thư mục `docs/`:
 - [`docs/HIEN_TRANG_HE_THONG.md`](docs/HIEN_TRANG_HE_THONG.md) — Chi tiết hiện trạng kho dữ liệu, số dòng của 19 bảng và 4 `view`, phân quyền quản lý từng bảng và các mốc đối soát chuẩn.
@@ -520,7 +456,7 @@ Hệ thống được tài liệu hoá đầy đủ trong thư mục `docs/`:
 
 ---
 
-## 13. 👤 Tác Giả
+## 12. 👤 Tác Giả
 
 <div align="center">
 

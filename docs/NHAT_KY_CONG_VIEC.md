@@ -12,6 +12,12 @@
 
 ## ĐÃ XONG
 ### 2026-11-02
+160. **Gỡ Bỏ Mục 7 (Thiết Kế Và Trực Quan Hóa Báo Cáo Trên Power BI) Khỏi README**
+   - Người dùng yêu cầu: "Với bỏ phần này 7. 🖥️ Thiết Kế Và Trực Quan Hóa Báo Cáo Trên Power BI".
+   - Xoá bỏ hoàn toàn nội dung Mục 7 cùng 5 ảnh minh họa dashboard Power BI khỏi `README.md`, `README_eng.md` và `.staging/README_thuan_viet.md`.
+   - Đánh số lại các mục từ 8..13 thành 7..12 trong cả Mục lục (TOC) và các thẻ heading `##`.
+   - **Verify**: chạy `.staging/check_toc.py` (`ok`, 12 mục khớp chuẩn xác), `.staging/check_int_pair.py` (`ok`, 0 lệch số $\ge 10$), `.staging/check_readme_pair.py` (`ok`, 467 dòng đối xứng), `.staging/push_check.py` (`32 tệp, 4.86 MiB`, 0 liên kết gãy, 0 liên kết ngoài kho).
+
 159. **Gỡ Bỏ Khối Tổng Quan Dự Án Ở Đầu Trang README Theo Yêu Cầu Người Dùng**
    - Người dùng yêu cầu: "Bỏ khúc đầu đi TỔNG QUAN DỰ ÁN...".
    - Xoá bỏ hoàn toàn khối trích dẫn `> **TỔNG QUAN DỰ ÁN** ...` ở đầu `README.md` và `.staging/README_thuan_viet.md`, cùng khối `> **PROJECT OVERVIEW** ...` ở đầu `README_eng.md`.
@@ -364,15 +370,6 @@
     - Sơ đồ tổng thể sinh bằng script căn khung (`.staging/make_diagram.py`), kiểm bằng đếm ký tự: mọi dòng viền ngoài dài đúng 100 ký tự, không lệch khung; toàn bộ văn bản là tiếng Việt có dấu, không chữ viết tắt.
     - Nối tệp mới vào ba chỗ: mục **Tài Liệu** và cây thư mục của `README.md`, bảng cấu trúc thư mục trong `AGENTS.md`.
 
-110. **Tách Code SQL Thành Ba Phần Danh Mục · Bảng Tạm · Bảng Sự Kiện, Thêm Nhóm Trình Bày**
-    - Tái cấu trúc `sql/` thành bốn nhóm: `sql/dim/` (3 tệp danh mục), `sql/tmp/` (2 tệp khai báo cấu trúc ba bảng tạm lãi lỗ và ba bảng tạm xếp hạng), `sql/fct/` (2 tệp bảng sự kiện kèm thủ tục), `sql/rpt/` (2 tệp tạo 4 view). 1.048 dòng mã được phân phối lại đủ, không rơi dòng nào.
-    - Dời lệnh `DROP TABLE IF EXISTS` và `CREATE TABLE` của sáu bảng tạm **ra khỏi thân thủ tục** — thủ tục chỉ còn phần tính toán và ghi. Hệ quả: phải chạy `sql/tmp/` trước khi gọi thủ tục, nên thứ tự dựng kho thành `sql/dim/` rồi `sql/tmp/` rồi `sql/fct/` rồi gọi thủ tục từng tháng rồi `sql/rpt/`.
-    - Hoàn tất tham chiếu đường dẫn cũ ở bảy chỗ: `README.md` (cây thư mục và bước dựng kho), `AGENTS.md` (dòng `sql/` trong bảng cấu trúc), `docs/HIEN_TRANG_HE_THONG.md` (mục chạy lại), `docs/TRINH_DIEN_CAU_TRUC_SQL.md` (dòng Nguồn), `docs/GIAI_THICH_TOAN_BO_CODE_DAX.md` (đầu đề bài 7, 8, 9), `docs/GIAO_TRINH_SQL.md` (đầu đề bài 1, 2, 3), lời in ra khi thiếu thủ tục ở `ingestion/run_report.py`; thêm hai chú giải đầu tệp `sql/tmp/` và hai chú giải `report_id` trong `sql/fct/`.
-    - Sửa thêm hai chỗ tài liệu lệch so với schema thật, phát hiện khi kiểm đồng bộ: bảng `tmp_pnl_step2_ratio` lưu tỉ lệ trong cột `value` chứ không còn cột `pct` (đã sửa 4 chỗ ghi `SUM(pct)=1` thành `SUM(value)=1`), và `README.md` ghi "2 thủ tục lưu sẵn" trong khi cơ sở dữ liệu có 3 (thêm `sp_load_dim`).
-    - Verify: chạy lần lượt chín tệp theo đúng thứ tự mới trong một giao dịch rồi hoàn tác — **9/9 tệp đạt**, gọi lại `sp_baocao_tonghop(202305)` và `sp_xephang_asm(202305)` đạt, cơ sở dữ liệu trở về nguyên trạng (18 bảng, 4 view, `fct_pnl_value` 1.115, `fct_asm_value` 8.536, `log_proc_run` 65, không FAIL); `py_compile` cả 11 tệp Python đạt. Trước đó bản dựng lại đầy đủ đã đối chiếu từng dòng với bản sao lưu trước khi tách và cho **0 dòng lệch**.
-    - Đối chiếu số cố định vẫn khớp: chỉ tiêu A tháng `202302` bằng 92.226,35 triệu đồng, tháng `202305` bằng 250.450,06 triệu đồng; hạng nhất tháng `202302` là Hoàng Văn Nam 34 điểm.
-    - Ghi chú sự cố: nhật ký công việc từng bị cắt nhầm vì điều kiện lấy mốc heading **đầu tiên** thay vì heading **gần nhất**; khi cắt theo mốc phải lấy mốc gần nhất và kiểm số lượng trước khi ghi tệp.
-
-_Ghi chú biên tập:_ mục ĐÃ XONG giữ **50 task gần nhất (159 xuống 110)** theo trần quy định ở `AGENTS.md`. Các mục nhỏ hơn số 98 đã chuyển ra ngoài kho mã: phần lớn nằm trong `NHAT_KY_CONG_VIEC_ban_day_du_truoc_cat_20261030.md`; riêng các mục 60 đến 65, các mục 68 đến 83, các mục 84 đến 96 mục 97 mục 98 mục 99 mục 100 mục 101 mục 102 và mục 103 lưu ở thư mục lưu trữ `ARCHIVE_LESSON_11_1_20261030` trên máy người làm dự án, hỏi người bàn giao khi cần.
+_Ghi chú biên tập:_ mục ĐÃ XONG giữ **50 task gần nhất (160 xuống 111)** theo trần quy định ở `AGENTS.md`. Các mục nhỏ hơn số 98 đã chuyển ra ngoài kho mã: phần lớn nằm trong `NHAT_KY_CONG_VIEC_ban_day_du_truoc_cat_20261030.md`; riêng các mục 60 đến 65, các mục 68 đến 83, các mục 84 đến 96 mục 97 mục 98 mục 99 mục 100 mục 101 mục 102 và mục 103 lưu ở thư mục lưu trữ `ARCHIVE_LESSON_11_1_20261030` trên máy người làm dự án, hỏi người bàn giao khi cần.
 
 _Ghi chú về đường dẫn:_ các mục từ 01 đến 106 ghi theo cấu trúc thư mục **tại thời điểm viết** — `input_data/`, `pbi/`, `audit/`, `csv_staging/`, `scratch/`, `SQL/` và tên tệp `123.pbix`. Từ task 107 kho đổi sang `input/` · `ingestion/` · `sql/` · `docs/` · `output/` · `images/`; đọc đối chiếu hai cấu trúc ở `docs/HIEN_TRANG_HE_THONG.md`.
