@@ -12,6 +12,18 @@
 
 ## ĐÃ XONG
 ### 2026-11-02
+165. **Tinh Chỉnh Ba Lỗi Kỹ Thuật Cuối Cùng, Đồng Bộ Song Ngữ Và Hoàn Tất Đẩy Kho GitHub**
+   - Người dùng duyệt bản đề xuất tự nhiên (9,5/10) và yêu cầu cải thiện ba chi tiết kỹ thuật nhỏ trước khi đẩy lên repo:
+     + Sửa lỗi lặp từ ở Mục 5.1 ("phát sinh tại phát sinh tại chi nhánh" $\rightarrow$ "phát sinh tại chi nhánh").
+     + Thống nhất tiêu đề Mục 8 ở Mục lục (`[📚 Kinh nghiệm rút ra](#8--kinh-nghiệm-rút-ra)`) khớp chính xác 100% với heading `## 8. 📚 Kinh nghiệm rút ra` và anchor slug.
+     + Rà soát câu từ, số liệu bảng biểu Mục 7 và toàn văn, giữ chuẩn định dạng số song ngữ và đồng bộ sang `.staging/README_thuan_viet.md` và `README_eng.md`.
+   - **Verify**: chạy 4 script kiểm tra độc lập:
+     + `.staging/check_toc.py`: `ok` (12 mục mục lục khớp hoàn toàn heading và anchor slug hai chiều).
+     + `.staging/check_int_pair.py`: `ok` (0 lệch số $\ge 10$ giữa hai bản song ngữ).
+     + `.staging/check_readme_pair.py`: `ok` (468 dòng đối xứng song song).
+     + `.staging/push_check.py`: `32 tệp, 4.86 MiB`, 0 tệp vượt trần, 0 mật khẩu/kết nối nghi vấn, 0 liên kết gãy, 0 liên kết ngoài kho.
+   - Xóa task 115 ở cuối `## ĐÃ XONG`, duy trì nghiêm ngặt trần 50 task (165 xuống 116).
+
 164. **Áp Dụng Bản README.md Chốt Bởi Người Dùng Và Đồng Bộ Song Ngữ README_eng.md**
    - Người dùng gửi toàn văn bản README đã chốt và yêu cầu cập nhật kho mã:
      + Cập nhật tiêu đề Mục 8 thành *Kinh Nghiệm Nhận Được* (bản tiếng Anh: *Key Takeaways*), Mục 9 thành *Công Cụ Sử Dụng* (bản tiếng Anh: *Tools Used*), Mục 11 thành *Tài Liệu Tham Khảo* (bản tiếng Anh: *Reference Documentation*).
@@ -375,13 +387,6 @@
    - Gỡ Deneb kèm theo: `output/deneb_bieudo1_quan_quan.json` dời sang `ARCHIVE_LESSON_11_1_20261030/` (không visual nào trong `.pbix` dùng; gói nhúng chiếm 69,7 phần trăm dung lượng tệp), bỏ chữ "cấu hình Deneb" khỏi `README.md` và `AGENTS.md`. Bản `.pbix` không còn gói Deneb (880.525 byte, giảm từ 2.921.894) đã tạo và để ở `.staging/pbix_khong_deneb.pbix`, **chưa thay được vào `output/` vì Power BI Desktop đang mở tệp và giữ khóa**; bản gốc đã backup tại `ARCHIVE_LESSON_11_1_20261030/pbix_truoc_xoa_deneb_20261031.pbix`.
    - Kiểm lại kho: 46 tệp đủ điều kiện đẩy lên, tổng 123,86 MiB, tệp lớn nhất 83,59 MiB, không tệp vượt trần, không liên kết gãy trong README.
 
-115. **Lược Bỏ Nội Dung Hướng Dẫn Chạy Lại Dự Án Khỏi README Vì Đối Tượng Đọc Là Nhà Tuyển Dụng**
-    - Xoá nguyên khối `### Chạy Từ Đầu Đến Nơi Ra Số` (bảy bước, 10 dòng): chuẩn bị môi trường và cài thư viện, đặt tệp vào `input/`, sao chép tệp cấu hình rồi điền mật khẩu, chạy Python nạp liệu, dựng bốn lớp SQL trong DBeaver theo thứ tự, chạy script xuất báo cáo, mở tệp Power BI và bấm Refresh.
-    - Sửa bốn chỗ còn dính hơi hướng dẫn chạy: chú giải `requirements.txt` trong cây thư mục bỏ mệnh lệnh cài đặt; chú giải `ingestion/` đổi từ liệt kê tên script sang mô tả vai trò; dòng 'đưa lên kho mã để người đọc **tự chạy được từ đầu**' đổi thành 'xem được sản phẩm và đối chiếu số'; câu hướng dẫn che danh tính bỏ vế 'chạy lại `run_all.py` và các thủ tục'.
-    - Giữ lại những chỗ nói 'chạy lại được' với nghĩa **năng lực tái lập của hệ thống** (thủ tục lưu sẵn gọi lại từng tháng, bộ lệnh đối soát chạy bất kỳ lúc nào) vì đó là điểm cộng trước nhà tuyển dụng, không phải giáo trình.
-    - Kiểm lại: `README.md` còn 467 dòng; không còn chuỗi 'pip install', 'py ingestion', 'Chạy Từ Đầu Đến Nơi Ra Số' nào trong tệp.
-    - **Ba điểm lệch còn tồn tại cho mục tiêu tuyển dụng** (đã báo, chờ người dùng quyết): năm ảnh dashboard trong `images/` không được README dẫn nên người đọc không thấy sản phẩm; dòng liên hệ ở phần Tác Giả vẫn ghi 'GitHub · LinkedIn · Email' dạng chữ, chưa trỏ liên kết nào; `docs/PIPELINE.md` mục 3 vẫn là khối lệnh vận hành.
-
-_Ghi chú biên tập:_ mục ĐÃ XONG giữ **50 task gần nhất (164 xuống 115)** theo trần quy định ở `AGENTS.md`. Các mục nhỏ hơn số 98 đã chuyển ra ngoài kho mã: phần lớn nằm trong `NHAT_KY_CONG_VIEC_ban_day_du_truoc_cat_20261030.md`; riêng các mục 60 đến 65, các mục 68 đến 83, các mục 84 đến 96 mục 97 mục 98 mục 99 mục 100 mục 101 mục 102 và mục 103 lưu ở thư mục lưu trữ `ARCHIVE_LESSON_11_1_20261030` trên máy người làm dự án, hỏi người bàn giao khi cần.
+_Ghi chú biên tập:_ mục ĐÃ XONG giữ **50 task gần nhất (165 xuống 116)** theo trần quy định ở `AGENTS.md`. Các mục nhỏ hơn số 98 đã chuyển ra ngoài kho mã: phần lớn nằm trong `NHAT_KY_CONG_VIEC_ban_day_du_truoc_cat_20261030.md`; riêng các mục 60 đến 65, các mục 68 đến 83, các mục 84 đến 96 mục 97 mục 98 mục 99 mục 100 mục 101 mục 102 và mục 103 lưu ở thư mục lưu trữ `ARCHIVE_LESSON_11_1_20261030` trên máy người làm dự án, hỏi người bàn giao khi cần.
 
 _Ghi chú về đường dẫn:_ các mục từ 01 đến 106 ghi theo cấu trúc thư mục **tại thời điểm viết** — `input_data/`, `pbi/`, `audit/`, `csv_staging/`, `scratch/`, `SQL/` và tên tệp `123.pbix`. Từ task 107 kho đổi sang `input/` · `ingestion/` · `sql/` · `docs/` · `output/` · `images/`; đọc đối chiếu hai cấu trúc ở `docs/HIEN_TRANG_HE_THONG.md`.
