@@ -4,8 +4,6 @@
 
 **Ngôn ngữ / Language**: **Tiếng Việt** · [English](README_eng.md)
 
-[Email](mailto:tranduc22104@gmail.com) · [LinkedIn](https://www.linkedin.com/in/tr%E1%BA%A7n-ng%E1%BB%8Dc-%C4%91%E1%BB%A9c-48b3a7439/)
-
 <p>
   <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white">
   <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white">
@@ -28,9 +26,8 @@
 9. [📚 Kinh Nghiệm Triển Khai Thực Chiến](#9--kinh-nghiệm-triển-khai-thực-chiến)
 10. [🛠️ Công Nghệ Sử Dụng](#10-️-công-nghệ-sử-dụng)
 11. [📂 Cấu Trúc Thư Mục Dự Án](#11--cấu-trúc-thư-mục-dự-án)
-12. [🔒 Nguồn Dữ Liệu Và Quyền Sử Dụng](#12--nguồn-dữ-liệu-và-quyền-sử-dụng)
-13. [📖 Tài Liệu Bàn Giao](#13--tài-liệu-bàn-giao)
-14. [👤 Tác Giả](#14--tác-giả)
+12. [📖 Tài Liệu Bàn Giao](#12--tài-liệu-bàn-giao)
+13. [👤 Tác Giả](#13--tác-giả)
 
 ---
 
@@ -508,14 +505,7 @@ Cấu trúc dự án được chuẩn hoá thành 6 thư mục nghiệp vụ rõ
 
 ---
 
-## 12. 🔒 Nguồn Dữ Liệu Và Quyền Sử Dụng
-
-- Dữ liệu sử dụng trong dự án là **dữ liệu nghiệp vụ thực tế do đơn vị cung cấp và cho phép sử dụng** nhằm mục đích nghiên cứu và xây dựng giải pháp báo cáo quản trị.
-- **Quy định quản lý tệp trên kho mã:** Do chính sách giới hạn dung lượng của GitHub (100 MB/tệp), tệp sao kê hợp đồng thẻ gốc nặng **117,2 MB** được lưu trữ cục bộ cùng hai tệp dữ liệu thô khác. Kho mã lưu trữ tệp **`Tham so va mau doi chieu.xlsx`** (127.976 byte) nhằm đảm bảo người đọc có thể tái hiện toàn bộ mã nguồn, logic tính toán và xem trước các sản phẩm báo cáo đầu ra.
-
----
-
-## 13. 📖 Tài Liệu Bàn Giao
+## 12. 📖 Tài Liệu Bàn Giao
 
 Hệ thống được tài liệu hoá đầy đủ trong thư mục `docs/`:
 - [`docs/HIEN_TRANG_HE_THONG.md`](docs/HIEN_TRANG_HE_THONG.md) — Chi tiết hiện trạng kho dữ liệu, số dòng của 19 bảng và 4 `view`, phân quyền quản lý từng bảng và các mốc đối soát chuẩn.
@@ -525,7 +515,7 @@ Hệ thống được tài liệu hoá đầy đủ trong thư mục `docs/`:
 
 ---
 
-## 14. 👤 Tác Giả
+## 13. 👤 Tác Giả
 
 <div align="center">
 

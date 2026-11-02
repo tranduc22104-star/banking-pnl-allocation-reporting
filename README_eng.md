@@ -4,8 +4,6 @@
 
 **Ngôn ngữ / Language**: [Tiếng Việt](README.md) · **English**
 
-[Email](mailto:tranduc22104@gmail.com) · [LinkedIn](https://www.linkedin.com/in/tr%E1%BA%A7n-ng%E1%BB%8Dc-%C4%91%E1%BB%A9c-48b3a7439/)
-
 <p>
   <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white">
   <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white">
@@ -28,9 +26,8 @@
 9. [📚 Lessons Learned And Implementation Takeaways](#9--lessons-learned-and-implementation-takeaways)
 10. [🛠️ Tools And Technologies](#10-️-tools-and-technologies)
 11. [📂 Project Repository Structure](#11--project-repository-structure)
-12. [🔒 Data Provenance And Usage Rights](#12--data-provenance-and-usage-rights)
-13. [📖 Handover Documentation](#13--handover-documentation)
-14. [👤 Author](#14--author)
+12. [📖 Handover Documentation](#12--handover-documentation)
+13. [👤 Author](#13--author)
 
 ---
 
@@ -508,14 +505,7 @@ Standardized across 6 operational directories:
 
 ---
 
-## 12. 🔒 Data Provenance And Usage Rights
-
-- Datasets utilized in this project are **real commercial banking data provided and authorized by the institution** for research and portfolio demonstration.
-- **Repository Storage Policy:** Due to GitHub's 100 MB per-file upload policy, the raw card statement file weighing **117.2 MB** is managed locally alongside two other raw transactional files. The repository retains **`Tham so va mau doi chieu.xlsx`** (127,976 bytes) containing mapping parameters and template layouts, enabling external reviewers to audit all code, calculation logic, and reporting models.
-
----
-
-## 13. 📖 Handover Documentation
+## 12. 📖 Handover Documentation
 
 Comprehensive system documentation is maintained within `docs/`:
 - [`docs/HIEN_TRANG_HE_THONG.md`](docs/HIEN_TRANG_HE_THONG.md) — Warehouse status, row counts across 19 tables and 4 `views`, file ownership matrix, and reconciliation benchmarks.
@@ -525,7 +515,7 @@ Comprehensive system documentation is maintained within `docs/`:
 
 ---
 
-## 14. 👤 Author
+## 13. 👤 Author
 
 <div align="center">
 
