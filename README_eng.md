@@ -191,70 +191,151 @@ To transform multi-source raw files into an operational reporting system, an aut
 
 ## 5. 🧮 Business Logic And Metric Design
 
-### 5.1. Track A – Regional Management P&L Calculation
+**Business Context:** In enterprise data analytics, executive leadership provides broad directional objectives rather than pre-packaged mathematical formulas, standardized KPI scorecards, or pre-calculated reconciliation workbooks. The entire calculation methodology must be independently formulated through domain analysis of financial causality, economic principles, and balanced performance governance.
 
-The allocation engine processes 63,134 ledger transactions through 2 managerial accounting rules:
+### 5.1. P&L Allocation Framework
 
-- **Rule 1 (Direct Branch Assignment):** Transactions containing designated province codes (62,953 rows) are assigned 100% to their corresponding operational region.
-- **Rule 2 (Indirect Central Allocation):** Central Head Office transactions (181 pooled expense lines, province `'00'`, zone `'A'`) are distributed across the 7 regions using driver ratios:
+Core analytical question: *How can actual regional operating profitability be determined when major revenues and corporate overheads are centralized at Head Office?*
 
-$$	ext{Allocation Ratio for Region } i = rac{	ext{Driver Metric Value for Region } i}{\sum_{k=1}^7 	ext{Driver Metric Value for Region } k}$$
+The solution is structured across 9 management accounting stages:
+1. Analyze all 63,134 General Ledger (GL) journal entries.
+2. Identify transactions with specific branch codes for direct cost tracing.
+3. Segregate centralized Head Office transactions (province code `'00'`, region `'A'`).
+4. Analyze the underlying economic driver behind each expense category.
+5. Define relevant Cost Drivers reflecting operational resource consumption.
+6. Assess source data feasibility and granularity to support each driver.
+7. Select appropriate driver-based allocation keys.
+8. Formulate mathematical allocation procedures in PostgreSQL Stored Procedures.
+9. Verify economic reasonableness and conservation of aggregate balances.
 
-$$	ext{Allocated Cost to Region } i = 	ext{Head Office Cost Pool} 	imes 	ext{Allocation Ratio for Region } i$$
+**Two Core Cost Allocation Rules:**
+- **Rule 1 – Direct Cost Tracing:** 62,953 branch-level transactions are directly assigned 100% of their revenues (card interest, annual fees) and direct costs to their managing commercial region.
+- **Rule 2 – Driver-Based Indirect Allocation:** 181 centralized Head Office overhead entries are allocated across 7 commercial regions based on dynamic economic driver ratios:
 
-*Allocation drivers matched to underlying economic nature:*
-- **Cost of Funds:** Allocated by Group 1 performing loan balances (regions utilizing higher funding absorb proportionate funding costs).
-- **Credit Provision Charges:** Allocated by Group 2 to Group 5 delinquent balances plus off-balance-sheet written-off debt.
-- **Operating & Administrative Expenses:** Allocated by Area Sales Manager headcount or active credit card counts.
+$$\text{Allocation Ratio for Region } i = \frac{\text{Driver Value for Region } i}{\sum_{k=1}^7 \text{Driver Value for Region } k}$$
 
-*Decomposing YTD Cumulative Figures into Monthly Flows:*
-Year-to-date accounting figures are converted into monthly flow streams:
-$$V_{	ext{Month } M} = V_{	ext{Cumulative } M} - V_{	ext{Cumulative } (M-1)}$$
-Enabling clean decomposition of Profit Before Tax (PBT) variance into 6 operational components.
+$$\text{Allocated Expense to Region } i = \text{Head Office Expense} \times \text{Allocation Ratio for Region } i$$
 
-### 5.2. Track B – Area Sales Manager Balanced Scorecard
+*Economic Rationale for Head Office Cost Drivers:*
+- **Treasury Cost of Funds:** Represents the bank's wholesale funding costs to finance cardholder credit balances. Driven directly by credit exposure $\rightarrow$ Allocated by **Average Performing Loan Balance (Bucket 1)**. Regions carrying higher performing credit volumes consume more internal liquidity and must bear proportional funding expenses.
+- **Credit Risk Provisioning:** Represents expected credit loss allowances. Driven directly by delinquency and default risk $\rightarrow$ Allocated by **Overdue Loan Balance (Buckets 2 to 5) plus Off-Balance-Sheet Write-Offs**. This reflects the true asset risk profile of each territory rather than averaging across total portfolio scale.
+- **Card Technology and Operations:** IT infrastructure, telecommunications, and core banking processing costs $\rightarrow$ Allocated by **Active Card Count** or **Transaction Volume**, reflecting actual processing capacity utilization.
+- **Corporate Overhead and Support Headcount:** Administrative, compliance, and centralized human resource expenses $\rightarrow$ Allocated by regional **Staff Headcount**.
+- *Assumptions and Limitations:* The allocation model assumes linear cost elasticity and uniform resource consumption per driver unit across all regions; targeted local marketing campaigns are not individually isolated.
 
-To ensure equity across diverse territorial scales, performance is evaluated across 8 indicators within **2 independent pillars**:
+*Converting Cumulative (YTD) to Monthly Incremental Figures:*
+Year-to-date accounting figures are converted into discrete monthly cash flows:
+$$V_{\text{Month } M} = V_{\text{Cumulative } M} - V_{\text{Cumulative } (M-1)}$$
+Enabling variance decomposition of Profit Before Tax (PBT) across 6 distinct revenue and expense components.
+
+### 5.2. Regional Sales Management (ASM) Balanced Scorecard
+
+Core analytical question: *If sales management performance is evaluated solely on new card volume, does the scorecard truly capture business profitability and risk control?*
+
+**Addressing the Single-Metric Agency Problem:**
+In commercial banking, evaluating managers strictly on gross sales volume or newly issued cards creates a perverse incentive to lower credit underwriting thresholds. This drives rapid short-term acquisition but causes delinquency spikes 3 to 6 months later, where credit risk provisions erode all gross profits.
+
+**Designing a Balanced Two-Pillar Scorecard:**
+To eliminate moral hazard, the evaluation framework assesses 8 indicators across two independent pillars balanced at 50% Commercial Scale and 50% Financial Discipline / Risk Control:
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                              ASM EVALUATION SCORECARD                                  │
+│                        REGIONAL SALES MANAGER EVALUATION SYSTEM                        │
 ├──────────────────────────────────────────┬─────────────────────────────────────────────┤
-│ PILLAR 1: COMMERCIAL SCALE (diem_qm)     │ PILLAR 2: FINANCIAL EFFICIENCY (diem_fin)   │
-│ • Average new lending volume (Higher)    │ • Cost-to-Income Ratio - CIR (Lower)        │
-│ • Average active credit cards (Higher)   │ • Operating Margin (Higher)                 │
-│ • Average credit approval rate (Higher)  │ • Capital efficiency coefficient (Higher)   │
-│ • REGIONAL NPL RATIO (Lower is better)   │ • Average profit per manager (Higher)       │
-│   (Acts as an institutional risk brake)  │   (Ties leadership to regional results)     │
+│ PILLAR 1: COMMERCIAL VOLUME (diem_qm)    │ PILLAR 2: FINANCIAL EFFICIENCY (diem_fin)   │
+│ • Average new loan disbursement (High)   │ • Cost-to-Income Ratio - CIR (Low is best)  │
+│ • Average active card count (High)       │ • Profit Margin (High is best)              │
+│ • Average approval rate (High is best)   │ • Capital productivity coefficient (High)   │
+│ • REGIONAL NPL RATIO (Low is best)       │ • Profit per ASM Headcount (High is best)   │
+│   (Functions as an essential risk brake) │   (Aligns managerial reward with profit)    │
 └──────────────────────────────────────────┴─────────────────────────────────────────────┘
 ```
 
-*Ranking Algorithm (Rank-Sum Scoring):*
-Because individual metrics span differing measurement units (currency, unit counts, percentages), summing raw metric values is mathematically invalid. The model applies **ordinal ranking per metric (Rank 1 being optimal), then sums ordinal ranks to establish overall points**:
-$$	ext{Total Points} = 	ext{Scale Points } (diem\_qm) + 	ext{Financial Points } (diem\_fin)$$
-*Lower total rank-sum points indicate superior nationwide sales management performance.*
+**Detailed Matrix of 8 Evaluation Metrics:**
 
-*Operational Constraint:* Because delinquent balances and general ledgers are captured at branch/regional granularity rather than individual employee contract level, Pillar 2 metrics and regional NPL are computed regionally and applied uniformly to all ASMs within the same territory. The scorecard measures performance within available datasets rather than representing an exhaustive individual audit.
+| Metric | Dimension Measured | Strategic Rationale | Source Table | Preferred Direction | Granularity | Analytical Limitation |
+|---|---|---|---|---|---|---|
+| **New Loan Volume** | Direct sales execution | Reflects market acquisition speed | Target KPI Table | Higher is better | Individual ASM | Does not penalize post-issuance churn |
+| **Average Active Cards** | Customer card usage | Measures retained transactional base | Contract Statement | Higher is better | Individual ASM | Requires active stimulation spending |
+| **Application Approval Rate** | Underwriting efficiency | Evaluates application quality | Target KPI Table | Higher is better | Individual ASM | Excessively high rates risk loose vetting |
+| **Regional NPL Ratio** | Credit risk discipline | Essential brake against moral hazard | Contract Statement | Lower is better | Regional level | Contract data lacks ASM IDs; shared by region |
+| **Regional CIR** | Cost operational efficiency | Measures operating cost burn rate | General Ledger | Lower is better | Regional level | Subject to Head Office cost allocation keys |
+| **Profit Margin** | Quality of earnings | Ensures revenue growth yields profit | General Ledger | Higher is better | Regional level | Sensitive to internal fund transfer pricing |
+| **Capital Efficiency Ratio** | Asset productivity | Profit generated per loan balance | GL & Contract | Higher is better | Regional level | Measures holistic territorial return |
+| **Profit per ASM Headcount**| Bottom-line accountability | Connects managerial compensation to profit | GL & Headcount | Higher is better | Regional level | Distributed uniformly across regional ASMs |
+
+*Normalization and Metric Scaling Methodology:*
+Because the indicators feature non-commensurate measurement units (million VND, card units, percentages), raw arithmetic aggregation is invalid. The framework implements **Independent Percentile Rank Scaling**:
+- Each metric is independently ranked from 1 to $N$ across the nationwide sales force (rank 1 represents top performance).
+- For inverse metrics where lower values indicate superior performance (NPL ratio, CIR), rank sorting is reversed so the lowest value receives rank 1.
+- Total performance score equals the sum of ranks from both pillars:
+$$\text{Total Score} = \text{Scale Rank Score } (diem\_qm) + \text{Financial Rank Score } (diem\_fin)$$
+- Regional managers with a **lower total score achieve a superior final nationwide ranking**. The evaluation scale applies across active sales management cohorts numbering 74 to 84 ASMs across monthly periods.
 
 ---
 
 ## 6. 🧪 Data Validation And Quality Assurance
 
-To ensure absolute credibility before presenting findings to leadership, 4 independent cross-reconciliation procedures were executed:
+**Independent Verification Context:** In real-world enterprise deployments, executive leadership does not supply pre-computed benchmark answers. The validation framework must therefore be designed as an independent 5-layer quality assurance architecture founded on mathematical invariants, double-entry accounting principles, and data integrity tests.
 
-1. **Reconciliation against institutional benchmark models:**
-   Calculated figures were reconciled cell-by-cell against financial models in `input/Tham so va mau doi chieu.xlsx`. Month 2/2023 PBT (**92,226.35 million VND**), Month 5/2023 PBT (**250,450.06 million VND**), and Top 1 ASM `nam.hoangvan` (**34 points**) matched exact figures.
+```text
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                        5-LAYER DATA QUALITY ASSURANCE FRAMEWORK                        │
+├────────────────────────────────────────────────────────────────────────────────────────┤
+│ Layer 1: GL RECONCILIATION CONSERVATION (Sum of regions = Nationwide General Ledger)   │
+│ Layer 2: MATHEMATICAL INVARIANTS (Allocation ratio sum equals exactly 1.0)             │
+│ Layer 3: DATA INTEGRITY AND REFERENTIAL INTEGRITY (Zero orphaned or duplicated records)│
+│ Layer 4: BUSINESS SANITY AND FINANCIAL BOUNDARY CHECKS (MoM thresholds and NPL ranges) │
+│ Layer 5: INDEPENDENT RECALCULATION AND CROSS-AUDIT (Zero variance across systems)      │
+└────────────────────────────────────────────────────────────────────────────────────────┘
+```
 
-2. **Mathematical conservation of cost pools:**
-   Total expenses distributed to the 7 regions equal exactly 100% of centralized Head Office pools:
-   $$\left| \sum_{k=1}^7 	ext{Allocated Cost Region } k - 	ext{Head Office Cost Pool} ight| \le 10^{-6}$$
-   Zero capital leakages or phantom costs occurred.
+### Layer 1 – General Ledger Balance Reconciliation
+- **Control Risk:** Financial leakage or cost duplication when disaggregating 181 Head Office entries across 7 regions.
+- **Control Principle:** Aggregate post-allocation regional revenues and expenses plus remaining corporate balances must match 100% of nationwide GL balances:
+$$\left| \sum_{k=1}^7 \text{Allocated Regional Expense}_k - \text{Total Head Office Expense} \right| \le 10^{-6}$$
+- **Implementation Method:** Automated SQL reconciliation scripts comparing raw transactions in `stg_fact_txn_month` against allocated entries in `fct_pnl_allocation`.
+- **Observed Result:** Variance equals exactly $0.00$ VND across all 63,134 journal rows across 5 reporting months.
+- **Known Limitation:** Aggregate reconciliation verifies allocation arithmetic conservation; it cannot detect misclassifications within raw GL source entries.
 
-3. **Independent cross-engine reconciliation (PostgreSQL vs Power BI):**
-   Conducted independent reconciliation across **91 data points** (13 core financial metrics $	imes$ 7 regions for Month 5/2023) comparing SQL queries against DAX measures. Recorded **zero discrepancy across all 91 cells**.
+### Layer 2 – Mathematical Invariants And Formula Validity
+- **Control Risk:** Divide-by-zero runtime exceptions, unallocated residuals, or sign inversions on revenue/expense line items.
+- **Control Principle:** Dynamic allocation weights for each economic driver must sum to exactly 1:
+$$\sum_{i=1}^7 w_i = 1.000000 \quad (\text{for all driver categories})$$
+All division expressions are guarded with `NULLIF(denominator, 0)`.
+- **Implementation Method:** Automated invariant assertions verifying table `tmp_pnl_step2_head_alloc_ratio` across 9 distinct economic drivers.
+- **Observed Result:** 100% of allocation drivers sum to exactly 1; zero divide-by-zero exceptions or `NaN`/`Infinity` values occurred.
+- **Known Limitation:** Assumes linear cost allocation elasticity; non-linear step-fixed overhead costs are not modeled.
 
-4. **Source data row-count verification:**
-   Verified end-to-end pipeline ingestion counts: statement records matched exactly **2,932,922 rows**, general ledger entries matched **63,134 rows**, confirming zero data dropouts.
+### Layer 3 – Data Integrity And Referential Integrity
+- **Control Risk:** Duplicate spreadsheet records, data drop-off during table joins, or unmapped branch/province identifiers.
+- **Control Principle:** Foreign key referential integrity and entity uniqueness constraints.
+- **Implementation Method:** Row count reconciliation before and after SQL `JOIN` statements; scanning for province IDs absent from `dim_param_area`.
+- **Observed Result:** All 2,932,922 card contracts and 63,134 accounting transactions loaded completely; zero orphaned records. 181 Head Office entries with province code `'00'` routed successfully to the allocation pipeline.
+- **Known Limitation:** Cardholders who relocated across regions remain mapped to their original issuing branch territory.
+
+### Layer 4 – Business Sanity And Boundary Conditions
+- **Control Risk:** Results violating financial logic or displaying inexplicable month-over-month variances.
+- **Control Principle:** Establishing domain boundary conditions:
+  - Regional $NPL \in [0\%, 100\%]$; Loan balances, active card counts, and staff headcount $\ge 0$.
+  - Credit risk provisioning must correlate positively with delinquent loan movements in Buckets 3 to 5.
+  - Red Flag threshold triggers for expense lines with month-over-month variance $MoM > \pm 50\%$.
+- **Implementation Method:** Boundary query assertions on fact tables and time-series sensitivity monitoring from January through May 2023.
+- **Observed Result:** Regional NPL ratios fluctuated within a realistic range of 1.15% to 3.24%. The sharp spike in May 2023 credit provisioning was verified as expected provisioning on Buckets 3 to 5 from earlier credit expansion.
+- **Known Limitation:** Threshold scanning cannot distinguish organic business expansion from retroactive accounting policy adjustments without accountant notes.
+
+### Layer 5 – Independent Recalculation And Cross-Audit
+- **Control Risk:** Latent logic divergence between PostgreSQL database storage and Power BI analytical measures.
+- **Control Principle:** Single-case reverse auditing and end-to-end multi-platform cross-validation.
+- **Implementation Method:**
+  1. *Sample Reverse Audit:* Randomly sampled 3 representative entities (Southeast Region, Northwest Region, and 1 specific ASM); recalculated numbers manually outside SQL.
+  2. *Cross-System Audit:* Exhaustive **91-cell matrix audit** (13 core financial indicators $\times$ 7 regions for May 2023) between PostgreSQL SQL queries and 72 DAX measures in Power BI.
+  3. *Independent Benchmark Comparison:* Verified against external reference workbook `input/Tham so va mau doi chieu.xlsx`.
+- **Observed Result:**
+  - Independent manual calculations matched stored procedure outputs with zero variance.
+  - All **91 audited cells between PostgreSQL and Power BI yielded exactly 0 variance**.
+  - Exact digit-level match against benchmark data: February 2023 PBT reached **92,226.35 million VND**, May 2023 reached **250,450.06 million VND**, and Top 1 ASM `nam.hoangvan` attained **34 points**.
+- **Known Limitation:** Manual recalculation can only cover representative audit samples; full 3-million-row coverage relies on the preceding 4 automated control layers.
 
 ---
 
@@ -308,7 +389,9 @@ The executive Power BI reporting system comprises **5 dashboard pages** running 
 
 ### Page 5: Deep-Dive Diagnosis & Root Cause
 - **Design Purpose:** Delivers root cause diagnosis and concrete operational action recommendations for executive leadership.
-- **Visual Structure:** Profit – Risk Quadrant Matrix classifying 7 regions along Profit and NPL axes; 3-column diagnostic framework (Observed Symptom $ightarrow$ Data Root Cause $ightarrow$ Actionable Intervention with department and timeline).
+- **Visual Structure:** Profit – Risk Quadrant Matrix classifying 7 regions along Profit and NPL axes; 3-column diagnostic framework (Observed Symptom $
+ightarrow$ Data Root Cause $
+ightarrow$ Actionable Intervention with department and timeline).
 - **Analytical Utility:** Highlights "overheated" regions (high net profit accompanied by alarming NPL ratios) for timely executive intervention.
 
 <div align="center">

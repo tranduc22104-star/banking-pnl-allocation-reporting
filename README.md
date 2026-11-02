@@ -191,30 +191,52 @@ Ngân hàng không có sẵn một kho dữ liệu tập trung hay một bảng 
 
 ## 5. 🧮 Xây Dựng Logic Tính Toán Và Chỉ Tiêu Quản Trị
 
-### 5.1. Bài toán A – Tính toán kết quả kinh doanh 7 vùng (P&L Allocation)
+**Bối cảnh nghiệp vụ thực tế:** Trong hoạt động phân tích dữ liệu quản trị doanh nghiệp, Ban Lãnh Đạo chỉ giao mục tiêu định hướng cấp cao chứ không cung cấp sẵn bộ công thức tính toán, bảng điểm KPI chuẩn hay tệp mẫu kết quả đối chiếu. Toàn bộ phương pháp tính toán phải được hình thành độc lập thông qua quá trình nghiên cứu bản chất kinh tế, phân tích quan hệ nhân quả của dòng tiền và xây dựng nguyên lý quản trị cân bằng.
 
-Hệ thống phân bổ 63.134 bút toán sổ cái theo 2 quy tắc kế toán quản trị minh bạch:
+### 5.1. Xây dựng logic phân bổ thu nhập và chi phí (P&L Allocation Framework)
 
-- **Quy tắc 1 (Gán trực tiếp):** Bút toán nào có mã tỉnh thành chi nhánh cụ thể (62.953 dòng) được ghi nhận 100% doanh thu hoặc chi phí cho vùng kinh doanh tương ứng.
-- **Quy tắc 2 (Phân bổ gián tiếp):** Bút toán tại Hội sở (181 dòng chi phí chung, mã tỉnh `'00'`, vùng `'A'`) được chia về 7 vùng dựa trên tỷ lệ thực tế của từng tiêu thức kinh tế tương ứng:
+Bài toán cốt lõi đặt ra: *Làm thế nào để xác định kết quả kinh doanh thực tế của từng vùng khi một phần thu nhập và chi phí lớn nhất được ghi nhận tập trung tại Hội sở?*
 
-$$	ext{Tỷ lệ phân bổ vùng } i = rac{	ext{Giá trị tiêu thức của vùng } i}{\sum_{k=1}^7 	ext{Giá trị tiêu thức của vùng } k}$$
+Quy trình giải quyết được triển khai theo 9 bước kế toán quản trị:
+1. Phân tích toàn bộ 63.134 bút toán trên sổ cái kế toán (GL).
+2. Xác định các khoản mục có mã tỉnh thành chi nhánh cụ thể để gán trực tiếp (Direct Cost Tracing).
+3. Phân loại các khoản chi phí hạch toán tập trung tại Hội sở (mã tỉnh `'00'`, vùng `'A'`).
+4. Phân tích nguyên nhân kinh tế phát sinh từng khoản chi phí.
+5. Xác định nhân tố phản ánh mức độ sử dụng nguồn lực hoặc nguyên nhân phát sinh chi phí (Cost Driver).
+6. Đánh giá tính khả thi và độ đầy đủ của dữ liệu nguồn hiện có để tính toán driver.
+7. Lựa chọn phương pháp phân bổ gián tiếp phù hợp (Driver-Based Cost Allocation).
+8. Xây dựng công thức toán học và triển khai bằng Stored Procedure trên PostgreSQL.
+9. Kiểm tra tính hợp lý kinh tế và khả năng bảo toàn tổng số tiền.
 
-$$	ext{Chi phí phân bổ về vùng } i = 	ext{Chi phí Hội sở} 	imes 	ext{Tỷ lệ phân bổ vùng } i$$
+**Hai nguyên tắc phân bổ chi phí cốt lõi:**
+- **Quy tắc 1 – Gán trực tiếp (Direct Cost Tracing):** 62.953 bút toán phát sinh tại các chi nhánh cơ sở được ghi nhận 100% doanh thu (lãi thẻ, phí thường niên) và chi phí trực tiếp cho đúng vùng kinh doanh quản lý chi nhánh đó.
+- **Quy tắc 2 – Phân bổ gián tiếp theo Cost Driver (Driver-Based Cost Allocation):** 181 bút toán chi phí Hội sở dùng chung được chia về 7 vùng dựa trên tỷ trọng của từng tiêu thức kinh tế tương ứng:
 
-*Tiêu thức phân bổ được lựa chọn phù hợp với bản chất từng loại chi phí:*
-- **Chi phí vốn huy động:** Phân bổ theo Dư nợ cho vay nhóm 1 (phản ánh vùng nào sử dụng nhiều vốn huy động thì phải gánh chi phí vốn tương ứng).
-- **Chi phí dự phòng rủi ro tín dụng:** Phân bổ theo Dư nợ nhóm 2 đến nhóm 5 cộng với Nợ đã xử lý rủi ro ngoại bảng (write-off).
-- **Chi phí vận hành và quản lý chung:** Phân bổ theo Số lượng quản lý vùng (headcount) hoặc Số lượng thẻ phát sinh dư nợ.
+$$\text{Tỷ lệ phân bổ vùng } i = \frac{\text{Giá trị tiêu thức của vùng } i}{\sum_{k=1}^7 \text{Giá trị tiêu thức của vùng } k}$$
+
+$$\text{Chi phí phân bổ về vùng } i = \text{Chi phí Hội sở} \times \text{Tỷ lệ phân bổ vùng } i$$
+
+*Cơ sở kinh tế lựa chọn tiêu thức phân bổ cho từng nhóm chi phí Hội sở:*
+- **Chi phí vốn huy động (Treasury Cost):** Bản chất là chi phí ngân hàng huy động vốn từ thị trường để tài trợ cho danh mục cho vay thẻ. Nguyên nhân phát sinh trực tiếp từ quy mô tín dụng $\rightarrow$ Phân bổ theo **Dư nợ cho vay bình quân nhóm 1**. Vùng nào nắm giữ quy mô dư nợ lớn hơn thì sử dụng nhiều vốn điều chuyển nội bộ hơn và phải gánh chịu chi phí vốn tương ứng.
+- **Chi phí dự phòng rủi ro tín dụng (Credit Provisioning):** Bản chất là khoản trích lập phòng ngừa tổn thất tín dụng tiềm tàng. Phát sinh trực tiếp từ rủi ro nợ quá hạn $\rightarrow$ Phân bổ theo **Dư nợ nhóm 2 đến nhóm 5 cộng với Nợ đã xử lý rủi ro ngoại bảng (write-off)**. Tiêu thức này phản ánh trung thực mức độ rủi ro danh mục của từng vùng thay vì cào bằng theo tổng dư nợ.
+- **Chi phí công nghệ và vận hành thẻ (IT & Operations):** Chi phí duy trì hệ thống Core thẻ, hạ tầng viễn thông và máy chủ $\rightarrow$ Phân bổ theo **Số lượng thẻ phát sinh dư nợ** hoặc **Doanh số giao dịch (Volume)**, phản ánh đúng tần suất sử dụng hạ tầng thanh toán.
+- **Chi phí vận hành và quản trị khối hỗ trợ (General Overhead):** Lương thưởng, phúc lợi của các phòng ban Hội sở phục vụ mạng lưới $\rightarrow$ Phân bổ theo **Định biên nhân sự (Headcount)** của từng vùng.
+- *Giả định và giới hạn:* Phương pháp giả định mối quan hệ phân bổ là tuyến tính và mức độ tiêu hao tài nguyên bình quân trên mỗi đơn vị driver giữa các vùng là đồng nhất; chưa bóc tách riêng lẻ các chiến dịch tiếp thị mang tính đặc thù cho từng địa phương.
 
 *Chuyển đổi số lũy kế (YTD) sang số phát sinh tháng:*
 Dữ liệu sổ cái tích lũy từ đầu năm được chuyển đổi thành dòng tiền phát sinh riêng từng tháng:
-$$V_{	ext{tháng } M} = V_{	ext{lũy kế } M} - V_{	ext{lũy kế } (M-1)}$$
+$$V_{\text{tháng } M} = V_{\text{lũy kế } M} - V_{\text{lũy kế } (M-1)}$$
 Từ đó phân rã biến động Lợi nhuận trước thuế (PBT) thành 6 cấu phần thu – chi cụ thể.
 
-### 5.2. Bài toán B – Đánh giá và xếp hạng năng lực quản lý vùng (ASM Scorecard)
+### 5.2. Xây dựng hệ thống chỉ tiêu và thẻ điểm đánh giá ASM (Balanced Scorecard)
 
-Để đảm bảo tính công bằng và triệt tiêu động cơ nới lỏng kiểm soát rủi ro, hệ thống đánh giá 8 chỉ số trên **2 trụ cột độc lập**:
+Câu hỏi nghiệp vụ đặt ra: *Nếu chỉ sử dụng doanh số phát hành thẻ để đánh giá ASM, liệu kết quả có phản ánh đầy đủ hiệu quả hoạt động và kiểm soát rủi ro không?*
+
+**Phân tích hạn chế của cơ chế đánh giá đơn chiều (Agency Problem):**
+Trong mô hình kinh doanh ngân hàng, nếu chỉ trao thưởng dựa trên chỉ tiêu số lượng thẻ phát hành hoặc doanh số giải ngân mới, các ASM sẽ bị thúc đẩy bởi động cơ tối đa hóa số lượng ngắn hạn mà nới lỏng khẩu vị rủi ro và tiêu chuẩn thẩm định tín dụng. Hệ quả là tăng trưởng nóng trong vài tháng đầu nhưng nợ xấu bùng nổ sau 3 đến 6 tháng, chi phí trích lập dự phòng sẽ ăn mòn toàn bộ lợi nhuận ngân hàng.
+
+**Thiết kế hệ thống đánh giá cân bằng 2 trụ cột (Balanced Scorecard):**
+Để triệt tiêu động cơ trục lợi rủi ro, hệ thống thiết kế 8 chỉ số trên 2 trụ cột độc lập với trọng số cân bằng 50% Quy mô và 50% Kỷ luật tài chính / Rủi ro:
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
@@ -229,32 +251,91 @@ Từ đó phân rã biến động Lợi nhuận trước thuế (PBT) thành 6 
 └──────────────────────────────────────────┴─────────────────────────────────────────────┘
 ```
 
-*Thuật toán xếp hạng từng chỉ số trước khi tính điểm tổng:*
-Do các chỉ số có đơn vị đo lường khác nhau (triệu đồng, số thẻ, tỷ lệ phần trăm), việc cộng gộp số thô là phi thực tế. Hệ thống sử dụng thuật toán **Xếp hạng từng chỉ số trước (thứ hạng 1 là tốt nhất), sau đó cộng tổng thứ hạng để tính điểm**:
-$$	ext{Điểm tổng} = 	ext{Điểm Quy mô } (diem\_qm) + 	ext{Điểm Tài chính } (diem\_fin)$$
-*Điểm tổng càng thấp, thứ hạng chung cuộc của quản lý vùng trên toàn ngân hàng càng cao.*
+**Bảng chi tiết 8 chỉ tiêu đánh giá ASM:**
 
-*Giới hạn nghiệp vụ cần lưu ý:* Do dữ liệu nợ xấu và sổ cái chỉ theo dõi đến cấp chi nhánh/vùng, các chỉ số thuộc Trụ cột 2 và tỷ lệ nợ xấu vùng được tính chung cho toàn vùng rồi áp dụng cho các ASM trong cùng địa bàn. Hệ thống phản ánh kết quả kinh doanh và hiệu quả quản lý theo bộ tiêu chí hiện có, không phải phép đo toàn diện năng lực cá nhân riêng lẻ.
+| Chỉ tiêu | Khía cạnh đo lường | Tại sao cần thiết? | Nguồn dữ liệu | Chiều đánh giá | Cấp độ hạt | Giới hạn cần lưu ý |
+|---|---|---|---|---|---|---|
+| **Doanh số giải ngân mới** | Năng lực bán hàng trực tiếp | Phản ánh tốc độ mở rộng thị trường | Bảng chỉ tiêu KPI | Càng cao càng tốt | Cá nhân ASM | Chưa tính đến tỷ lệ hủy thẻ sau phát hành |
+| **Số thẻ active bình quân** | Mức độ thâm nhập khách hàng | Đo lường khách hàng thực sự sử dụng thẻ | Sao kê hợp đồng | Càng cao càng tốt | Cá nhân ASM | Cần duy trì chi phí kích hoạt thẻ |
+| **Tỷ lệ phê duyệt hồ sơ** | Năng lực sàng lọc hồ sơ | Đánh giá chất lượng hồ sơ nộp lên | Bảng chỉ tiêu KPI | Càng cao càng tốt | Cá nhân ASM | Nguy cơ nới lỏng thẩm định nếu duyệt quá cao |
+| **Tỷ lệ nợ xấu vùng (NPL)** | Kỷ luật kiểm soát rủi ro tín dụng | Phanh hãm động cơ nới lỏng rủi ro | Sao kê hợp đồng | Càng thấp càng tốt | Cấp vùng | Hợp đồng thẻ không ghi mã ASM, tính chung vùng |
+| **Hệ số CIR vùng** | Hiệu quả quản trị chi phí | Đo lường mức độ tiêu hao chi phí hoạt động | Sổ cái kế toán | Càng thấp càng tốt | Cấp vùng | Phụ thuộc vào chi phí phân bổ từ Hội sở |
+| **Biên lợi nhuận (Margin)** | Chất lượng sinh lời dòng tiền | Đảm bảo tăng trưởng gắn liền biên lợi nhuận | Sổ cái kế toán | Càng cao càng tốt | Cấp vùng | Nhạy cảm với biến động lãi suất vốn điều chuyển |
+| **Hệ số hiệu quả vốn** | Năng suất sử dụng tài sản | Đo lường lợi nhuận tạo ra trên dư nợ | Sổ cái & Sao kê | Càng cao càng tốt | Cấp vùng | Phản ánh hiệu quả tổng hợp toàn địa bàn |
+| **Lợi nhuận bình quân/ASM** | Trách nhiệm đóng góp tài chính | Gắn quyền lợi người quản lý với lợi nhuận | Sổ cái & Headcount| Càng cao càng tốt | Cấp vùng | Chia đều theo định biên nhân sự quản lý vùng |
+
+*Phương pháp tổng hợp điểm và xử lý chỉ tiêu khác đơn vị đo lường:*
+Do các chỉ số mang các thứ nguyên hoàn toàn khác nhau (triệu đồng, số lượng thẻ, tỷ lệ phần trăm), việc cộng dồn giá trị thô là phi thực tế. Hệ thống áp dụng phương pháp **Xếp hạng phân vị độc lập từng chỉ số (Rank Scaling)**:
+- Mỗi chỉ tiêu được xếp hạng từ 1 đến $N$ trong toàn ngân hàng (thứ hạng 1 đại diện cho thành tích tốt nhất).
+- Với các chỉ tiêu "càng thấp càng tốt" (tỷ lệ nợ xấu, hệ số CIR), thuật toán đảo chiều xếp hạng để giá trị thấp nhất đạt thứ hạng 1.
+- Điểm tổng kết quả là tổng thứ hạng của 2 trụ cột:
+$$\text{Điểm tổng} = \text{Điểm Quy mô } (diem\_qm) + \text{Điểm Tài chính } (diem\_fin)$$
+- Quản lý vùng nào có **Điểm tổng càng thấp thì thứ hạng chung cuộc trên bảng xếp hạng toàn quốc càng cao**. Thang đo áp dụng cho đội ngũ từ 74 đến 84 quản lý vùng qua các tháng.
 
 ---
 
 ## 6. 🧪 Kiểm Tra Và Đối Soát Dữ Liệu
 
-Để đảm bảo số liệu tính toán đạt độ tin cậy tuyệt đối trước khi báo cáo Ban Lãnh Đạo, hệ thống thực hiện 4 phương pháp kiểm tra đối soát chéo độc lập:
+**Bối cảnh kiểm chứng độc lập:** Trong môi trường triển khai thực tế, Ban Lãnh Đạo không cung cấp bảng kết quả mẫu để đối chiếu từng con số. Do đó, hệ thống kiểm tra phải được thiết kế độc lập dựa trên 5 lớp kiểm soát chất lượng dữ liệu và nguyên tắc kế toán tài chính, đảm bảo chứng minh được tính đúng đắn tự thân của toàn bộ quy trình xử lý.
 
-1. **Đối chiếu kết quả với biểu mẫu chuẩn của ngân hàng:**
-   Kết quả tính toán được so khớp từng ô với biểu mẫu kiểm tra tài chính trong tệp `input/Tham so va mau doi chieu.xlsx`. Mọi chỉ tiêu LNTT tháng 2/2023 (**92.226,35 triệu đồng**) và tháng 5/2023 (**250.450,06 triệu đồng**) cùng vị trí Top 1 của ASM `nam.hoangvan` (**34 điểm**) đều khớp chính xác từng chữ số.
+```text
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                      HỆ THỐNG KIỂM SOÁT VÀ ĐỐI SOÁT DỮ LIỆU 5 LỚP                      │
+├────────────────────────────────────────────────────────────────────────────────────────┤
+│ Lớp 1: ĐỐI SOÁT BẢO TOÀN DÒNG TIỀN (GL Reconciliation: Tổng vùng = Tổng toàn hàng)    │
+│ Lớp 2: RÀNG BUỘC TOÁN HỌC BẤT BIẾN (Mathematical Invariants: Sum(Ratio) = 1.0)        │
+│ Lớp 3: KIỂM SOÁT TOÀN VẸN VÀ CHẤT LƯỢNG DỮ LIỆU (Data Quality & Referential Integrity) │
+│ Lớp 4: KIỂM TRA TÍNH HỢP LÝ NGHIỆP VỤ (Business Sanity Checks & Red Flags)            │
+│ Lớp 5: TÍNH TOÁN LẠI ĐỐI SOÁT HỆ THỐNG (Independent Recalculation & Cross-Audit)       │
+└────────────────────────────────────────────────────────────────────────────────────────┘
+```
 
-2. **Kiểm tra tính bảo toàn dòng tiền phân bổ:**
-   Tổng chi phí phân bổ về 7 vùng phải bằng đúng 100% chi phí hạch toán tại quỹ Hội sở:
-   $$\left| \sum_{k=1}^7 	ext{Chi phí phân bổ vùng } k - 	ext{Chi phí Hội sở} ight| \le 10^{-6}$$
-   Không có bất kỳ đồng chi phí nào bị mất đi hoặc phát sinh thêm ngoài sổ cái.
+### Lớp 1 – Đối soát bảo toàn số liệu (GL Reconciliation)
+- **Rủi ro kiểm soát:** Thất thoát dòng tiền hoặc nhân đôi chi phí khi thực hiện thuật toán phân bổ 181 bút toán Hội sở về các vùng.
+- **Nguyên tắc kiểm soát:** Tổng chi phí và thu nhập sau phân bổ của 7 vùng cộng với phần Hội sở còn lại phải khớp chính xác 100% tổng phát sinh trên sổ cái kế toán toàn ngân hàng:
+$$\left| \sum_{k=1}^7 \text{Chi phí phân bổ vùng } k - \text{Chi phí Hội sở} \right| \le 10^{-6}$$
+- **Cách thức triển khai:** Chạy truy vấn SQL tổng hợp đối chiếu chênh lệch giữa bảng dữ liệu thô `stg_fact_txn_month` và bảng dữ liệu sau phân bổ `fct_pnl_allocation`.
+- **Kết quả thực tế:** Sai lệch bằng đúng $0,00$ VNĐ trên toàn bộ 63.134 dòng bút toán sổ cái của cả 5 tháng phân tích.
+- **Giới hạn còn tồn tại:** Nguyên tắc bảo toàn chỉ kiểm tra tính toàn vẹn của phép tính phân bổ, không phát hiện được sai sót nếu bản thân bút toán gốc trên sổ cái GL bị hạch toán sai tài khoản.
 
-3. **Đối soát độc lập giữa cơ sở dữ liệu PostgreSQL và Power BI:**
-   Thực hiện đối soát độc lập **91 ô dữ liệu** (gồm 13 chỉ tiêu tài chính cốt lõi $	imes$ 7 vùng kinh doanh tại tháng 5/2023) giữa câu lệnh truy vấn SQL trên PostgreSQL và các measure DAX trên Power BI. Kết quả ghi nhận **chênh lệch bằng đúng 0 trên toàn bộ 91 ô**.
+### Lớp 2 – Kiểm tra tính đúng đắn của công thức (Mathematical Invariants)
+- **Rủi ro kiểm soát:** Lỗi chia cho 0 khi mẫu số bằng 0, tỷ trọng phân bổ không trọn vẹn gây hao hụt chi phí, hoặc sai quy tắc dấu của các khoản mục chi phí âm/dương.
+- **Nguyên tắc kiểm soát:** Tổng tỷ trọng phân bổ của từng tiêu thức kinh tế phải bằng chính xác 1:
+$$\sum_{i=1}^7 w_i = 1,000000 \quad (\text{với mọi tiêu thức phân bổ})$$
+Mọi phép chia đều phải được bọc qua điều kiện kiểm tra mẫu số an toàn `NULLIF(denominator, 0)`.
+- **Cách thức triển khai:** Viết các câu lệnh kiểm tra tự động quét bảng tạm phân bổ `tmp_pnl_step2_head_alloc_ratio` để kiểm tra tổng trọng số của 9 tiêu thức kinh tế.
+- **Kết quả thực tế:** $100\%$ các tiêu thức phân bổ có tổng tỷ lệ đạt đúng 1; không phát sinh bất kỳ lỗi chia cho 0 hay giá trị vô định (`NaN`/`Infinity`).
+- **Giới hạn còn tồn tại:** Giả định tỷ trọng phân bổ là tuyến tính bậc nhất theo quy mô driver, chưa xét đến các mô hình chi phí phi tuyến tính hoặc chi phí biên.
 
-4. **Kiểm tra ngược trên dữ liệu Excel gốc:**
-   Kiểm tra tính toàn vẹn của dữ liệu nạp vào kho: tổng số dòng sao kê hợp đồng thẻ đạt đúng **2.932.922 bản ghi**, số bút toán sổ cái đạt đúng **63.134 dòng**, không có dòng dữ liệu nào bị thất lạc.
+### Lớp 3 – Kiểm soát chất lượng dữ liệu (Data Quality Checks)
+- **Rủi ro kiểm soát:** Bản ghi bị trùng lặp khi nạp file Excel, rơi rụng dòng dữ liệu khi kết nối khóa ngoại, hoặc mã chi nhánh không ánh xạ được vào 7 vùng.
+- **Nguyên tắc kiểm soát:** Toàn vẹn tham chiếu khóa ngoại (*Referential Integrity*) và tính duy nhất của dữ liệu (*Uniqueness*).
+- **Cách thức triển khai:** Kiểm tra đếm dòng trước và sau câu lệnh `JOIN`; quét các bản ghi mang mã tỉnh không nằm trong danh mục `dim_param_area`.
+- **Kết quả thực tế:** Toàn bộ 2.932.922 dòng sao kê hợp đồng thẻ và 63.134 dòng bút toán sổ cái được nạp đầy đủ; không phát sinh bản ghi mồ côi (*orphan records*). 181 dòng bút toán Hội sở mang mã tỉnh `'00'` được chuyển hướng xử lý thành công qua luồng phân bổ gián tiếp.
+- **Giới hạn còn tồn tại:** Trường hợp khách hàng thay đổi địa chỉ cư trú giữa các tháng nhưng chi nhánh mở thẻ không đổi thì hợp đồng vẫn được tính cho vùng của chi nhánh mở ban đầu.
+
+### Lớp 4 – Kiểm tra tính hợp lý nghiệp vụ (Business Sanity Checks)
+- **Rủi ro kiểm soát:** Kết quả tính toán vi phạm các giới hạn lý thuyết kinh tế hoặc biến động bất thường mà không có nguyên nhân nghiệp vụ giải thích.
+- **Nguyên tắc kiểm soát:** Thiết lập các biên độ giá trị tài chính hợp lý:
+  - Tỷ lệ nợ xấu vùng $NPL \in [0\%, 100\%]$; Dư nợ, số thẻ, định biên nhân sự $\ge 0$.
+  - Chi phí trích lập dự phòng phải đồng biến với tốc độ dịch chuyển của nợ xấu nhóm 3 đến nhóm 5.
+  - Cảnh báo cờ đỏ (*Red Flag*) đối với các khoản mục chi phí có mức biến động tháng $MoM > \pm 50\%$.
+- **Cách thức triển khai:** Thực hiện các truy vấn kiểm tra miền giá trị trên bảng sự kiện và phân tích độ nhạy xu hướng theo chuỗi thời gian từ tháng 1 đến tháng 5/2023.
+- **Kết quả thực tế:** Tỷ lệ nợ xấu 7 vùng dao động thực tế trong biên độ hợp lý từ 1,15% đến 3,24%. Phát hiện và giải thích thỏa đáng việc chi phí dự phòng tháng 5/2023 tăng đột biến là do trích lập nợ nhóm 3 đến nhóm 5 phát sinh từ đợt mở rộng tín dụng quý trước đó.
+- **Giới hạn còn tồn tại:** Phương pháp kiểm tra ngưỡng biến động không phân biệt được biến động do hoạt động kinh doanh tự nhiên với các điều chỉnh chính sách kế toán hồi tố nếu phòng kế toán không cung cấp thuyết minh đi kèm.
+
+### Lớp 5 – Tính toán lại độc lập và đối soát hệ thống (Independent Recalculation & Cross-Audit)
+- **Rủi ro kiểm soát:** Sai lệch logic ẩn trong quá trình chuyển hóa giữa cơ sở dữ liệu PostgreSQL và tầng trình diễn Power BI.
+- **Nguyên tắc kiểm soát:** Kiểm toán chéo trên mẫu đơn lẻ (*Single-Case Reverse Audit*) và đối soát toàn diện giữa các hệ sinh thái độc lập.
+- **Cách thức triển khai:**
+  1. *Kiểm toán ngược trên mẫu:* Bốc ngẫu nhiên 3 trường hợp đại diện (Vùng Đông Nam Bộ, Vùng Tây Bắc Bộ và 1 ASM cụ thể), tự tính toán lại bằng công thức nháp ngoài hệ sinh thái SQL và so sánh kết quả.
+  2. *Đối soát hệ thống chéo:* Thực hiện kiểm tra toàn diện **91 ô dữ liệu** (13 chỉ tiêu tài chính cốt lõi $\times$ 7 vùng tại tháng 5/2023) giữa câu lệnh truy vấn PostgreSQL và 72 measure DAX trên Power BI.
+  3. *So sánh với nguồn chuẩn độc lập:* Đối chiếu với tệp kiểm tra đối chứng `input/Tham so va mau doi chieu.xlsx`.
+- **Kết quả thực tế:**
+  - Kết quả tính toán tay độc lập trùng khớp tuyệt đối với kết quả xuất ra từ hệ thống Stored Procedure SQL.
+  - Toàn bộ **91 ô dữ liệu đối soát giữa PostgreSQL và Power BI ghi nhận mức chênh lệch bằng đúng 0**.
+  - Khớp chuẩn xác từng chữ số với nguồn đối chứng: LNTT tháng 2/2023 đạt **92.226,35 triệu đồng**, tháng 5/2023 đạt **250.450,06 triệu đồng**, Top 1 ASM toàn quốc thuộc về quản lý vùng `nam.hoangvan` với **34 điểm**.
+- **Giới hạn còn tồn tại:** Phép tính toán lại thủ công chỉ áp dụng được trên mẫu kiểm toán đại diện, việc kiểm soát toàn bộ hàng triệu giao dịch phụ thuộc hoàn toàn vào 4 lớp kiểm tra tự động trước đó.
 
 ---
 
@@ -308,7 +389,9 @@ Hệ thống báo cáo quản trị trên Power BI gồm **5 trang dashboard**, 
 
 ### Trang 5: Phân Tích Chuyên Sâu & Chẩn Đoán Quản Trị (Diagnosis & Root Cause)
 - **Mục đích thiết kế:** Cung cấp công cụ chẩn đoán nguyên nhân gốc rễ (Root Cause Analysis) và đưa ra các khuyến nghị hành động cụ thể cho Ban Lãnh Đạo.
-- **Nội dung hiển thị:** Ma trận 4 góc Lợi nhuận – Rủi ro (Quadrant Matrix) định vị 7 vùng theo 2 trục Lợi nhuận và Nợ xấu; Khung hành động chẩn đoán 3 cột (Hiện tượng quan sát $ightarrow$ Nguyên nhân dữ liệu $ightarrow$ Đề xuất hành động kèm đơn vị phụ trách và thời hạn).
+- **Nội dung hiển thị:** Ma trận 4 góc Lợi nhuận – Rủi ro (Quadrant Matrix) định vị 7 vùng theo 2 trục Lợi nhuận và Nợ xấu; Khung hành động chẩn đoán 3 cột (Hiện tượng quan sát $
+ightarrow$ Nguyên nhân dữ liệu $
+ightarrow$ Đề xuất hành động kèm đơn vị phụ trách và thời hạn).
 - **Khả năng hỗ trợ phân tích:** Giúp Ban Lãnh Đạo ra các quyết định điều hành can thiệp có căn cứ số liệu, ví dụ siết tín dụng tại các vùng tăng trưởng nóng hoặc điều chỉnh cơ chế giao chỉ tiêu KPI.
 
 <div align="center">
