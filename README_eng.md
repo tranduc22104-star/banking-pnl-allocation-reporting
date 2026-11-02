@@ -214,7 +214,7 @@ $$\text{Allocated Expense to Region } i = \text{Head Office Expense} \times \tex
 
 *Economic Rationale for Head Office Cost Drivers:*
 - **Treasury Cost of Funds:** Represents the bank's wholesale funding costs to finance cardholder credit balances. Driven directly by credit exposure $\rightarrow$ Allocated by **Average Performing Loan Balance (Bucket 1)**. Regions carrying higher performing credit volumes consume more internal liquidity and must bear proportional funding expenses.
-- **Credit Risk Provisioning:** Represents expected credit loss allowances. Driven directly by delinquency and default risk $\rightarrow$ Allocated by **Overdue Loan Balance (Buckets 2 to 5) plus Off-Balance-Sheet Write-Offs**. This reflects the true asset risk profile of each territory rather than averaging across total portfolio scale.
+- **Credit Risk Provisioning:** Represents expected credit loss allowances. Allocated based on **Overdue Loan Balance (Buckets 2 to 5) plus Off-Balance-Sheet Write-Offs** (`d25_sau` or `dtruoc`). This driver reflects regional risk exposure as a managerial allocation proxy under centralized Head Office GL accounting, rather than an exact contract-level tracing of loan-loss provisioning.
 - **Card Technology and Operations:** IT infrastructure, telecommunications, and core banking processing costs $\rightarrow$ Allocated by **Active Card Count** or **Transaction Volume**, reflecting actual processing capacity utilization.
 - **Corporate Overhead and Support Headcount:** Administrative, compliance, and centralized human resource expenses $\rightarrow$ Allocated by regional **Staff Headcount**.
 - *Assumptions and Limitations:* The allocation model assumes linear cost elasticity and uniform resource consumption per driver unit across all regions; targeted local marketing campaigns are not individually isolated.
@@ -224,35 +224,36 @@ Year-to-date accounting figures are converted into discrete monthly cash flows:
 $$V_{\text{Month } M} = V_{\text{Cumulative } M} - V_{\text{Cumulative } (M-1)}$$
 Enabling variance decomposition of Profit Before Tax (PBT) across 6 distinct revenue and expense components.
 
-### 5.2. Designing ASM Evaluation Metrics And Multi-dimensional Scorecard
+### 5.2. Designing Multi-dimensional ASM Operational Scorecard
 
 Core analytical question: *If sales management performance is evaluated solely on new card volume, does the scorecard truly capture business profitability and risk control?*
 
 **Addressing the Single-Metric Agency Problem:**
 In commercial banking, evaluating managers strictly on gross sales volume or newly issued cards creates a perverse incentive to lower credit underwriting thresholds. This drives rapid short-term acquisition but causes delinquency spikes 3 to 6 months later, where credit risk provisions erode all gross profits.
 
-**Designing a multi-dimensional balanced scorecard architecture:**
-To neutralize agency problems and risk-taking incentives, the framework establishes a multi-dimensional scorecard comprising 8 metrics across 2 independent pillars, with nominal 50% Volume (4 metrics) and 50% Financial Discipline / Risk (4 metrics). Each metric contributes an independent rank from 1 to $N$, clearly distinguishing between 2 operational tiers:
-- **Individual tier (3 direct sales metrics):** Gross new lending volume, active contracts with balance, and approval rates reflect direct market origination capability.
-- **Territory responsibility tier (5 regional financial and risk metrics):** Extended NPL ratio (cumulative NPL before Write-Off), CIR, Margin, Capital Efficiency, and Average Profit per ASM. In credit card operations, individual loan contracts lack ASM-level identifier tags (carrying only branch and territory codes). Allocating regional metrics to individual ASMs enforces collective territorial stewardship, eliminating individual incentives to pursue short-term issuance volumes while ignoring portfolio credit quality.
+**Designing a multi-dimensional ASM operational scorecard:**
+The ranking architecture is designed as an **operational scorecard aligning sales origination with territorial stewardship**, rather than a comprehensive measure of individual capability. To mitigate the agency problem between regional managers and long-term capital safety, the framework establishes 8 metrics distributed equally across 2 independent pillars, balanced by metric count and nominal rank contributions (4 metrics per pillar, each contributing an independent rank from 1 to $N$ to the composite score, without asserting an econometrically calibrated 50% weight):
+- **Pillar 1: Commercial Results and Quality Growth Control (`diem_qm`):** Combines 3 individual origination metrics (New lending volume, Average active contracts with balance, Approval rate) with 1 territorial credit quality indicator (Regional extended credit risk ratio). Crucially, a **higher approval rate is not unconditionally superior**: elevated approval rates can reflect efficient origination or relaxed underwriting thresholds. Therefore, approval rates must be evaluated concurrently with territorial risk ratios.
+- **Pillar 2: Financial Efficiency (`diem_fin`):** Encompasses 4 regional indicators (Cost-to-Income Ratio CIR, Profit Margin, Capital Productivity, Average Profit per ASM). Because credit card loan accounts lack individual ASM identifier tags (mapped only to branches and territories), assigning regional financial and risk metrics to individual scorecards enforces collective territorial accountability, eliminating myopic pursuit of short-term card counts at the expense of asset quality.
 
-**Clarifying Extended NPL Definition (Cumulative NPL Before Write-Off):**
+**Clarifying the Extended Credit Risk Ratio (Including Written-Off Debts):**
 Within SQL Stored Procedures (`report_id = 204`), the implemented metric is:
 
-$$\text{Extended NPL} = \frac{\text{Bucket 3–5 Balances} + \text{Cumulative Write-offs}}{\text{Total Balances} + \text{Cumulative Write-offs}} \times 100$$
+$$\text{Extended Credit Risk Ratio} = \frac{\text{Bucket 3–5 Balances} + \text{Cumulative Write-offs}}{\text{Total Balances} + \text{Cumulative Write-offs}} \times 100$$
 
-This metric differs crucially from conventional accounting NPL (which measures only on-balance-sheet Buckets 3–5 over total on-balance-sheet loans). In retail credit card risk management, banks regularly execute off-balance-sheet write-offs for irrecoverable debts. Evaluating purely on-balance-sheet loans creates an artificial cosmetic cleansing effect following write-off cycles. Therefore, the operational metric must integrate cumulative off-balance write-offs into both numerator and denominator to reflect true underlying asset quality and cumulative loss history across territories:
+Unlike conventional accounting NPL (which tracks only on-balance Buckets 3–5 over total loans), this is a **custom management metric** calibrated against `input/Tham so va mau doi chieu.xlsx` (serving as an empirical benchmark validating the methodological direction). Off-balance write-offs are accumulated from year-start to neutralize artificial cosmetic cleansing effects following debt write-off events. *Analytical Limitation:* This indicator reflects cumulative historical losses rather than exclusively point-in-time risk. Territories with mature card portfolios naturally accumulate larger write-off volumes than newly expanded regions, requiring cautious interpretation when comparing regions with divergent portfolio vintages:
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                        REGIONAL SALES MANAGER EVALUATION SYSTEM                        │
+│                 MULTI-DIMENSIONAL ASM OPERATIONAL SCORECARD (SCORECARD)                │
 ├──────────────────────────────────────────┬─────────────────────────────────────────────┤
-│ PILLAR 1: COMMERCIAL VOLUME (diem_qm)    │ PILLAR 2: FINANCIAL EFFICIENCY (diem_fin)   │
+│ PILLAR 1: COMMERCIAL RESULTS & QUALITY   │ PILLAR 2: FINANCIAL EFFICIENCY (diem_fin)   │
+│ GROWTH CONTROL (diem_qm)                 │                                             │
 │ • Average new loan disbursement (High)   │ • Cost-to-Income Ratio - CIR (Low is best)  │
 │ • Average active card count (High)       │ • Profit Margin (High is best)              │
-│ • Average approval rate (High is best)   │ • Capital productivity coefficient (High)   │
-│ • REGIONAL NPL RATIO (Low is best)       │ • Profit per ASM Headcount (High is best)   │
-│   (Functions as an essential risk brake) │   (Aligns managerial reward with profit)    │
+│ • Average approval rate (Evaluated)      │ • Capital productivity coefficient (High)   │
+│ • EXTENDED CREDIT RISK RATIO (Low)       │ • Profit per ASM Headcount (High is best)   │
+│   (Incorporates off-balance write-offs)  │   (Aligns stewardship with territory P&L)   │
 └──────────────────────────────────────────┴─────────────────────────────────────────────┘
 ```
 
@@ -358,25 +359,25 @@ All division expressions are guarded with `NULLIF(denominator, 0)`.
 
 ### Part B – Key Findings from May 2023 Operational Data:
 
-1. **Southwest Region – Profit growth disconnected from core commercial operations:**
-   - *Dữ kiện quan sát được (Observed Facts):* Regional PBT surged by **+4,267.8 million VND**, accounting for **97.2%** of total system-wide profit growth in May. However, net card income rose marginally by +16.3 million VND while OPEX reduced profit by −195.9 million VND, with net **provision charges decreasing by +4,447.3 million VND**. The territory carries the **highest NPL ratio nationwide (21.99%)** with zero ASMs qualifying for the top 25 nationwide ranking.
-   - *Suy luận nghiệp vụ (Business Inferences):* Profit expansion in the Southwest is an accounting artifact of declining net provisions rather than organic commercial expansion.
+1. **Southwest Region – Profit growth driven primarily by declining net provisioning:**
+   - *Dữ kiện quan sát được (Observed Facts):* Regional PBT surged by **+4,267.8 million VND**, accounting for **97.2%** of total system-wide profit growth in May. However, net card income rose marginally by +16.3 million VND while OPEX reduced profit by −195.9 million VND, with net **provision charges decreasing by +4,447.3 million VND**. The territory carries the **highest extended risk ratio nationwide (21.99%)** with zero ASMs qualifying for the top 25 nationwide ranking.
+   - *Suy luận nghiệp vụ (Business Inferences):* Profit expansion in May was primarily driven by declining net provision charges. Concurrently, net card income increased by only 16.3 million VND, displaying limited operational revenue improvement during the period.
    - *Giả thuyết cần xác minh thêm (Hypotheses Requiring Further Verification):* Audit whether provision reductions represent genuine recovery collections or technical restructuring; conduct on-site credit quality reviews in July.
 
-2. **Southeast Region – Net losses driven by surging credit provisioning:**
-   - *Dữ kiện quan sát được (Observed Facts):* The Southeast territory recorded an operating loss of **−8,787.4 million VND** during the month. Commercial sales expanded robustly with **net income surging by +3,210.7 million VND**, but was wiped out by **credit provision charges rising by −3,234.2 million VND**, pushing **16 out of 19 Area Sales Managers** into the lower half of national rankings despite high gross sales.
-   - *Suy luận nghiệp vụ (Business Inferences):* Legacy delinquent vintages migrated across credit buckets, generating provisioning burdens that eclipsed newly originated commercial value.
-   - *Giả thuyết cần xác minh thêm (Hypotheses Requiring Further Verification):* Audit delinquent portfolio files in the Southeast within 30 days to quantify migration velocity and recalibrate underwriting scorecards.
+2. **Southeast Region – Net income expanded but bottom line remained negative under provisioning pressure:**
+   - *Dữ kiện quan sát được (Observed Facts):* The Southeast territory recorded an operating loss of **−8,787.4 million VND** during the month. Commercial sales expanded robustly with **net income surging by +3,210.7 million VND**, but was offset by **credit provision charges rising by −3,234.2 million VND**, pushing **16 out of 19 Area Sales Managers** into the lower half of national rankings despite high gross sales.
+   - *Suy luận nghiệp vụ (Business Inferences):* Negative operating income was an empirical accounting reality as monthly provision charges exceeded net commercial revenues generated during the period.
+   - *Giả thuyết cần xác minh thêm (Hypotheses Requiring Further Verification):* Conduct vintage/cohort analysis to verify the hypothesis that rapid lending expansion in prior cycles triggered overdue migrations; audit delinquent files in the Southeast within 30 days to evaluate transition rates and refine underwriting criteria.
 
 3. **Red River Delta – Profit Increased Due To Reduced Net Provision Expenses:**
-   - *Dữ kiện quan sát được (Observed Facts):* Regional profit expanded by **+1,310.9 million VND** MoM, whereas core net card income contracted by **−232.2 million VND** and provision charges dropped by **+1,455.8 million VND**.
-   - *Suy luận nghiệp vụ (Business Inferences):* Surface-level positive profitability masked commercial deceleration in the bank's largest retail credit market.
-   - *Giả thuyết cần xác minh thêm (Hypotheses Requiring Further Verification):* Because accounting entries aggregate new provisioning and recoveries into one net line, internal risk audits must inspect raw provision ledgers to differentiate between organic risk declines and technical write-backs.
+   - *Dữ kiện quan sát được (Observed Facts):* Regional profit expanded by **+1,310.9 million VND** MoM, whereas core net card income contracted by **−232.2 million VND** and net provision charges dropped by **+1,455.8 million VND**.
+   - *Suy luận nghiệp vụ (Business Inferences):* Contraction in net card revenue during May represents an operating signal warranting ongoing monitoring in subsequent periods, particularly as headline profit rose due to net provision decreases.
+   - *Giả thuyết cần xác minh thêm (Hypotheses Requiring Further Verification):* Because accounting entries aggregate new provisioning and recoveries into one net line, internal risk audits must inspect raw provision ledgers to differentiate between organic risk declines and technical write-backs before concluding long-term trends.
 
-4. **South Central Coast – Operational benchmark for efficiency and credit discipline:**
-   - *Dữ kiện quan sát được (Observed Facts):* Operating with 5 ASMs, the region maintained the lowest NPL nationwide (**11.24%**) with **4 out of 5 Area Sales Managers** ranking among the top 25 nationwide.
-   - *Suy luận nghiệp vụ (Business Inferences):* The territory demonstrated superior execution in balancing customer creditworthiness screening with disciplined collection management.
-   - *Giả thuyết cần xác minh thêm (Hypotheses Requiring Further Verification):* Conduct an operational study of local underwriting controls in the South Central Coast to evaluate feasibility before piloting replication in other territories.
+4. **South Central Coast – Favorable ranking performance accompanied by low delinquency:**
+   - *Dữ kiện quan sát được (Observed Facts):* Operating with 5 ASMs, the region maintained the lowest extended risk ratio nationwide (**11.24%**) with **4 out of 5 Area Sales Managers** ranking among the top 25 nationwide.
+   - *Suy luận nghiệp vụ (Business Inferences):* These results indicate that the South Central Coast warrants further examination regarding customer origination methodologies and risk control practices.
+   - *Giả thuyết cần xác minh thêm (Hypotheses Requiring Further Verification):* Given the compact sample size (5 ASMs), detailed field surveys of local screening practices are necessary to assess feasibility prior to considering controlled pilot replication in other regions.
 
 ### Five Concrete Management Action Plans:
 

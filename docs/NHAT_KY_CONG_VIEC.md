@@ -12,6 +12,22 @@
 
 ## ĐÃ XONG
 ### 2026-11-02
+161. **Hiệu Chỉnh Chuyên Môn Sâu Sắc Cho Chương 5 Và Chương 7 Theo Phản Hồi Nghiệp Vụ**
+   - Hiệu chỉnh chi tiết Chương 5:
+     + Chuẩn hoá giải thích Cost Driver chi phí công nghệ: đại diện cho quy mô danh mục thẻ đang hoạt động và mức độ phục vụ của hệ thống, không khẳng định phản ánh trực tiếp tần suất giao dịch của từng chủ thẻ.
+     + Chuẩn hoá giải thích Cost Driver chi phí dự phòng: tiêu thức phân bổ quản trị gián tiếp trong điều kiện sổ cái GL chỉ ghi nhận khoản mục tập trung tại Hội sở, không khẳng định là nguyên nhân trực tiếp tạo ra toàn bộ chi phí dự phòng.
+     + Đổi tên Trụ cột 1 thành *Kết quả kinh doanh và kiểm soát chất lượng tăng trưởng* (`diem_qm`), Trụ cột 2 thành *Hiệu quả tài chính* (`diem_fin`).
+     + Đổi tên bảng xếp hạng thành *Bộ chỉ tiêu đánh giá hiệu quả hoạt động ASM (Multi-dimensional ASM Scorecard)* kết hợp kết quả bán hàng cá nhân và trách nhiệm quản lý địa bàn.
+     + Làm rõ sự cân bằng 50/50 danh nghĩa về số lượng chỉ tiêu và đóng góp thứ hạng độc lập từ 1 đến $N$, không khẳng định là trọng số kinh tế hiệu chỉnh định lượng; nhấn mạnh tỷ lệ duyệt hồ sơ cao chưa chắc càng tốt.
+     + Đổi tên chỉ tiêu nợ xấu thành *Tỷ lệ rủi ro tín dụng mở rộng (bao gồm nợ đã xử lý rủi ro)* và phân tích rõ giới hạn khi so sánh giữa các danh mục thẻ có tuổi đời khác nhau.
+   - Hiệu chỉnh mức độ suy luận Chương 7:
+     + Tây Nam Bộ: Sửa nhận định mức tăng lợi nhuận tháng 5 chủ yếu đến từ giảm chi phí dự phòng ròng trong khi thu nhập thuần tăng nhẹ 16,3 trđ, chưa cho thấy sự cải thiện đáng kể về nguồn thu kinh doanh cốt lõi.
+     + Đông Nam Bộ: Đổi tiêu đề thành *Thu nhập thuần tăng nhưng lợi nhuận vẫn âm do áp lực chi phí dự phòng*, loại bỏ cụm từ "lời giả lỗ thật", chuyển giả thuyết về chuyển nhóm nợ từ các khoản vay quá khứ sang mục cần xác minh thêm qua phân tích vintage/cohort.
+     + Đồng bằng Sông Hồng: Nêu rõ giảm thu nhập thuần là dấu hiệu cần theo dõi thêm ở các kỳ tiếp theo, tránh kết luận xu hướng dài hạn.
+     + Nam Trung Bộ: Đổi tiêu đề thành *Kết quả xếp hạng tốt đi cùng tỷ lệ nợ xấu thấp*, chỉ ra mẫu chỉ có 5 ASM nên cần khảo sát thực địa trước khi xem xét thí điểm nhân rộng có kiểm soát.
+     + Rà soát 5 đề xuất quản trị thận trọng và có kiểm soát (nghiên cứu thí điểm thay vì nhân rộng ngay; rà soát tiêu chí đánh giá và cơ chế xét thưởng kết hợp nhiều chiều).
+   - **Verify**: chạy `.staging/check_toc.py` (`ok`), `.staging/check_int_pair.py` (`ok`, 0 lệch số $\ge 10$), `.staging/check_readme_pair.py` (`ok`, 468 dòng đối xứng), `.staging/push_check.py` (`32 tệp, 4.86 MiB`, 0 liên kết gãy, 0 liên kết ngoài kho).
+
 160. **Gỡ Bỏ Mục 7 (Thiết Kế Và Trực Quan Hóa Báo Cáo Trên Power BI) Khỏi README**
    - Người dùng yêu cầu: "Với bỏ phần này 7. 🖥️ Thiết Kế Và Trực Quan Hóa Báo Cáo Trên Power BI".
    - Xoá bỏ hoàn toàn nội dung Mục 7 cùng 5 ảnh minh họa dashboard Power BI khỏi `README.md`, `README_eng.md` và `.staging/README_thuan_viet.md`.
@@ -362,14 +378,6 @@
     - Cập nhật số đếm trong `README.md` ở hai chỗ: cây thư mục và mục **Tài Liệu** — từ 41 lên **43 mục lỗi** (đếm theo số mục có thật, không theo số in cuối tệp vì mục 16/18/19 vẫn đánh trùng).
     - Cắt task 61 và 62 khỏi mục ĐÃ XONG để giữ đúng trần 50 task; hai bản này đã lưu ở tệp archive ngoài kho mã.
 
-111. **Thêm `docs/PIPELINE.md` — Tài Liệu Kiến Trúc Luồng Xử Lý Theo Khuôn Của Repository Tham Chiếu**
-    - Tạo `docs/PIPELINE.md` (165 dòng) theo đúng khuôn `nova-bank-credit-risk-analysis/docs/PIPELINE.md` (121 dòng): mở đầu là tên luồng kèm đoạn định vị nghiệp vụ; mục 1 sơ đồ luồng tổng thể; mục 2 chi tiết từng bước theo mẫu **Đầu vào · Xử lý · Kiểm chứng (Hiệu năng) · Đầu ra**; mục 3 hướng dẫn vận hành bằng lệnh kèm ghi chú cuối tệp.
-    - Bốn bước viết cho dự án này: Bước 1 `ingestion/` bóc bốn tệp Excel vào bảng staging; Bước 2 `sql/dim/` dựng năm bảng danh mục; Bước 3 `sql/tmp/` cộng `sql/fct/` tính phân bổ và xếp hạng rồi gọi thủ tục cho năm tháng; Bước 4 `sql/rpt/` tạo bốn view và hai đường trình bày (Power BI chế độ Import, xuất Excel).
-    - **Mọi con số tra trực tiếp trước khi ghi**, không chép từ tài liệu cũ: 18 bảng · 4 view · 3 thủ tục; `log_proc_run` 65 dòng chia theo từng bước của từng thủ tục; số dòng bảng tạm và bảng sự kiện theo tháng; bốn view 35 · 35 · 388 · 388 dòng kèm 31 · 32 · 27 · 27 cột; số dòng mã của chín tệp `sql/`; dung lượng bốn tệp `input/`; năm trang và cỡ khung vẽ đọc từ `Report/definition/pages` của tệp `.pbix`; 72 measure đọc từ mô hình đang sống.
-    - Số gán nhãn chưa chắc chắn đã viết theo cách không khẳng định: chỉ tiêu đối chiếu ghi là "chỉ tiêu A (mã 70, cột `lntt_trieu_dong` của view)" thay vì gọi tên lợi nhuận trước hay sau thuế, vì `dim_report_detail` đặt tên mã 70 là "LN sau thue" trong khi cột của view và tài liệu gọi tắt là lợi nhuận trước thuế.
-    - Sơ đồ tổng thể sinh bằng script căn khung (`.staging/make_diagram.py`), kiểm bằng đếm ký tự: mọi dòng viền ngoài dài đúng 100 ký tự, không lệch khung; toàn bộ văn bản là tiếng Việt có dấu, không chữ viết tắt.
-    - Nối tệp mới vào ba chỗ: mục **Tài Liệu** và cây thư mục của `README.md`, bảng cấu trúc thư mục trong `AGENTS.md`.
-
-_Ghi chú biên tập:_ mục ĐÃ XONG giữ **50 task gần nhất (160 xuống 111)** theo trần quy định ở `AGENTS.md`. Các mục nhỏ hơn số 98 đã chuyển ra ngoài kho mã: phần lớn nằm trong `NHAT_KY_CONG_VIEC_ban_day_du_truoc_cat_20261030.md`; riêng các mục 60 đến 65, các mục 68 đến 83, các mục 84 đến 96 mục 97 mục 98 mục 99 mục 100 mục 101 mục 102 và mục 103 lưu ở thư mục lưu trữ `ARCHIVE_LESSON_11_1_20261030` trên máy người làm dự án, hỏi người bàn giao khi cần.
+_Ghi chú biên tập:_ mục ĐÃ XONG giữ **50 task gần nhất (161 xuống 112)** theo trần quy định ở `AGENTS.md`. Các mục nhỏ hơn số 98 đã chuyển ra ngoài kho mã: phần lớn nằm trong `NHAT_KY_CONG_VIEC_ban_day_du_truoc_cat_20261030.md`; riêng các mục 60 đến 65, các mục 68 đến 83, các mục 84 đến 96 mục 97 mục 98 mục 99 mục 100 mục 101 mục 102 và mục 103 lưu ở thư mục lưu trữ `ARCHIVE_LESSON_11_1_20261030` trên máy người làm dự án, hỏi người bàn giao khi cần.
 
 _Ghi chú về đường dẫn:_ các mục từ 01 đến 106 ghi theo cấu trúc thư mục **tại thời điểm viết** — `input_data/`, `pbi/`, `audit/`, `csv_staging/`, `scratch/`, `SQL/` và tên tệp `123.pbix`. Từ task 107 kho đổi sang `input/` · `ingestion/` · `sql/` · `docs/` · `output/` · `images/`; đọc đối chiếu hai cấu trúc ở `docs/HIEN_TRANG_HE_THONG.md`.
