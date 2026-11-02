@@ -13,9 +13,6 @@
 
 </div>
 
-> **TỔNG QUAN DỰ ÁN**  
-> Dự án giải quyết bài toán quản trị kinh doanh thẻ tín dụng tại một ngân hàng thương mại quy mô 7 vùng kinh doanh và 74 đến 84 quản lý vùng (ASM). Xuất phát từ yêu cầu quản trị định hướng của Ban Lãnh Đạo, dự án làm rõ phương pháp luận, xây dựng hệ thống phân bổ thu nhập - chi phí gián tiếp từ Hội sở theo nguyên lý kế toán quản trị, thiết kế bộ thẻ điểm đánh giá đa chiều (Multi-dimensional Scorecard) cân bằng giữa tăng trưởng quy mô và kiểm soát rủi ro tín dụng. Toàn bộ giải pháp được kiểm chứng qua khung đối soát độc lập 5 lớp, tự động hoá quy trình dữ liệu trên PostgreSQL và trực quan hoá trên dashboard Power BI 5 trang phục vụ công tác điều hành chiến lược.
-
 ## 📑 Mục Lục
 
 1. [🏢 Bối Cảnh Kinh Doanh Và Yêu Cầu Quản Trị](#1--bối-cảnh-kinh-doanh-và-yêu-cầu-quản-trị)

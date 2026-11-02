@@ -12,6 +12,11 @@
 
 ## ĐÃ XONG
 ### 2026-11-02
+159. **Gỡ Bỏ Khối Tổng Quan Dự Án Ở Đầu Trang README Theo Yêu Cầu Người Dùng**
+   - Người dùng yêu cầu: "Bỏ khúc đầu đi TỔNG QUAN DỰ ÁN...".
+   - Xoá bỏ hoàn toàn khối trích dẫn `> **TỔNG QUAN DỰ ÁN** ...` ở đầu `README.md` và `.staging/README_thuan_viet.md`, cùng khối `> **PROJECT OVERVIEW** ...` ở đầu `README_eng.md`.
+   - **Verify**: chạy `.staging/check_toc.py` (`ok`), `.staging/check_int_pair.py` (`ok`), `.staging/check_readme_pair.py` (`ok`, 525 dòng đối xứng), `.staging/push_check.py` (`32 tệp, 4.87 MiB`, 0 liên kết gãy, 0 liên kết ngoài kho).
+
 158. **Hoàn Thiện README Chuẩn Mực Business-Driven Data Analytics 3 Tầng Và Đồng Bộ Song Ngữ**
    - Hoàn thiện toàn diện `README.md`, `README_eng.md` và `.staging/README_thuan_viet.md`:
      + Đổi tiêu đề H1 thành: *Xây Dựng Báo Cáo Quản Trị Kết Quả Kinh Doanh Thẻ Tín Dụng Và Đánh Giá Hiệu Quả Hoạt Động ASM*.
@@ -368,16 +373,6 @@
     - Đối chiếu số cố định vẫn khớp: chỉ tiêu A tháng `202302` bằng 92.226,35 triệu đồng, tháng `202305` bằng 250.450,06 triệu đồng; hạng nhất tháng `202302` là Hoàng Văn Nam 34 điểm.
     - Ghi chú sự cố: nhật ký công việc từng bị cắt nhầm vì điều kiện lấy mốc heading **đầu tiên** thay vì heading **gần nhất**; khi cắt theo mốc phải lấy mốc gần nhất và kiểm số lượng trước khi ghi tệp.
 
-### 2026-10-30
-109. **Kiểm Tra Tệp Báo Cáo Power BI Trước Khi Push: Chế Độ Lưu Trữ Và Bản Measure Chẩn Đoán**
-   - Người dùng mở lại Power BI Desktop; đọc mô hình đang sống qua thư viện TOM, cổng `msmdsrv` lấy bằng `Get-NetTCPConnection -OwningProcess` theo mã tiến trình của `PBIDesktop`.
-   - **Chế độ lưu trữ:** `Mode=[Import]` trên cả bốn bảng chia từ cơ sở dữ liệu (`banking_project v_baocao_tonghop` 32 cột, `v_xephang_asm` 28 cột, `dim_sm_headcount` 4 cột, `dim_month` 5 cột); hai bảng còn lại là bảng tính toán nên `Mode=[Default]` với nguồn `Calculated`. Đóng lại nhận xét để ngỏ ở task 106.
-   - **Số measure:** 71 measure trong bảng `LAI LO (Visuals & DAX)` cộng 1 measure trong `Data Glossary` bằng **72**, đúng con số đã ghi ở bảng Công Nghệ của `README.md`.
-   - **Bản measure chẩn đoán:** `Page3_Diagnosis_Framework_HTML` dài 13.366 ký tự, bằng đúng từng ký tự với bản sửa đã lưu ở `ARCHIVE_LESSON_11_1_20261030/scratch/diag_expr_new.dax` (bản trước khi sửa dài 12.068). Mô hình được nạp lại từ tệp khi mở Desktop, nên tệp `output/Bao cao quan tri va phan tich (Ngan Hang).pbix` (sửa lúc 19:14, sau mốc sửa measure lúc 18:30) **đã mang đủ khối năm dòng hành động kèm chủ thể và hạn**; không cần sửa thêm rồi lưu lại trước khi push.
-   - **Sự cố ghi lại:** khi chèn task 109, lệnh cắt task cũ lấy "heading ngày đầu tiên đứng trước task 59" thay vì heading sát task 59 nên cắt luôn cả khối 107 đến 60 và làm hỏng tệp. Phục hồi bằng cách dựng lại từ bản đầy đủ 116 mục trong archive rồi áp lại chỉnh sửa của phiên; bản hỏng giữ ở `NHAT_KY_ban_huy_20261030_2200.md` ngoài kho mã. Bài học: cắt theo mốc phải lấy mốc **gần nhất**, và phải chạy kiểm số lượng trước khi ghi.
-   - **Lộ mật khẩu trong nhật ký:** chính task 108 mô tả việc xoá mật khẩu nên ghi lại nguyên chuỗi mật khẩu cục bộ ở hai chỗ — nghĩa là tệp push vẫn chứa mật khẩu dù `db_config.py` đã chặn. Đã viết lại hai chỗ thành mô tả chữ, không còn chuỗi nào trong tệp lên kho.
-   - **Hai lưu ý kỹ thuật khi đọc mô hình bằng TOM:** measure nằm trong collection `Measures` của bảng chứ không nằm trong `Columns`; thuộc tính cần đọc là `Partition.Mode`, không phải `Partition.StorageMode` (đọc sai tên thì được chuỗi rỗng). Script kiểm đặt trong `.staging/` — thư mục đã chặn ở `.gitignore` nên không lẫn vào tệp push.
-
-_Ghi chú biên tập:_ mục ĐÃ XONG giữ **50 task gần nhất (158 xuống 109)** theo trần quy định ở `AGENTS.md`. Các mục nhỏ hơn số 98 đã chuyển ra ngoài kho mã: phần lớn nằm trong `NHAT_KY_CONG_VIEC_ban_day_du_truoc_cat_20261030.md`; riêng các mục 60 đến 65, các mục 68 đến 83, các mục 84 đến 96 mục 97 mục 98 mục 99 mục 100 mục 101 mục 102 và mục 103 lưu ở thư mục lưu trữ `ARCHIVE_LESSON_11_1_20261030` trên máy người làm dự án, hỏi người bàn giao khi cần.
+_Ghi chú biên tập:_ mục ĐÃ XONG giữ **50 task gần nhất (159 xuống 110)** theo trần quy định ở `AGENTS.md`. Các mục nhỏ hơn số 98 đã chuyển ra ngoài kho mã: phần lớn nằm trong `NHAT_KY_CONG_VIEC_ban_day_du_truoc_cat_20261030.md`; riêng các mục 60 đến 65, các mục 68 đến 83, các mục 84 đến 96 mục 97 mục 98 mục 99 mục 100 mục 101 mục 102 và mục 103 lưu ở thư mục lưu trữ `ARCHIVE_LESSON_11_1_20261030` trên máy người làm dự án, hỏi người bàn giao khi cần.
 
 _Ghi chú về đường dẫn:_ các mục từ 01 đến 106 ghi theo cấu trúc thư mục **tại thời điểm viết** — `input_data/`, `pbi/`, `audit/`, `csv_staging/`, `scratch/`, `SQL/` và tên tệp `123.pbix`. Từ task 107 kho đổi sang `input/` · `ingestion/` · `sql/` · `docs/` · `output/` · `images/`; đọc đối chiếu hai cấu trúc ở `docs/HIEN_TRANG_HE_THONG.md`.

@@ -13,9 +13,6 @@
 
 </div>
 
-> **PROJECT OVERVIEW**  
-> This project addresses credit card business management reporting at a commercial bank with 7 business regions and 74 to 84 Area Sales Managers (ASMs). Starting from high-level leadership directives, the project clarifies methodology, establishes an indirect head-office cost and revenue allocation engine based on management accounting principles, and designs a multi-dimensional balanced scorecard balancing volume growth with credit risk control. The entire solution is validated through a 5-layer independent audit framework, automated via PostgreSQL data pipelines, and visualized on a 5-page Power BI dashboard for strategic decision-making.
-
 ## 📑 Table Of Contents
 
 1. [🏢 Business Context And Executive Requirements](#1--business-context-and-executive-requirements)
