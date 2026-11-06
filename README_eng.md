@@ -378,11 +378,9 @@ All division expressions are guarded with `NULLIF(denominator, 0)`.
    - *Business Inferences:* These results show that the South Central Coast is an area worth studying further regarding customer origination methods and credit risk management.
    - *Hypotheses Requiring Further Verification:* Given the compact sample size (5 Area Sales Managers), detailed field surveys of local screening practices are necessary to evaluate feasibility before considering controlled pilot replication in other regions.
 
-### Part C – Page 5: Deep-Dive Diagnosis & Executive Decision Support Dashboard:
+### Part C – Deep-Dive Diagnosis & Executive Decision Support Framework:
 
-![Page 5: Deep-Dive Diagnosis and Conclusion](images/ket-luan.png)
-
-Page 5 is designed as a comprehensive Executive Decision Support Dashboard, seamlessly linking macro commercial performance with micro governance mechanisms across 4 analytical tiers:
+This section synthesizes deep-dive analytical findings and executive decision support benchmarks, seamlessly linking macro commercial performance with micro governance mechanisms across 4 analytical tiers:
 
 1. **Four Executive KPI Cards:**
    - **Southwest drives 67% of system profit:** Generating +167.9 billion VND of total bank-wide profit.

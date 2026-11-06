@@ -4,6 +4,12 @@
 
 ## ĐÃ XONG
 ### 2026-11-06
+207. **Tinh Chỉnh Mục 7 Phần C README Thành Báo Cáo Tóm Tắt Nghiệp Vụ Độc Lập**
+   - Tinh chỉnh Mục 7 Phần C trong cả hai bản tài liệu `README.md` (tiếng Việt) và `README_eng.md` (tiếng Anh) theo đúng định hướng sản phẩm của người dùng: README là bản báo cáo tóm tắt độc lập (Executive Summary), song song với bảng điều khiển trực quan Power BI để người đọc có thể linh hoạt lựa chọn phương thức tiếp cận.
+   - Loại bỏ hoàn toàn tiền tố tham chiếu "Trang 5: " và không chèn ảnh Power BI vào nội dung văn bản trong Phần C. Viết lại phần mở đầu theo hướng tổng hợp các phát hiện chuyên sâu và căn cứ ra quyết định điều hành (Executive Decision Support Framework).
+   - Bảo toàn trọn vẹn 4 tầng phân tích định lượng cốt lõi: 4 chỉ số KPI điều hành trọng yếu, Bóc tách dòng chảy LNTT 7 vùng (đỉnh 299,2 tỷ, vạch đích 250,5 tỷ đồng), Nghịch lý cơ chế phạt vùng Đông Nam Bộ (+26 điểm kịch khung, 74% ASM rơi đáy bảng), và Ma trận hành động điều hành 4 nhóm địa bàn.
+   - Kiểm tra đối soát thành công 100% bằng `.staging/check_toc.py`, `.staging/check_int_pair.py` và `.staging/push_check.py`. Cắt task cũ ở cuối danh sách, duy trì nghiêm ngặt trần 50 task gần nhất (207 xuống 158).
+
 206. **Đồng Bộ Trang 5 Phân Tích Chuyên Sâu Lên README & Chuẩn Bị Push Git Toàn Diện**
    - Trích xuất cấu trúc và nội dung trang cuối sau khi người dùng tinh chỉnh trên Power BI Desktop (`output/Bao cao quan tri va phan tich (Ngan Hang).pbix`) và ảnh chụp trang kết luận (`images/ket-luan.png`): Trang 5 mang tên "PHÂN TÍCH CHUYÊN SÂU VÀ ĐƯA RA KẾT LUẬN" với tiêu đề lớn "TỔNG HỢP DỮ LIỆU QUẢN TRỊ & CĂN CỨ RA QUYẾT ĐỊNH ĐIỀU HÀNH NĂM 2023", bố cục 4 tầng thông tin hoàn chỉnh (4 KPI Cards, Thác nước P&L 7 vùng 250,5 tỷ, Nghịch lý cơ chế phạt vùng Đông Nam Bộ +26 điểm, Ma trận hành động điều hành 4 nhóm).
    - Đồng bộ hóa toàn diện nội dung Trang 5 vào cả hai bản tài liệu dự án `README.md` (tiếng Việt) và `README_eng.md` (tiếng Anh) tại Mục 2 và Mục 7 (Phần C).
@@ -706,9 +712,3 @@ split_pos = nhatky.find("### 2026-10-31\
      + Phân định rõ 3 cấp độ nhận định dữ liệu tại Chương 8 (*Dữ kiện quan sát được* — *Suy luận nghiệp vụ* — *Giả thuyết cần xác minh thêm*); đổi tên phát hiện vùng ĐBSH thành *Lợi nhuận tăng nhờ chi phí dự phòng ròng giảm*.
      + Tinh lọc triệt để văn phong: loại bỏ hoàn toàn đại từ xưng hô, thay thế các cụm từ kịch tính; sửa lỗi neo mục lục emoji `\ufe0f`.
    - **Verify**: chạy `.staging/check_toc.py` (`ok`), `.staging/check_int_pair.py` (`ok`, 0 lệch số $\ge 10$), `.staging/check_readme_pair.py` (`ok`, 534 dòng đối xứng), `.staging/push_check.py` (`32 tệp, 4.88 MiB`, 0 liên kết gãy, 0 liên kết ngoài kho).
-
-157. **Gỡ Liên Kết Email/LinkedIn Đầu Trang Và Gỡ Bỏ Mục 12 Nguồn Dữ Liệu Và Quyền Sử Dụng**
-   - Người dùng yêu cầu: "Cái này ở đầu trang readme Email · LinkedIn và 12. 🔒 Nguồn Dữ Liệu Và Quyền Sử Dụng".
-   - Xoá dòng liên kết Email/LinkedIn ở đầu trang `README.md`, `README_eng.md` và `.staging/README_thuan_viet.md` (giữ lại thông tin tác giả ở cuối trang).
-   - Xoá hoàn toàn Mục 12 (Nguồn Dữ Liệu Và Quyền Sử Dụng); renumber Mục 13 (Tài Liệu Bàn Giao) thành Mục 12, Mục 14 (Tác Giả) thành Mục 13, đồng bộ tương ứng cả trong mục lục (TOC) và các thẻ heading.
-   - **Verify**: chạy `.staging/check_toc.py` (`ok`), `.staging/check_int_pair.py` (`ok`), `.staging/check_readme_pair.py` (`ok`), `.staging/push_check.py` (`32 tệp, 4.87 MiB`, 0 liên kết gãy, 0 liên kết ngoài kho).

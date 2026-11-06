@@ -378,11 +378,9 @@ Mọi phép chia đều sử dụng `NULLIF(denominator, 0)` để tránh lỗi 
    - *Nhận xét nghiệp vụ (Business Inferences):* Kết quả này cho thấy Nam Trung Bộ là địa bàn nên được tìm hiểu thêm về cách phát triển khách hàng và kiểm soát chất lượng tín dụng.
    - *Điểm cần kiểm tra thêm (Hypotheses Requiring Further Verification):* Do quy mô địa bàn nhỏ (5 quản lý vùng), cần khảo sát thực tế quy trình thẩm định và sàng lọc khách hàng tại Nam Trung Bộ, sau đó đánh giá khả năng thử nghiệm có kiểm soát trước khi nhân rộng sang các vùng khác.
 
-### Phần C – Trang 5: Báo cáo phân tích chuyên sâu và căn cứ ra quyết định điều hành:
+### Phần C – Báo cáo phân tích chuyên sâu và căn cứ ra quyết định điều hành:
 
-![Trang 5: Phân tích chuyên sâu và đưa ra kết luận](images/ket-luan.png)
-
-Trang 5 được thiết kế thành một bảng điều khiển phân tích hoàn chỉnh (Executive Decision Support Dashboard), liên kết số liệu từ kết quả kinh doanh vĩ mô đến cơ chế quản trị vi mô thông qua 4 tầng thông tin:
+Phần này tổng hợp các phát hiện chuyên sâu và căn cứ ra quyết định điều hành (Executive Decision Support), liên kết số liệu từ kết quả kinh doanh vĩ mô đến cơ chế quản trị vi mô thông qua 4 tầng thông tin:
 
 1. **Bốn chỉ số điều hành trọng yếu (Executive KPI Cards):**
    - **Tây Nam Bộ gánh 67% lợi nhuận:** Đóng góp +167,9 tỷ đồng trên tổng lợi nhuận toàn hệ thống.
