@@ -108,7 +108,7 @@ Từ yêu cầu ban đầu, cần làm rõ Ban lãnh đạo muốn theo dõi nh�
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
 │                         HỆ THỐNG BÁO CÁO QUẢN TRỊ POWER BI (5 TRANG)                   │
 │ • Trang 1: Tổng quan báo cáo           │ • Trang 4: Xếp hạng quản lý vùng (ASM)       │
-│ • Trang 2: Từ điển dữ liệu quản trị    │ • Trang 5: Phân tích chuyên sâu & Chẩn đoán   │
+│ • Trang 2: Từ điển dữ liệu quản trị    │ • Trang 5: Phân tích chuyên sâu & Kết luận    │
 │ • Trang 3: Kết quả lãi, lỗ kinh doanh   │ + Báo cáo Excel 7 sheet đối soát kế toán      │
 └────────────────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -377,6 +377,38 @@ Mọi phép chia đều sử dụng `NULLIF(denominator, 0)` để tránh lỗi 
    - *Dữ kiện quan sát được (Observed Facts):* Địa bàn có 5 quản lý vùng duy trì tỷ lệ rủi ro nợ xấu mở rộng thấp nhất toàn ngân hàng (**11,24%**) và có tới **4 trong số 5 quản lý vùng** nằm trong nhóm 25 vị trí dẫn đầu cả nước.
    - *Nhận xét nghiệp vụ (Business Inferences):* Kết quả này cho thấy Nam Trung Bộ là địa bàn nên được tìm hiểu thêm về cách phát triển khách hàng và kiểm soát chất lượng tín dụng.
    - *Điểm cần kiểm tra thêm (Hypotheses Requiring Further Verification):* Do quy mô địa bàn nhỏ (5 quản lý vùng), cần khảo sát thực tế quy trình thẩm định và sàng lọc khách hàng tại Nam Trung Bộ, sau đó đánh giá khả năng thử nghiệm có kiểm soát trước khi nhân rộng sang các vùng khác.
+
+### Phần C – Trang 5: Báo cáo phân tích chuyên sâu và căn cứ ra quyết định điều hành:
+
+![Trang 5: Phân tích chuyên sâu và đưa ra kết luận](images/ket-luan.png)
+
+Trang 5 được thiết kế thành một bảng điều khiển phân tích hoàn chỉnh (Executive Decision Support Dashboard), liên kết số liệu từ kết quả kinh doanh vĩ mô đến cơ chế quản trị vi mô thông qua 4 tầng thông tin:
+
+1. **Bốn chỉ số điều hành trọng yếu (Executive KPI Cards):**
+   - **Tây Nam Bộ gánh 67% lợi nhuận:** Đóng góp +167,9 tỷ đồng trên tổng lợi nhuận toàn hệ thống.
+   - **Nợ xấu Tây Nam Bộ chạm đỉnh 22,0%:** Vượt xa ngưỡng an toàn bình quân toàn ngân hàng.
+   - **Đông Nam Bộ là vùng duy nhất chịu lỗ:** Lợi nhuận trước thuế âm −48,8 tỷ đồng.
+   - **Nam Trung Bộ quản trị tối ưu chất lượng:** Tỷ lệ nợ xấu thấp nhất (11,2%) và đóng góp 20% lợi nhuận (+50,0 tỷ đồng).
+
+2. **Bóc tách dòng chảy Lợi nhuận trước thuế giữa 7 vùng (Waterfall Analysis):**
+   - *Đóng góp tích lũy tích cực:* Đồng bằng Sông Hồng (+54,3 tỷ đồng), Nam Trung Bộ (+50,0 tỷ đồng), Tây Nam Bộ (+167,9 tỷ đồng) và 3 Vùng khác (+27,0 tỷ đồng) tạo nên đỉnh lợi nhuận tích lũy đạt **+299,2 tỷ đồng**.
+   - *Tác động kéo tụt:* Khoản lỗ **−48,8 tỷ đồng** tại Đông Nam Bộ làm bốc hơi **16%** tổng lợi nhuận tích lũy toàn hàng.
+   - *Vạch đích toàn hệ thống:* Lợi nhuận trước thuế chốt sổ đạt **+250,5 tỷ đồng**.
+
+3. **Bóc tách nghịch lý cơ chế đánh giá tại Đông Nam Bộ:**
+   - *Điểm phạt vùng:* Khoản lỗ −48,8 tỷ đồng khiến vùng nhận điểm phạt kịch khung **+26 điểm** (Hạng 7/7 toàn hàng).
+   - *Cơ chế cào bằng:* Điểm phạt vùng được cộng cơ học vào toàn bộ **19 Quản lý vùng**, xóa sạch ưu thế bán hàng tự thân.
+   - *Dẫn chứng 3 Quản lý tiêu biểu:*
+     * Lê Văn Bình: Hạng bán hàng #24 tụt xuống hạng chung cuộc #31 (tụt 7 bậc).
+     * Trần Văn Hải: Hạng bán hàng #28 tụt xuống hạng chung cuộc #33 (tụt 5 bậc).
+     * Trần Văn Anh: Hạng bán hàng #36 tụt xuống hạng chung cuộc #41 (tụt 5 bậc).
+   - *Hậu quả & Kiến nghị:* **74% Quản lý** (14/19 nhân sự) bị đẩy xuống phân vị 25% cuối bảng toàn hàng. *Kiến nghị quyết định:* Tách riêng Thẻ điểm bán hàng (tính thưởng) với Chỉ tiêu lợi nhuận vùng (giao Giám đốc Vùng).
+
+4. **Ma trận hành động điều hành đa chiều:**
+   - *Tây Nam Bộ (Tăng trưởng nóng kèm rủi ro):* Siết chặt khẩu vị rủi ro và thanh tra thu hồi nợ khi nợ xấu chạm 22,0% và chi phí dự phòng lên tới 14,6 tỷ đồng.
+   - *Đông Nam Bộ (Nghịch lý cơ chế đánh giá):* Điều chỉnh quy chế phạt cào bằng, gỡ nút thắt đánh giá cho đội ngũ bán hàng giỏi.
+   - *Bắc Trung Bộ (Chi phí hoạt động vượt ngưỡng):* Tái cấu trúc chi phí hoạt động khi CIR chạm mức 124,9%.
+   - *Nam Trung Bộ (Hình mẫu quản trị rủi ro & hiệu quả):* Nhân rộng quy trình thẩm định và sàng lọc khách hàng kiểm soát nợ xấu (11,2%).
 
 ### Năm đề xuất gửi Ban lãnh đạo:
 

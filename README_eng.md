@@ -108,7 +108,7 @@ Translating initial requests into an analytical solution required determining wh
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
 │                          POWER BI MANAGEMENT DASHBOARD (5 PAGES)                       │
 │ • Page 1: Executive Overview           │ • Page 4: ASM Ranking Scorecard               │
-│ • Page 2: Data Glossary                │ • Page 5: Deep-Dive Diagnosis & Root Cause    │
+│ • Page 2: Data Glossary                │ • Page 5: Deep-Dive Diagnosis & Conclusion    │
 │ • Page 3: Regional P&L Management      │ + 7-Sheet Excel Accounting Reconciliation Model│
 └────────────────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -377,6 +377,38 @@ All division expressions are guarded with `NULLIF(denominator, 0)`.
    - *Observed Facts:* Operating with 5 ASMs, the region maintained the lowest extended risk ratio nationwide (**11.24%**) with **4 out of 5 Area Sales Managers** ranking among the top 25 nationwide.
    - *Business Inferences:* These results show that the South Central Coast is an area worth studying further regarding customer origination methods and credit risk management.
    - *Hypotheses Requiring Further Verification:* Given the compact sample size (5 Area Sales Managers), detailed field surveys of local screening practices are necessary to evaluate feasibility before considering controlled pilot replication in other regions.
+
+### Part C – Page 5: Deep-Dive Diagnosis & Executive Decision Support Dashboard:
+
+![Page 5: Deep-Dive Diagnosis and Conclusion](images/ket-luan.png)
+
+Page 5 is designed as a comprehensive Executive Decision Support Dashboard, seamlessly linking macro commercial performance with micro governance mechanisms across 4 analytical tiers:
+
+1. **Four Executive KPI Cards:**
+   - **Southwest drives 67% of system profit:** Generating +167.9 billion VND of total bank-wide profit.
+   - **Southwest NPL reaches peak 22.0%:** Far exceeding safe benchmarks across the institution.
+   - **Southeast is the sole loss-making region:** Cumulative operating loss stands at −48.8 billion VND.
+   - **South Central Coast achieves optimal quality:** Lowest NPL ratio nationwide (11.2%) while providing 20% of net profit (+50.0 billion VND).
+
+2. **Regional Pre-Tax Profit Flow Decomposition (Waterfall Analysis):**
+   - *Cumulative positive contributions:* Red River Delta (+54.3 billion VND), South Central Coast (+50.0 billion VND), Southwest (+167.9 billion VND), and 3 Other Regions (+27.0 billion VND) elevate cumulative profit to a peak of **+299.2 billion VND**.
+   - *Drag effect:* The **−48.8 billion VND** operating loss from the Southeast erodes **16%** of total system cumulative profit.
+   - *Final institutional bottom line:* System-wide pre-tax profit closes at **+250.5 billion VND**.
+
+3. **Deconstructing Evaluation Mechanism Paradox in the Southeast:**
+   - *Regional penalty points:* Regional loss of −48.8 billion VND incurs a maximum penalty of **+26 points** (Rank 7/7 nationwide).
+   - *Blanket allocation mechanism:* Penalty points were uniformly applied across all **19 Area Sales Managers**, eliminating individual sales advantages.
+   - *Evidence from 3 representative managers:*
+     * Le Van Binh: Sales rank #24 dropped to final rank #31 (down 7 ranks).
+     * Tran Van Hai: Sales rank #28 dropped to final rank #33 (down 5 ranks).
+     * Tran Van Anh: Sales rank #36 dropped to final rank #41 (down 5 ranks).
+   - *Consequences & Recommendations:* **74% of Managers** (14/19 personnel) were pushed into the bottom 25% national quartile. *Actionable policy recommendation:* Decouple Individual Sales Scorecards (incentives) from Regional Profit Targets (assigned to Regional Directors).
+
+4. **Multi-Dimensional Management Action Matrix:**
+   - *Southwest (High Growth with Heightened Risk):* Tighten credit risk appetite and audit debt collection procedures with NPL reaching 22.0% and provision charges at 14.6 billion VND.
+   - *Southeast (Evaluation Mechanism Paradox):* Calibrate blanket penalty policies to unlock motivation for top sales performers.
+   - *North Central Coast (Operating Cost Overhead):* Restructure operating overhead as territorial CIR reaches 124.9%.
+   - *South Central Coast (Operational Benchmark):* Replicate credit screening protocols to maintain low NPL standards (11.2%).
 
 ### Five Concrete Management Action Plans:
 

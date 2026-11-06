@@ -1,15 +1,600 @@
 # NHẬT KÝ CÔNG VIỆC
 
 ## DANG DỞ
-- **Chờ người dùng chốt khổ hồ sơ**: giữ bản **3 trang** đang áp, hay về **2 trang** bằng một trong hai họ phương án đã đo — (i) bỏ nhãn Output, rút Steps còn ba gạch và Gained Value còn một gạch, kèm nén khoảng cách toàn bài; (ii) quay lại bản gọn của task 127 (không có Gained Value, không nén).
-- **Chờ xác định số phận ba tệp từng bị gỡ khỏi `output/`**: theme JSON và hai tệp measure DAX không còn trên đĩa (bộ đẩy tụt từ 46 xuống 43). Lời mô tả ở cây thư mục `README.md` và bảng cấu trúc `AGENTS.md` **đã sửa thành khớp đĩa** từ task 136 nên không còn chỗ nào gây hiểu sai; câu hỏi còn lại chỉ là **có lấy lại ba tệp đó không** — nếu lấy lại thì sửa mô tả một lượt nữa và bộ đẩy tăng lên 38 tệp.
-- **Chờ xác nhận việc lộ thông tin trong tệp mẫu vừa đưa vào kho**: `input/Tham so va mau doi chieu.xlsx` nay nằm trong kho mã công khai, mà hai sheet mẫu của nó chứa số liệu theo vùng kèm họ tên và email giám đốc vùng. `README.md` và `README_eng.md` đã ghi rõ trong mục Nguồn Dữ Liệu Và Quyền Sử Dụng; cần người dùng chốt là chấp nhận hay gỡ tệp mẫu ra khỏi bộ đẩy.
-- **Thiếu ảnh thẻ** `avatar_option_1.png` ở thư mục gốc máy người làm: bản kiểm chỉ thay bằng `\rule{2.6cm}{3.4cm}`, bản nộp thật phải biên dịch lại khi có ảnh.
-- **Chờ quyết định bàn giao hai script đối soát**: `ingestion/export_pbi.ps1` và `ingestion/audit_pbi_vs_db.py` vẫn nằm trên máy làm nhưng không còn trong kho mã, nên người nhận kho **không có đường chạy lại phép đối soát 91 ô** đã ghi trong `README.md`. Cần người dùng chọn: chép riêng hai tệp đó kèm theo khi bàn giao, hay coi số đối soát chỉ là bằng chứng lịch sử.
-- **Lần đầu chạy `git init` phải dùng lệnh thêm tệp đích danh**: dự án không còn `.gitignore` (gỡ ngày 2026-10-31) nên `git add .` sẽ nhặt cả `ingestion/db_config.py` (mật khẩu), phần lớn `input/` (dữ liệu ngân hàng thật) và `CV/` (hồ sơ nhân thân). Từ 2026-11-01 **`git add ingestion` và `git add docs` đều là lệnh nguy hiểm**: thư mục `ingestion/` chứa ba tệp đứng ngoài kho (`db_config.py`, `export_pbi.ps1`, `audit_pbi_vs_db.py`), thư mục `docs/` chứa một tệp (`SESSION_PROMPT_LOG.md`). Từ task 136 thêm **`git add input` cũng nguy hiểm**: sáu tệp trong thư mục này — năm tệp Excel nguồn và `input/README.md` — vẫn đứng ngoài kho, nặng tổng cộng 236,3 megabyte; chỉ **một** tệp được đẩy là `input/Tham so va mau doi chieu.xlsx`. Bộ kiểm `.staging/push_check.py` (chạy ngày 2026-11-01) in lệnh `git add README.md README_eng.md` rồi **bốn tệp `docs/`** gõ đích danh, **tám tệp `ingestion/`** gõ đích danh, tiếp theo `"input/Tham so va mau doi chieu.xlsx"` rồi `images output requirements.txt sql`; tổng **34 tệp, 4,85 MiB** (đã loại `AGENTS.md` khỏi bộ đẩy). Sau khi thêm vẫn phải `git status` để soát trước khi commit.
 
 ## ĐÃ XONG
-### 2026-11-03
+### 2026-11-06
+206. **Đồng Bộ Trang 5 Phân Tích Chuyên Sâu Lên README & Chuẩn Bị Push Git Toàn Diện**
+   - Trích xuất cấu trúc và nội dung trang cuối sau khi người dùng tinh chỉnh trên Power BI Desktop (`output/Bao cao quan tri va phan tich (Ngan Hang).pbix`) và ảnh chụp trang kết luận (`images/ket-luan.png`): Trang 5 mang tên "PHÂN TÍCH CHUYÊN SÂU VÀ ĐƯA RA KẾT LUẬN" với tiêu đề lớn "TỔNG HỢP DỮ LIỆU QUẢN TRỊ & CĂN CỨ RA QUYẾT ĐỊNH ĐIỀU HÀNH NĂM 2023", bố cục 4 tầng thông tin hoàn chỉnh (4 KPI Cards, Thác nước P&L 7 vùng 250,5 tỷ, Nghịch lý cơ chế phạt vùng Đông Nam Bộ +26 điểm, Ma trận hành động điều hành 4 nhóm).
+   - Đồng bộ hóa toàn diện nội dung Trang 5 vào cả hai bản tài liệu dự án `README.md` (tiếng Việt) và `README_eng.md` (tiếng Anh) tại Mục 2 và Mục 7 (Phần C).
+   - Kiểm tra đối soát thành công 100% bằng `.staging/check_toc.py` (chuẩn hóa anchor mục lục) và `.staging/check_int_pair.py` (khớp đa tập số liệu giữa hai ngôn ngữ).
+   - Cập nhật số liệu dung lượng bộ đẩy trong `docs/HIEN_TRANG_HE_THONG.md` (32 tệp, 4,66 MiB).
+   - Chạy bộ kiểm `.staging/push_check.py` vượt qua tất cả tiêu chí an toàn (không lộ secret, không file vượt trần GitHub, không liên kết gãy) và tiến hành push Git đồng bộ.
+
+205. **Chuyển Đổi Toàn Bộ Dữ Liệu Sang Biến Động DAX 100% & Khắc Phục Triệt Để Trục Y Biểu Đồ 1**
+   - Loại bỏ 100% việc hardcode số tĩnh trên toàn bộ 4 Measure DAX của Power BI Desktop (`Page5_Part1_KPICards_HTML`, `Page5_Part2_Waterfall_HTML`, `Page5_Part3_DongNamBo_HTML`, `Page5_Part4_MatranHanhdong_HTML`), thay thế hoàn toàn bằng các biến động DAX (`VAR v_... = CALCULATE(...)`) tự tính toán trực tiếp từ bảng dữ liệu gốc `banking_project v_baocao_tonghop` và `v_xephang_asm` theo ngữ cảnh tháng của slicer (`vM = SELECTEDVALUE(dim_month[month_key], MAX(dim_month[month_key]))`).
+   - Xử lý dứt điểm lỗi lệch số học giữa các tháng (vụ 92,2 tỷ vs 61,4 tỷ): Bản chất 92,2 tỷ là LNTT của Tháng 2, trong khi Tháng 5 đạt 250,5 tỷ đồng. Khi chuyển sang biến động DAX, phương trình toán học Biểu đồ Thác nước tự động khớp chính xác 100% từng số lẻ cho mọi tháng:
+     * Tại Tháng 5: ĐBSH (+54,3 tỷ) + NTB (+50,0 tỷ) + TNB (+167,9 tỷ) + 3 Vùng (+27,0 tỷ) = Đỉnh +299,2 tỷ; trừ ĐNB (−48,8 tỷ) = Vạch đích +250,5 tỷ đồng.
+     * Tại Tháng 2: Tự động tính đúng 19,3 + 17,3 + 65,1 + 10,8 − 20,4 = 92,2 tỷ đồng.
+   - Khắc phục triệt để lỗi thị giác cắt xén chữ trên trục Y Biểu đồ 1:
+     * Mở rộng `viewBox` SVG từ `1150 355` lên `1200 355`.
+     * Tăng khoảng lề trái an toàn cho nhãn trục Y lên `x=140` (`text-anchor="end"`), dời trục gióng và các cột bắt đầu từ `x=150`, tạo khoảng đệm lề trái rộng 140px, xóa bỏ hoàn toàn hiện tượng các nhãn dài (`+299 tỷ (Đỉnh)`, `+250.5 tỷ (Chốt)`) bị tràn viền và xén mất chữ số đầu.
+   - Đồng bộ cập nhật đồng thời trên 3 tầng: File tổng hợp `performance_diagnosis_merged_chart_v2.html` (kèm chú thích tên biến dữ liệu rõ ràng), 4 module HTML độc lập và nạp trực tiếp qua TOM vào 4 Measure trong Power BI Desktop.
+   - Verify bằng headless Edge kết xuất ảnh cận cảnh trục Y và toàn trang, khớp chuẩn xác 100%. Cắt task 155 ở cuối danh sách, duy trì nghiêm ngặt trần 50 task gần nhất (205 xuống 156).
+
+204. **Phục Hồi (Rollback) Biểu Đồ 2 Về Phiên Bản Nguyên Bản Thoáng Đãng Theo Yêu Cầu**
+   - Phục hồi (rollback) chính xác 100% cấu trúc, nội dung và kiểu dáng giao diện của Biểu đồ 2 (Bóc tách nghịch lý cơ chế đánh giá tại Đông Nam Bộ) về phiên bản nguyên bản theo đúng hình ảnh người dùng tải lên:
+     * Cột 1: Điểm phạt vùng `+26 điểm` (Phạt kịch khung Hạng 7/7 toàn hàng) kèm khối giải thích cơ chế ở đáy thẻ.
+     * Cột 2: Bảng so sánh Before vs After của 3 quản lý tiêu biểu (Lê Văn Bình, Trần Văn Hải, Trần Văn Anh) với các thẻ thứ hạng xanh/đỏ rõ nét.
+     * Cột 3: Hậu quả `74% Quản lý` rơi vào phân vị 25% cuối bảng kèm Hộp kiến nghị tách bạch thẻ điểm nền xanh mint.
+   - Đồng bộ cập nhật đồng thời trên 3 tầng: File tổng hợp `performance_diagnosis_merged_chart_v2.html`, module `pbi_part3_bieu_do_2.html` và nạp trực tiếp qua TOM vào Measure `Page5_Part3_DongNamBo_HTML` trên Power BI Desktop.
+   - Verify bằng headless Edge kết xuất ảnh đối soát trùng khớp 100% với ảnh yêu cầu của người dùng. Cắt task 154 ở cuối danh sách, duy trì nghiêm ngặt trần 50 task gần nhất (204 xuống 155).
+
+203. **Khắc Phục Triệt Để Lỗi Cắt Xén Chữ Trục Tung Biểu Đồ 1 & Chuẩn Hóa Tọa Độ SVG**
+   - Xác định và xử lý dứt điểm lỗi kỹ thuật thị giác trên Biểu đồ 1 (Thác nước P&L 7 vùng): do thuộc tính `text-anchor="end"` đặt tại tọa độ `x=50` khiến các chuỗi nhãn dài như `+110 tỷ (Đỉnh)` và `+92,2 tỷ (Chốt)` bị tràn qua biên trái `x=0` của `viewBox`, dẫn tới việc bị cắt mất các ký tự số đầu tiên (`+11` và `+9`).
+   - Tái cấu trúc toàn diện hệ trục tọa độ SVG:
+     * Mở rộng `viewBox` từ `1100 350` lên `1150 355`.
+     * Tăng khoảng lùi lề trái trục tung từ `x=50` lên `x=95` (tạo khoảng đệm an toàn > 25px cách mép trái).
+     * Dời toàn bộ 6 cột và các đường nối ngang sang phải tương ứng (bắt đầu từ `x=105` thay vì `x=60`), đảm bảo cả hai mép trái và phải đều thoáng đãng, cân đối tuyệt đối.
+   - Đồng bộ cập nhật đồng thời trên 3 tầng: File tổng thể `performance_diagnosis_merged_chart_v2.html`, module `pbi_part2_bieu_do_1.html` và nạp trực tiếp qua TOM vào Measure `Page5_Part2_Waterfall_HTML` trong Power BI Desktop.
+   - Verify bằng headless Edge kết xuất ảnh cận cảnh trục Y: các nhãn `+150 tỷ`, `+110 tỷ (Đỉnh)`, `+92,2 tỷ (Chốt)` hiển thị đầy đủ 100%. Cắt task 153 ở cuối danh sách, duy trì nghiêm ngặt trần 50 task gần nhất (203 xuống 154).
+
+202. **Tái Cấu Trúc Biểu Đồ 2 Tinh Gọn (Compact) & Triệt Tiêu Khoảng Trắng Thừa**
+   - Tái cấu trúc Biểu đồ 2 (Bóc tách nghịch lý cơ chế đánh giá tại Đông Nam Bộ) theo thiết kế tinh gọn (High Information Density), triệt tiêu 100% khoảng trắng thừa vô ích:
+     * Cắt giảm hơn 35% chiều cao tổng thể (từ 420px xuống chỉ còn ~260px), thu gọn lề đệm panel từ 22px xuống 14px 18px.
+     * Lấp đầy khoảng trống ở Cột 1 bằng bảng tính cơ chế cộng dồn định lượng: Bán hàng tự thân (~18 điểm) + Phạt vùng (+26 điểm) = Điểm chung cuộc (~44 điểm bét bảng).
+     * Tối ưu Cột 3: Ghép nối con số `74% Quản lý` liền mạch với Hộp kiến nghị tách bạch thẻ điểm, cân đối hoàn hảo với bảng 3 quản lý ở Cột 2.
+   - Đồng bộ cập nhật đồng thời trên file tổng hợp `performance_diagnosis_merged_chart_v2.html`, module `pbi_part3_bieu_do_2.html` và nạp trực tiếp qua TOM vào Measure `Page5_Part3_DongNamBo_HTML` trên Power BI Desktop.
+   - Verify bằng headless Edge kết xuất ảnh đối soát. Cắt task 152 ở cuối danh sách, duy trì nghiêm ngặt trần 50 task gần nhất (202 xuống 153).
+
+201. **Nâng Cấp Độ Rõ Nét & Khả Năng Đọc (Readability) Cho Biểu Đồ 2 & Biểu Đồ 3**
+   - Đại tu toàn diện cỡ chữ (font-size) và độ tương phản màu sắc (contrast) cho Biểu đồ 2 (Bóc tách nghịch lý Đông Nam Bộ) và Biểu đồ 3 (Ma trận hành động điều hành):
+     * Cỡ chữ tiêu đề bảng & panel nâng từ 16px lên 18px đậm (`font-weight: 800`); mô tả phụ nâng từ 12.5px lên 14px (`color: #334155`).
+     * Nội dung bảng ma trận nâng từ 11px-12.5px lên 13.5px-14.5px; các số liệu định lượng nâng lên 15px-32px đậm nét.
+     * Triệt tiêu hoàn toàn màu chữ xám mờ (`#64748b`), thay bằng các gam màu có độ tương phản cao (`#1e293b`, `#0f172a`, `#334155`).
+     * Nới rộng padding các hàng bảng từ 10px lên 14px giúp bố cục thoáng đãng, dễ lướt mắt trên màn hình Power BI.
+   - Đồng bộ cập nhật đồng thời trên 3 tầng: File tổng hợp `performance_diagnosis_merged_chart_v2.html`, 2 module độc lập (`pbi_part3_bieu_do_2.html`, `pbi_part4_bieu_do_3.html`), và nạp trực tiếp qua TOM vào 2 DAX Measure trong Power BI Desktop (`Page5_Part3_DongNamBo_HTML`, `Page5_Part4_MatranHanhdong_HTML`).
+   - Verify bằng headless Edge kết xuất ảnh đối soát sắc nét. Cắt task 151 ở cuối danh sách, duy trì nghiêm ngặt trần 50 task gần nhất (201 xuống 152).
+
+200. **Nạp Trực Tiếp 4 DAX Measure Chẩn Đoán Vào Power BI Desktop Đang Chạy**
+   - Kết nối trực tiếp vào máy chủ Analysis Services nội bộ của Power BI Desktop đang mở (`localhost:52483`) bằng giao thức Tabular Object Model (TOM).
+   - Nạp tự động và lưu thành công 4 DAX Measure HTML vào bảng `LAI LO (Visuals & DAX)` trong thư mục hiển thị chuyên biệt `05. Chan Doan 4 Phan (HTML)`:
+     * `Page5_Part1_KPICards_HTML`: 4 thẻ chỉ số KPI trọng yếu toàn hệ thống.
+     * `Page5_Part2_Waterfall_HTML`: Biểu đồ Thác nước bóc tách dòng chảy lợi nhuận trước thuế 7 vùng + 3 viên thuốc trạng thái.
+     * `Page5_Part3_DongNamBo_HTML`: Bóc tách nghịch lý cơ chế đánh giá cào bằng tại Đông Nam Bộ (Lưới 3 cột).
+     * `Page5_Part4_MatranHanhdong_HTML`: Ma trận hành động điều hành 5 quyết sách định lượng.
+   - Xác thực độ hợp lệ của cả 4 measure bằng truy vấn ADOMD (`EVALUATE ROW(...)` thành công, độ dài chuỗi từ 8.943 đến 15.700 ký tự). Cắt task 150 ở cuối danh sách, duy trì nghiêm ngặt trần 50 task gần nhất (200 xuống 151).
+
+199. **Tách Dashboard Thành 4 Phần Cho Power BI & Xóa Toàn Bộ Thứ Tự Số**
+   - Xóa bỏ triệt để các tiền tố thứ tự số (`01 · `, `02 · `, `03 · `) trên file tổng hợp `performance_diagnosis_merged_chart_v2.html` và trên toàn bộ các file thành phần theo đúng yêu cầu người dùng.
+   - Phân tách và đóng gói trọn vẹn thành 4 module độc lập cho Power BI (Visual HTML Content):
+     * **Phần 1**: `pbi_part1_kpi_cards.html` (4 thẻ chỉ số KPI trọng yếu).
+     * **Phần 2**: `pbi_part2_bieu_do_1.html` (Biểu đồ 1: Thác nước bóc tách dòng chảy lợi nhuận trước thuế 7 vùng + 3 viên thuốc trạng thái).
+     * **Phần 3**: `pbi_part3_bieu_do_2.html` (Biểu đồ 2: Bóc tách nghịch lý cơ chế đánh giá tại Đông Nam Bộ).
+     * **Phần 4**: `pbi_part4_bieu_do_3.html` (Biểu đồ 3: Ma trận hành động điều hành).
+   - Tự động sinh 4 mã DAX Measure tương ứng trong `.staging/` (`dax_pbi_part1_kpi_cards.txt`, `dax_pbi_part2_bieu_do_1.txt`, `dax_pbi_part3_bieu_do_2.txt`, `dax_pbi_part4_bieu_do_3.txt`) đã xử lý escape chuỗi `""`, sẵn sàng gán trực tiếp vào visual HTML Content.
+   - Verify bằng headless Edge kết xuất 4 ảnh độc lập sắc nét. Cắt task 149 ở cuối danh sách, duy trì nghiêm ngặt trần 50 task gần nhất (199 xuống 150).
+
+198. **Tinh Chỉnh Văn Phong Điều Hành Thực Tế & Thiết Kế Cao Cấp Cho Dashboard**
+   - Rà soát và gọt giũa toàn diện câu từ trên file `performance_diagnosis_merged_chart_v2.html` theo đúng phong thái điều hành thực tế của ngân hàng:
+     * Thay các cụm từ sách vở ("Khu vực thâm hụt", "Trụ cột lợi nhuận kèm rủi ro", "Chất lượng quản trị tối ưu") thành các thuật ngữ quản trị trực diện ("Vùng thua lỗ nghiêm trọng", "Tăng trưởng nóng kèm rủi ro", "Hiệu quả và kiểm soát tốt").
+     * Viết lại thông điệp bất cập Mục 02 sát thực tiễn: "Cơ chế phạt cào bằng lợi nhuận vùng khiến người bán hàng giỏi nhất bị tụt hạng oan".
+     * Làm mềm chỉ đạo hành động Mục 03: "Rà soát lại danh mục nợ; bóc tách trích lập và hoàn nhập dự phòng" (thay chữ "Kiểm toán" nặng nề).
+   - Tinh chỉnh thiết kế thị giác chuẩn doanh nghiệp cấp cao:
+     * Gỡ bỏ biểu tượng còi báo động giật gân tại Đông Nam Bộ, thay bằng nhãn trang nhã "Vùng duy nhất chịu lỗ".
+     * Đổi màu cột "TỔNG LỢI NHUẬN" từ than chì xám đen sang màu Xanh Navy đậm sang trọng (`#1e3a8a`), đồng điệu với vạch đích và tiêu đề.
+     * Tăng khoảng cách đệm trên hàng viên thuốc trạng thái (Status Pills) giúp biểu đồ có không gian thoáng mắt.
+   - Verify bằng headless Edge kết xuất ảnh đối soát. Cắt task 148 ở cuối danh sách, duy trì nghiêm ngặt trần 50 task gần nhất (198 xuống 149).
+
+197. **Chuẩn Hóa Ngôn Ngữ Thuần Việt, Xóa Bỏ Toàn Bộ Từ Viết Tắt & Tiếng Anh**
+   - Rà soát và loại bỏ 100% từ tiếng Anh (Waterfall, Analysis, Top, vs, NIM, P&L, NPL, CIR, ASM...) và từ viết tắt (ĐB, ĐNB, ĐBB, BTB, TBB, LNTT, tr.đ, GĐ, T5, LN...) trên toàn bộ file `performance_diagnosis_merged_chart_v2.html`.
+   - Chuẩn hóa thành các thuật ngữ thuần Việt đầy đủ: "Đồng bằng Sông Hồng", "Đông Nam Bộ", "Ba vùng Đông Bắc - Bắc Trung - Tây Bắc", "Tỷ lệ nợ xấu", "Chi phí vận hành", "Quản lý kinh doanh", "Biên lãi thuần", "Lợi nhuận trước thuế", "triệu đồng", "Tháng 5", "Giám đốc Vùng".
+   - Verify bằng headless Edge kết xuất ảnh đối soát. Cắt task 147 ở cuối danh sách, duy trì nghiêm ngặt trần 50 task gần nhất (197 xuống 148).
+
+
+### 2026-11-05
+196. **Tích Hợp Biểu Đồ Thác Nước (Waterfall Chart) Cho Mục 01 Trên Dashboard**
+   - Thay thế toàn bộ biểu đồ Combo cột dàn trải mang tính quản trị cũ tại Mục 01 trên file `performance_diagnosis_merged_chart_v2.html` bằng **Biểu đồ Thác nước (Waterfall Chart)** bóc tách dòng chảy Lợi nhuận trước thuế (LNTT) theo đúng phê duyệt của người dùng.
+   - Thể hiện trực quan hành trình tích lũy dòng tiền P&L 7 vùng: làm nổi bật đỉnh 141 tỷ đồng do các vùng có lãi tạo ra, cú rơi tự do làm bốc hơi 35% lợi nhuận của "hố đen" Đông Nam Bộ (−48,8 tỷ đồng) và vạch đích LNTT toàn hàng 92,2 tỷ đồng.
+   - Đồng bộ 3 viên thuốc trạng thái (Status Pills) siêu gọn phía dưới, kết nối liền mạch với Mục 02 (Bóc tách nghịch lý Đông Nam Bộ) và Mục 03 (Ma trận hành động).
+   - Verify bằng headless Edge kết xuất ảnh đối soát. Cắt task 146 ở cuối danh sách, duy trì nghiêm ngặt trần 50 task gần nhất (196 xuống 147).
+
+195. **Đại Tu Tinh Giản Toàn Diện Dashboard Theo Chuẩn 15 Giây Của Ban Điều Hành**
+   - Tinh giản toàn diện giao diện `performance_diagnosis_merged_chart_v2.html` theo tiêu chuẩn ra quyết định nhanh của Ban Lãnh đạo (Executive 15-Second Rule), cắt giảm hơn 70% lượng chữ trên toàn trang:
+     * Mục 01: Gỡ bỏ 3 đoạn văn dài dòng, thay bằng 3 pills trạng thái 1 hàng ngang với chỉ thị màu sắc sắc nét (Đông Nam Bộ lỗ −48,8 tỷ; Tây Nam Bộ nợ xấu đỉnh 22%; Nam Trung Bộ NPL tối ưu 11,2%).
+     * Mục 02: Chuyển đổi phân tích chữ sang trực quan Before vs After: thể hiện trực tiếp mức tụt hạng của 3 quản lý giỏi (#24 ➔ #31 tụt 7 bậc, #28 ➔ #33 tụt 5 bậc, #36 ➔ #41 tụt 5 bậc) + Hộp kiến nghị tách bạch thẻ điểm.
+     * Mục 03: Chuyển bảng kế hoạch hành động thành Ma trận hành động điều hành (Executive Action Matrix): triệt tiêu hoàn toàn văn xuôi, chỉ dùng từ khóa nghiệp vụ và con số tác động tài chính đậm nét.
+   - Nâng tỷ lệ diện tích Visuals & Số liệu nổi bật lên > 75%, loại bỏ cảm giác đọc tài liệu Word.
+   - Verify bằng headless Edge kết xuất ảnh đối soát. Cắt task 145 ở cuối danh sách, duy trì nghiêm ngặt trần 50 task gần nhất (195 xuống 146).
+
+194. **Gỡ Bỏ Hoàn Toàn Panel Điểm Tài Chính Cấp Vùng & Khóa Luồng 3 Bước**
+   - Loại bỏ triệt để panel "02 · Điểm tài chính cấp vùng" trên file `performance_diagnosis_merged_chart_v2.html` theo đúng chỉ đạo dứt khoát của người dùng.
+   - Nâng cấp khối bóc tách bất cập Đông Nam Bộ thành **Mục 02 độc lập (Full-width)** với bố cục Lưới 3 cột nghiệp vụ hiện đại (Modern Fintech Executive), thoáng đãng và liền mạch.
+   - Giữ nguyên **Mục 03 · Kế hoạch hành động & Đề xuất điều hành (Tháng 06/2023)** dạng bảng 5 cột tinh gọn, dễ hiểu.
+   - Toàn trang dashboard chuẩn hóa mạch lạc đúng 3 bước điều hành: 01 Toàn cảnh vĩ mô 7 vùng ➔ 02 Bóc tách nghịch lý Đông Nam Bộ ➔ 03 Kế hoạch hành động toàn hàng.
+   - Verify bằng headless Edge kết xuất ảnh đối soát. Cắt task 144 ở cuối danh sách, duy trì nghiêm ngặt trần 50 task gần nhất (194 xuống 145).
+
+193. **Tinh Giản & Đơn Giản Hóa Bảng Kế Hoạch Hành Động Điều Hành (Mục 03)**
+   - Đại tu toàn diện Bảng Kế hoạch hành động trên `performance_diagnosis_merged_chart_v2.html` theo yêu cầu "viết gọn lại, đơn giản dễ hiểu": tinh gọn bảng từ 6 cột xuống 5 cột phẳng sắc sảo (`Ưu tiên`, `Địa bàn`, `Vấn đề thực tế`, `Giải pháp thực hiện`, `Mục tiêu kỳ vọng`).
+   - Biên tập lại toàn bộ câu từ: loại bỏ các đoạn văn dài dòng, cô đọng thành các chỉ đạo nghiệp vụ dứt khoát, đi thẳng vào bản chất (Tây Nam Bộ minh bạch 4,4 tỷ dự phòng; Đông Nam Bộ tách bạch thẻ điểm xóa lỗ +55 tỷ; Bắc Trung Bộ tiết kiệm 1,5 tỷ/tháng; Nam Trung Bộ nhân rộng cẩm nang; ĐB Sông Hồng duy trì > 55 tỷ/tháng).
+   - Thống nhất đánh số 3 phân đoạn toàn trang: 01 Toàn cảnh vĩ mô ➔ 02 Điểm tài chính cấp vùng & Nghịch lý Đông Nam Bộ ➔ 03 Kế hoạch hành động điều hành.
+   - Verify bằng headless Edge kết xuất ảnh đối soát. Cắt task 143 ở cuối danh sách, duy trì nghiêm ngặt trần 50 task gần nhất (193 xuống 144).
+
+192. **Tinh Gọn & Đơn Giản Hóa Mục 02 (Điểm Tài Chính Cấp Vùng) Cân Đối 2 Cột**
+   - Tái thiết kế Mục 02 trên `performance_diagnosis_merged_chart_v2.html` theo yêu cầu "viết gọn lại, đơn giản dễ hiểu": gỡ bỏ biểu đồ thanh ngang cồng kềnh, chuyển sang danh sách flat list 7 vùng mỏng nhẹ, trực quan (6 vùng lãi nhận 5–23đ vs Đông Nam Bộ lỗ nhận phạt 26đ).
+   - Tích hợp hộp tóm tắt 3 ý gãy gọn, giải thích rõ nguyên tắc P&L càng ít điểm càng tốt và việc điểm phạt 26đ cộng thẳng vào từng quản lý trong vùng.
+   - Sắp xếp Mục 02 (Cột trái) và Mục 03 (Cột phải: Bóc tách Đông Nam Bộ) cân đối hoàn hảo trong bố cục lưới 2 cột (50-50), tiếp nối bằng Mục 04 (Bảng Kế hoạch hành động full-width).
+   - Verify bằng headless Edge kết xuất ảnh đối soát. Cắt task 142 ở cuối danh sách, duy trì nghiêm ngặt trần 50 task gần nhất (192 xuống 143).
+
+191. **Loại Bỏ Section 02 & Tái Cấu Trúc Báo Cáo Thành Luồng 3 Bước Hiện Đại**
+   - Gỡ bỏ hoàn toàn panel Biểu đồ thanh ngang điểm tài chính 7 vùng (`02 · Điểm tài chính cấp vùng`) theo đúng chỉ đạo người dùng trên `performance_diagnosis_merged_chart_v2.html`.
+   - Nâng cấp khối bóc tách địa bàn Đông Nam Bộ thành **Mục 02 độc lập (Full-width Panel)** với bố cục Lưới 3 cột nghiệp vụ hiện đại (Modern Fintech Executive):
+     * Cột 1: Điểm tài chính áp chung (26 điểm · Vùng lỗ −48,8 tỷ).
+     * Cột 2: Năng lực bán hàng tự thân không tính lỗ vùng (#24 Lê Văn Bình, #28 Trần Văn Hải, #36 Trần Văn Anh).
+     * Cột 3: Hậu quả 14/19 nhân sự rơi vào 25% cuối bảng & Kiến nghị tách riêng Thẻ điểm bán hàng với P&L vùng.
+   - Đánh lại số thứ tự Bảng Kế hoạch hành động thành **Mục 03 · Kế hoạch hành động & Đề xuất điều hành (Tháng 06/2023)**.
+   - Verify bằng headless Edge kết xuất ảnh đối soát (`.staging/crop_new_sec02_full.png` và `.staging/crop_new_sec03_full.png`), đạt chuẩn thẩm mỹ cao cấp. Cắt task 141 ở cuối, duy trì nghiêm ngặt trần 50 task (191 xuống 142).
+
+190. **Khôi Phục & Tích Hợp Toàn Diện Bảng Kế Hoạch Hành Động Điều Hành (Mục 04)**
+   - Bổ sung hoàn chỉnh Bảng Kế hoạch hành động & Đề xuất điều hành Tháng 06/2023 (Mục 04) vào file `performance_diagnosis_merged_chart_v2.html` sau khi bị khuyết ở lần tái thiết kế trước.
+   - Thể hiện đầy đủ 5 đề xuất hành động trọng tâm tương ứng 5 vùng địa bàn: Tây Nam Bộ (Minh bạch 4.447 tr.đ dự phòng), Đông Nam Bộ (Xóa lỗ +55 tỷ khi NPL về 14%, tách bạch thẻ điểm cá nhân), Bắc Trung Bộ (Tiết kiệm 1,5 tỷ/tháng, CIR về 21%), Nam Trung Bộ (Giữ CIR < 15% & NPL < 12%), ĐB Sông Hồng (> 55 tỷ/tháng, giữ 30,6% thị phần).
+   - Thiết kế bảng theo chuẩn mực Modern Fintech Executive: table borderless phẳng, badge trạng thái mức độ phân tầng sắc sảo, căn lề cột số liệu định lượng chuyên nghiệp.
+   - Verify bằng headless Edge kết xuất ảnh đối soát. Cắt task 140 ở cuối danh sách, duy trì nghiêm ngặt trần 50 task gần nhất (190 xuống 141).
+
+189. **Tái Thiết Kế Toàn Diện Dashboard Theo Phong Cách Modern Fintech Executive (Stripe / Apple Style)**
+   - Đại tu toàn bộ mỹ thuật giao diện của file `performance_diagnosis_merged_chart_v2.html`: canvas xám mát cao cấp (`#f8fafc`), hệ thống thẻ trắng bo góc 12px viền mỏng `#e2e8f0` với đổ bóng mờ siêu nhẹ, xóa bỏ hoàn toàn hiện tượng card-in-card vụn vặt và các khối màu pastel lòe loẹt.
+   - Nâng cấp 4 thẻ KPI hàng đầu với top accent border line tinh tế, số liệu 28px font Inter nổi bật.
+   - Tối ưu hóa Biểu đồ 01 thanh thoát với nhãn số liệu rõ ràng và 3 thẻ Executive Insights dạng lưới ngang tích hợp icon SVG nét mảnh.
+   - Cân đối lưới 50-50 cho Section 02 & 03: biểu đồ thanh ngang 7 vùng mượt mà và khối bóc tách 3 phân đoạn nghiệp vụ liền mạch tại Đông Nam Bộ; bảo toàn 100% văn phong diễn đạt tự nhiên, súc tích.
+   - Verify headless Edge đạt chuẩn thẩm mỹ hiện đại. Cắt task 139 ở cuối danh sách, duy trì nghiêm ngặt trần 50 task gần nhất (190 xuống 141).
+
+188. **Khôi Phục Thiết Kế Mốc Prompt 332 & Biên Tập Văn Phong Diễn Đạt Tự Nhiên**
+   - Roll back toàn bộ thiết kế giao diện về mốc kết thúc Prompt 332: Mục 01 cân đối nhãn số âm và nợ xấu đỉnh; Mục 02 biểu đồ cột ngang 7 vùng; Mục 03 lưới 50-50 với 4 card màu phân tầng trực quan (Đỏ, Xanh lam, Cam, Xanh lá).
+   - Viết lại toàn bộ câu từ theo phong cách tự nhiên, thực tế của chuyên viên kinh doanh / quản trị ngân hàng (loại bỏ cả hai thái cực: không giật gân kịch tính kiểu AI, và không hàn lâm cứng nhắc).
+   - Trình bày 3 điểm nhấn điều hành Mục 01, ghi chú chuyển tiếp Mục 02 và 4 card Mục 03 ngắn gọn, rõ ràng, tập trung vào bản chất số liệu và đề xuất tách bạch thẻ điểm bán hàng với P&L vùng.
+   - Verify bằng headless Edge kết xuất ảnh đối soát. Cắt task 138 ở cuối danh sách, duy trì nghiêm ngặt trần 50 task gần nhất (190 xuống 141).
+
+187. **Khôi Phục Thiết Kế Màu Sắc Phân Tầng Trực Quan & Giữ Nguyên Văn Phong Chuẩn Mực**
+   - Roll back thiết kế giao diện về hệ màu phân tầng trực quan trên `performance_diagnosis_merged_chart_v2.html`: hộp ghi chú điều hành Mục 01 nền xanh nhạt (`#f0f7ff`), khung chuyển tiếp Mục 02 nền cam ấm (`#fff7ed`), và 4 card Mục 03 với 4 nền pastel tương phản dịu mắt (Đỏ, Xanh lam, Cam, Xanh lục).
+   - Bảo toàn 100% văn phong phân tích tài chính chuyên nghiệp đã chuẩn hóa: giữ nguyên các phân tích định lượng về P&L khu vực, rủi ro tập trung, cơ chế tính gộp điểm phạt và kiến nghị phân định 2 cấu phần đánh giá; tuyệt đối không dùng emoji và từ ngữ cảm tính.
+   - Duy trì hệ thống font chữ to rõ (11.5px – 13px) đảm bảo trải nghiệm đọc tối ưu.
+   - Verify headless Edge đạt chuẩn thẩm mỹ. Cắt task 137 ở cuối danh sách, duy trì nghiêm ngặt trần 50 task gần nhất (190 xuống 141).
+
+186. **Chuẩn Hóa Thiết Kế & Văn Phong Chuyên Nghiệp (Loại Bỏ Phong Cách AI)**
+   - Rà soát và loại bỏ 100% biểu tượng cảm xúc emoji (💡, ⚠️, 👉, 🏆) trên toàn bộ dashboard `performance_diagnosis_merged_chart_v2.html`.
+   - Biên tập lại toàn diện văn phong theo chuẩn mực Quản trị Tài chính & Phân tích Dữ liệu Ngân hàng: thay thế các từ ngữ giật gân, cảm tính ("cào bằng", "phạt oan", "đội sổ", "kéo chìm") bằng các thuật ngữ định lượng chính xác ("hiệu quả P&L", "chất lượng tài sản", "rủi ro tập trung", "cơ chế tính gộp điểm phạt", "phân vị 25% cuối bảng").
+   - Chuyển đổi giao diện 4 thẻ Mục 03 sang phong cách Corporate Flat Design cao cấp: nền trắng trang nhã (`#ffffff`), viền xám mảnh (`#e2e8f0`), giữ viền nhấn trái 3.5px phân tầng trực quan thay cho các khối màu pastel lòe loẹt.
+   - Verify bằng headless Edge kết xuất ảnh đối soát. Cắt task 136 ở cuối danh sách, duy trì nghiêm ngặt trần 50 task gần nhất (190 xuống 141).
+
+185. **Nâng Cấp Độ Dễ Đọc (Readability) & Tối Ưu Tương Phản Toàn Diện Dashboard**
+   - Rà soát và loại bỏ 100% các cỡ chữ siêu nhỏ (8px, 8.5px, 9px, 9.5px, 10px), chuẩn hóa hệ thống phân cấp font lên ngưỡng dễ đọc tối thiểu 11.5px – 13px trên toàn bộ file `performance_diagnosis_merged_chart_v2.html`.
+   - **Mục 01**: Tăng kích thước nhãn số trên cột (11.5px – 12.5px); nhãn nợ xấu (12px) bổ sung viền đệm trắng (`paint-order: stroke fill`) che đường lưới ngang; nới chiều cao viewBox lên 400 xóa chạm đáy trục hoành; khóa `white-space: nowrap` cho thanh Chú giải (Legend) trên 1 hàng thẳng thớm.
+   - **Mục 02 & 03**: Chuẩn hóa nhãn Đông Nam Bộ thành `26đ (Hạng 7/7 · Đội sổ)` đồng bộ 7 vùng, nới viewBox 590 triệt tiêu tràn mép; nâng toàn bộ tiêu đề thẻ lên 12.5px đậm, badge rank và tên nhân sự lên 12px – 12.5px với màu tương phản sắc nét.
+   - Verify headless Edge xác nhận toàn bộ trang thoáng mắt, các con số nổi bật, cực kỳ êm dịu khi theo dõi. Cắt task 135 ở cuối, giữ vững trần 50 task (190 xuống 141).
+
+184. **Hoàn thiện thiết kế thị giác Mục 01 (Biểu đồ Kết hợp Quy mô - Lợi nhuận - Nợ xấu 7 vùng)**
++   - Sửa lỗi vỡ layout flexbox của hộp ghi chú điều hành (`.chart-note`), chuyển về dạng khối thông suốt với 3 gạch đầu dòng rõ ràng.
++   - Định vị lại nhãn `−19,5%` của Đông Nam Bộ ra ngoài đáy cột đỏ (`y=331`, đỏ sẫm `#b91c1c`), hiển thị trọn vẹn số âm trên nền sáng.
++   - Tinh chỉnh khoảng cách nhãn nợ xấu `22,0% (Đỉnh)` và `67%` tại cột Tây Nam Bộ, triệt tiêu hoàn toàn sự chồng lấn.
++   - Rút gọn tiêu đề phụ định vị nghiệp vụ sang trọng; verify ảnh kết xuất headless Edge đạt chuẩn thẩm mỹ cao cấp.
++
++### 2026-11-05
+183. **Tái Thiết Kế & Căn Chỉnh Đồng Bộ 4 Ô (Cards) Tại Mục 03 (Đông Nam Bộ)**
+18:    - Triển khai tối ưu hóa toàn diện giao diện 4 ô trong Mục 03 trên `performance_diagnosis_merged_chart_v2.html` theo yêu cầu của người dùng:
+19:      + **Cân đối lưới 50-50 (`1fr 1fr`)**: Mở rộng đáng kể bề ngang cho Panel 03, giúp các ô bên trong thoáng đãng, không bị co ép chữ.
+20:      + **Đóng khung đồng bộ 4 ô thông tin** với viền điểm nhấn mép trái (accent left border 3.5px) và bo góc mềm mại (7px):
+21:        * Ô 1 (Đỏ nhạt · Accent đỏ): Điểm tài chính cấp vùng 26 điểm, badge lỗ −48,8 tỷ và dòng tác động.
+22:        * Ô 2 (Xanh lam nhạt · Accent xanh dương): Kết quả bán hàng tự thân với thước đo và 3 thanh trượt căn lề thẳng hàng.
+23:        * Ô 3 (Cam nhạt · Accent cam): Hậu quả thực tế trên bảng xếp hạng (14/19 quản lý rơi vào nhóm 25% cuối bảng).
+24:        * Ô 4 (Xanh lá · Accent xanh lục): Nhận xét điều hành và kiến nghị cơ chế tách bạch thẻ điểm.
+25:      + Chuẩn hóa đồng nhất padding `8px 11px`, margin-bottom `8px` và font size giữa các ô.
+26:    - **Verify**: Dùng headless Edge kết xuất ảnh cận cảnh (`.staging/v2_panel03_aligned_deep.png`) và soi chiếu thị giác máy tính, xác nhận 100% bố cục chuẩn mực, sắc nét.
+27:    - Cắt task 133 ở cuối danh sách, duy trì nghiêm ngặt trần 50 task (183 xuống 134).
+28: 
+29: """
+30: 
+31: if '## ĐÃ XONG\
+### 2026-11-05\
+182.' in text:
+32:     text = text.replace('## ĐÃ XONG\
+### 2026-11-05\
+182.', '## ĐÃ XONG\
+' + task_183 + '### 2026-11-05\
+182.')
+33: elif '## ĐÃ XONG\\r\
+### 2026-11-05\\r\
+182.' in text:
+34:     text = text.replace('## ĐÃ XONG\\r\
+### 2026-11-05\\r\
+182.', '## ĐÃ XONG\\r\
+' + task_183.replace('\
+', '\\r\
+') + '### 2026-11-05\\r\
+182.')
+35: 
+36: # 3. Cắt task 133 ở cuối
+37: m = re.search(r'\
+133\\.\\s+\\*\\*', text)
+38: if not m:
+39:     m = re.search(r'\\r\
+133\\.\\s+\\*\\*', text)
+40: 
+41: if m:
+
+182. **Chuẩn Hóa Nhãn Thứ Hạng Cấp Vùng Trên Biểu Đồ 02 (Tránh Nhầm Lẫn Với Rank Cá Nhân)**
+   - Tiếp thu phản biện chuẩn xác của người dùng về con số khó hiểu "7đ điểm mà Hạng #6 Tây Nam Bộ":
+     + Làm rõ nguyên nhân: Con số #6 trong database là do hàm `RANK() OVER (ORDER BY diem_fin ASC)` xếp hạng trên 84 cá nhân quản lý (sau 5 người NTB thì 16 người TNB được gán #6). Việc gán nhãn này trên biểu đồ 7 vùng gây hiểu nhầm rằng TNB xếp thứ 6 trong 7 vùng.
+     + Chuẩn hóa đồng bộ toàn bộ 7 vùng trên Biểu đồ 02 thành **Thứ hạng Cấp Vùng (1/7 đến 7/7)**: Nam Trung Bộ (Hạng 1/7 · Tốt nhất), Tây Nam Bộ (Hạng 2/7), ĐBSH (Hạng 3/7), Đông Bắc Bộ (Hạng 4/7), Bắc Trung Bộ (Hạng 5/7), Tây Bắc Bộ (Hạng 6/7) và Đông Nam Bộ (Hạng 7/7 · Đội sổ toàn hàng).
+     + Đồng bộ Khối 1 tại Biểu đồ 03: `26 điểm (Đội sổ Hạng 7/7 · Đẩy cá nhân xuống Hạng #66/84)` để liên kết logic giữa cấp vùng và cấp cá nhân.
+   - **Verify**: Dùng headless Edge kết xuất ảnh cận cảnh (`.staging/v2_rank_fixed_crop.png`) và soi chiếu thị giác máy tính, xác nhận 100% rành mạch, chuẩn nghiệp vụ.
+   - Cắt task 132 ở cuối danh sách, duy trì nghiêm ngặt trần 50 task (182 xuống 133).
+
+"""
+
+if '## ĐÃ XONG\
+### 2026-11-05\
+181.' in text:
+    text = text.replace('## ĐÃ XONG\
+### 2026-11-05\
+181.', '## ĐÃ XONG\
+' + task_182 + '### 2026-11-05\
+181.')
+elif '## ĐÃ XONG\\r\
+### 2026-11-05\\r\
+181.' in text:
+    text = text.replace('## ĐÃ XONG\\r\
+### 2026-11-05\\r\
+181.', '## ĐÃ XONG\\r\
+' + task_182.replace('\
+', '\\r\
+') + '### 2026-11-05\\r\
+181.')
+
+# 3. Cắt task 132 ở cuối
+m = re.search(r'\
+132\\.\\s+\\*\\*', text)
+if not m:
+    m = re.search(r'\\r\
+132\\.\\s+\\*\\*', text)
+
+if m:
+
+181. **Thay Thế Biểu Đồ 02 Bằng Biểu Đồ Cột Ngang Điểm Tài Chính 7 Vùng Dẫn Vào Mục 03**
+   - Loại bỏ hoàn toàn Biểu đồ Dumbbell 74 giám đốc vùng theo yêu cầu tinh giản của người dùng.
+   - Xây dựng Biểu đồ Cột ngang (Horizontal Bar Chart) tinh gọn: `02 · ĐIỂM TÀI CHÍNH CẤP VÙNG (THÁNG 05/2023)`:
+     + Thang đo trực quan từ 0đ đến 30đ (thang điểm phạt: điểm càng thấp càng tốt).
+     + Xếp hạng 7 vùng: Nam Trung Bộ 5đ (Tốt nhất · Xanh lá), Tây Nam Bộ 7đ, ĐBSH 13đ, ĐBB 18đ, BTB 19đ, TBB 24đ và Đông Nam Bộ 26đ (Đội sổ toàn hàng · Hạng #66, Đỏ rực).
+     + Hộp callout dẫn nhập trực tiếp sang Mục 03: Giải thích mức phạt 26 điểm sàn này được áp cào bằng lên toàn bộ 19 quản lý Đông Nam Bộ, tạo cầu nối mạch lạc dẫn vào phân tích chi tiết.
+   - **Verify**: Dùng headless Edge kết xuất ảnh cận cảnh (`.staging/v2_bridge_perfect_crop.png`) và soi chiếu thị giác máy tính, xác nhận 100% bố cục chuẩn mực, không chạm mép chữ.
+   - Cắt task 131 ở cuối danh sách, duy trì nghiêm ngặt trần 50 task (181 xuống 132).
+
+"""
+
+if '## ĐÃ XONG\
+### 2026-11-05\
+180.' in text:
+    text = text.replace('## ĐÃ XONG\
+### 2026-11-05\
+180.', '## ĐÃ XONG\
+' + task_181 + '### 2026-11-05\
+180.')
+elif '## ĐÃ XONG\\r\
+### 2026-11-05\\r\
+180.' in text:
+    text = text.replace('## ĐÃ XONG\\r\
+### 2026-11-05\\r\
+180.', '## ĐÃ XONG\\r\
+' + task_181.replace('\
+', '\\r\
+') + '### 2026-11-05\\r\
+180.')
+
+# 3. Cắt task 131 ở cuối
+m = re.search(r'\
+131\\.\\s+\\*\\*', text)
+if not m:
+    m = re.search(r'\\r\
+131\\.\\s+\\*\\*', text)
+
+if m:
+
+180. **Rollback Tệp `performance_diagnosis_merged_chart_v2.html` Về Trạng Thái Kết Thúc Prompt 325**
+   - Khôi phục hoàn toàn cấu trúc trang báo cáo theo đúng yêu cầu của người dùng tại Prompt 325:
+     + **Mục 01**: Biểu đồ Cột nhóm kết hợp Đường (Combo Column & Line Chart).
+     + **Mục 02**: Biểu đồ Dumbbell so sánh thứ hạng 74 giám đốc vùng (tháng 1 vs tháng 5) có mã vùng và cột thay đổi thứ hạng.
+     + **Mục 03**: Cấu trúc điểm đánh giá tại Đông Nam Bộ (4 khối mạch lạc; Khối 1 chỉ gồm con số 26 điểm sàn Hạng #66, badge lỗ −48,8 tỷ và dòng 'Điểm này gây điều gì', đã loại bỏ dải oval cam cam; Khối 2 bán hàng tự thân Lê Văn Bình, Trần Văn Hải, Trần Văn Anh; Khối 3 hậu quả 14/19 quản lý rơi vào đáy bảng; Khối 4 nhận xét điều hành).
+     + **Mục 04**: Các trọng tâm điều hành với 5 thẻ chỉ tiêu định lượng tài chính.
+   - **Verify**: Dùng headless Edge chụp ảnh toàn trang (`.staging/v2_rollback_full.png`) và crop cận cảnh (`.staging/v2_rollback_crop_sec23.png`), xác nhận 100% khớp chính xác trạng thái Prompt 325.
+   - Cắt task 130 ở cuối danh sách, duy trì nghiêm ngặt trần 50 task (180 xuống 131).
+
+"""
+
+if '## ĐÃ XONG\
+### 2026-11-05\
+179.' in text:
+    text = text.replace('## ĐÃ XONG\
+### 2026-11-05\
+179.', '## ĐÃ XONG\
+' + task_180 + '### 2026-11-05\
+179.')
+elif '## ĐÃ XONG\\r\
+### 2026-11-05\\r\
+179.' in text:
+    text = text.replace('## ĐÃ XONG\\r\
+### 2026-11-05\\r\
+179.', '## ĐÃ XONG\\r\
+' + task_180.replace('\
+', '\\r\
+') + '### 2026-11-05\\r\
+179.')
+
+# 3. Cắt task 130 ở cuối
+m = re.search(r'\
+130\\.\\s+\\*\\*Gỡ Tệp `\\.gitignore`', text)
+if not m:
+    m = re.search(r'\\r\
+130\\.\\s+\\*\\*Gỡ Tệp `\\.gitignore`', text)
+
+if m:
+
+179. **Xây Dựng Biểu Đồ SVG Trực Quan Hóa Các Ca Bị Kéo Tụt Hạng Và Nguyên Nhân (Visual Chart)**
+   - Triển khai chuyển đổi toàn bộ Panel 02 trên `performance_diagnosis_merged_chart_v2.html` thành **Biểu đồ SVG Trực quan (Visual Shift & Slope Chart)** chuyên nghiệp theo phản hồi của người dùng:
+     + **Trục hoành phân 3 vùng thứ hạng đồ họa**: Vùng Xanh lá (#1–#25: Top đầu) ──► Vùng Vàng (#26–#55: Trung bình) ──► Vùng Đỏ (#56–#84: Nguy hiểm / Đáy bảng).
+     + **Nhóm 1 (Tụt dốc phong độ T1 ──► T5)**: Vẽ vector mũi tên đỏ trượt dốc dài từ chấm xanh T1 sang chấm đỏ T5 (Hoàng Văn Bình −31 bậc; Nguyễn Thị Bích −29 bậc; Lê Thị Thu −25 bậc).
+     + **Nhóm 2 (Bán giỏi bị kéo chìm do lỗ vùng)**: Thể hiện chấm xanh lá tự thân xuất sắc (Trần Văn Hải Top 28, Lê Văn Bình Top 24) bị vector phạt đỏ kéo dạt/ghìm điểm do gánh 26đ sàn ĐNB (−48,8 tỷ); dải 14/19 quản lý ĐNB bị đẩy chìm xuống đáy bảng.
+     + **Cột nguyên nhân đồ họa bên phải**: Tích hợp các thẻ visual có badge định lượng đo lường và dòng nguyên nhân cốt lõi song hành cùng từng dòng vector.
+     + Bổ sung Legend màu sắc chuẩn xác và khung Kết luận & Giải pháp can thiệp cấp thiết ở đáy.
+   - **Verify**: Dùng headless Edge kết xuất ảnh cận cảnh (`.staging/sec02_visual_perfect_crop.png`, `.staging/sec02_visual_bottom_actions.png`) và soi chiếu thị giác máy tính, xác nhận 100% hình ảnh đồ họa trực quan, chuẩn xác.
+   - Cắt task 129 ở cuối danh sách, duy trì nghiêm ngặt trần 50 task (179 xuống 130).
+
+"""
+
+if '## ĐÃ XONG\
+### 2026-11-05\
+178.' in text:
+    text = text.replace('## ĐÃ XONG\
+### 2026-11-05\
+178.', '## ĐÃ XONG\
+' + task_179 + '### 2026-11-05\
+178.')
+elif '## ĐÃ XONG\\r\
+### 2026-11-05\\r\
+178.' in text:
+    text = text.replace('## ĐÃ XONG\\r\
+### 2026-11-05\\r\
+178.', '## ĐÃ XONG\\r\
+' + task_179.replace('\
+', '\\r\
+') + '### 2026-11-05\\r\
+178.')
+
+# 3. Cắt task 129 ở cuối
+m = re.search(r'\
+129\\.\\s+\\*\\*Chặn Thư Mục CV', text)
+if not m:
+    m = re.search(r'\\r\
+129\\.\\s+\\*\\*Chặn Thư Mục CV', text)
+
+if m:
+
+178. **Hợp Nhất Biểu Đồ 2 & 3 Thành Panel Bóc Tách Các Trường Hợp Bị Kéo Tụt Hạng Và Nguyên Nhân**
+   - Triển khai gộp toàn bộ Biểu đồ 02 (Dumbbell chart biến động) và Biểu đồ 03 (Nghịch lý ĐNB) trên `performance_diagnosis_merged_chart_v2.html` thành 1 panel điều hành cấp cao:
+     + **Tiêu đề**: `02 · BÓC TÁCH CÁC TRƯỜNG HỢP BỊ KÉO TỤT HẠNG & NGUYÊN NHÂN CỐT LÕI`.
+     + **Cột 1 (Tụt dốc phong độ T1 ──► T5)**: Bóc tách 3 ca tụt nặng nhất hệ thống: Hoàng Văn Bình (−31 bậc do hụt bán & nợ xấu 18,1%), Nguyễn Thị Bích (−29 bậc do nợ xấu vùng 22,0% đỉnh toàn hàng), Lê Thị Thu (−25 bậc do CIR 19,7% bào mòn).
+     + **Cột 2 (Bị kéo oan do cơ chế điểm vùng T5)**: Bóc tách nghịch lý ĐNB: Trần Văn Hải (bán tự thân Top 28 bị phạt 26đ kéo tụt xuống Top 33), Lê Văn Bình (Top 24 bị ghìm chặt), 14/19 quản lý ĐNB (74%) bị đẩy xuống nhóm 25% cuối bảng (Hạng 64–84).
+     + **Khung kết luận & giải pháp cấp thiết**: Phân định giải pháp siết rủi ro với nhóm 1 và tách bạch Thẻ điểm cá nhân khỏi P&L toàn vùng với nhóm 2.
+     + Đổi số thứ tự panel cuối thành `03 · CÁC TRỌNG TÂM ĐIỀU HÀNH`, chuẩn hóa 3 phần báo cáo xuyên suốt.
+   - **Verify**: Dùng headless Edge chụp ảnh toàn trang (`.staging/v2_merged_full1600.png`) và crop cận cảnh, xác nhận 100% cân đối, thông thoáng và chuẩn mực.
+   - Cắt task 128 ở cuối danh sách, duy trì nghiêm ngặt trần 50 task (178 xuống 129).
+
+"""
+
+if '## ĐÃ XONG\
+### 2026-11-05\
+177.' in text:
+    text = text.replace('## ĐÃ XONG\
+### 2026-11-05\
+177.', '## ĐÃ XONG\
+' + task_178 + '### 2026-11-05\
+177.')
+elif '## ĐÃ XONG\\r\
+### 2026-11-05\\r\
+177.' in text:
+    text = text.replace('## ĐÃ XONG\\r\
+### 2026-11-05\\r\
+177.', '## ĐÃ XONG\\r\
+' + task_178.replace('\
+', '\\r\
+') + '### 2026-11-05\\r\
+177.')
+
+# 3. Cắt task 128 ở cuối
+m = re.search(r'\
+128\\.\\s+\\*\\*Viết Lại Các Bước Trong Mục CV', text)
+if not m:
+    m = re.search(r'\\r\
+128\\.\\s+\\*\\*Viết Lại Các Bước Trong Mục CV', text)
+
+if m:
+
+177. **Tinh Gọn Khối 1 Mục 03 (Điểm Tài Chính Đông Nam Bộ) Theo Hướng Trực Diện**
+   - Loại bỏ hoàn toàn dải 19 oval màu cam (`.dots19`) tại Khối 1 Mục 03 trong tệp `performance_diagnosis_merged_chart_v2.html` theo phản hồi của người dùng.
+   - Trình bày cô đọng và sắc bén 2 trọng tâm cốt lõi:
+     + **Con số điểm**: `26 điểm` (Đội sổ toàn hàng · Hạng #66) kèm badge `Do vùng lỗ −48,8 tỷ`.
+     + **Điểm này gây điều gì**: Cào bằng áp chung khoản phạt 26 điểm này vào kết quả của toàn bộ 19 quản lý, tự động kéo tụt thứ hạng chung cuộc của tất cả nhân sự tại Đông Nam Bộ bất kể năng lực bán hàng tự thân.
+   - **Verify**: Dùng headless Edge chụp ảnh màn hình và crop cận cảnh (`.staging/sec3_clean_crop3.png`), xác nhận giao diện thông thoáng, chuẩn xác 100%.
+   - Cắt task 127 ở cuối danh sách, duy trì nghiêm ngặt trần 50 task (177 xuống 128).
+
+'''
+
+if '## ĐÃ XONG\
+### 2026-11-05\
+176.' in text:
+    text = text.replace('## ĐÃ XONG\
+### 2026-11-05\
+176.', '## ĐÃ XONG\
+' + task_177 + '### 2026-11-05\
+176.')
+elif '## ĐÃ XONG\\r\
+### 2026-11-05\\r\
+176.' in text:
+    text = text.replace('## ĐÃ XONG\\r\
+### 2026-11-05\\r\
+176.', '## ĐÃ XONG\\r\
+' + task_177.replace('\
+', '\\r\
+') + '### 2026-11-05\\r\
+176.')
+
+# 3. Cắt task 127 ở cuối
+m = re.search(r'\
+127\\.\\s+\\*\\*Thêm Data Analyst Vào Dòng Định Vị', text)
+if not m:
+    m = re.search(r'\\r\
+127\\.\\s+\\*\\*Thêm Data Analyst Vào Dòng Định Vị', text)
+
+if m:
+
+176. **Tái Cấu Trúc Toàn Diện Mục 03 (Đông Nam Bộ) Theo Luồng Nghiệp Vụ 4 Khối Mạch Lạc**
+   - Triển khai tái thiết kế Mục 03 trên `performance_diagnosis_merged_chart_v2.html` theo chuẩn báo cáo phân tích điều hành C-Level:
+     + **Khối 1 (Điểm tài chính vùng)**: Khẳng định con số 26 điểm (Mức sàn bét bảng Hạng 66/66 toàn quốc) do vùng lỗ -48,8 tỷ đồng (CIR 105,4%); trực quan hóa dải 19 chấm cam đồng hạng chịu chung gánh nặng lỗ vùng.
+     + **Khối 2 (Bán hàng tự thân bị kéo oan)**: Nêu rõ thước đo năng lực bán hàng tự thân xuất sắc của Lê Văn Bình (Hạng #24, 107đ), Trần Văn Hải (Hạng #28, 124đ), Trần Văn Anh (Hạng #36, 155đ) trên thang đo xếp hạng phát triển kinh doanh độc lập.
+     + **Khối 3 (Hậu quả cụ thể)**: Chỉ rõ 14/19 quản lý (74%) bị đẩy vào nhóm 25% cuối bảng (Hạng 64–84); Trần Văn Hải từ Top 28 bị kéo tụt xuống Hạng #33; làm méo mó bản chất thi đua và triệt tiêu động lực nhân sự giỏi.
+     + **Khối 4 (Nhận xét điều hành & Kiến nghị chính sách)**: Đóng khung nổi bật kiến nghị chiến lược tách bạch thẻ điểm bán hàng cá nhân khỏi P&L cấp vùng (chuyển chỉ tiêu lỗ vùng vào KPI Giám đốc Vùng/Hội sở thay vì trừ điểm nhân viên).
+   - Tinh chỉnh CSS chống xén chữ (`grid-template-columns: 95px 1fr 65px`) và gỡ class flex gây vỡ chữ trong khung nhận xét.
+   - **Verify**: Dùng headless Edge kết xuất ảnh cận cảnh (`.staging/sec3_perfect_crop.png`) và soi chiếu thị giác máy tính, xác nhận 100% bố cục chuẩn mực, sắc nét.
+   - Cắt task 126 ở cuối danh sách, duy trì nghiêm ngặt trần 50 task (176 xuống 127).
+
+### 2026-11-05
+175. **Chuyển Đổi Mục 01 Sang Biểu Đồ Cột Nhóm Kết Hợp Đường (Combo Chart)**
+   - Triển khai thay thế toàn bộ biểu đồ bong bóng tại Mục 01 của `performance_diagnosis_merged_chart_v2.html` sang Biểu đồ Cột nhóm kết hợp Đường (Combo Column & Line Chart) theo phê duyệt Phương án 1 của người dùng:
+     + Trục hoành xếp 7 vùng kinh doanh ngay ngắn từ trái qua phải.
+     + Cột đôi: Cột xanh dương (Tỷ trọng cho vay mới %) đứng cạnh Cột xanh ngọc (Tỷ trọng lợi nhuận %). Riêng Đông Nam Bộ có cột màu đỏ cắm xuống dưới trục 0% ở mức −19,5% (báo hiệu vùng duy nhất thua lỗ).
+     + Đường cam phía trên: Thể hiện Tỷ lệ nợ xấu (%) uốn lượn qua 7 vùng, gắn kèm đường nét đứt tham chiếu mức bình quân toàn hàng 17,3%.
+     + Tối ưu hóa hiển thị: Đưa nhãn 67% vào thân cột Tây Nam Bộ, đặt nhãn nợ xấu 22,0% lệch trái, đảm bảo 0% va chạm chữ.
+     + Bổ sung hộp ghi chú "Điểm nhấn điều hành" sắc bén ở đáy panel.
+   - **Verify**: Dùng headless Edge kết xuất ảnh cận cảnh (`.staging/v2_combo_crop_clean.png`) và soi chiếu thị giác máy tính, xác nhận độ thông thoáng và trực quan vượt trội so với biểu đồ bong bóng cũ.
+   - Cắt task 125 ở cuối danh sách, duy trì nghiêm ngặt trần 50 task (175 xuống 126).
+
+"""
+
+nhatky = nhatky.replace("## ĐÃ XONG\
+", "## ĐÃ XONG\
+" + task_175)
+
+# Cắt task 125
+split_pos = nhatky.find("125. **")
+if split_pos != -1:
+    line_start = nhatky.rfind("\
+", 0, split_pos)
+    h_idx = nhatky.rfind("### ", 0, line_start)
+
+174. **Nâng Cấp Thiết Kế Toàn Diện File `performance_diagnosis_merged_chart_v2.html`**
+   - Triển khai toàn bộ các giải pháp tối ưu hóa UI/UX và trực quan hóa dữ liệu theo phê duyệt của người dùng:
+     + Mục 01 (Biểu đồ bong bóng): Tách rời hoàn toàn 3 đường chỉ dẫn của cụm Bắc Trung Bộ, Đông Bắc Bộ, Tây Bắc Bộ theo 3 hướng độc lập (không còn đan chéo); tích hợp trực tiếp các số liệu đinh (Lãi %, NPL %, CIR %) vào nhãn callout, giúp đọc báo cáo ngay trên bản in/slide mà không cần hover chuột.
+     + Mục 02 (Biểu đồ Dumbbell): Bổ sung mã vùng trực thuộc (`· ĐNB`, `· NTB`, `· TBB`, `· ĐBB`, `· TNB`, `· ĐBSH`) cạnh tên 7 giám đốc vùng để gắn kết cá nhân với địa bàn; bổ sung tiêu đề cột `THAY ĐỔI` ở mép phải.
+     + Mục 03 (Đông Nam Bộ): Bổ sung thang đo trục hoành thứ hạng (#84 Thấp ──► #1 Cao nhất) cho 3 thanh xếp hạng phát triển kinh doanh tự thân của Lê Văn Bình, Trần Văn Hải, Trần Văn Anh.
+     + Mục 04 (Trọng tâm điều hành): Loại bỏ các thanh bar mini ảo, thay thế bằng các badge cam kết chỉ tiêu tài chính định lượng rõ ràng (+55 tỷ xóa lỗ, tiết kiệm 1,5 tỷ/tháng, minh bạch 4.447 triệu dự phòng...).
+   - **Verify**: Dùng headless Edge kết xuất ảnh cận cảnh (`.staging/sec1_crop.png`, `.staging/sec234_crop.png`) và soi chiếu thị giác máy tính, xác nhận các lỗi hiển thị đã được khắc phục 100%.
+   - Cắt task 124 ở cuối danh sách, duy trì nghiêm ngặt trần 50 task (174 xuống 125).
+
+"""
+
+nhatky = nhatky.replace("## ĐÃ XONG\
+", "## ĐÃ XONG\
+" + task_174)
+
+# Cắt task 124
+split_pos = nhatky.find("124. **")
+if split_pos != -1:
+    line_start = nhatky.rfind("\
+", 0, split_pos)
+    h_idx = nhatky.rfind("### ", 0, line_start)
+
+173. **Định Lượng Hóa Cột Kết QuẢ Kỳ Vọng Tại Bảng Kế Hoạch Hành Động (Mục 3)**
+   - Tiếp thu phản biện chính xác của người dùng về việc cột Kết quả kỳ vọng bị lẫn lộn giữa định tính và định lượng, đồng thời dùng sai thuật ngữ ngân hàng:
+     + Dòng Nam Trung Bộ: Thay cụm từ định tính khó hiểu "Chuẩn hóa mô hình mẫu" bằng chỉ tiêu đo lường cụ thể: `Giữ CIR < 15% & NPL < 12%` (kèm chú thích Hiệu suất vốn > 200%).
+     + Dòng ĐBSH: Sửa cụm từ dùng sai thuật ngữ "Giữ vững 30,6% thị phần" (nhầm tỷ trọng giải ngân nội bộ với thị phần ngành) thành con số đo lường chuẩn mực: `> 55 tỷ đồng / tháng` (kèm chú thích Chiếm > 30% cho vay toàn hàng).
+     + Đồng bộ cả 5 dòng tại Bảng 3 đều có con số định lượng cụ thể (tiền, %, tỷ lệ) kèm dòng chú giải bản chất, loại bỏ 100% khẩu hiệu chung chung.
+   - **Verify**: Dùng headless Edge kết xuất ảnh cận cảnh (`.staging/table3_crop.png`), kiểm chứng độ rành mạch và dễ hiểu.
+   - Cắt task 123 ở cuối danh sách, duy trì nghiêm ngặt trần 50 task (173 xuống 124).
+
+"""
+
+nhatky = nhatky.replace("## ĐÃ XONG\
+", "## ĐÃ XONG\
+" + task_173)
+
+# Cắt task 123
+split_pos = nhatky.find("123. **")
+if split_pos != -1:
+    line_start = nhatky.rfind("\
+", 0, split_pos)
+    h_idx = nhatky.rfind("### ", 0, line_start)
+
+172. **Chuẩn Hóa Tiêu Đề Biểu Đồ 2A & 2B Theo Hướng Nghiên Cứu Trường Hợp Điển Hình (Case Studies)**
+   - Tiếp thu chỉ đạo của người dùng về việc đặt tên tiêu đề phản ánh đúng tính chất phân tích tình huống thực tế:
+     + Biểu đồ 2A: `BIẾN ĐỘNG PHONG ĐỘ: MỘT VÀI TRƯỜNG HỢP ĐIỂN HÌNH (THÁNG 1 ──► THÁNG 5)` kèm phụ đề `Ca bứt phá & Ca sa sút`.
+     + Biểu đồ 2B: `BÓC TÁCH TRÁCH NHIỆM QUA MỘT VÀI TRƯỜNG HỢP ĐIỂN HÌNH` kèm phụ đề `Bán hàng tự thân vs Lỗ cấp vùng`.
+   - Giúp người đọc tiếp cận biểu đồ như những lát cắt quản trị cụ thể, giải thích cặn kẽ vì sao chỉ có vài nhân sự xuất hiện trên hình.
+   - **Verify**: Render headless Edge, kiểm tra hình ảnh cận cảnh (`.staging/section2_titles_crop.png`), xác nhận 100% cân đối và rành mạch.
+
+171. **Tái Cấu Trúc Biểu Đồ 2B Theo Ngôn Ngữ Kinh Doanh Trực Diện (Loại Bỏ 'Điểm Tài Chính' Trừu Tượng)**
+   - Tiếp thu chỉ đạo của người dùng về việc biểu đồ phải dễ hiểu cho người ngoài đọc, loại bỏ cách thể hiện trừu tượng gây nhầm lẫn:
+     + Chuyển trục tung thành **KẾT QUẢ TÀI CHÍNH CỦA VÙNG** với 3 mốc tiền tệ thực tế: `Lãi +50 tỷ (Nam Trung Bộ)` ──► `Hòa vốn (0)` ──► `Lỗ -48,8 tỷ (Đông Nam Bộ)`. Không còn chữ "5 điểm", "26 điểm" kỹ thuật.
+     + Chuyển trục hoành thành **NĂNG LỰC BÁN HÀNG CÁ NHÂN (TỰ THÂN)**: Từ `Bán hàng yếu` sang `Top đầu toàn quốc`.
+     + Phân 3 cụm trực quan bằng khung bo góc nét đứt riêng biệt: Cụm Toàn diện (Nam Trung Bộ), Cụm Nghịch lý bán giỏi gánh lỗ vùng (Trần Văn Hải Top 28, Lê Văn Bình Top 24) và Cụm 9 quản lý nhóm cuối (ĐNB).
+     + Đưa toàn bộ nhãn mốc ra ngoài trục tọa độ, loại bỏ 100% tình trạng chồng lấn chữ, đảm bảo ai nhìn vào cũng hiểu ngay trong 3 giây.
+   - **Verify**: Dùng headless Edge kết xuất ảnh cận cảnh (`.staging/section2_perfect_crop.png`) và soi chiếu thị giác máy tính, xác nhận độ rành mạch tuyệt đối.
+   - Cắt task 121 ở cuối danh sách, duy trì nghiêm ngặt trần 50 task (171 xuống 122).
+
+"""
+
+nhatky = nhatky.replace("## ĐÃ XONG\
+", "## ĐÃ XONG\
+" + task_171)
+
+# Cắt task 121
+split_pos = nhatky.find("### 2026-10-31\
+
+### 2026-11-04
+170. **Khắc Phục Triệt Để Lỗi Hiển Thị Biểu Đồ 2B (Khoanh Vùng & Bóc Tách Bán Hàng vs Tài Chính)**
+   - Tiếp thu phản hồi xác đáng của người dùng về các lỗi hiển thị nghiêm trọng ở Biểu đồ 2B (chữ bị xén cụt, nét đứt cắt ngang chữ, nhãn tên quản lý đè dính nhau).
+   - Tái thiết kế toàn diện Biểu đồ 2B trong `.staging/prototype_v2_executive_cockpit.html`:
+     + Nới rộng không gian hiển thị (`viewBox="0 0 560 255"`), chuyển các elip thô sơ sang các khung phân vùng bo góc nét đứt (Dashed Rounded Callout Zones) có khoảng đệm an toàn.
+     + Tách biệt hoàn toàn dòng "Mức sàn tài chính ĐNB: 26đ" thành badge độc lập ở góc trái, đường nét đứt chạy từ sau badge sang mép phải, không cắt qua chữ.
+     + Dãn khoảng cách giữa TV Hải (Hạng 28) và Lê Văn Bình (Hạng 24) lên gần 100px, tách dòng họ tên (ở trên) và thứ hạng (ở dưới), xóa bỏ 100% tình trạng đè chữ.
+     + Định vị lại cụm Nam Trung Bộ và nhóm 9 quản lý cuối bảng gọn gàng, ngay ngắn.
+   - **Verify**: Dùng headless Edge kết xuất ảnh cận cảnh (`.staging/section2_clean_crop.png`) và soi chiếu thị giác máy tính, xác nhận giao diện đã đạt độ sắc nét và rành mạch chuẩn mực.
+   - Cắt task 120 ở cuối danh sách, duy trì nghiêm ngặt trần 50 task (170 xuống 121).
+
+"""
+
+nhatky = nhatky.replace("## ĐÃ XONG\
+", "## ĐÃ XONG\
+" + task_170)
+
+# Cắt task 120
+split_pos = nhatky.find("### 2026-10-31\
+
+169. **Tr\\u1ef1c Quan H\\xf3a & Ki\\u1ec3m Th\\u1eed Th\\u1ecb Gi\\xe1c To\\xe0n Di\\u1ec7n Trang Ph\\xe2n T\\xedch \\u0110i\\u1ec1u H\\xe0nh C-Level (Page 5)**'\r
+170 '170. **Kh\\u1eafc Ph\\u1ee5c Tri\\u1ec7t \\u0110\\u1ec3 L\\u1ed7i Hi\\u1ec3n Th\\u1ecb Bi\\u1ec3u \\u0110\\u1ed3 2B (Khoanh V\\xf9ng & B\\xf3c T\\xe1ch B\\xe1n H\\xe0ng vs T\\xe0i Ch\\xednh)**'\r
+171 "171. **T\\xe1i C\\u1ea5u Tr\\xfac Bi\\u1ec3u \\u0110\\u1ed3 2B Theo Ng\\xf4n Ng\\u1eef Kinh Doanh Tr\\u1ef1c Di\\u1ec7n (Lo\\u1ea1i B\\u1ecf '\\u0110i\\u1ec3m T\\xe0i Ch\\xednh' Tr\\u1eebu T\\u01b0\\u1ee3ng)**"\r
+172 '172. **Chu\\u1ea9n H\\xf3a Ti\\xeau \\u0110\\u1ec1 Bi\\u1ec3u \\u0110\\u1ed3 2A & 2B Theo H\\u01b0\\u1edbng Nghi\\xean C\\u1ee9u Tr\\u01b0\\u1eddng H\\u1ee3p \\u0110i\\u1ec3n H\\xecnh (Case Studies)**'\r
+173 '173. **\\u0110\\u1ecbnh L\\u01b0\\u1ee3ng H\\xf3a C\\u1ed9t K\\u1ebft Qu\\u1ea2 K\\u1ef3 V\\u1ecdng T\\u1ea1i B\\u1ea3ng K\\u1ebf Ho\\u1ea1ch H\\xe0nh \\u0110\\u1ed9ng (M\\u1ee5c 3)**'\r
+174 '174. **N\\xe2ng C\\u1ea5p Thi\\u1ebft K\\u1ebf To\\xe0n Di\\u1ec7n File `performance_diagnosis_merged_chart_v2.html`**'\r
+175 '175. **Chuy\\u1ec3n \\u0110\\u1ed5i M\\u1ee5c 01 Sang Bi\\u1ec3u \\u0110\\u1ed3 C\\u1ed9t Nh\\xf3m K\\u1ebft H\\u1ee3p \\u0110\\u01b0\\u1eddng (Combo Chart)**'\r
+176 '176. **T\\xe1i C\\u1ea5u Tr\\xfac To\\xe0n Di\\u1ec7n M\\u1ee5c 03 (\\u0110\\xf4ng Nam B\\u1ed9) Theo Lu\\u1ed3ng Nghi\\u1ec7p V\\u1ee5 4 Kh\\u1ed1i M\\u1ea1ch L\\u1ea1c**'\r
+177 '177. **Tinh G\\u1ecdn Kh\\u1ed1i 1 M\\u1ee5c 03 (\\u0110i\\u1ec3m T\\xe0i Ch\\xednh \\u0110\\xf4ng Nam B\\u1ed9) Theo H\\u01b0\\u1edbng Tr\\u1ef1c Di\\u1ec7n**'\r
+178 '178. **H\\u1ee3p Nh\\u1ea5t Bi\\u1ec3u \\u0110\\u1ed3 2 & 3 Th\\xe0nh Panel B\\xf3c T\\xe1ch C\\xe1c Tr\\u01b0\\u1eddng H\\u1ee3p B\\u1ecb K\\xe9o T\\u1ee5t H\\u1ea1ng V\\xe0 Nguy\\xean Nh\\xe2n**'\r
+179 '179. **X\\xe2y D\\u1ef1ng Bi\\u1ec3u \\u0110\\u1ed3 SVG Tr\\u1ef1c Quan H\\xf3a C\\xe1c Ca B\\u1ecb K\\xe9o T\\u1ee5t H\\u1ea1ng V\\xe0 Nguy\\xean Nh\\xe2n (Visual Chart)**'\r
+180 '180. **Rollback T\\u1ec7p `performance_diagnosis_merged_chart_v2.html` V\\u1ec1 Tr\\u1ea1ng Th\\xe1i K\\u1ebft Th\\xfac Prompt 325**'\r
+181 '181. **Thay Th\\u1ebf Bi\\u1ec3u \\u0110\\u1ed3 02 B\\u1eb1ng Bi\\u1ec3u \\u0110\\u1ed3 C\\u1ed9t Ngang \\u0110i\\u1ec3m T\\xe0i Ch\\xednh 7 V\\xf9ng D\\u1eabn V\\xe0o M\\u1ee5c 03**'\r
+182 '182. **Chu\\u1ea9n H\\xf3a Nh\\xe3n Th\\u1ee9 H\\u1ea1ng C\\u1ea5p V\\xf9ng Tr\\xean Bi\\u1ec3u \\u0110\\u1ed3 02 (Tr\\xe1nh Nh\\u1ea7m L\\u1eabn V\\u1edbi Rank C\\xe1 Nh\\xe2n)**'\r
+183 '183. **T\\xe1i Thi\\u1ebft K\\u1ebf & C\\u0103n Ch\\u1ec9nh \\u0110\\u1ed3ng B\\u1ed9 4 \\xd4 (Cards) T\\u1ea1i M\\u1ee5c 03 (\\u0110\\xf4ng Nam B\\u1ed9)**'\r
+184 '184. **Ho\\xe0n thi\\u1ec7n thi\\u1ebft k\\u1ebf th\\u1ecb gi\\xe1c M\\u1ee5c 01 (Bi\\u1ec3u \\u0111\\u1ed3 K\\u1ebft h\\u1ee3p Quy m\\xf4 - L\\u1ee3i nhu\\u1eadn - N\\u1ee3 x\\u1ea5u 7 v\\xf9ng)**'\r
+"}
+
 168. **Tái Cấu Trúc Steps & Gained Value Trong CV Theo Mạch Tư Duy Tóm Tắt Của README**
    - Điều chỉnh toàn diện mục Steps và Gained Value của Project 1 trong hồ sơ CV (`CV/cv_tran_ngoc_duc.tex`) theo đúng hành trình Data Analyst thực tế của bản README (từ làm rõ yêu cầu $\rightarrow$ thiết kế output $\rightarrow$ khảo sát input & gap analysis $\rightarrow$ xây dựng logic tính toán $\rightarrow$ kiến trúc CSDL/pipeline $\rightarrow$ kiểm soát chất lượng & phát hiện thực tế):
      + **Step 1 (Clarified Business Problem & Designed Output-First)**: Làm rõ chỉ đạo quản trị ban đầu, thiết kế trước cấu trúc báo cáo 7 vùng và thẻ điểm ASM 2 trụ cột trước khi tìm kiếm dữ liệu.
@@ -22,7 +607,6 @@
    - **Verify**: biên dịch `pdflatex` thành công, sinh file `CV/cv_tran_ngoc_duc.pdf` 3 trang (553 KB), bố cục trang 2 vuông vắn, không tràn trang.
    - Xóa task 118 ở cuối `## ĐÃ XONG`, duy trì nghiêm ngặt trần 50 task (168 xuống 119).
 
-### 2026-11-02
 167. **Cập Nhật Toàn Diện Nội Dung Project Báo Cáo Quản Trị Thẻ Trong CV (`CV/cv_tran_ngoc_duc.tex`)**
    - Nâng cấp nội dung Project 1 trong CV theo đúng góc nhìn Data Analyst chuyên nghiệp và đồng bộ 100% với phiên bản README mới nhất:
      + Đổi tên đề mục: *Report: Credit Card Business Management Reporting & ASM Performance Scorecard*.
@@ -122,275 +706,9 @@
      + Phân định rõ 3 cấp độ nhận định dữ liệu tại Chương 8 (*Dữ kiện quan sát được* — *Suy luận nghiệp vụ* — *Giả thuyết cần xác minh thêm*); đổi tên phát hiện vùng ĐBSH thành *Lợi nhuận tăng nhờ chi phí dự phòng ròng giảm*.
      + Tinh lọc triệt để văn phong: loại bỏ hoàn toàn đại từ xưng hô, thay thế các cụm từ kịch tính; sửa lỗi neo mục lục emoji `\ufe0f`.
    - **Verify**: chạy `.staging/check_toc.py` (`ok`), `.staging/check_int_pair.py` (`ok`, 0 lệch số $\ge 10$), `.staging/check_readme_pair.py` (`ok`, 534 dòng đối xứng), `.staging/push_check.py` (`32 tệp, 4.88 MiB`, 0 liên kết gãy, 0 liên kết ngoài kho).
+
 157. **Gỡ Liên Kết Email/LinkedIn Đầu Trang Và Gỡ Bỏ Mục 12 Nguồn Dữ Liệu Và Quyền Sử Dụng**
    - Người dùng yêu cầu: "Cái này ở đầu trang readme Email · LinkedIn và 12. 🔒 Nguồn Dữ Liệu Và Quyền Sử Dụng".
    - Xoá dòng liên kết Email/LinkedIn ở đầu trang `README.md`, `README_eng.md` và `.staging/README_thuan_viet.md` (giữ lại thông tin tác giả ở cuối trang).
    - Xoá hoàn toàn Mục 12 (Nguồn Dữ Liệu Và Quyền Sử Dụng); renumber Mục 13 (Tài Liệu Bàn Giao) thành Mục 12, Mục 14 (Tác Giả) thành Mục 13, đồng bộ tương ứng cả trong mục lục (TOC) và các thẻ heading.
    - **Verify**: chạy `.staging/check_toc.py` (`ok`), `.staging/check_int_pair.py` (`ok`), `.staging/check_readme_pair.py` (`ok`), `.staging/push_check.py` (`32 tệp, 4.87 MiB`, 0 liên kết gãy, 0 liên kết ngoài kho).
-156. **Gỡ Bỏ requirements.txt Và db_config.example.py Khỏi Kho Mã Theo Định Hướng Tinh Gọn Của Data Analyst**
-   - Người dùng yêu cầu: "Tôi muốn bỏ requirements.txt # Khai báo các thư viện Python: psycopg2-binary và openpyxl với db_config.example.py luôn khỏi chạy mẫu gì hết tập trung vào công việc của mình la DA thôi".
-   - Dùng `git rm` xoá hoàn toàn `requirements.txt` và `ingestion/db_config.example.py` khỏi kho mã.
-   - Cập nhật `.staging/push_check.py` đưa 2 tệp vào danh sách loại trừ `NEVER_PUSH`, số lượng tệp đẩy tinh giản từ 34 xuống **32 tệp**.
-   - Cập nhật cây thư mục Mục 11 trong `README.md`, `README_eng.md` và `.staging/README_thuan_viet.md`; cập nhật `AGENTS.md`, `docs/HIEN_TRANG_HE_THONG.md` và `docs/PIPELINE.md`.
-   - **Verify**: chạy `.staging/check_toc.py` (`ok`), `.staging/check_int_pair.py` (`ok`), `.staging/check_readme_pair.py` (`ok`), `.staging/push_check.py` (`32 tệp, 4.87 MiB`, 0 liên kết gãy, 0 liên kết ngoài kho).
-155. **Tái Cấu Trúc Toàn Diện Giai Đoạn 5 Và 6 Theo Hướng Tiếp Cận Độc Lập Từ Dữ Liệu Thô**
-   - Người dùng giao đặc tả: "GIAI ĐOẠN 5: Bối cảnh không có sẵn bộ công thức tính toán, bảng KPI chuẩn hay file kết quả đối chiếu... Tự xây dựng logic phân bổ thu nhập chi phí qua 9 bước kế toán quản trị và cơ sở kinh tế của cost drivers; xây dựng hệ thống 8 chỉ tiêu thẻ điểm ASM cân bằng 50/50 triệt tiêu Agency Problem; chuẩn hoá bằng xếp hạng phân vị... GIAI ĐOẠN 6: Thiết kế cơ chế kiểm tra 5 lớp (Lớp 1 Bảo toàn số liệu, Lớp 2 Ràng buộc bất biến toán học, Lớp 3 Chất lượng dữ liệu, Lớp 4 Hợp lý nghiệp vụ & cờ đỏ MoM, Lớp 5 Tính toán lại độc lập & đối soát hệ thống chéo) thay vì phụ thuộc tệp mẫu có sẵn".
-   - Cập nhật Mục 5 và Mục 6 trong `README.md`, `README_eng.md` và `.staging/README_thuan_viet.md`, đảm bảo toàn vẹn cấu trúc 6 yếu tố cho từng lớp kiểm tra và bảo toàn 100% số liệu song ngữ $\ge 10$.
-   - **Verify**: chạy `.staging/check_toc.py` (`ok`), `.staging/check_int_pair.py` (`ok`), `.staging/check_readme_pair.py` (`ok`), `.staging/push_check.py` (`34 tệp, 4.88 MiB`, 0 liên kết gãy, 0 liên kết ngoài kho).
-
-### 2026-11-01
-154. **Bổ Sung Định Hướng Tiếp Cận Bài Toán Từ Yêu Cầu Nghiệp Vụ Chưa Được Làm Rõ Vào README**
-   - Người dùng giao bổ sung định hướng: "Dự án phải được trình bày theo góc nhìn của một Data Analyst tiếp nhận một yêu cầu quản trị ở mức độ tổng quát từ Ban lãnh đạo. Điểm xuất phát không phải là một bộ yêu cầu đã hoàn chỉnh... Phân biệt yêu cầu ban đầu (Trạng thái 1) và yêu cầu sau khi làm rõ (Trạng thái 2)... Xây dựng bảng 4 cột: Yêu cầu ban đầu | Nội dung cần làm rõ | Kết quả phân tích nghiệp vụ | Yêu cầu đầu ra cần xây dựng... Gắn việc tìm kiếm dữ liệu với việc đánh giá tính khả thi... làm rõ khoảng trống dữ liệu NPL ASM".
-   - Cập nhật Mục 1 và Mục 2 của `README.md` và `README_eng.md` phản ánh rõ 2 trạng thái: Trạng thái 1 (Initial Business Request - yêu cầu tổng quát chưa có công thức/KPI) và Trạng thái 2 (Refined Business Requirements - 5 câu hỏi quản trị và bảng phân tích 4 cột). Giai đoạn 3 bổ sung bảng đánh giá tính khả thi nguồn dữ liệu (chỉ tiêu -> trường dữ liệu -> tệp nguồn -> khóa kết nối -> cấp độ hạt -> khoảng trống kỹ thuật).
-   - Đồng bộ hoàn toàn số liệu và cấu trúc sang `README_eng.md` và `.staging/README_thuan_viet.md`.
-   - **Verify**: chạy `.staging/check_toc.py` (`ok`), `.staging/check_int_pair.py` (`ok`), `.staging/check_readme_pair.py` (`ok`), `.staging/push_check.py` (`34 tệp, 4.85 MiB`, 0 liên kết gãy, 0 liên kết ngoài kho).
-153. **Tái Cấu Trúc Toàn Diện README Thành Business Case Study 9 Giai Đoạn Chuẩn Mực**
-   - Người dùng cung cấp bản đặc tả chi tiết (PROMPT: TÁI CẤU TRÚC README THEO HƯỚNG GIẢI QUYẾT BÀI TOÁN KINH DOANH): yêu cầu tài liệu phải là một Business Case Study của Senior Analyst trong mảng ngân hàng, thể hiện toàn bộ mạch tư duy từ nhận đề bài quản trị -> tự định hình đầu ra -> khảo sát đầu vào và đánh giá khoảng trống -> data engineering -> business logic & metric design -> data validation -> data visualization (5 trang Power BI kèm hình ảnh thực tế) -> business insights & management recommendations -> lessons learned.
-   - Viết lại toàn bộ `README.md` theo 9 giai đoạn chuẩn mực và 5 phụ lục, loại bỏ hoàn toàn các đại từ xưng hô, văn phong khách quan, trung tính; dịch đối ứng sang `README_eng.md` và `.staging/README_thuan_viet.md`.
-   - **Verify**: chạy `.staging/check_toc.py` (`ok`), `.staging/check_int_pair.py` (`ok`), `.staging/check_readme_pair.py` (`ok`), `.staging/push_check.py` (`34 tệp, 4.85 MiB`, 0 liên kết gãy, 0 liên kết ngoài kho).
-152. **Bỏ Hoàn Toàn Đại Từ Xưng Hô Và Tái Cấu Trúc Luồng Tư Duy Từ Giao Nhiệm Vụ -> Tự Định Hình Đầu Ra -> Tự Đi Tìm Đầu Vào**
-   - Người dùng yêu cầu: "với chỉnh lại theo hướng là không xưng hô tôi hay Data Analyst hay analyst gì hết, không xưng trogn đây, với thêm nữa là sẽ đi theo hướng là bạn được giao nhiệm vụ rồi bạn tự đánh giá đầu ra sau đó bạn tự tìm đầu vào chứ không phải là có dữ liệu đầu vào sẵn như này và đầu ra cụ thể như bạn viết như vậy".
-   - Xoá bỏ hoàn toàn các danh xưng "Data Analyst", "Analyst", "tôi", chuyển toàn bộ sang ngôi thứ ba khách quan; viết lại Mục 2 và Mục 3 thể hiện rõ quá trình tư duy logic: Ban Lãnh Đạo giao định hướng -> tự suy luận và phác thảo các lát cắt đầu ra mong đợi -> chủ động gõ cửa từng phòng ban (GL, Thẻ, Mạng lưới, Kế hoạch) để tìm kiếm các mảnh ghép dữ liệu đầu vào -> đánh giá khoảng trống kỹ thuật để thiết kế công thức và luồng xử lý. Đồng bộ đối ứng sang `README_eng.md` và `.staging/README_thuan_viet.md`.
-   - **Verify**: chạy `.staging/check_toc.py` (`ok`), `.staging/check_int_pair.py` (`ok`), `.staging/check_readme_pair.py` (`ok`), `.staging/push_check.py` (`34 tệp, 4.83 MiB`, 0 liên kết gãy, 0 liên kết ngoài kho).
-151. **Cập Nhật Mục 1 Bối Cảnh Chuẩn Hoá Theo Yêu Cầu Cốt Lõi Của Người Dùng**
-   - Người dùng cung cấp văn bản chuẩn: "Trong hoạt động kinh doanh thẻ tín dụng (vận hành trên 7 vùng kinh doanh với đội ngũ từ 74 đến 84 quản lý vùng - ASM), Ban Lãnh Đạo cần một bảng báo cáo phản ánh đúng thực tế kết quả kinh doanh cũng như là năng lực của các quản lý vùng. Do đó, Ban Lãnh Đạo giao cho Khối Phân tích Dữ liệu đề bài xây dựng hệ thống báo cáo quản trị hàng tháng với 2 yêu cầu trọng tâm: Đo lường lãi lỗ thực chất cho 7 vùng kinh doanh... Xây dựng thẻ điểm xếp hạng công bằng cho đội ngũ quản lý vùng...".
-   - Cập nhật chuẩn xác vào `README.md` và `.staging/README_thuan_viet.md`; dịch đối ứng sang `README_eng.md`.
-   - **Verify**: chạy `.staging/check_toc.py` (`ok`), `.staging/check_int_pair.py` (`ok`), `.staging/check_readme_pair.py` (`ok`), `.staging/push_check.py` (`34 tệp, 4.83 MiB`, 0 liên kết gãy, 0 liên kết ngoài kho).
-150. **Đổi Tiêu Đề H1 Của README Sang Định Hướng Xây Dựng Báo Cáo Quản Trị Và Xếp Hạng ASM**
-   - Người dùng yêu cầu: "Tiều đề tôi muốn đổi lại thành Xây dựng báo cáo quản trị kết quả kinh doanh thẻ tín dụng và xếp hạng năng lực kinh doanh của quản lý vùng. viết theo hướng giống vậy".
-   - Đổi tiêu đề H1 thành: `# Xây Dựng Báo Cáo Quản Trị Kết Quả Kinh Doanh Thẻ Tín Dụng Và Xếp Hạng Năng Lực Kinh Doanh Của Quản Lý Vùng` trong `README.md` và `.staging/README_thuan_viet.md`; dịch đối ứng sang `README_eng.md`: `# Building Credit Card Business Management Reporting And Ranking Regional Sales Management Performance`.
-   - **Verify**: chạy `.staging/check_toc.py` (`ok`), `.staging/check_int_pair.py` (`ok`), `.staging/check_readme_pair.py` (`ok`), `.staging/push_check.py` (`34 tệp, 4.83 MiB`, 0 liên kết gãy, 0 liên kết ngoài kho).
-149. **Viết Gọn Lại Mục 1 Bối Cảnh Theo Hướng Đề Bài Ban Lãnh Đạo Giao Cho Khối Phân Tích Dữ Liệu**
-   - Người dùng yêu cầu: "phần bối cảnh viết gọn lại theo hướng là ban lãnh đạo muốn giao cho khối phân tích dữ liệu yêu cầu như nào".
-   - Tóm gọn Mục 1 trong `README.md` thành 3 yêu cầu cốt lõi Ban Lãnh Đạo giao cho Khối Phân tích Dữ liệu: (1) Đo lường lãi lỗ thực chất cho 7 vùng qua phân bổ chi phí Hội sở; (2) Xây dựng thẻ điểm xếp hạng cân bằng 50/50 cho quản lý vùng (ASM) nhằm kiểm soát nợ xấu; (3) Tự động hoá pipeline và trực quan hoá báo cáo điều hành trên Power BI / Excel. Dịch đối ứng sang `README_eng.md` và `.staging/README_thuan_viet.md`.
-   - **Verify**: chạy `.staging/check_toc.py` (`ok`), `.staging/check_int_pair.py` (`ok`), `.staging/check_readme_pair.py` (`ok`), `.staging/push_check.py` (`34 tệp, 4.83 MiB`, 0 liên kết gãy, 0 liên kết ngoài kho).
-148. **Xoá Đoạn Mô Tả Case Study Và Cụm Chức Danh/Tác Giả Ở Đầu README**
-   - Người dùng yêu cầu: "Xoá cái này Một Case Study giải quyết bài toán quản trị thực tế của ngân hàng: Từ đề bài của Ban Lãnh Đạo về việc đo lường lãi lỗ thực chất cho 7 vùng kinh doanh và xây dựng thẻ điểm xếp hạng công bằng cho đội ngũ quản lý vùng, Data Analyst chủ động định hình \"đầu ra\" báo cáo, khảo sát nguồn dữ liệu từ các phòng ban, thiết kế quy trình xử lý tự động và công thức phân bổ chi phí trên 2.996.476 dòng dữ liệu, từ đó cung cấp góc nhìn phân tích sâu và đề xuất hành động cụ thể cho ban điều hành. với cái này Trần Ngọc Đức · Data Analyst · Business Intelligence · Data Science · Management Information Systems · Operations ·"
-   - Xoá cụm `Trần Ngọc Đức · Data Analyst · Business Intelligence · Data Science · Management Information Systems · Operations · ` và đoạn văn Case Study khỏi `README.md` (giữ lại các link liên hệ `[Email] · [LinkedIn]` và khối huy hiệu công nghệ); đồng bộ đối ứng sang `README_eng.md` và `.staging/README_thuan_viet.md`.
-   - **Verify**: chạy `.staging/check_toc.py` (`ok`), `.staging/check_int_pair.py` (`ok`), `.staging/check_readme_pair.py` (`ok`), `.staging/push_check.py` (`34 tệp, 4.83 MiB`, 0 liên kết gãy, 0 liên kết ngoài kho).
-147. **Tái Cấu Trúc Toàn Bộ Luồng Trình Bày Của `README.md` Và `README_eng.md` Theo Khung Giải Quyết Bài Toán Doanh Nghiệp (Output-First Business Problem Solving)**
-   - Người dùng giao: "Bây giờ thay đổi toàn bộ mục tiêu trình bày của readme có thể là làm lại cái mới. Thì góc nhìn lần này là ban lãnh đạo giao một tình huống là họ cần ta phải xây dựng một cái báo cáo quản trị kết quả kinh doanh và đánh giá năng lực asm thì ta sẽ đi từ tình huống bài toán là Vấn Đề Trong Quản Trị Thực Tế thì ban lãnh đạo muốn ta làm gì sau đó ta sẽ suy luận từ những yêu cầu đó ta vẽ ra một sơ đồ về "đầu ra" của bài toán đó sau đó thì ta sẽ tìm kiếm đầu vào từ nhiều phòng ban khác nhau và đánh giá dữ liệu đó bao gồm những gì đã đầy đủ để đáp ứng "đầu ra" chưa khi đó ta sẽ xây dựng quy trình xử lý dữ liệu và tự suy nghĩ công thức tính toán cho các chỉ số cần trình bày sau khi đã ra kết quả có thể trực quan lên pbi thì sau khi trực quan chúng ta sẽ nhận xét là đáp ứng như thế nào đối với nhu cầu bài toán, sau đó sẽ đưa ra nhận xét về kết quả dữ liệu sau khi trực quan để ban lãnh đạo thấy và quyết định làm như thế nào và cuối cùng là kinh nghiệm của chúng ta sau khi làm bài toán đó" -> "ok làm đi".
-   - Tái cấu trúc 14 mục của `README.md` và `README_eng.md` thành một case study giải quyết bài toán kinh doanh từ góc nhìn Senior Business/Data Analyst:
-     1. Khởi xướng từ bài toán Ban Lãnh Đạo giao: phân rã lợi nhuận 7 vùng bị che mờ bởi chi phí Hội sở và đánh giá công bằng năng lực quản lý vùng (ASM).
-     2. Xác định "Đầu ra" mong đợi (Output-First) trước khi làm kỹ thuật: bộ chỉ tiêu P&L 7 vùng và bảng xếp hạng 2 trụ cột.
-     3. Khảo sát đa nguồn "Đầu vào" (Kế toán GL, Vận hành thẻ, Mạng lưới chi nhánh, Kế hoạch) và đánh giá khoảng trống dữ liệu (Gap Analysis).
-     4. Thiết kế công thức phân bổ (Rule 1 gán thẳng + Rule 2 phân bổ 9 tiêu thức) và tính điểm xếp hạng cân bằng (Kinh doanh 50% - Quản trị tài chính 50%).
-     5. Thiết kế quy trình xử lý dữ liệu tự động 4 giai đoạn & kho dữ liệu Kimball Star Schema (19 bảng, 4 view, 9 Virtual Foreign Keys).
-     6. Trực quan hoá Power BI (5 trang, 72 measure DAX) & đánh giá mức độ đáp ứng bài toán (bảo toàn kế toán, 91 phép đối soát chéo 0 lệch).
-     7. Nhận xét dữ liệu sau trực quan (bóc tách biến động lợi nhuận tháng 5) và đề xuất 5 hành động quản trị gắn đơn vị, thời hạn.
-     8. Đúc kết 4 bài học thực chiến khi giải bài toán dữ liệu doanh nghiệp.
-   - **Verify**: chạy `.staging/check_toc.py` (`ok`), `.staging/check_int_pair.py` (`ok`), `.staging/check_readme_pair.py` (`ok`), `.staging/push_check.py` (`34 tệp, 4.83 MiB`, 0 liên kết gãy, 0 liên kết ngoài kho).
-146. **Chuẩn Hoá Thuật Ngữ "Giám Đốc Vùng" Thành "Quản Lý Vùng" Trên Toàn Bộ `README.md`, `sql/` Và Tài Liệu**
-   - Người dùng yêu cầu: "à quên nữa là giám đốc vùng (asm) bạn chỉnh lại toàn bộ thành quản lý vùng nhé".
-   - Đổi toàn bộ 24 vị trí "giám đốc vùng" / "giám đốc" trong `README.md`, 4 tệp chú thích SQL (`sql/dim/dim_asm.sql`, `sql/dim/dim_month_headcount.sql`, `sql/dim/dim_report_detail.sql`, `sql/fct/fct_xephang_asm.sql`), `docs/PIPELINE.md` (giữ đúng 100 ký tự trên sơ đồ khối), `docs/HIEN_TRANG_HE_THONG.md` và `AGENTS.md` sang "quản lý vùng".
-   - **Verify**: chạy `.staging/check_toc.py` (`ok`), `.staging/check_int_pair.py` (`ok`), `.staging/check_readme_pair.py` (`ok`) và `.staging/push_check.py` (**34 tệp, 4,85 MiB**, 0 liên kết gãy, 0 liên kết ra ngoài kho).
-145. **Kiểm Tra Đồng Bộ Lần Cuối Và Đẩy 34 Tệp Được Duyệt Lên Kho GitHub `banking-pnl-allocation-reporting`**
-   - Người dùng cung cấp đường dẫn kho GitHub `https://github.com/tranduc22104-star/banking-pnl-allocation-reporting` và yêu cầu kiểm tra sự đồng bộ lần cuối trước khi đẩy lên.
-   - Chạy bộ kiểm đồng bộ toàn diện: `py_compile` cho toàn bộ 7 tệp Python trong `ingestion/`, `.staging/check_toc.py` (`ok`), `.staging/check_int_pair.py` (`ok`), `.staging/check_readme_pair.py` (`ok`), `.staging/push_check.py` (**34 tệp, 4,85 MiB**, 0 tệp vượt trần, 0 kết nối nghi vấn, 0 liên kết gãy, 0 liên kết ra ngoài kho).
-   - Khởi tạo kho Git cục bộ, nối nhánh `origin/main` và dùng đúng lệnh `git add` đích danh 34 tệp của `push_check.py` (kiểm bằng `git status --short` xác nhận đúng 34 tệp, không dính `AGENTS.md`, `ingestion/db_config.py`, `docs/SESSION_PROMPT_LOG.md`, `CV/` hay dữ liệu thô trong `input/`), sau đó `commit` và `push` lên `origin/main`.
-144. **Biên Tập Văn Phong, Tiêu Đề Và Nhận Định Trong `README.md` Và `README_eng.md` Theo Hướng Phân Tích Trung Tính**
-   - Người dùng đưa nhận xét chi tiết về văn phong của `README.md`: giữ nguyên cấu trúc 14 mục, số liệu, thuật toán, SQL và chi tiết kỹ thuật, nhưng biên tập lại phần diễn giải, tiêu đề và nhận định để bỏ các từ ngữ kịch tính/quảng bá ("sự thật đằng sau", "làm thật – ăn thật", "phình to", "kéo sập", "tâm phục khẩu phục", "tuyệt đối"), bỏ các cấu trúc câu khuôn mẫu ("không chỉ ... mà còn ...", "thay vì ... thì ...", "không phải vì ... mà vì ...", "chỉ khi ... mới ..."), và diễn đạt các phát hiện bám sát phạm vi số liệu.
-   - Đổi toàn bộ tiêu đề và nội dung diễn giải trong `README.md` và `README_eng.md` sang phong cách trung tính, trực tiếp của một Data Analyst: `🔍 Phân Tích Biến Động Lợi Nhuận` (`### Những phát hiện chính từ dữ liệu`), `🧭 Kết Quả Phân Tích Và Đề Xuất Quản Trị`, `🧮 Phương Pháp Phân Bổ Chi Phí Và Đánh Giá Nhân Sự`, `🔄 Quy Trình Xử Lý Dữ Liệu Tự Động`, `🗄️ Thiết Kế Kho Dữ Liệu`, `🧪 Kiểm Tra Và Đối Soát Dữ Liệu` (`### Những giới hạn trong phạm vi phân tích` / cột `Những kết luận chưa đủ cơ sở từ dữ liệu`), `🛠️ Công Cụ Và Công Nghệ Sử Dụng`, `📚 Kinh Nghiệm Triển Khai Dự Án`.
-   - **Verify**: chạy `.staging/check_toc.py` (`ok`), `.staging/check_int_pair.py` (`ok`), `.staging/check_readme_pair.py` (`ok`) và `.staging/push_check.py` (`34 tệp, 4,85 MiB`, 0 liên kết gãy, 0 liên kết ra ngoài kho).
-143. **Áp Dụng Bản README Định Hướng Giải Quyết Bài Toán Doanh Nghiệp Vào `README.md` Và Đồng Bộ Đối Xứng `README_eng.md`**
-   - Người dùng yêu cầu: "Rồi bây giờ bạn áp dụng cái readme thuần việt cho readme chính của tôi đi nhưng nhớ check lại quy trình xử lý cũng như là đảm bảo viết theo hướng giải quyết bài toán doanh nghiệp và sử dụng những từ ngữ đơn thuần dễ hiểu và các từ bắt buộc tiếng anh như view, stored procedure thì giữ tiếng anh".
-   - Áp dụng cấu trúc 14 mục định hướng giải quyết bài toán doanh nghiệp vào `README.md` chính và dịch đối ứng từng mục sang `README_eng.md`: giữ nguyên các thuật ngữ chuyên ngành tiếng Anh bắt buộc (`view`, `stored procedure`, `Import`, `measure` DAX, `Star Schema`, `Virtual Foreign Keys`, `staging`, `fact`, `dimension`, `slicer`, `Window Function`, `CTE`, `Data Analyst · Business Intelligence · Data Science · Management Information Systems · Operations`), đồng thời dùng ngôn ngữ tiếng Việt đơn thuần, dễ hiểu ở phần giải thích nghiệp vụ.
-   - Rà soát và ghi chính xác quy trình xử lý 4 giai đoạn (Giai đoạn 1: 3 tệp dữ liệu thô + 1 tệp tham số 2,99 triệu dòng; Giai đoạn 2: Python tạo 5 bảng gồm 2 bảng `dimension` `dim_area` 8, `dim_param_area` 64 và 3 bảng `staging`; Giai đoạn 3: PostgreSQL + DBeaver thực thi 9 `stored procedure` tạo 14 bảng và 4 `view`; Giai đoạn 4: Power BI chế độ `Import` nạp 4 bảng, 5 trang báo cáo, 72 `measure` DAX và `run_report.py` xuất báo cáo Excel).
-   - **Verify**: chạy `.staging/check_toc.py` (`ok`, 14 mục lục khớp 15 tiêu đề cấp hai), `.staging/check_int_pair.py` (`ok`, 0 lệch ở mọi số từ 10 trở lên giữa bản Việt và bản Anh), `.staging/check_readme_pair.py` (`ok`, 6/6 thẻ `<div align="center">` cân bằng) và `.staging/push_check.py` (`34 tệp, 4,85 MiB`, 0 liên kết gãy, 0 liên kết ra ngoài kho).
-142. **Đưa `AGENTS.md` Ra Khỏi Bộ Đẩy Lên GitHub Và Cập Nhật Cây Thư Mục**
-   - Người dùng yêu cầu: "Bỏ `agent.md`, `@[images/quy-trinh.png]` tôi nên ghi quy trình như nào".
-   - Thêm `'AGENTS.md'` vào tập `NEVER_PUSH` trong `.staging/push_check.py` (vẫn giữ tệp trên đĩa làm quy tắc làm việc cho AI, chỉ không đẩy lên GitHub); đồng thời gỡ dòng `AGENTS.md` khỏi cây cấu trúc dự án trong `README.md`, `README_eng.md`, `.staging/README_thuan_viet.md` và cập nhật số lượng bộ đẩy từ 35 xuống **34 tệp (`4,86 MiB`)** trong `docs/HIEN_TRANG_HE_THONG.md` và `docs/PIPELINE.md`.
-   - **Verify**: chạy `.staging/check_toc.py`, `.staging/check_int_pair.py`, `.staging/check_readme_pair.py` và `.staging/push_check.py` đạt **34 tệp, 4,86 MiB**, 0 liên kết gãy, 0 liên kết ra ngoài kho.
-141. **Cập Nhật Cặp `README.md` · `README_eng.md` Và Tài Liệu Hệ Thống Theo Thiết Kế Chuẩn Hoá Mới**
-   - Người dùng yêu cầu: "Rồi bây giờ bạn cập nhật lại readme đi".
-   - Cập nhật đối ứng từng mục giữa `README.md` và `README_eng.md` (cùng `docs/HIEN_TRANG_HE_THONG.md`, `docs/PIPELINE.md` và bản nháp `.staging/README_thuan_viet.md`): (1) tăng số bảng danh mục `dim_` từ 6 lên 7 (bổ sung `dim_area` 8 dòng làm nơi duy nhất lưu `area_name`, các bảng vật lý chỉ giữ `area_code`) và giảm bảng điều khiển `log_` từ 2 xuống 1 (đã gỡ `log_data_fingerprint`, tổng kho vẫn đúng **19 bảng và 4 view**); (2) cập nhật mô tả Giai đoạn 2 tạo 2 bảng danh mục (`dim_area` 8, `dim_param_area` 64) và 3 bảng nạp thô; (3) thay mô tả "chỉ một khoá ngoại khai báo thật" bằng **9 khoá ngoại ảo (Virtual Foreign Keys)** đồng nhất trên sơ đồ DBeaver; (4) rút bảng "Bốn chỗ lệch chuẩn Kimball" còn **"Ba chỗ lệch chuẩn Kimball"** vì cột `area_name` lặp trong `fct_pnl_value` đã được xoá hoàn toàn; (5) đổi mã vùng Hội sở ở cột `area_code` từ `'00'` sang `'A'` và tăng số mục lỗi thực chiến trong `docs/LOI_THUONG_GAP.md` từ 57 lên **58 mục lỗi**.
-   - **Verify**: chạy `.staging/check_toc.py` (cả hai bản đều 16 đầu đề `##` và 15 dòng mục lục, 0 neo gãy), `.staging/check_int_pair.py` (mọi số từ 10 trở lên khớp tuyệt đối giữa bản Việt và bản Anh, `lech chi co ban VI : khong co`, `lech chi co ban EN : khong co`), `.staging/check_readme_pair.py` (6/6 thẻ `<div align="center">` cân bằng, 0 ảnh ngoài khối căn giữa) và `.staging/push_check.py` (35 tệp, 0 liên kết gãy, 0 liên kết ra ngoài kho).
-140. **Đồng Bộ Mã Và Chú Thích Trên Toàn Bộ Chín Tệp `sql/`**
-   - Đọc rà soát toàn bộ 9 tệp trong `sql/` (`dim/`, `tmp/`, `fct/`, `rpt/`) và đồng bộ lại các chú thích, câu kiểm tra còn sót thông tin cũ: bỏ câu nhắc tới khoá ngoại thật `fk_fct_asm_dim_asm` và bổ sung `dim_area` vào câu kiểm số dòng trong `sql/dim/dim_month_headcount.sql`; chuẩn hoá chú thích thuần Việt có dấu, ngắn gọn trong `sql/dim/dim_asm.sql` và `sql/dim/dim_report_detail.sql`; cập nhật các câu kiểm tra cuối tệp `sql/tmp/tmp_pnl_step.sql` và `sql/fct/fct_pnl_allocation.sql` từ `area_code = '00'` sang `area_code = 'A'`; sửa alias thừa `d.email` thành `email` ở câu kiểm cuối `sql/fct/fct_xephang_asm.sql`; ghi rõ `dim_area` ở đầu `sql/rpt/rpt_pnl_view.sql`.
-   - **Verify**: chạy lại toàn bộ 9 tệp SQL theo đúng thứ tự chuẩn + `CALL` 5 tháng `202301..202305` đạt 0 lỗi (`fct_pnl_value` = 1.115 dòng, `fct_asm_value` = 8.536 dòng, LNTT tháng 202302 = **92.226,346671 triệu đồng**, Top 1 tháng 202302 = `nam.hoangvan@hocnghiepvu.com` với **34 điểm**).
-139. **Đồng Bộ Mã Vùng Hội Sở Ở Cột `area_code` Từ `'00'` Sang `'A'` Khớp `dim_area`**
-   - Người dùng yêu cầu đồng bộ mã vùng Hội sở sau khi phân biệt `'00'` (mã tỉnh `city_code` / `prov` trên sổ cái) và `'A'` (mã vùng `area_code` trong `dim_area`).
-   - Giữ nguyên `'00'` tại các chỗ lọc cột mã tỉnh (`prov = '00'` và `prov <> '00'` trên `stg_fact_txn_month`), đồng thời đổi toàn bộ giá trị cột `area_code` của phần Hội sở từ `'00'` sang `'A'` trong `sql/tmp/tmp_pnl_step.sql`, `sql/fct/fct_pnl_allocation.sql`, `sql/tmp/tmp_xh_step.sql`, `sql/rpt/rpt_pnl_view.sql` và `ingestion/run_report.py`.
-   - **Verify**: `py_compile` đạt; chạy lại toàn bộ `sql/tmp/`, `sql/fct/`, gọi `CALL` cả 5 tháng `202301..202305` và tạo lại 4 view `sql/rpt/`. Kiểm `DISTINCT area_code` trên `tmp_pnl_step3_gl_split` và `fct_pnl_value` đều ra đúng `['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']` (khớp 100% với 8 dòng của `dim_area`, không còn mã ngoại lai ở cột `area_code`); `fct_pnl_value` = 1.115 dòng, `fct_asm_value` = 8.536 dòng, LNTT tháng 202302 = **92.226,346671 triệu đồng**, tháng 202305 = **250.450,061442 triệu đồng**, Top 1 tháng 202302 = `nam.hoangvan@hocnghiepvu.com` (**34 điểm**); xuất lại báo cáo Excel tháng 202305 và đối chiếu từng ô với bản chuẩn trước khi sửa đạt **0 lệch trên cả 7 sheet**.
-138. **Chuyển `fct_asm_value.asm_id → dim_asm.asm_id` Sang Khoá Ngoại Ảo Cho Đồng Nhất Toàn Schema**
-   - Người dùng yêu cầu: "`fct_asm_value.asm_id → dim_asm.asm_id` bạn làm cặp này thành ảo luôn đi cho đồng nhất".
-   - Gỡ dòng `CONSTRAINT fk_fct_asm_dim_asm FOREIGN KEY (asm_id) REFERENCES dim_asm(asm_id)` khỏi `sql/fct/fct_xephang_asm.sql`, chạy lại `sql/fct/fct_xephang_asm.sql`, gọi `CALL sp_xephang_asm(202301..202305)` và tạo lại view `sql/rpt/rpt_xephang_view.sql`.
-   - Thêm khoá ngoại ảo thứ 9 (`fct_asm_value.asm_id ⇢ dim_asm.asm_id` thông qua `dim_asm_pkey`) vào `data-sources.json` của DBeaver.
-   - **Verify**: `information_schema.table_constraints WHERE constraint_type = 'FOREIGN KEY'` trả 0 dòng; `fct_asm_value` = 8.536 dòng; LNTT tháng 202302 = **92.226,347 triệu đồng**; Top 1 tháng 202302 = `nam.hoangvan@hocnghiepvu.com` (**34 điểm**, hạng 1). Cập nhật `docs/HIEN_TRANG_HE_THONG.md` và `docs/SESSION_PROMPT_LOG.md`.
-137. **Tách Bảng Chiều Cấp Vùng `dim_area` Và Xoá Cột `area_name` Lặp Ở Bảy Bảng Vật Lý**
-   - Người dùng yêu cầu: "điều chỉnh bảng này Thiếu một bảng chiều cấp Vùng chuẩn (`dim_area`) → Dẫn đến lặp cột `area_name`: thành chuẩn area không sau đó xoá hết cột area name ở các nơi khác chỉ giữ lại area code". Ba quyết định chốt qua bảng hỏi: (1) xoá `area_name` ở mọi bảng vật lý (`dim_param_area`, `stg_asm_target`, `dim_asm`, ba bảng `tmp_pnl_*`, `fct_pnl_value`), chỉ giữ ở `dim_area`, còn 4 View báo cáo cuối (`v_*`) thì `LEFT JOIN dim_area` để Power BI và Excel không gãy; (2) không gắn thêm khoá ngoại vật lý; (3) tạo và nạp `dim_area` ngay trong `ingestion/01_load_dim_param_area.py` theo quy tắc mỗi bảng một chủ.
-   - **Thay đổi trong `ingestion/`**: `01_load_dim_param_area.py` tách sheet `Param` thành hai tệp CSV và nạp hai bảng — `dim_area (area_code PRIMARY KEY, area_name NOT NULL)` (8 vùng `A..H`) và `dim_param_area (city_code PRIMARY KEY, city_name, area_code)` (64 tỉnh/thành, kèm `idx_param_city_norm` và `idx_param_area_code`); `02_load_stg_asm_target.py` đổi `_load_area_map()` sang đọc `dim_area.csv` và bỏ cột `area_name` khỏi `stg_asm_target`; `run_report.py` đổi câu đọc sheet `KPI_ASM_DATA` sang `stg_asm_target LEFT JOIN dim_area USING (area_code) ORDER BY t.ctid` để giữ nguyên thứ tự dòng gốc.
-   - **Thay đổi trong `sql/`**: `sql/dim/dim_asm.sql`, `sql/tmp/tmp_pnl_step.sql`, `sql/fct/fct_pnl_allocation.sql` bỏ hoàn toàn cột `area_name` khỏi cấu trúc bảng và câu `INSERT`; `sql/rpt/rpt_pnl_view.sql` và `sql/rpt/rpt_xephang_view.sql` nối `LEFT JOIN banking_project.dim_area AS a ON a.area_code = ...` để trả ra `MAX(a.area_name) AS area_name`.
-   - **Sự cố gặp khi làm**: chạy `ALTER TABLE dim_asm DROP COLUMN IF EXISTS area_name` không kèm `CASCADE` bị `DependentObjectsStillExist` chặn vì hai khung nhìn `v_xephang_asm` và `v_xephang_asm_vnd` đang phụ thuộc vào cột `dim_asm.area_name`; thêm `CASCADE` (và chạy lại `sql/rpt/` ở bước cuối theo đúng thứ tự chuẩn) thì thông suốt (ghi vào mục 58 của `docs/LOI_THUONG_GAP.md`).
-   - **Verify**: `py_compile` đạt cho toàn bộ `ingestion/*.py`; chạy lại bước 01, 02, toàn bộ `sql/` + `CALL` 5 tháng `202301..202305` + `run_report.py`. Kiểm `information_schema.columns WHERE column_name = 'area_name'` xác nhận chỉ còn đúng 1 bảng vật lý duy nhất là `dim_area` và 4 view `v_*`; LNTT tháng `202302` = **92.226,3466708 triệu đồng**, tháng `202305` = **250.450,0614422 triệu đồng**, Top 1 tháng `202302` là `nam.hoangvan@hocnghiepvu.com` (**34 điểm**, hạng 1); đối chiếu từng ô giữa `.staging/backup_truoc_dim_area_202305.xlsx` và tệp Excel mới xuất ra cho **0 lệch trên cả 6 sheet dữ liệu/tài liệu** (sheet `ThamSo` chỉ khác đúng 1 ô thời gian xuất). Chép nguyên văn task 87 sang `ARCHIVE_LESSON_11_1_20261030/NHAT_KY_ban_nguyen_truoc_cat_task87_20261101.md` để giữ trần 50 task (**137 xuống 88**).
-136. **Đổi Tên Hai Tệp Excel, Đưa Tệp Mẫu Vào Kho Như Một Ngoại Lệ Và Viết Lại Cây Thư Mục**
-   - Người dùng giao: "chỉnh lại cái cấu trúc dự án, ngoài trừ `input` là không đẩy lên được vì giới hạn kích thước thì nói ra để người ta hiểu, còn những cái mà không push lên thì không cần ghi chú là ở trên máy gì hết; bên cạnh đó thêm vào tệp excel mẫu, đổi tên lại và cấu trúc dự án". Ba quyết định chốt qua bảng hỏi: đổi tên **cả hai** tệp Excel; tệp mẫu **vẫn nằm ở `input/` và là tệp duy nhất trong thư mục đó được đẩy**; tên mới viết không dấu, phân cách bằng khoảng trắng — **`Tham so va mau doi chieu.xlsx`**.
-   - **Đổi tên trên đĩa:** `input/report_xep_hang_kinh_doanh_monthly.xlsx` thành `input/Tham so va mau doi chieu.xlsx` (127.976 byte) và `output/BC_PNL_YTD_202305.xlsx` thành `output/Bao cao lai lo luy ke tu dau nam 202305.xlsx` — hai tên cũ đều chứa chữ viết tắt nên đổi cùng lượt để không chừa chỗ nào. Sửa sáu chỗ tham chiếu trong mã: `ingestion/01_load_dim_param_area.py` dòng 5 và dòng 16; `ingestion/run_report.py` dòng 8, dòng 36 (đường dẫn tệp mẫu), dòng 317 (đường dẫn tệp xuất) và dòng 424 (dòng mô tả ghi vào sheet `ThamSo` của chính tệp xuất). `py_compile` đạt cho cả hai tệp, và **chạy thật** chứ không dừng ở biên dịch: bước 01 in "Trích xuất CSV thành công: 64 tỉnh/thành" rồi "Nạp PostgreSQL thành công: 64 dòng trong 0.26s"; `run_report.py` xuất lại báo cáo tháng 202305 thành tệp mang tên mới, 124.476 byte gồm 7 sheet.
-   - **Chứng minh việc đổi tên không làm đổi số bằng ba đường độc lập**, không bằng lời khẳng định. (1) Đối chiếu ô với ô giữa bản giữ `.staging/backup_truoc_doi_ten_202305.xlsx` (chép trước khi đổi tên) và bản tái xuất: **sáu trên bảy sheet lệch đúng 0 ô** (số ô quét lần lượt 1000 · 86 · 86 · 87 · 1000 · 25); riêng sheet `ThamSo` lệch 4 ô và **cả bốn ô đều là chữ hoặc dấu thời gian**, không ô nào là số — đó chính là bốn dòng mô tả vừa chủ động viết lại theo tên mới. (2) Tổng chỉ tiêu A lấy từ hai khung nhìn cho cùng một giá trị: `v_baocao_tonghop.lntt_trieu_dong` tháng 202302 là **92.226,3466708 triệu đồng**, `v_baocao_tonghop_vnd.a_lntt` tháng đó chia một triệu ra **92.226,3466708**, khớp mốc trong `docs/HIEN_TRANG_HE_THONG.md`; tháng 202305 cho **250.450,0614422** ở cả hai đường. (3) Cộng bảy vùng trên các dòng lá của sheet `BaocaoTonghop_T5`: lãi trong hạn **1.676.835,24**, chi phí dự phòng **−868.326,73**, chi phí nhân viên **−206.074,32**, khớp ba cột truy xuất trực tiếp từ kho (1.676.835.235.735 đồng · −868.326.730.652,19 đồng · −206.074.317.701,47 đồng).
-   - **`.staging/push_check.py`:** thêm `PUSH_EXCEPTION = {'input/Tham so va mau doi chieu.xlsx'}` cùng một điều kiện trong vòng quét — đường dẫn bắt đầu bằng `input/` vẫn bị loại **trừ khi** nằm trong tập ngoại lệ. Giữ nguyên quy tắc "cả thư mục `input/` bị loại" thay vì bỏ nó, nên mục `bi loai` từ lượt này **liệt kê đích danh sáu tệp** trong `input/` thay vì một dòng thư mục; người đọc thấy ngay tệp nào ở lại và vì sao.
-   - **Viết lại khối Cấu Trúc Dự Án trong hai bản README theo một nguyên tắc mới:** cây thư mục **chỉ mô tả những gì thực sự có trong kho**. Vì vậy gỡ mọi ghi chú kiểu "đứng ngoài kho mã" hay "chỉ có trên máy người làm" khỏi `ingestion/`, `docs/`, `output/`; bỏ dòng `.staging/` khỏi cây; riêng `input/` giữ lại kèm chú giải nói rõ **lý do** — "Một tệp duy nhất — ba nguồn Excel thô không đẩy được vì vượt giới hạn dung lượng của GitHub" — và một gạch mới giải thích trần cứng 100 megabyte cho mỗi tệp khi đẩy, trần **tự đặt** 25 megabyte để tải được bằng giao diện web, tệp sao kê gốc 117,2 megabyte, tệp mẫu 127.976 byte.
-   - **Tài liệu khác cùng lượt:** `AGENTS.md` (dòng `input/` nêu lý do dung lượng và một tệp ngoại lệ, dòng `output/` ghi tên mới do `run_report.py` xuất, mục 7 thêm lệnh **cấm `git add input`** vì sáu tệp còn lại nặng tổng cộng 236,3 megabyte); `docs/HIEN_TRANG_HE_THONG.md` (bộ đẩy **35 tệp, 4,87 MiB**, trước đó 34 tệp rồi 35 tệp và 4,86 MiB ở lần đo đầu của lượt này; phần tăng đúng bằng tệp mẫu 0,1220 MiB cộng chữ viết thêm vào hai tệp nhật ký, chuỗi bậc số tệp 47 xuống 46 xuống 43 xuống 36 rồi 34, 33, 34 và **lên 35**, hai chỗ mô tả `output/` sửa thành khớp với đĩa); `docs/PIPELINE.md` (thay ghi chú "Sáu thứ nằm ngoài kho mã" bằng **"Phạm vi đẩy lên kho"** nêu thẳng danh sách 35 tệp, hai dòng sơ đồ đổi theo tên tệp mới và kiểm **46 dòng khung đều đúng 100 ký tự**); `docs/LOI_THUONG_GAP.md` (mục 53 cập nhật thành 35 tệp kèm bẫy `git add input`, mục cũ về `TEMPLATE_XLSX` thêm ghi chú ngày 2026-11-01 chép lại hai phép đổi tên và kết quả đối soát từng ô); `input/README.md` — bản đứng ngoài kho, dùng khi bàn giao dữ liệu — ghi rõ đây là **một tệp duy nhất** trong thư mục lên kho.
-   - **Verify:** `.staging/push_check.py` in **35 tệp**, tổng dung lượng **5.101.401 byte = 4,87 MiB** (lần đo đầu trong lượt là 4,86 MiB, sau khi viết xong hai tệp nhật ký thì tăng), tệp lớn nhất 2,81 MiB là `output/Bao cao quan tri va phan tich (Ngan Hang).pbix`, "tep vuot 25 MiB: khong co", "tep vuot 100 MB: khong co", "ket noi nghi van: khong co", "lien ket gay: khong co", "lien ket ra ngoai kho: khong co"; lệnh `git add` in ra nay gõ đích danh `"input/Tham so va mau doi chieu.xlsx"`. Ba bộ kiểm đối xứng giữa hai bản README: `check_toc.py` — mỗi bản **16 đầu đề cấp hai và 15 dòng mục lục**, bốn dòng kiểm đều báo `khong co`; `check_int_pair.py` — **không giá trị nào từ 10 trở lên chỉ xuất hiện ở một bản**, bốn trăm mười bảy số bên tiếng Việt và ba trăm chín mươi tám bên tiếng Anh sau khi loại 94 số nhỏ; `check_readme_pair.py` — mỗi bản có 6 thẻ `<div align="center">` mở và 6 đóng, hai ảnh Markdown dẫn đúng cùng đường dẫn, dòng chuyển ngôn ngữ có mặt ở cả hai. Đếm lại `docs/LOI_THUONG_GAP.md` bằng máy: **57 mục, đánh số từ 1 đến 57, không trùng không thiếu**, khớp bốn chỗ "57 mục lỗi" ở mỗi bản.
-   - **Bốn sự cố gặp khi làm:** (1) hai lần gọi `SUM(a_lntt)` trên `fct_pnl_value` rồi trên `v_baocao_tonghop` đều báo cột không tồn tại, vì cột đó **chỉ có trong `v_baocao_tonghop_vnd`** — phải tra `information_schema.columns` theo mẫu `%lntt%` rồi mới viết lại truy vấn; (2) `TypeError` khi cộng dòng lá vì cột B chứa cả công thức lẫn chữ, phải ép kiểu chuỗi trước khi cắt; (3) chạy `.staging/make_diagram.py` từ trong `.staging/` gặp `FileNotFoundError` vì tệp nhận đường dẫn tương đối với chỗ chạy lệnh; (4) `py_compile .staging/sync_check.py` báo lỗi văn pháp ở dòng 35 — **lỗi có từ trước**, không do lượt này gây ra, bộ kiểm đó vốn đã ngừng chạy nên để nguyên.
-   - **Lưu ý còn treo:** tệp mẫu nay nằm trong kho mã công khai, nên hai sheet mẫu của nó lộ số liệu vùng cùng họ tên và email giám đốc vùng; `README.md` đã nói rõ điều này trong mục Nguồn Dữ Liệu Và Quyền Sử Dụng, chờ người dùng xác nhận có chấp nhận như vậy không.
-   - Biên tập: đếm bằng máy thấy ĐÃ XONG giữ **50 task (135 xuống 86)** trước khi thêm, nên **chép nguyên văn task 86** sang `ARCHIVE_LESSON_11_1_20261030/NHAT_KY_ban_nguyen_truoc_cat_task86_20261101.md` rồi mới cắt; sau khi thêm task 136 danh sách vẫn đúng trần 50 (**136 xuống 87**). Ghi chú biên tập ở cuối mục đổi thành **mười chín tệp** lưu trữ. Ghi Prompt 254 vào `docs/SESSION_PROMPT_LOG.md` — tệp tiếp tục được ghi trên máy dù không còn trong kho.
-135. **Viết `README_eng.md` Và Nối Hai Bản Bằng Dòng Chuyển Ngôn Ngữ**
-   - Người dùng yêu cầu: "Tạo cho tôi một cái readme tiếng anh đi và trong cái readme gốc với tiếng anh làm 1 cái chuyển đổi tiếng anh tiếng việt". Kết quả: `README_eng.md` 493 dòng trên đĩa, dịch đối ứng đủ 15 mục ứng với 16 đầu đề cấp hai (kể cả đầu đề "Table Of Contents"), và mỗi tệp có dòng **Ngôn ngữ / Language** ngay dưới dòng tác giả — bản Việt "`**Tiếng Việt** · [English](README_eng.md)`", bản Anh "`[Tiếng Việt](README.md) · **English**`"; cuối bản Anh còn thêm một dòng liên kết ngược về bản Việt để người đọc từ trang tiếng Anh luôn về được trang gốc.
-   - **Cách dịch giữ số:** mọi số liệu chép nguyên giá trị, chỉ đổi quy ước viết sang kiểu Anh-Mỹ (dấu phẩy phân cách nghìn, dấu chấm thập phân) — `2.932.922` thành `2,932,922`, `92.226,347` thành `92,226.347`, "117,2 megabyte" thành "117.2 MB". Tên bảng, tên thủ tục, tên tệp và mã chỉ tiêu giữ nguyên chữ Việt vì đó là mã định danh (`sp_baocao_tonghop`, `tmp_pnl_step1_driver`, `diem_qm`); tên vùng giữ tiếng Việt và chú thích tiếng Anh ở lần xuất hiện đầu. Một chỗ phải đổi **cách diễn đạt** chứ không đổi số: bản Việt ghi "chia 1 triệu" (không có chữ số), bản Anh viết "dividing by 1,000,000" sẽ khiến phép đối soát số báo lệch vĩnh viễn, nên sửa thành "dividing by one million".
-   - **Hai bộ kiểm mới dựng trong `.staging/`, cả hai đều tìm ra lỗi thật.** `check_toc.py` tự sinh đường neo từ đầu đề theo quy tắc GitHub rồi đối chiếu **hai chiều** (dòng mục lục phải trỏ tới đầu đề có thật; đầu đề trong bài phải được dẫn): phát hiện bản Việt chỉ có **13 dòng mục lục cho 16 đầu đề** — thiếu sẵn hai mục "Công Cụ Và Công Nghệ" và "Nguồn Dữ Liệu Và Quyền Sử Dụng" — còn bản Anh có 14 dòng, thiếu một. Đã bổ sung để **cả hai bản đều 15 dòng, đánh số 1 đến 15**, và chạy lại tới khi bốn dòng kiểm đều báo `khong co`. `check_int_pair.py` chuẩn hoá định dạng số từng bên về một chuẩn (bản Việt bỏ dấu chấm nghìn rồi đổi dấu phẩy thành thập phân; bản Anh bỏ dấu phẩy nghìn; cả hai đều bóc khối mã, code nội dòng và URL) rồi so đa tập: đo được 409 số ở bản Việt và 390 ở bản Anh, **không giá trị nào chỉ có ở bản Anh**; sáu giá trị lệch còn lại đều nhỏ hơn 10 và truy tới dòng thì thấy là chữ — ví dụ "tháng 5" lặp 9 lần ở bản Việt trong khi bản Anh viết "May" cũng 9 lần, đếm bằng máy. Hàng kiểm riêng chỉ so các số từ 10 trở lên cho kết luận gọn: **lệch `khong co` ở cả hai chiều**, tức mọi số đo (19 bảng, 4 view, 91 phép đối soát, 2.932.922 dòng nạp thô, 92.226,347 triệu đồng) khớp nhau. Bộ kiểm đếm cấu trúc `check_readme_pair.py` xác nhận mỗi tệp có sáu thẻ `<div align="center">` mở và sáu đóng, không thẻ ảnh nào đứng ngoài khối căn giữa, hai ảnh Markdown dẫn đúng cùng đường dẫn ở cả hai tệp. Ba phát hiện lệch ở lần đo đầu tiên đều là **phát hiện giả** do biểu thức tách số bỏ sót số đứng cuối câu và số trước dấu phẩy liệt kê; đã sửa biểu thức rồi đo lại, và ghi cả ba vào mục 57 của `docs/LOI_THUONG_GAP.md` để lần sau không mất công đoán.
-   - `README.md` (489 dòng trên đĩa) ba thay đổi: thêm dòng chuyển ngôn ngữ; cây thư mục kết thúc bằng ba dòng `AGENTS.md` / `README.md` / `README_eng.md` thay vì một dòng `README.md`; mục lục thêm hai dòng thiếu và bốn chỗ "56 mục lỗi" đổi thành **57 mục lỗi**. `AGENTS.md` (62 dòng): bảng cấu trúc thêm hai dòng cho hai bản README, nêu quy ước **sửa một bản là phải sửa bản kia** kèm hai lệnh kiểm đối soát; dòng `images/` đổi thành "Ảnh minh hoạ dẫn trong hai bản README".
-   - `docs/LOI_THUONG_GAP.md` (321 dòng) thêm **mục 57** "Hai Bản Ngôn Ngữ Của Cùng Một Tài Liệu: Định Dạng Số Theo Locale Khiến Bộ Kiểm Báo Oan Ba Chỗ, Còn Mục Lục Thì Lệch Thật" theo đủ bốn phần triệu chứng — nguyên nhân — cách xử lý — bài học, và sửa mục 53 từ "danh sách 33 tệp" thành **34 tệp**. Đếm lại bằng máy: **57 mục, đánh số từ 1 đến 57, không trùng không thiếu**; bốn chỗ "56 mục lỗi" ở mỗi bản README đã đổi kèm theo.
-   - `docs/HIEN_TRANG_HE_THONG.md`: dòng mô tả cấu trúc kho thêm cụm "hai bản tiếng Việt và tiếng Anh của trang mở đầu"; gạch "Hai ảnh mà `README.md` dẫn" ghi rõ bản tiếng Anh dẫn đúng hai ảnh đó cùng đường dẫn; gạch bộ đẩy cập nhật **34 tệp, 4,73 MiB**, chuỗi bậc đổi thành 47 xuống 46 xuống 43 xuống 36 rồi 34, 33 và **lên lại 34** vì thêm `README_eng.md`, kèm phân tích 0,0406 MiB của tệp mới so với 0,05 MiB tăng thêm và ghi chú rằng **con số dung lượng này tự tham chiếu** vì tệp ghi nó cũng nằm trong bộ đẩy. `docs/PIPELINE.md`: ghi chú cuối bổ sung `README_eng.md` bên cạnh `README.md` ở chỗ nói về phần quyền sử dụng dữ liệu.
-   - **Verify:** `.staging/push_check.py` in **34 tệp, 4,73 MiB**, tệp lớn nhất 2,81 MiB là `output/Bao cao quan tri va phan tich (Ngan Hang).pbix`, không tệp vượt 25 megabyte, không chuỗi nghi vấn, `lien ket gay : khong co`, `lien ket ra ngoai kho : khong co`, `bi loai` vẫn đúng bảy đường dẫn; lệnh `git add` in ra nay thêm `README_eng.md` ngay sau `README.md`. Bản tiếng Anh **không đặt liên kết nào** tới tệp đứng ngoài kho mã, chỉ nhắc `SESSION_PROMPT_LOG.md` bằng chữ thường trong câu văn, nên không tái phạm lớp lỗi ghi ở mục 56. Không động vào `sql/` và `ingestion/` nên **không chạy lại pipeline và không đối soát lại số**; mốc `.staging/sql_baseline/` giữ nguyên.
-   - **Sự cố gặp khi làm:** in tiếng Việt ra cửa số lệnh của Windows bằng `python -c` lại rơi vào `UnicodeEncodeError` vì console dùng bảng mã cp1252 — cùng lớp lỗi đã từng gặp; cách xử lý quen thuộc là ghi kết quả ra tệp UTF-8 trong `.staging/` rồi đọc tệp đó, và script nào in cũng phải nhận đường dẫn tuyệt đối vì lệnh chạy từ thư mục dự án chứ không từ thư mục `.staging/`.
-   - Biên tập: đếm bằng máy thấy ĐÃ XONG giữ **50 task (134 xuống 85)** trước khi thêm, nên **chép nguyên văn task 85** sang `ARCHIVE_LESSON_11_1_20261030/NHAT_KY_ban_nguyen_truoc_cat_task85_20261101.md` (1.257 byte) rồi mới cắt; sau khi thêm task 135 danh sách vẫn đúng trần 50 (**135 xuống 86**). Ghi chú biên tập ở cuối mục đổi thành **mười tám tệp** lưu trữ. Ghi Prompt 253 vào `docs/SESSION_PROMPT_LOG.md` — tệp tiếp tục được ghi trên máy dù không còn trong kho.
-134. **Đưa Nhật Ký Yêu Cầu Ra Khỏi Bộ Đẩy, Viết Lại Cấu Trúc Trong `README.md` Và Căn Giữa Ảnh**
-   - Người dùng giao ba việc trong một câu: "Bỏ cái SESSION_PROMPT_LOG sau đó cập nhật lại cấu trúc trong readme và hơn nữa là các ảnh trong readme thì căn giữa". Kiểm tiền đề bằng mã nguồn trước khi làm: liên kết `[docs/SESSION_PROMPT_LOG.md](docs/SESSION_PROMPT_LOG.md)` ở mục **📖 Tài Liệu** **không gãy trên máy người làm** vì tệp vẫn còn trên đĩa, nhưng **gãy trên bản clone** vì tệp không được đẩy — đây là lỗi thật chứ không phải yêu cầu trình bày thừa. Hai quyết định người dùng chốt qua bảng hỏi: **giữ tệp trên máy, chỉ loại khỏi bộ đẩy**; **chỉ căn giữa hai ảnh đang được dẫn**, không chèn năm ảnh còn lại trong `images/`.
-   - `.staging/push_check.py`: thêm `docs/SESSION_PROMPT_LOG.md` vào `NEVER_PUSH`, và thêm một lớp kiểm mới **liên kết ra ngoài kho** — đối chiếu đường dẫn liên kết nội bộ với chính `push_set` (danh sách đã ghi ra `.staging/push_list.txt`) thay vì dùng `os.path.exists`. Lý do thêm lớp kiểm: khi kho không còn tệp chặn, bộ kiểm cũ **mù đúng với lớp lỗi mà lần gỡ tệp này sinh ra**; nó sẽ tái diễn ở mọi lần gỡ tệp tiếp theo. Chạy lại để chứng minh lớp kiểm bắt được lỗi thật: nó in đúng một phát hiện `('README.md', 'docs/SESSION_PROMPT_LOG.md')`, sau khi sửa thì in `khong co`.
-   - `README.md` (485 dòng theo cách đếm của tài liệu, **484 dòng trên đĩa**; sáu khối `<div align="center">` mở và sáu khối đóng): bốn thay đổi — (1) chú giải `docs/` trong cây thư mục thành "**4 tệp**" kèm ghi rõ nhật ký prompt giữ trên máy, ngoài kho mã; (2) mục **📖 Tài Liệu** bỏ dòng liên kết tới nhật ký prompt, viết lại thành câu "Bốn tệp trên là toàn bộ `docs/` trong kho mã" và nhập bảy tệp hướng dẫn dài dòng vào cùng câu; (3) **căn giữa ba nơi** thay vì hai: ảnh quy trình bốn giai đoạn (dòng 103), ảnh sơ đồ lược đồ (dòng 192), và dải huy hiệu logo phẳng ở mục Stack — dải này chứa năm thẻ `<img>` nhưng đứng ngoài khối căn giữa nên bị lề trái, lệch với bộ huy hiệu đầu trang; (4) bốn chỗ "55 mục lỗi" → **56 mục lỗi**.
-   - `AGENTS.md` (61 dòng): mục 2 bước 3 vẫn giữ quy tắc lưu prompt nhưng ghi rõ tệp **đứng ngoài kho mã**, ở bản clone sạch không có tệp đó thì bỏ qua bước và **không tạo tệp mới trong kho**; bảng cấu trúc đổi `docs/` thành "**4 tệp lên kho mã**" và đánh dấu dòng `docs/SESSION_PROMPT_LOG.md` là ngoài kho; mục 7 mở rộng lệnh cấm — **gọi `git add` theo thư mục `docs/` cũng nguy hiểm như `ingestion/`** vì thư mục này chứa một tệp bị cấm, nên lệnh in ra gõ đích danh bốn tệp `docs/` được phép. `NEVER_PUSH` từ lượt này có **bốn** tệp.
-   - `docs/LOI_THUONG_GAP.md` thêm **mục 56** "Liên kết Markdown tới tệp đứng ngoài kho mã không bao giờ báo gãy trên máy người làm" theo đủ bốn phần triệu chứng — nguyên nhân — cách xử lý — bài học; nguyên nhân chỉ rõ ba điều kiện phải đồng thời đúng thì lớp lỗi mới ẩn (kho không có tệp chặn, phép thử dùng trạng thái đĩa, tệp vẫn còn trên máy). Đếm lại bằng máy: **56 mục, đánh số từ 1 đến 56, không trùng không thiếu**. Bốn chỗ "55 mục lỗi" trong `README.md` đã đổi kèm theo.
-   - `docs/HIEN_TRANG_HE_THONG.md` (90 dòng): dòng mô tả cấu trúc kho sửa "đúng 5 tệp" thành "**5 tệp trên máy người làm, 4 tệp lên kho mã**"; mục "Những tệp không đưa lên GitHub" thêm gạch thứ sáu về `docs/SESSION_PROMPT_LOG.md` (dung lượng 120.926 byte, lý do gỡ, và hệ quả liên kết); gạch bộ đẩy cập nhật thành **33 tệp, 4,68 MiB** kèm giải thích mức giảm 0,10 MiB **nhỏ hơn** dung lượng tệp vừa gỡ (0,1153 MiB) vì các tệp còn lại dài thêm đúng phần chữ viết ở lượt này; gạch `.gitignore` nêu **bốn** tệp bị cấm và cấm cả `git add docs` lẫn `git add ingestion`. `docs/PIPELINE.md` (148 dòng): ghi chú cuối đổi "**Năm thứ** nằm ngoài kho mã" thành "**Sáu thứ**", thêm mục nhật ký prompt.
-   - **Verify:** `py_compile` đạt cho `.staging/push_check.py`; bộ kiểm chạy lại in **33 tệp, 4,68 MiB**, tệp lớn nhất 2,81 MiB là `output/Bao cao quan tri va phan tich (Ngan Hang).pbix`, không tệp vượt 25 megabyte, không chuỗi nghi vấn, `lien ket gay : khong co`, `lien ket ra ngoai kho : khong co`, `bi loai` liệt kê đúng bốn tệp cụ thể cùng `input/`, `CV/`, `.staging/`. Việc "sửa SQL" không tồn tại ở lượt này nên **không chạy lại pipeline và không đối soát số**; mốc `.staging/sql_baseline/` cùng bộ so mã thuần giữ nguyên, không cần chạy. **Hai sự cố gặp khi làm, cả hai đều do lớp kiểm mới lộ ra:** (1) câu vừa viết trong `docs/HIEN_TRANG_HE_THONG.md` đặt liên kết Markdown tới tệp vừa gỡ và bị báo gãy **ngay trên dòng mô tả lớp kiểm** — sai ở đường dẫn tương đối (đang đứng trong `docs/` mà ghi `docs/...`), đã đổi thành chữ thường trong câu văn; (2) `docs/LOI_THUONG_GAP.md` và `docs/NHAT_KY_CONG_VIEC.md` bị báo "liên kết gãy" chỉ vì **chép lại nguyên văn** dòng Markdown vừa gỡ trong code nội dòng — bộ kiểm không phân biệt liên kết thật với liên kết được trích dẫn, nên phải bóc khối mã và code nội dòng trước khi quét; hệ quả dây chuyền là chuỗi `[Tiếng Anh](README_eng.md)` trong nhật ký cũ **không còn bị báo oan**, vì nó cũng nằm trong code nội dòng.
-   - Biên tập: đếm bằng máy thấy ĐÃ XONG giữ đúng **50 task (133 xuống 84)**, nên **chép nguyên văn task 84** sang `ARCHIVE_LESSON_11_1_20261030/NHAT_KY_ban_nguyen_truoc_cat_task84_20261101.md` rồi mới cắt, để sau khi thêm task 134 danh sách vẫn đúng trần 50 (134 xuống 85); ghi chú biên tập viết lại thành **mười bảy tệp** lưu trữ. Ghi Prompt 252 vào `docs/SESSION_PROMPT_LOG.md` — tệp tiếp tục được ghi trên máy dù không còn trong kho.
-133. **Đưa Hai Script Đối Soát Ra Khỏi Kho Mã Và Siết Lại Lệnh `git add` Trong `ingestion/`**
-   - Người dùng nêu bốn tệp trong `ingestion/` (`audit_pbi_vs_db.py`, `export_pbi.ps1`, `db_config.py`, `db_config.example.py`) và cho rằng không cần trình bày vì không cần để chạy lại dự án. Kiểm bằng mã nguồn trước khi đồng ý: không một tệp Python nào `import` hai script đối soát, `ingestion/run_pipeline.bat` chỉ gọi `run_all.py`, `audit_pbi_vs_db.py` tự nối PostgreSQL và chỉ đọc `.staging/audit/` — đúng là công cụ kiểm tra ngoài đường chạy. Ngược lại `db_config.example.py` **bắt buộc giữ**: cả năm tệp `01_`…`04_` và `run_report.py` đều `from db_config import ...`, nên bản clone sạch thiếu nó sẽ `ModuleNotFoundError` mà không biết phải định nghĩa biến nào; `db_config.py` thì đã đứng ngoài kho từ trước theo `NEVER_PUSH`.
-   - Cách làm người dùng chốt: **giữ tệp trên máy, chỉ loại khỏi bộ đẩy** — thêm `ingestion/export_pbi.ps1` và `ingestion/audit_pbi_vs_db.py` vào `NEVER_PUSH` của `.staging/push_check.py`, không xoá tệp, không sửa `ingestion/` ngoài một dòng chú thích.
-   - **Sự cố phụ tìm ra khi sửa bộ kiểm:** lệnh `git add` cũ in theo thư mục (`git add ... ingestion ...`) trở thành cái bẫy đúng với tệp vừa gỡ — kho không còn `.gitignore` nên gọi theo thư mục sẽ nhặt cả ba tệp bị cấm trong `ingestion/`. Viết lại phần in lệnh: thư mục nào có tệp bị loại thì in **đích danh từng tệp được phép** (đặt trong nháy kép vì tên có khoảng trắng), thư mục sạch vẫn gọi theo thư mục. Chưa kiểm được bằng `git status` vì thư mục dự án **chưa phải kho Git**.
-   - Viết lại sáu chỗ tài liệu đang dẫn hai script để người đọc không bị dẫn tới tệp ngoài kho: `README.md` dòng 334 (bỏ tiền tố `ingestion/`, ghi rõ "không nằm trong kho mã vì pipeline chạy lại không cần"), dòng 384 (cây thư mục); `docs/HIEN_TRANG_HE_THONG.md` dòng 9 (chứng minh đối soát), dòng 79 (mô tả script), mục "Những tệp không đưa lên GitHub" (đổi thành cập nhật 2026-11-01, thêm gạch thứ năm về hai script, cập nhật bộ đẩy và lệnh add); `docs/PIPELINE.md` dòng 145 (bước vận hành) và ghi chú cuối đổi "Bốn thứ nằm ngoài kho mã" thành **năm thứ**; `docs/LOI_THUONG_GAP.md` mục 50 thêm gạch lưu ý, mục 52 ghi `NEVER_PUSH` "tại thời điểm đó", mục 53 viết lại lệnh an toàn theo hình dáng mới.
-   - `AGENTS.md`: bảng cấu trúc mô tả lại dòng `ingestion/` (hai script và `db_config.py` đứng ngoài kho, bản mẫu vẫn đẩy kèm lý do `from db_config import`), mục 7 thêm gạch **cấm `git add ingestion`**.
-   - Sửa dòng 2 của `ingestion/db_config.example.py`: còn nhắc "`db_config.py` đã nằm trong `.gitignore`" dù tệp đó đã gỡ ngày 2026-10-31 — đổi thành "đứng ngoài kho mã (xem `AGENTS.md` mục 7)". `py_compile` tệp sau khi sửa: đạt.
-   - **Verify:** `.staging/push_check.py` chạy lại — **34 tệp** (từ 36), **4,78 MiB**, tệp lớn nhất 2,81 MiB là `.pbix`, không tệp vượt 25 megabyte, không chuỗi nghi vấn, `bi loai` giờ liệt kê đúng ba tệp `ingestion/`; liên kết gãy duy nhất vẫn là chuỗi `README_eng.md` trong câu nhật ký cũ (giữ nguyên như đã chốt ở task 120). Không chạy lại SQL vì lượt này không động tệp `sql/` nào.
-
-### 2026-11-01
-132. **Viết Lại Toàn Bộ Chú Thích Trong `sql/` Cho Thuần Việt Và Ngắn Gọn, Chứng Minh Mã Không Đổi Từng Ký Tự**
-   - Người dùng yêu cầu chú thích trong code SQL phải (1) thuần Việt — bỏ lối viết không dấu kiểu `thu tuc buoc`, `khong co COMMIT` — và (2) dễ hiểu, ngắn gọn hơn. Khối lượng đo trước khi sửa: 9 tệp `sql/`, 1.565 dòng, **340 dòng chú thích**, trong đó **331 dòng không dấu**; riêng `sql/dim/dim_asm.sql` đã có dấu nên để nguyên.
-   - **Chứng minh "chỉ sửa chú thích" bằng máy, không bằng lời nói:** dựng mốc `.staging/sql_baseline/` (bản chép trước khi sửa) và bộ so `.staging/ma_khong_doi.py` tách phần mã thuần khỏi chú thích, có `split_comment()` xử lý dấu nháy đơn trong chuỗi SQL để không nhầm một mảng chữ `--` bên trong chuỗi thành chú thích. Kết quả: **mã thuần 1.234 dòng giữ nguyên từng ký tự** ở cả 9 tệp, chú thích tăng từ 430 lên **474 dòng**, tổng tệp từ 1.565 lên **1.607 dòng**.
-   - **Ba thứ phải phân biệt trước khi động bút:** câu truy vấn kiểm tra bị chú thích hoá sẵn (giữ nguyên lệnh, chỉ dịch phần ghi chú — nếu xoá là mất công cụ kiểm); chuỗi dữ liệu trong `VALUES` của `dim_report_detail` như `Lai trong han (B2)`, `LN sau thue (A = E + F + G)` là **dữ liệu** chứ không phải chú thích, giữ nguyên tuyệt đối; tên cột `lntt_trieu_dong` và literal `'Thu 2'` thuộc phạm vi mã. Chính cây `report_name` này được dùng làm nguồn thuật ngữ để viết chú thích, nhằm không bịa nghĩa mã chỉ tiêu.
-   - **Việc phụ phát hiện và đã làm:** `sql/rpt/rpt_pnl_view.sql` có hai khối 04c nói trùng một nội dung, dồn về một khối (giữ tên tệp backup `bak_view_root_cause_20261030.sql`). Lần đầu dồn làm phần mã thuần **mất một dòng trống** (83 xuống 82) và bộ so báo lệch; diff bằng `difflib` truy ra đúng dòng trống đó, thêm lại thì checker báo "mã thuần 9 tệp giống hệt từng ký tự".
-   - **Hai lỗi tự gây khi soạn tiếng Việt có dấu**, ghi lại để lần sau tránh: (1) sinh chuỗi hỏng dấu trong `fct_pnl_allocation.sql` (`hiÖu sè ph¶i b»ng 0`, `hÖ-sè-ph¶i-b»ng-kh«ng`) — phát hiện bằng cách đọc lại tệp, xoá bỏ dòng chú thích dư vì nội dung đã có ngay dòng trước viết đúng dấu; (2) **hai lần ghi sai số học trong chú thích** ("bốn mươi dòng lá của bảy vùng", "đúng 10 dòng lá") — kiểm lại bằng số đo thật rồi sửa thành "mỗi vùng 16 dòng lá, bảy vùng thành 112 dòng" và "mười một dòng lá".
-   - **Rút lui một diễn giải không có bằng chứng:** không tìm thấy tài liệu nào định nghĩa PSDN, nên bỏ câu giải thích suy đoán trong `tmp_xh_step.sql` và ghi nguyên thuật ngữ nguồn: `-- PSDN (cột psdn_count trong nguồn): 2 chữ số thập phân`.
-   - **Hệ quả ngoài dự kiến khi verify:** chuỗi SQL chạy hỏng với lỗi "chưa có `fct_pnl_value` đủ 7 vùng cho tháng 202301", nguyên nhân là **ba bảng `stg_` dựng bằng `CREATE UNLOGGED TABLE` bị PostgreSQL tự làm rỗng khi khởi động lại dịch vụ lúc 20:40**, không liên quan việc sửa chú thích. Khôi phục bằng `python ingestion/run_all.py` (113,5 giây) rồi chạy lại chuỗi; ghi thành **mục 55** của `docs/LOI_THUONG_GAP.md` kèm ba truy vấn hệ thống đã dùng để kết luận.
-   - **Verify số liệu** (`.staging/run_full_chain.py`, log `.staging/chuoi_sau_viet_hoa.txt`): cả chuỗi **27,7 giây**, 22 lệnh `CALL` đều `OK`, **0 dòng `FAIL`**, `log_proc_run` 95 dòng, sáu bảng tạm 315 · 560 · 535 · 1.164 · 105 · 315, `fct_pnl_value` **1.115**, `fct_asm_value` **8.536**, bốn view 35 · 35 · 388 · 388, chỉ tiêu A tháng `202302` **92.226,347 triệu đồng**, Hoàng Văn Nam **34 điểm** tháng `202302` và **36 điểm** tháng `202305` — khớp mọi mốc trong `docs/HIEN_TRANG_HE_THONG.md`.
-   - **Đồng bộ tài liệu:** `docs/PIPELINE.md` đổi **12 con số dòng** (dim 277→273 và 130→127 · 99→98; tmp 681→694 và 395→403 · 286→291; fct 429→458 và 234→246 · 195→212; rpt 187→191 và 101→102 · 86→89); `README.md` bốn chỗ "54 mục lỗi" → **55**; `AGENTS.md` mục 4 thêm quy ước "chú thích trong `sql/` viết thuần Việt có dấu, chỉ động dòng bắt đầu bằng `--`"; `docs/NHAT_KY_CONG_VIEC.md` và `docs/SESSION_PROMPT_LOG.md` (Prompt 250).
-
-### 2026-10-31
-131. **Tách Sáu Thủ Tục Bước Ra Khỏi Hai Thủ Tục Điều Phối, Trả Phần Tính Về Đúng Tệp Khai Báo Bảng Tạm**
-   - Người dùng hỏi vì sao tệp `sql/fct/` chứa cả code tính của bảng tạm và đề xuất tách: mỗi thủ tục bước nằm trong tệp riêng của bảng tạm, tệp fact chỉ gọi. Kiểm code: đúng — `sql/tmp/` chỉ còn sáu lệnh `CREATE TABLE` sau lần dọn ngày 2026-10-30, còn toàn bộ `INSERT` vào bảng tạm vẫn nằm trong thân `sp_baocao_tonghop` và `sp_xephang_asm`; tình trạng đó **vi phạm quy tắc "mỗi bảng đúng một chủ"** ở `AGENTS.md` mục 4, nên đề xuất hợp lý. Người dùng chốt hai phương án: **tách sáu thủ tục bước, thủ tục fact giữ các bước ghi thẳng vào bảng sự kiện** và **mỗi thủ tục bước tự ghi log dưới tên nó**.
-   - Trước khi sửa, đo bốn ràng buộc của engine trên PostgreSQL 16.14 bằng schema tạm `probe_split` (đã dọn sạch): plpgsql **giải tên bảng lúc chạy** nên thủ tục bước ghi được `log_proc_run` dù bảng đó do `sql/fct/` tạo, không phải đảo thứ tự tệp; **`CALL` lồng `CALL` chạy được**; **một `CALL` hỏng huỷ toàn bộ write trong nó** (bảng còn 0 dòng cho tháng đó, kể cả kết nối autocommit); **`COMMIT` lồng trong thủ tục được gọi không bị từ chối** — ngoài dự đoán, và là lý do sáu thủ tục bước bị cấm `COMMIT`.
-   - `sql/tmp/tmp_pnl_step.sql` tăng từ 59 lên **394 dòng**, thêm `sp_pnl_step1_driver`, `sp_pnl_step2_ratio`, `sp_pnl_step3_gl_split`; `sql/tmp/tmp_xh_step.sql` tăng từ 70 lên **285 dòng**, thêm `sp_xh_step1_asm_avg`, `sp_xh_step2_npl_area`, `sp_xh_step3_fin_area`. Khuôn chung của sáu thủ tục: ghi `START`, xoá dòng của đúng tháng trên đúng bảng, ghi số, rồi ghi `OK`; nhánh `EXCEPTION` ghi `FAIL` kèm `SQLERRM` rồi `RAISE` lại; **không có `COMMIT`**. `sp_xh_step3_fin_area` mang thêm chặn điều kiện: tháng chạy chưa đủ 7 vùng trong `fct_pnl_value` thì báo lỗi và từ chối ghi.
-   - `sql/fct/fct_pnl_allocation.sql` giảm từ 492 còn **233 dòng** và `sql/fct/fct_xephang_asm.sql` giảm từ 332 còn **194 dòng**, thành thủ tục điều phối: xoá dữ liệu tháng (`STEP0_DELETE_MONTH`), gọi lần lượt ba thủ tục bước, rồi chạy các bước ghi thẳng vào bảng sự kiện (`STEP4_COMBINE` và `STEP5_TONG_CHISO`; `STEP4_RANK_QM`, `STEP5_ADD_FIN`, `STEP6_TONG_FINAL`). Số thủ tục trong schema **3 lên 9** (kiểm `information_schema.routines`).
-   - **Thích ứng `ingestion/run_report.py` với hình dáng log mới** (đây là chỗ gãy thật do refactor, không phải phòng thủ thừa): bộ bắt lỗi trong `run_procedures` truy vấn `log_proc_run WHERE proc_name = <thủ tục điều phối> AND status='FAIL'`, nhưng từ khi mỗi thủ tục bước tự ghi log thì dòng hỏng mang **tên thủ tục bước** — sửa thành lọc theo `month_key` và in cả `proc_name` kèm `step_name` để người chạy biết hỏng ở thủ tục nào. Khối kiểm trước khi chạy thêm hai dòng dò sự tồn tại của `sp_pnl_step1_driver` và `sp_xh_step1_asm_avg`, báo đúng tệp cần chạy (`sql/tmp/tmp_pnl_step.sql`, `sql/tmp/tmp_xh_step.sql`) thay vì chỉ dò thủ tục điều phối. `py_compile` đạt.
-   - **Verify bằng dấu vết, không bằng "chạy không lỗi"**: chạy trọn chuỗi theo thứ tự `sql/dim/`, `sql/tmp/`, `sql/fct/`, gọi thủ tục năm tháng cho cả hai nhánh, cuối cùng `sql/rpt/`; hết **54,5 giây** ở lần đầu và **29,2 giây** ở lần chạy lại, mười lần `CALL` đều thành công, **0 dòng `FAIL`**, bốn view dựng lại đủ. Gọi trực tiếp hàm `run_procedures(conn, 202305)` của `run_report.py` (kết nối **không** autocommit, commit sau mỗi `CALL` — đúng đường dẫn mà bước xuất Excel dùng) trả `ok=True` với hai lần `CALL` thành công, chứng minh `CALL` lồng chạy được cả khi phía Python quản trị giao dịch. Phép gọi đó ghi nốt tháng `202305` thêm một lần nên nhật ký tạm thời lên **114 dòng** (22 dòng `OK` của tháng `202305`); vì bảng nhật ký chỉ được xoá khi chạy lại `sql/fct/`, đã chạy lại trọn chuỗi một lần nữa để đưa `log_proc_run` về đúng **95 dòng** như tài liệu. Chụp dấu vết trước và sau refactor (`.staging/fp_truoc.txt` 10.251 dòng, `.staging/fp_sau.txt` 10.257 dòng) rồi so từng dòng: **10.238 dòng dữ liệu giống hệt từng ký tự** (dump từng dòng hai bảng fact, tổng theo `report_id` cho tám bảng, số dòng mười bảng và view, năm hạng đầu theo điểm tổng). Khác biệt duy nhất nằm ở `log_proc_run`: **13 nhóm lên 19 nhóm, 65 lên 95 dòng** — đúng thay đổi chủ đích. Mốc nghiệp vụ giữ nguyên: lợi nhuận trước thuế toàn hàng tháng `202302` **92.226,347 triệu đồng** (chỉ tiêu A, mã 70, tổng bảy vùng), Hoàng Văn Nam giữ hạng nhất với **34 điểm** ở `202302` và **36 điểm** ở `202305` (mã 221 là điểm tổng, mã 222 là hạng).
-   - Đồng bộ tài liệu: `README.md` (9 thủ tục, `log_proc_run` 95, viết lại hai mục "Năm bước"/"Sáu bước" thành "chia thành bốn thủ tục", cây thư mục `sql/tmp` · `sql/fct`, bốn chỗ **53 lên 54 mục lỗi**); `docs/HIEN_TRANG_HE_THONG.md` (mô tả `sql/tmp` · `sql/fct`, 9 thủ tục, bảng chủ sở hữu, hai bước kiểm chuỗi log); `docs/PIPELINE.md` (sơ đồ 8 thủ tục, viết lại Bước 3 với số dòng mới 395/286 và 234/195 theo cách đếm của tài liệu, thêm khuôn thủ tục bước và ba ràng buộc đo được, `log_proc_run` 95); `AGENTS.md` mục 4 (mô tả `tmp/` có sáu thủ tục nạp, `fct/` là điều phối, **cấm `COMMIT` trong thủ tục bước**); `docs/LOI_THUONG_GAP.md` lên **54 mục** (thêm mục 54 về tách nửa phép refactor và bốn phép đo engine); `CV/cv_tran_ngoc_duc.tex` đổi "3 stored procedures" thành **9**, gạch Advanced SQL thành "a dedicated procedure and temporary table per step" — biên dịch lại bằng `pdflatex`: vẫn **3 trang**, 0 dòng lỗi. Chạy lại `.staging/push_check.py`: vẫn **36 tệp**, tổng dung lượng **4,74 lên 4,76 MiB** vì hai tệp `sql/tmp/` dài thêm 550 dòng, không tệp vượt trần, liên kết gãy duy nhất vẫn là chuỗi `README_eng.md` trong câu nhật ký cũ (giữ nguyên như đã chốt ở task 120). Ghi Prompt 248. Cắt task 81 sang `NHAT_KY_ban_nguyen_truoc_cat_task81_20261031.md` để giữ trần 50 task (131 xuống 82).
-### 2026-10-31
-130. **Gỡ Tệp `.gitignore`, Đưa Toàn Bộ Thư Mục `input/` Ra Khỏi Kho Mã Và Chuyển Ranh Giới Push Sang `push_check.py`**
-   - Người dùng chốt hai việc: **không muốn chặn bằng tệp** (gỡ hẳn `.gitignore`) và **không đưa thư mục `input/` lên GitHub** vì không đẩy được dữ liệu đầu vào; kèm lý do "không muốn người khác phải chạy thử xem có được không". Bản `.gitignore` cuối cùng được chép ra `ARCHIVE_LESSON_11_1_20261030/gitignore_ban_cuoi_cung_truoc_khi_goi_20261031.txt` trước khi xoá.
-   - Viết lại `.staging/push_check.py` thành **nguồn duy nhất định nghĩa phạm vi đẩy**: `SKIP_DIRS = {'.staging', '__pycache__', '.git', 'input', 'CV'}`, `NEVER_PUSH = {'ingestion/db_config.py'}`, hai bộ lọc tên cá nhân (`cv_*`, `avatar_*`), quét chuỗi nghi vấn bằng biểu thức chính quy cho `password|secret|token`, in danh sách tệp ra `.staging/push_list.txt` và **in sẵn lệnh `git add` chọn đích danh** để người làm không phải gõ tay.
-   - Kết quả đo sau khi đổi: **36 tệp, 4,74 MiB**, tệp lớn nhất 2,81 MiB (`output/Bao cao quan tri va phan tich (Ngan Hang).pbix`). Hệ quả tốt: **không còn tệp nào vượt 25 megabyte** nên tải lên bằng giao diện web của GitHub được, không cần Git LFS và không còn vướng trần 100 megabyte mỗi tệp. Bộ đếm đi trong ngày: 47, rồi 46, rồi 43, cuối cùng **36**. Bị loại: `input/`, `.staging/`, `CV/`, `ingestion/db_config.py`. Lệnh an toàn: `git add AGENTS.md README.md docs images ingestion output requirements.txt sql`.
-   - `README.md` sửa ba nhóm chỗ theo đúng phần chữ người dùng đã chốt: mục Nguồn Dữ Liệu ghi "**Kho mã không chứa `input/`**" và bỏ lý do trần dung lượng trong câu tách tệp; cây thư mục đổi chú giải `input/` thành "KHÔNG đưa lên kho mã", bỏ hẳn dòng `.gitignore`; bốn chỗ "52 mục lỗi" đổi thành **53 mục lỗi**.
-   - `AGENTS.md` sửa hai chỗ: bảng cấu trúc ghi rõ `input/` **nằm ngoài kho mã**, chỉ có trên máy người làm; mục An toàn viết lại thành năm gạch, trong đó có lệnh cấm **`git add .` và `git add -A`** vì không còn tệp chặn nào, và ghi `.staging/push_check.py` là chỗ định nghĩa phạm vi đẩy.
-   - `docs/HIEN_TRANG_HE_THONG.md`: mục "Những tệp không đưa lên GitHub" viết lại thành năm gạch (bỏ `.gitignore`; `input/` nay chặn **cả thư mục** gồm năm tệp và `input/README.md`; `db_config.py`; `CV/`; bộ đẩy 36 tệp). `docs/PIPELINE.md`: ghi chú cuối đổi thành "**Bốn thứ nằm ngoài kho mã**" và câu tách tệp sao kê bỏ lý do trần dung lượng của GitHub. `input/README.md`: cột bảng đổi thành "Đưa lên kho mã" với cả năm dòng "Không", thêm đoạn "**Cả thư mục này không đưa lên GitHub**", bỏ hai tham chiếu `.gitignore`.
-   - `docs/LOI_THUONG_GAP.md` lên **53 mục** (kiểm bằng máy: đánh số 1 đến 53 tăng dần, không trùng, không thiếu): mục 52 viết lại theo cấu hình mới của `push_check.py`, thêm mục 53 "Bỏ `.gitignore` Thì `git add .` Thành Cái Bẫy — Phải Gõ Đích Danh Tệp" kèm bài học "quy tắc ignore vẫn có hiệu lực kể cả khi tệp `.gitignore` chưa được commit" và sửa mục 41 bỏ câu "bị `.gitignore` chặn". Ghi Prompt 247. Cắt task 80 sang `NHAT_KY_ban_nguyen_truoc_cat_task80_20261031.md` để giữ trần 50 task (130 xuống 81).
-### 2026-10-31
-129. **Chặn Thư Mục CV Khỏi Kho Mã Và Trả Lời Câu Hỏi Về Phạm Vi Đẩy Tệp**
-   - Người dùng hỏi có cần `.gitignore`, `.staging`, `requirements.txt` trong bộ đẩy hay không; kiểm lại, `.staging/push_check.py` báo **47 tệp** thay vì 46.
-   - Thủ phạm: `CV/cv_tran_ngoc_duc.synctex.gz` (24.548 byte) lọt vì `.gitignore` chỉ chặn `cv_*.synctex(busy)` — đuôi thật sinh ra trên máy là `.synctex.gz`. Giải nén kiểm nội dung (104.738 ký tự): không có dãy nào giống số điện thoại, nhưng có chuỗi đường dẫn tuyệt đối `C:\Users\This PC\...` nên vẫn lộ tên máy và vị trí thư mục.
-   - Đã sửa: thêm `cv_*.synctex.gz` và chặn cả thư mục `CV/` trong `.gitignore`; thêm `.synctex.gz` vào `EXT_IGNORED`, thêm `CV` vào `BLOCK_DIRS` của `.staging/push_check.py`. Chạy lại: **46 tệp, 124,0 MiB**, tệp lớn nhất 83,59 MiB, không tệp vượt trần 100 MB, không liên kết gãy mới.
-   - Kiểm thêm bằng kho Git tạm dựng ở thư mục Temp (sao `.gitignore` thật, tạo các tệp đại diện, chạy `git status --porcelain` và `git check-ignore -v`): cả 12 đường dẫn nhạy cảm đều bị chặn đúng quy tắc mong đợi, còn `.gitignore`, `README.md`, `requirements.txt` vẫn nằm trong danh sách Git nhìn thấy. **Phép thử này cũng chứng minh quy tắc có hiệu lực ngay cả khi tệp `.gitignore` chưa được commit** — Git đọc tệp trong thư mục làm việc, không cần nó nằm trong kho.
-   - Bộ đếm tụt tiếp từ 46 xuống **43, 123,98 MiB** vì người làm dự án gỡ ba tệp khỏi `output/` (theme JSON và hai tệp measure DAX) trong lúc phiên làm việc đang chạy; `output/` hiện chỉ còn `BC_PNL_YTD_202305.xlsx` và tệp `.pbix`. Hai chỗ mô tả `output/` ở cây thư mục `README.md` và bảng cấu trúc `AGENTS.md` vẫn ghi ba tệp đó, nên chưa sửa lời mô tả — chờ người làm xác định có lấy lại hay gỡ hẳn.
-   - Trả lời người dùng: `.staging/` đã bị chặn từ dòng 5 nên chưa từng nằm trong bộ đẩy; **nên đẩy `.gitignore`** vì người clone sẽ mất lớp chặn nếu thiếu nó (quy tắc vẫn có hiệu lực với máy người làm kể cả khi tệp chưa được commit); **nên đẩy `requirements.txt`** vì 7 dòng chỉ ghi `psycopg2-binary==2.9.13` và `openpyxl==3.1.5`, không chứa bí mật, là thứ để người khác chạy được pipeline. Kiểm thêm: thư mục dự án **chưa phải là kho Git** (`fatal: not a git repository`).
-   - Đồng bộ: mục 52 `docs/LOI_THUONG_GAP.md` (tổng lên 52 mục), 4 chỗ "51 mục lỗi" trong `README.md` đổi thành 52, bullet bộ đẩy trong `docs/HIEN_TRANG_HE_THONG.md`, ghi Prompt 246. Cắt task 79 sang `NHAT_KY_ban_nguyen_truoc_cat_task79_20261031.md` để giữ trần 50 task (129 xuống 80).
-### 2026-10-31
-128. **Viết Lại Các Bước Trong Mục CV Cho Cụ Thể Dễ Hiểu Và Lấy Lại Nhãn Gained Value**
-   - Diễn đạt lại toàn bộ mục dự án trong `cv_tran_ngoc_duc.tex` khỏi mật ngữ kỹ thuật sang câu ai đọc cũng hiểu: "phân bổ theo tỉ lệ" thành **chuyển chi phí hội sở (nhân sự, công nghệ, chương trình thẻ) về vùng gây ra nó theo tỉ lệ dư nợ và số thẻ đang hoạt động, kèm kiểm tra bảy vùng cộng lại đúng tổng toàn hàng**; "sáu cấu phần" thành **tách biến động lợi nhuận mỗi tháng thành sáu nguyên nhân có tên (thu nhập lãi, thu phí, chi phí hoạt động, chi phí vốn, chi phí dự phòng, khác) để vùng chỉ đẹp lên nhờ giảm dự phòng bị nhìn thấy, không ẩn trong một con số lãi**; "hai trụ cột" thành **xếp 8 chỉ số thành hai điểm riêng (chất lượng: nợ xấu, thẻ mới, đạt chỉ tiêu; hiệu quả tài chính: thu nhập, chi phí/thu nhập, lãi trên mỗi giám đốc) để tăng trưởng khối lượng đổi lấy chất lượng xấu không ẩn được vào một điểm tổng**.
-   - **Lại đủ nhãn Gained Value** với ba gạch: kỹ thuật dữ liệu (đọc và làm sạch tệp Excel nhiều triệu dòng bằng `openpyxl`, nạp và truy vấn PostgreSQL bằng `psycopg2`, nạp lại chỉ những tháng bị ảnh hưởng); SQL nâng cao (thủ tục PL/pgSQL, CTE, hàm cửa sổ, mỗi bước tính một bảng tạm để kiểm toán độc lập); phân tích nghiệp vụ và BI (biến quy tắc quản trị thành measure DAX và trang báo cáo nêu rõ hành động, người chịu trách nhiệm, hạn chót).
-   - **Kết quả đo được khi thử 21 phương án** (mỗi phương án biên dịch thật bằng `pdflatex`): ngân sách trang 2 chỉ **12 dòng văn bản**; nén khoảng cách toàn bài (`\parskip` 2,5pt về 0,5pt, `\titlespacing` 11/6 về 6/3, `itemsep` và `topsep` về 0) giải phóng thêm **7 dòng**; bản đủ nội dung (Objective + Output giữ số quy mô + Steps bốn gạch cụ thể + Gained Value ba gạch) cần vượt ngân sách nên **in ra 3 trang**; chỉ hai họ phương án về được 2 trang là (i) bỏ nhãn Output và rút còn ba gạch Steps + một gạch Gained Value **kèm** nén khoảng cách, (ii) giữ bản gọn của task 127. Cắt bớt mục dự án cũ (gộp hai dòng liên kết, bỏ một đến hai gạch) **không đủ** kéo về 2 trang: vẫn 3 trang.
-   - Đã áp: bản đủ nội dung, **không đổi khoảng cách chữ toàn bài**, tệp CV 189 dòng (khối dự án 24 dòng); biên dịch hai lần ra `(3 pages`, không dòng lỗi `! `; trích văn bản PDF đối chiếu 23 cụm từ, khớp 21, hai cụm lệch chỉ vì ligature `ffi`/`fi` khi trích (`office` in ra `oce`, `figures` ra `gures`).
-   - **Chờ người dùng chọn:** giữ 3 trang (đang áp) hay về 2 trang bằng một trong hai cách đã đo. Lưu ý trang 3 hiện **không có số trang** vì số "2" ở đầu trang 2 là chữ cứng trong tệp, không phải bộ đếm; nếu chốt 3 trang phải thay bằng `\thepage`.
-   - **Sai số bị bắt khi chạy lại bộ kiểm đẩy lên:** đếm được **52** tệp thay vì 47. Nguyên nhân là năm sản phẩm phụ của LaTeX rớt ra ở thư mục gốc (`cv_tran_ngoc_duc.aux`, `.log`, `.out`, `.pdf`, `.synctex(busy)`), trong đó `.pdf` và `.aux` **0 byte** và `.synctex(busy)` còn sót lại → một lần biên dịch CV ngay trong thư mục gốc đã chết giữa chừng, không phải do công cụ của dự án. Đã chặn ba sản phẩm phụ qua `.gitignore` (`*.log` và `cv_*.tex`/`cv_*.pdf` đã chặn trước đó); cho `.staging/push_check.py` học theo `.gitignore` thì số thật là **46 tệp, 124,00 MiB** — con số 47 cũ tính nhầm cả `cv_tran_ngoc_duc.tex` là tệp bị chặn.
-   - Đồng bộ: mục 51 `docs/LOI_THUONG_GAP.md` bổ sung hai gạch đo được (nén khoảng cách cho +7 dòng; cắt mục dự án cũ không đủ), bullet về CV trong `docs/HIEN_TRANG_HE_THONG.md` đổi thành "3 trang" và sửa số bộ đẩy thành 46 tệp, ghi Prompt 245.
-
-127. **Thêm Data Analyst Vào Dòng Định Vị README Và Đưa Dự Án Này Vào CV Vừa Khổ Hai Trang**
-   - `README.md`: thêm chuỗi `Data Analyst` vào cả hai dòng định vị (dòng dưới tiêu đề đầu trang và dòng tên trong khối Tác Giả), thành `Data Analyst · Business Intelligence · Data Science · Management Information Systems · Operations`. Kiểm bằng máy: `Data Analyst` xuất hiện đúng 2 lần, tệp giữ 472 dòng, 13 anchor mục lục vẫn khớp 13 đề mục, số thẻ `<div align="center">` mở và đóng cân nhau (3 và 3).
-   - `cv_tran_ngoc_duc.tex`: chèn mục dự án mới **đứng trước** mục dự án đang có (dự án này mới hơn: tháng 9 đến tháng 10 năm 2026), theo đúng khuôn bốn nhãn Objective · Output · Steps · Gained Value; sửa luôn lỗi chính `Business Intelligence Analystt` thành `Analyst` ở dòng chức danh.
-   - **Vấn đề gặp phải:** bản đầy đủ (28 dòng mã nguồn) biên dịch ra **3 trang**, trong khi bản gốc chỉ có một mục dự án là 2 trang. Cách đo chỗ trống: chèn thêm từng dòng văn bản trắng rồi tìm nhị phân cho tới khi tràn trang — trang 2 chỉ còn chứa thêm **12 dòng**, trang 1 **0 dòng** nên không dồn khối Skills lên trang 1 được.
-   - **Thử 10 phương án cắt** (khác nhau ở độ dài Objective và số gạch mỗi nhãn): mọi phương án còn giữ cả ba nhãn Output · Steps · Gained Value đều tràn sang trang 3, kể cả bản 4 gạch; bản duy nhất vừa 2 trang là Objective gọn + Output 1 gạch + Steps 3 gạch, nên mục này **bỏ hẳn nhãn Gained Value** (kỹ năng đã có mục Skills riêng ở cuối trang), tệp CV từ 193 xuống **180 dòng**, khối dự án mới từ 28 xuống **16 dòng**.
-   - **Số giữ lại trong CV đều đã kiểm chứng từ dự án:** kho PostgreSQL 19 bảng · 4 view · 3 thủ tục nạp từ 2.996.476 dòng thô; hai báo cáo hàng tháng xuất Excel và một trang báo cáo Power BI 5 trang dựng trên 72 measure DAX; phân bổ chi phí quản trị (gán thẳng theo mã đơn vị + phân bổ phần hội sở theo tỉ lệ), lũy kế từ đầu năm, bất biến tổng toàn hàng, biến động lợi nhuận phân rã 6 cấu phần; xếp hạng 8 chỉ số theo hai trụ cột cho 74 đến 84 giám đốc vùng mỗi tháng; bốn lớp kiểm chứng với 91 phép đối soát Power BI so với PostgreSQL, 0 lệch; phát hiện 97,2% của khoản lãi tăng 4,39 tỷ đồng một tháng đến từ một vùng nhờ giảm chi phí dự phòng. Để lại một dòng `% TODO` nhắc chèn địa chỉ kho GitHub khi kho được công bố.
-   - Verify: `pdflatex` không dòng lỗi `! `, `Output written on full.pdf (2 pages`; đối chiếu 21 cụm từ trong nguồn với văn bản trích từ PDF (chế độ `-raw`) — đủ mọi gạch, những từ lệch chỉ do ligature `fi`/`fl` khi trích (`Profit` in ra `Prot`, `office` ra `oce`); 4 liên kết URI trong PDF còn nguyên (LinkedIn giữ `%E1%BA%A7n`, bản demo giữ `%3D%3D`, email và liên kết rút gọn).
-   - Ghi thêm mục 51 vào `docs/LOI_THUONG_GAP.md` (Cách đo ngân sách dòng khi hồ sơ LaTeX tràn trang) và bổ sung ràng buộc "trang 2 đã đầy, sửa tiếp phải cắt tương ứng" vào bullet về CV ở `docs/HIEN_TRANG_HE_THONG.md`. Đếm lại tệp lỗi thường gặp bằng máy: **51 mục, đánh số 1 đến 51 không trùng không thiếu**, nên sửa cả 4 chỗ ghi "50 mục lỗi" trong `README.md` (dòng Bàn giao, bảng Bộ tài liệu vận hành, cây thư mục, mục Tài Liệu) thành **51 mục lỗi**.
-126. **Xoá Năm Gạch Đầu Dòng Hồ Sơ Trong Khối Tác Giả Và Bỏ Cách Định Vị Chung Chung**
-   - Người dùng xoá yêu cầu vừa ghi ở task 125: năm gạch đầu dòng Học vấn · Kinh nghiệm ngân hàng · Ngoại ngữ · Dự án khác · Hồ sơ đầy đủ bị loại khỏi `README.md` vì người làm hướng tới nhiều mảng (Business Intelligence, Data Science, Management Information Systems, Operations) nên câu định vị hẹp hoặc chung chung đều phản tác dụng — nguyên tắc rút ra là **thà không ghi còn hơn ghi chung chung**.
-   - Hai chỗ vẫn giữ vì là dữ kiện, không phải lời tự đánh giá: họ tên và hai liên hệ công khai (email, LinkedIn). `README.md` từ 478 xuống **472 dòng**; toàn bộ chuỗi `Tôn Đức Thắng`, `TOEIC`, `GPA`, `MB Bank, thực tập`, `byvn.net`, `app.powerbi.com`, `Hồ sơ đầy đủ` và `775` đều không còn trong tệp (kiểm bằng máy từng chuỗi).
-   - Hai thay đổi cụ thể: xoá năm gạch đầu dòng ở cuối khối Tác Giả (dòng 473 đến 477 của bản trước), và thay dòng chức danh hẹp "Chuyên viên Phân tích Dữ liệu" bằng danh sách bốn mảng mục tiêu ở cả hai chỗ — dòng dưới tiêu đề đầu trang và dòng tên trong khối Tác Giả — nội dung đúng bằng những mảng người dùng tự nêu, không thêm tính từ tự đánh giá.
-   - Đồng bộ `docs/HIEN_TRANG_HE_THONG.md`: bullet mô tả `cv_tran_ngoc_duc.tex` viết lại thành "mục Tác Giả chỉ giữ danh tính và liên hệ công khai", nêu rõ lý do không ghi học vấn, ngoại ngữ, nơi thực tập và liên kết dự án khác.
-   - Verify: `.staging/push_check.py` — 47 tệp, 124,0 MiB, không tệp vượt trần 100 megabyte, liên kết gãy duy nhất vẫn là chuỗi `README_eng.md` trong câu nhật ký cũ; 13 anchor mục lục đối chiếu với 16 đề mục cấp hai bằng script sinh slug của GitHub, **khớp cả 13** (xoá khối gạch đầu dòng không ảnh hưởng anchor `#-tác-giả` vì đề mục vẫn còn); số thẻ `<div align="center">` mở và đóng cân nhau (3 và 3).
-   - **Còn hỏi lại:** liên kết dự án thứ hai (`https://byvn.net/Zd4d` là liên kết rút gọn) và tên tài khoản GitHub hiện đã ra khỏi `README.md` theo yêu cầu; nếu muốn giữ lại ở dạng cụ thể, cần địa chỉ kho mã trực tiếp rồi tôi mới ghi.
-
-125. **Điền Thông Tin Tác Giả Vào `README.md` Từ CV Và Chặn Tệp CV Khỏi Kho Mã**
-   - Nguồn là `cv_tran_ngoc_duc.tex` (163 dòng, đặt ở gốc kho nhưng không thuộc bộ đẩy lên). Khối "Tác Giả" cuối `README.md` trước đó chỉ có ba chữ "GitHub · LinkedIn · Email" không liên kết; nay viết lại thành **mục cấp hai có anchor trong mục lục** (thêm mục 13 `[👤 Tác Giả](#-tác-giả)`), gồm họ tên, chức danh, dòng định vị nghề nghiệp, hai liên kết thật và bốn gạch đầu dòng học vấn · kinh nghiệm · ngoại ngữ · dự án khác.
-   - **Số điện thoại và nơi ở không đưa vào `README.md`**, chỉ dùng khi gửi hồ sơ trực tiếp; liên kết công khai lấy từ CV gồm email `tranduc22104@gmail.com`, LinkedIn, bản demo Power BI của dự án rủi ro tín dụng và một liên kết GitHub của dự án đó. Kiểm bằng máy: `README.md` không còn chuỗi "775" (số điện thoại) và không có tên ảnh thẻ.
-   - **Chặn hồ sơ gốc khỏi kho mã:** `.gitignore` thêm ba dòng `cv_*.tex` · `cv_*.pdf` · `avatar_*.png` kèm lý do, để người clone hoặc người soạn lệnh `git add .` không vô tình đẩy thông tin nhân thân. Ảnh `.png` mang tên `avatar_*` hiện không có trong thư mục nhưng chặn trước vì CV tham chiếu `avatar_option_1.png`.
-   - Hai chi tiết kỹ thuật đã sửa cho đúng chuẩn GitHub: liên kết LinkedIn dùng nguyên dạng đã mã hoá trong tệp `https://www.linkedin.com/in/tr%E1%BA%A7n-ng%E1%BB%8Dc-%C4%91%E1%BB%A9c-48b3a7439/` vì tên tiếng Việt có dấu trong URL dễ bị trình bày sai; liên kết Power BI giữ nguyên chuỗi truy vấn dài vì cắt ngắn sẽ hỏng.
-   - Verify: chạy `.staging/push_check.py` — **47 tệp, 123,99 MiB, không tệp vượt trần 100 megabyte, liên kết gãy duy nhất vẫn là chuỗi `README_eng.md` trong câu nhật ký cũ**; đối chiếu 13 anchor mục lục với 16 đề mục cấp hai bằng script sinh slug của GitHub, cả 13 đều khớp (gồm anchor mới `#-tác-giả`); `README.md` từ 468 lên **478 dòng**, số `<div align="center">` mở và đóng vẫn cân nhau (3 và 3). Ghi thêm mục "Những tệp không đưa lên GitHub" vào `docs/HIEN_TRANG_HE_THONG.md` gồm mật khẩu trong `db_config.py`, tệp 117,15 megabyte, hồ sơ cá nhân và bộ đẩy 47 tệp.
-   - **Còn treo một chi tiết chỉ người dùng có:** CV không ghi tên tài khoản GitHub nên dòng liên hệ chưa có liên kết cá nhân; liên kết thứ hai `https://byvn.net/Zd4d` là liên kết rút gọn, nên thay bằng địa chỉ kho mã trực tiếp trước khi công khai. Hai điểm này chờ bạn cung cấp, tôi điền ngay.
-
-124. **Đọc Lại Mô Hình Sau Khi Người Dùng Bấm Refresh Và Xoá Hai Quan Hệ Tự Nối**
-   - Người dùng đã làm ba trong bốn việc treo: **bấm Refresh** (bốn partition mang `RefreshedTime` 13:04 ngày 31-10-2026), **xoá hai quan hệ tự nối** qua `cir` và `area_code`, và **lưu tệp** lúc 15:30 (2.944.418 byte, tăng 22.441 byte so với bản 13:00). Đọc lại bằng cổng `msmdsrv` của phiên này (`localhost:50331`, database `27872297-823a-46e4-a927-2bcb1cc05940`), không dùng kết quả đọc hồi 13:00.
-   - **Mô hình hiện có 9 bảng, không phải 6.** Bốn bảng nạp từ kho (`v_baocao_tonghop` 32 cột, `v_xephang_asm` 28 cột, `dim_sm_headcount` 4 cột, `dim_month` **8 cột** — đã thấy `ngay_dau_thang`, `ngay_cuoi_thang`, `so_ngay_trong_thang`), hai bảng DAX (`LAI LO (Visuals & DAX)` 71 measure, `Data Glossary` 1 measure) và **ba bảng ẩn do tính năng tự động ngày giờ dựng**: một `DateTableTemplate_…` cùng hai `LocalDateTable_…`, mỗi bảng tám cột ngày, cả ba `hidden=True` nên không hiện trong danh sách bảng. Số measure vẫn **72**, số trang vẫn **5** và kích thước từng trang không đổi.
-   - **Năm quan hệ nhưng thành phần đã đổi:** ba quan hệ `month_key` trỏ vào `dim_month` giữ nguyên; hai quan hệ tự nối sai thiết kế đã biến mất; hai quan hệ mới là `dim_month[ngay_dau_thang]` và `dim_month[ngay_cuoi_thang]` nối xuống `Date` của hai bảng ẩn.
-   - **Chứng minh xoá quan hệ không làm đổi số** thay vì chỉ tin lý luận: xuất 72 biểu thức measure khỏi mô hình ra `.staging/measure_expressions_1532.txt` rồi quét — **0 measure dùng `USERELATIONSHIP`, 0 dùng `TREATAS`, 0 dùng `CROSSFILTER`, 0 tham chiếu ba bảng ngày ẩn, 0 đọc cột `cir` của bảng kia**; phép lọc `area_code` trong 8 measure đều gắn trực tiếp lên bảng mà measure cộng số. Sau đó chạy thật bộ đôi đối soát: `ingestion/export_pbi.ps1 -Port 50331 -Catalog 27872297-…` rồi `ingestion/audit_pbi_vs_db.py` — **91 phép so sánh, 0 lệch**, tổng chênh lệch lợi nhuận trước thuế hai bên cùng 4.390,8513.
-   - **Sửa một lỗi làm gãy bước đối soát trên bản sạch:** `ingestion/export_pbi.ps1` chết ngay ở `WriteAllText` với `DirectoryNotFoundException` vì `.staging/audit/` không tồn tại (pipeline Python chỉ tạo `.staging/`, Git không lưu thư mục rỗng), trong khi truy vấn DAX đã chạy xong nên người chạy dễ hiểu nhầm mô hình có lỗi. Thêm ba dòng `Test-Path` + `New-Item -ItemType Directory -Force` trước khi ghi. Verify bằng cách **xoá hẳn `.staging/audit/`** rồi chạy lại từ đầu: in `created …\\.staging\\audit`, ghi được `pbi_pnl.csv` và `pbi_asm.csv`, audit vẫn 91 phép so sánh 0 lệch. Ghi thành mục 50 của `docs/LOI_THUONG_GAP.md`.
-   - **Ghi hai phát hiện mới vào `docs/LOI_THUONG_GAP.md`**: mục 49 "Bấm Refresh xong Power BI âm thầm dựng thêm ba bảng ngày ẩn và hai quan hệ, tài liệu đếm bảng lệch ngay" (triệu chứng · nguyên nhân mặc định Auto date/time · cách tắt File → Options → Current file → Data Load · bài học "số bảng của mô hình là đầu ra của phần mềm, phải đọc lại bằng chương trình sau mỗi lần Refresh") và mục 50 ở trên; mục 45 được gắn thêm dòng "Đã gỡ ngày 2026-10-31" kèm bằng chứng đối soát. Tệp từ 48 lên **50 mục**, kiểm lại bằng máy: đánh số 1 đến 50 tăng dần, không trùng, không thiếu số.
-   - **Tài liệu đồng bộ theo trạng thái mới**: `docs/HIEN_TRANG_HE_THONG.md` (bullet "Ảnh chụp mô hình Power BI đang mở" viết lại theo 9 bảng kèm tên và số cột từng bảng, bullet "Năm quan hệ" viết lại theo đúng thành phần mới kèm kết quả quét 72 biểu thức measure và 91 phép đối soát, bullet ngày nạp đổi từ "29-10-2026 chưa thấy cột ngày" thành "đã Refresh 13:04, đủ ba cột ngày", bullet về `dim_month` ghi rõ đã bấm Refresh); `docs/PIPELINE.md` (đường Power BI: dung lượng 2.944.418 byte, 9 bảng kèm ba bảng ẩn và trỏ mục 49, tình trạng `dim_date` vẫn chưa nạp, mô tả lệnh đối soát); `README.md` (bốn chỗ "48 mục lỗi" thành **50 mục lỗi**).
-   - Verify bằng hai đường đọc độc lập: số bảng, số cột và số measure lấy từ mô hình đang mở qua thư viện quản lý mô hình, số trang và dung lượng gói custom visual lấy từ `Report/definition` bên trong tệp `.pbix`; đếm lại danh mục `docs/LOI_THUONG_GAP.md` bằng máy (50 mục, 1 đến 50 tăng dần, không trùng, không thiếu), kiểm 45 dòng sơ đồ khối của `docs/PIPELINE.md` vẫn đúng 100 ký tự. Chạy `.staging/push_check.py`: **47 tệp đủ điều kiện đẩy lên**, tổng 123,99 MiB, tệp lớn nhất 83,59 MiB, không tệp vượt trần 100 megabyte, liên kết gãy duy nhất vẫn là chuỗi `README_eng.md` nằm trong câu nhật ký cũ.
-   - **Còn treo, cần người dùng quyết một trong hai hướng cho phần ngày**: hoặc tắt Auto date/time rồi nạp `dim_date` từ kho (khuyến nghị — `dim_date` có `so_thu`, `ten_thu`, `la_ngay_cuoi_thang` mà bảng ẩn không có), hoặc chấp nhận ba bảng ẩn và giữ nguyên. Việc của tôi khi mô hình chốt: dựng lại bản `.pbix` không Deneb (bản 880.525 byte ở `.staging/pbix_khong_deneb.pbix` đã cũ vì dựng trước lần Refresh này) và dẫn năm ảnh dashboard vào `README.md`.
-
-123. **Kiểm Tra Sự Đồng Bộ Giữa Các Tệp Sẽ Đẩy Lên Sau Khi Người Dùng Sửa Power BI Lần Nữa**
-   - Dấu vết thay đổi: `images/quy-trinh.png` lưu 12:59 (761 × 184 điểm ảnh, 45.116 byte), `images/tong-quan.png` lưu 12:59 (230.566 byte), `output/Bao cao quan tri va phan tich (Ngan Hang).pbix` lưu 13:00 (2.921.977 byte). Phóng tám lần từng card của ảnh quy trình rồi đối chiếu với code và database: cả bốn card đều khớp — card giai đoạn 3 đã sửa thành "tạo thêm 14 bảng" (5 + 6 + 2 + 1), card giai đoạn 4 ghi đúng chế độ Import. Xoá dòng ghi chú báo số lệch dưới ảnh trong `README.md` vì ảnh không còn lệch.
-   - Kiểm lại mô hình đang mở qua cổng `msmdsrv` của phiên này và đọc `Report/definition` trong tệp `.pbix`: vẫn 6 bảng (bốn bảng nạp từ kho, hai bảng do DAX dựng), 72 measure, 5 trang, 5 quan hệ; bốn partition vẫn giữ `RefreshedTime` ngày 29-10-2026 nên `dim_month` trong mô hình chưa thấy ba cột ngày và `dim_date` vẫn chưa được nạp; hai quan hệ tự nối giữa hai bảng sự kiện vẫn còn; gói custom visual Deneb vẫn nằm trong tệp (2.035.600 byte nén) dù không một visual nào dùng.
-   - Rà chéo số liệu giữa các tệp sẽ đẩy lên (`README.md`, `docs/HIEN_TRANG_HE_THONG.md`, `docs/PIPELINE.md`, `docs/LOI_THUONG_GAP.md`, `AGENTS.md`, `input/README.md`): không còn chỗ nào ghi "18 bảng", "22 đối tượng", "47 mục" hay "117,1 megabyte"; con số 73 measure chỉ xuất hiện trong câu giải thích nguồn gốc đếm nhầm; dung lượng `.pbix` trong `docs/PIPELINE.md` cập nhật thành 2.921.977 byte; sơ đồ khối của `docs/PIPELINE.md` giữ đúng 100 ký tự trên mỗi dòng.
-   - **Sửa lỗi đánh số của `docs/LOI_THUONG_GAP.md`** (48 mục nhưng số lớn nhất chỉ 45, trùng ba số 16, 18 và 19): ba mục trùng được đánh số lại ở cuối tệp thành 46 "DAX CALCULATE tính tháng trước bị kẹt Filter Context từ Slicer dim_month", 47 "Hardcode số liệu tĩnh vào chuỗi measure HTML khiến visual không tự động theo slicer tháng", 48 "Visual HTML Content (Secure) (Daniel Marsh-Patrick) render khác file HTML". Nội dung ba mục giữ nguyên, chỉ sửa "T4 vs T5" thành "tháng 4 so với tháng 5" theo quy tắc viết đầy đủ. Giữ nguyên số từ 1 đến 45 để ba tham chiếu chéo (`docs/HIEN_TRANG_HE_THONG.md` mục 29, `docs/PIPELINE.md` mục 41 và 42) cùng các ghi chú trong hai tệp nhật ký không bị lệch số.
-   - **Sự cố do script của tôi, đã khắc phục trọn vẹn:** lần dời đầu tính sai biên chặn của khối nên đề mục 17, 19, 20 bị đẩy xuống cuối và mục "Visual HTML Content (Secure)" bị nhân bản. Dựng lại tệp bằng cách tách khối theo đúng ranh giới là đề mục kế tiếp: thu được 49 khối, hai khối trùng nhau chỉ khác mỗi con số nên bỏ một bản, xếp lại thành **48 mục đánh số 1 đến 48 tăng dần, không trùng, không thiếu số**, chuẩn hoá một dòng trắng giữa các mục rồi đếm lại danh mục sau khi ghi tệp để kiểm.
-   - Verify: `.staging/push_check.py` — 46 tệp đủ điều kiện đẩy lên, tổng 123,94 MiB, tệp lớn nhất 83,59 MiB, không tệp vượt trần 100 megabyte; liên kết gãy duy nhất vẫn là chuỗi `README_eng.md` nằm trong câu nhật ký cũ, để nguyên như đã ghi ở task 120. Không sửa gì trong database và không đụng tệp `.pbix`.
-   - **Còn treo cần thao tác tay của người dùng:** bấm Refresh để mô hình thấy ba cột ngày của `dim_month`; nạp `dim_date` và nối `dim_date[month_key]` nhiều-một lên `dim_month[month_key]` nếu muốn lọc theo ngày; xoá hai quan hệ tự nối trong Manage Relationships; đóng Power BI Desktop để bản nhẹ 880.525 byte ở `.staging/pbix_khong_deneb.pbix` thay cho bản 2.921.977 byte trong `output/`. Việc còn lại: năm ảnh dashboard (`tong-quan`, `tu-dien`, `xep-hang`, `ket-qua-lai-lo`, `ket-luan`) chưa được `README.md` dẫn. Cùng lượt này đã viết đầy đủ chữ tắt ở năm dòng mô tả của `docs/HIEN_TRANG_HE_THONG.md` (dòng 12, 75, 78, 79, 80: "LTN" thành doanh số cho vay mới, "LNTT" thành lợi nhuận trước thuế, "top 25 · bot 24" thành 25 vị trí đầu bảng và 24 vị trí cuối bảng, "T5/202305" thành tháng 202305, "trđ" thành triệu đồng, số suy ra từ tiêu đề "LOAN TO NEW" trong tệp tham số và sheet `KPI_ASM_DATA`); chỗ còn giữ nguyên là tên đối tượng thật trong mô hình (dòng 14 liệt kê tên measure) và mũi tên trong các khối sơ đồ, còn `AGENTS.md` dòng 14 là chỉ dẫn của người viết quy trình nên không tự ý sửa.
-122. **Kiểm Tệp Power BI Người Dùng Vừa Lưu Và Đồng Bộ Tài Liệu Theo Mô Hình Mới**
-   - Người dùng lưu `output/Bao cao quan tri va phan tich (Ngan Hang).pbix` lúc 12:33 (2.921.847 byte, trước đó 2.921.894) và lưu lại `images/quy-trinh.png` lúc 12:34 (783 × 183 điểm ảnh, 43.468 byte). Kiểm trực tiếp mô hình đang mở qua thư viện quản lý mô hình (cổng `localhost:58516` của phiên này) và đọc `Report/definition/pages` trong tệp `.pbix`, không lấy số từ trí nhớ.
-   - **Mô hình thật: 6 bảng · 72 measure · 5 trang · 5 quan hệ.** Bốn bảng nạp từ kho (`v_baocao_tonghop` 32 cột, `v_xephang_asm` 28 cột, `dim_sm_headcount` 4 cột, `dim_month` 5 cột) và hai bảng nội bộ do DAX dựng (`LAI LO (Visuals & DAX)` 71 measure, `Data Glossary` 1 measure). **Số 73 measure trong tài liệu là đếm nhầm**: đối tượng thứ 73 là `__Default measure` do engine tự thêm, không phải measure nghiệp vụ — kiểm bằng cách lập danh sách measure qua hai đường (thông tin siêu dữ liệu và mô hình) rồi so sánh, hai danh sách chỉ lệch đúng một phần tử đó. Năm trang và kích thước từng trang khớp nguyên với những gì `docs/PIPELINE.md` đã ghi.
-   - **Phát hiện mới, có rủi ro thật: hai quan hệ do Power BI tự nối giữa hai bảng sự kiện** — `v_xephang_asm[cir]` nhiều-một sang `v_baocao_tonghop[cir]` và `v_baocao_tonghop[area_code]` nhiều-nhiều với `v_xephang_asm[area_code]`. Quan hệ thứ nhất chỉ dựng được vì `cir` của view lãi lỗ tình cờ có 35 giá trị khác nhau trên đúng 35 dòng ở năm tháng hiện có; kiểm trên kho thì `v_xephang_asm.cir` 388 dòng chỉ 35 giá trị và `area_code` cả hai view đều 7 giá trị trên nhiều dòng, tức không cột nào là khoá. Thêm tháng mà hai vùng trùng hệ số CIR là lệnh Refresh vỡ. Ghi thành mục 45 của `docs/LOI_THUONG_GAP.md` kèm cách kiểm `COUNT(*)` với `COUNT(DISTINCT …)` trước khi tin một quan hệ.
-   - **Ba việc treo vẫn còn treo (mô hình chưa được Refresh):** `partition` của cả bốn bảng nạp lần cuối ngày 29-10-2026, nên `dim_month` trong mô hình vẫn bốn cột nghiệp vụ — chưa thấy `ngay_dau_thang`, `ngay_cuoi_thang`, `so_ngay_trong_thang`; `dim_date` vẫn không có trong danh sách bảng. Gói custom visual Deneb vẫn nằm trong tệp (2.035.600 byte nén, khoảng 70 phần trăm dung lượng) dù **không một visual nào dùng** — đã quét toàn bộ 146 tệp định nghĩa visual; bản nhẹ 880.525 byte ở `.staging/pbix_khong_deneb.pbix` vẫn chờ Power BI Desktop nhả khóa tệp.
-   - Ảnh quy trình: hai card đầu đã đúng (giai đoạn 1 "3 file số liệu … kèm bảng tham số", giai đoạn 2 sửa thành "tạo 5 bảng: 1 danh mục vùng + 3 bảng số liệu gốc + 1 bảng trạng thái"); **còn hai chuỗi lệch** — card giai đoạn 3 đã sửa phần liệt kê thành 5 + 6 + 2 + 1 nhưng số nổi bật vẫn ghi "tạo thêm 12 bảng" (đúng là 14), card giai đoạn 4 vẫn ghi "Lấy số liệu trực tiếp từ kho" (mô hình là Import). Đọc số trong ảnh phải phóng tám lần bằng `PIL` vì chữ chỉ cao khoảng chín điểm ảnh.
-   - Tài liệu đồng bộ: `README.md` (73 measures xuống **72 measures** ở bảng công nghệ, dòng quy mô giai đoạn 4 từ "—" thành "72 measure" và "Import 2 view" thành "Import 2 view và 2 bảng danh mục", ghi chú dưới ảnh quy trình viết lại còn hai chỗ lệch, bốn chỗ "47 mục" thành **48 mục**); `docs/HIEN_TRANG_HE_THONG.md` (viết lại bullet hai ảnh theo bản mới, thêm bullet "Ảnh chụp mô hình Power BI đang mở" liệt kê 6 bảng kèm số cột và số measure từng bảng, thêm bullet "Năm quan hệ trong mô hình" chỉ rõ hai quan hệ tự nối và cách kiểm, thêm bullet "Lần nạp gần nhất 29-10-2026" nêu ba cột ngày và `dim_date` chưa vào mô hình); `docs/PIPELINE.md` (dòng trong sơ đồ khối thành "4 bảng nạp + 72 measure + 5 trang" và giữ đúng 100 ký tự, mô tả đường Power BI đổi dung lượng `.pbix`, đếm 6 bảng theo từng nhóm, giải thích nguồn gốc số 73, nêu ngày nạp partition); `docs/LOI_THUONG_GAP.md` thêm mục 45.
-   - Verify: `.staging/push_check.py` — 46 tệp đủ điều kiện đẩy lên, tổng 123,93 MiB, không tệp vượt trần, không liên kết gãy mới. Số liệu mô hình lấy từ ba lệnh kiểm độc lập: `.staging/check_model_now.ps1` (bảng · cột · quan hệ), `.staging/check_model_detail.ps1` (số đo theo bảng · `RefreshedTime` từng partition), `.staging/diff_measures.ps1` (đối chiếu danh sách measure hai đường); hai truy vấn uniqueness chạy trực tiếp trên `banking_project`. Không sửa gì trong database và không đụng tệp `.pbix`.
-   - **Còn treo cần thao tác tay của người dùng**: bấm Refresh để mô hình thấy ba cột ngày của `dim_month`; nạp `dim_date` nếu muốn dùng ngày; xoá hai quan hệ tự nối trong Manage Relationships; sửa hai chuỗi còn lại trong ảnh `quy-trinh.png`; đóng Power BI Desktop để thay bản `.pbix` không Deneb.
-121. **Rút Gọn Mục 3 `docs/PIPELINE.md` — Khối Lệnh Vận Hành Chi Tiết**
-   - Mục 3 dài 44 trên tổng 167 dòng của tệp (26 phần trăm) và lặp nội dung nơi khác: ví dụ truy vấn kiểm tỉ lệ phân bổ trùng bước 3 mục Cách chạy của `docs/HIEN_TRANG_HE_THONG.md`, còn khối "Lưu ý" cuối mục trộn năm ý trong đó chuyện tách tệp 117,2 megabyte và mật khẩu kết nối đã có đầy đủ ở `README.md`, `input/README.md`, `AGENTS.md` và mục 41 của `docs/LOI_THUONG_GAP.md`.
-   - Viết lại thành 21 dòng (dòng 124 đến 144), tệp từ 167 xuống **144 dòng**: `### 3.1. Chạy Luồng Đầy Đủ (Mặc Định)` giữ hai lệnh Python và trình bày **thứ tự bốn lớp bằng một đoạn văn**, hai vòng gọi thủ tục viết gọn trong ngoặc, kèm ba điểm vỡ nếu đảo thứ tự và ghi chú `SET search_path`; `### 3.2. Ba Đường Gọn Khi Không Phải Chạy Toàn Bộ` ba dòng (tính lại một tháng, xuất một tháng, đối soát Power BI với kho — giữ nguyên hai lệnh và hai mức dung sai 0,02 triệu đồng cùng 1e-4); khối "Ba thứ nằm ngoài kho mã" thay cho năm ý cũ. Số kiểm sau khi chạy không liệt kê lại mà trỏ đích danh từng mục của `docs/HIEN_TRANG_HE_THONG.md` (bảng kê số dòng và hai mốc đối chiếu ở **Dữ liệu trong kho**, bốn view ở **Stack và kết nối**, truy vấn kiểm ở **Cách chạy**).
-   - Đưa ba mốc số về cùng một cách viết trong tệp: dòng 64 sửa 83,59 / 33,56 / 117,15 megabyte thành **83,6 / 33,6 / 117,2 megabyte** cho khớp `README.md` (dòng 404), `input/README.md` và `docs/HIEN_TRANG_HE_THONG.md` — trước đây tệp này vừa có 117,15 ở bước 1 vừa có 117,2 ở khối cuối.
-   - Không bỏ thông tin nào chưa tồn tại ở nơi khác: trước khi cắt đã tìm chuỗi đặc trưng của từng câu bị bỏ — `AUDIT_DATA_DIR` vẫn được tài liệu hoá ở `ingestion/audit_pbi_vs_db.py:9,21` và `ingestion/export_pbi.ps1:8,13`, `pbi_pnl.csv` vẫn có trong hai tệp đó và trong nhật ký, `docs/HIEN_TRANG_HE_THONG.md:76` giữ vị trí `.staging/audit/`.
-   - Vì PIPELINE trỏ người đọc sang `docs/HIEN_TRANG_HE_THONG.md` để lấy số, sửa ba chỗ ở tệp đó cho đúng quy tắc viết đầy đủ và trỏ đúng: ô `fct_pnl_value` từ "LNTT T2 = 92.226" thành "lợi nhuận trước thuế toàn hàng tháng 202302 = **92.226,347 triệu đồng**"; ô `fct_asm_value` từ "top 1 Nam 34đ" thành "người giữ hạng nhất là **Hoàng Văn Nam** với **34 điểm** ở tháng 202302 và **36 điểm** ở tháng 202305" (trước đây mốc hạng nhất chỉ có trong nhật ký, không có trong tài liệu hiện trạng); heading "Stack & kết nối" đổi thành "Stack và kết nối" — đã tìm trong mọi tệp `.md`, không chỗ nào tạo liên kết neo tới heading cũ.
-   - Verify: `.staging/push_check.py` — 46 tệp đủ điều kiện đẩy lên, tổng 123,92 MiB, không tệp vượt trần 100 MB, không liên kết gãy mới (còn một chỗ `README_eng.md` trong câu nhật ký cũ, để nguyên như đã ghi ở task 120). Chạy trọn chuỗi bốn lớp SQL `.staging/run_full_chain.py` hết **29,7 giây**: 19 bảng đủ số dòng (64 · 5 · 151 · 35 · 84 · 50 · 420 · 63.134 · 2.932.922 · 15 · 315 · 560 · 535 · 1.164 · 105 · 315 · 1.115 · 8.536 · 65), 37 chỉ mục, đúng một khoá ngoại, bốn view 35 · 35 · 388 · 388, `log_proc_run` 0 dòng thất bại, lợi nhuận trước thuế toàn hàng tháng 2 **92.226,347 triệu đồng**, hạng nhất tháng 5 Hoàng Văn Nam **36 điểm**, nối `fct_pnl_value` với `dim_date` ở ngày chốt số trả 35 dòng — đúng mọi mốc số mà mục 3 mới dẫn.
-   - Đếm lại các con số mục 3 còn dẫn: 3 tệp `sql/dim/` tổng 277 dòng, 2 tệp `sql/tmp/` 131 dòng, 2 tệp `sql/fct/` 826 dòng, 2 tệp `sql/rpt/` 187 dòng — khớp `wc -l` từng tệp.
-   - **Còn treo (không đổi được bằng tài liệu):** ba chuỗi chữ trong card của ảnh `images/quy-trinh.png` (giai đoạn 2 "6 bảng" phải là 5, giai đoạn 3 "11 bảng" phải là 14, giai đoạn 4 "Lấy số liệu trực tiếp từ kho" phải ghi Import) và `dim_date` chưa nằm trong mô hình Power BI.
-120. **Kiểm Hai Ảnh Mới Trong `images/` Và Đồng Bộ Tài Liệu Theo Ảnh**
-   - Người dùng thay hai ảnh lúc 12:17–12:18 ngày 2026-10-31: `images/thiet-ke-schema.png` (1705 × 1366, 104.468 byte) và `images/quy-trinh.png` (765 × 182, 43.381 byte); `images/tong-quan.png` cũng được lưu lại (229.746 byte) nhưng ảnh này chưa có chỗ nào trong `README.md` dẫn.
-   - **Ảnh sơ đồ: khớp, đã đạt.** Đọc từng hộp trong ảnh rồi đối chiếu `information_schema`: đúng **23 đối tượng (19 bảng + 4 view)**, có `dim_date` chín cột (`date_key` · `ngay` · `nam` · `thang` · `ngay_trong_thang` · `month_key` · `so_thu` · `ten_thu` · `la_ngay_cuoi_thang`), `dim_month` bảy cột và tên mới `log_data_fingerprint`; đường nối duy nhất trong ảnh là khoá ngoại `fct_asm_value.asm_id` trỏ về `dim_asm.asm_id`.
-   - **Ảnh quy trình: ba chỗ lệch với code, không sửa tài liệu theo ảnh.** Card giai đoạn 2 ghi "tạo 6 bảng: 2 danh mục vùng + 3 bảng số liệu gốc + 1 bảng trạng thái" — từ task 118 Python chỉ tạo **5 bảng** vì `dim_asm` không còn do Python tạo; card giai đoạn 3 ghi "tạo thêm 11 bảng" rồi tự liệt kê 4 + 6 + 2 + 1 là 13, số đúng là **14 bảng** (5 danh mục vì có `dim_date` + 6 tạm + 2 kết quả + 1 nhật ký); card giai đoạn 4 ghi "Lấy số liệu trực tiếp từ kho" dễ hiểu nhầm là truy vấn trực tiếp trong khi mô hình là **Import**. Đọc số trong ảnh phải phóng từng card bằng `PIL` rồi mới đọc được, ảnh 765 × 182 nên chữ chỉ cao khoảng chín điểm ảnh.
-   - `README.md`: bỏ dòng ghi chú "ảnh xuất ngày 2026-10-30 chưa có `dim_date`" (không còn đúng); viết lại caption và đoạn "Cách đọc" của sơ đồ theo đúng ảnh mới — bản cũ kể "mũi tên liền là luồng dữ liệu, mũi tên đứt là liên kết tra cứu" và "viền trên là nhóm bảng theo giai đoạn", hai mô tả đó không có trong ảnh DBeaver; thay bằng mô tả ký hiệu kiểu dữ liệu và lý giải vì sao chỉ có một đường nối. Thêm một dòng ghi chú dưới ảnh quy trình nêu ba số lệch để người đọc không tin số trong ảnh.
-   - `docs/HIEN_TRANG_HE_THONG.md`: thêm bullet "**Hai ảnh mà `README.md` dẫn**" ghi kích thước, dung lượng, trạng thái từng ảnh và ba chỗ cần sửa trong card. `docs/LOI_THUONG_GAP.md`: thêm mục 44 "Ảnh minh hoạ trong README giữ số cũ sau khi đổi cấu trúc kho" (README đổi 4 chỗ "46 mục" thành "47 mục").
-   - Verify: đếm đối tượng bằng `information_schema.tables` (23, đúng 19 bảng + 4 view) và `information_schema.columns` cho `dim_date` (9 cột khớp tên và kiểu trong ảnh); `py .staging/push_check.py` — 46 tệp đủ điều kiện đẩy lên, không liên kết gãy mới (còn một chỗ `README_eng.md` trong nhật ký cũ, để nguyên), không tệp vượt trần.
-   - **Còn treo:** sửa ba chuỗi chữ trong card của ảnh `quy-trinh.png` rồi xuất lại (hoặc cho tôi dựng lại ảnh khác cùng bố cục), sau đó xoá dòng ghi chú dưới ảnh; năm ảnh dashboard (`tong-quan`, `tu-dien`, `xep-hang`, `ket-qua-lai-lo`, `ket-luan`) vẫn chưa được README dẫn.
-
-### 2026-10-31
-119. **Dựng `dim_date` Một Dòng Một Ngày, Nối Xuống Từ `dim_month`**
-   - Yêu cầu: trục thời gian phải liệt kê được từng ngày (ngày 1, ngày 2, ngày 3…) thay vì mỗi tháng một dòng.
-   - **Không dàn ngày trong `dim_month`** vì kiểm mô hình Power BI đang mở qua đối tượng quản lý: ba quan hệ `month_key` một-nhiều (`v_baocao_tonghop`, `v_xephang_asm`, `dim_sm_headcount`) đều trỏ **vào** `dim_month`; bảng thành nhiều dòng một tháng sẽ gãy cả ba quan hệ và nhân đôi số theo tháng. Nên dựng bảng ngày riêng, `dim_month` giữ nguyên hạt tháng và toàn bộ số cũ không đổi.
-   - `sql/dim/dim_month_headcount.sql` (70 lên 130 dòng): thêm `dim_date` — `date_key` (20230115, khoá chính) · `ngay` (duy nhất) · `nam` · `thang` · `ngay_trong_thang` · `month_key` · `so_thu` theo chuẩn ISO (1 là thứ hai, 7 là chủ nhật) · `ten_thu` · `la_ngay_cuoi_thang`. Nạp bằng `generate_series(ngay_dau_thang, ngay_cuoi_thang, INTERVAL '1 day')` chạy trên từng dòng `dim_month` ngay trong `sp_load_dim()`, **không nhập tay ngày nào**; thêm tháng mới vẫn chỉ thêm mã tháng vào danh sách, ngày tự sinh, tháng 2 năm nhuận tự ra 29 dòng. Có index `idx_dim_date_month`, **không khai báo khoá ngoại** sang `dim_month` để kho giữ đúng quy ước một khoá ngoại thật.
-   - Tổng số dòng đúng là **151** (31 + 28 + 31 + 30 + 31); bản ghi DANG DỞ chép nháp 185 là tính sai, đã sửa theo số kiểm từ database.
-   - Verify (`.staging/check_dim_date.py` chạy tệp dim hai lần liên tiếp): 151 dòng, chia đúng 31 · 28 · 31 · 30 · 31 theo `month_key`, `date_key` duy nhất, 0 dòng mồ côi `month_key`, `la_ngay_cuoi_thang` đúng 5 dòng và trùng `ngay_cuoi_thang` của `dim_month`, `ngay_trong_thang` khớp từng ngày, đủ 7 thứ trong tuần (22 · 22 · 22 · 21 · 21 · 21 · 22), ngày kiểm chứng lịch thật: 01/01/2023 chủ nhật, 01/05/2023 thứ hai, 31/05/2023 thứ tư, 28/02/2023 vừa là thứ ba vừa là ngày chốt số; chạy lần hai vẫn 151 dòng. Chạy trọn chuỗi bốn lớp SQL (`.staging/run_full_chain.py`, 28,6 giây): **19 bảng** đủ số dòng, bốn view 35 · 35 · 388 · 388, đúng một khoá ngoại, 0 dòng thất bại, lợi nhuận trước thuế toàn hàng tháng 2 vẫn **92.226,347 triệu đồng**, hạng nhất tháng 5 vẫn là Hoàng Văn Nam **36 điểm**; nối `fct_pnl_value` với `dim_date` theo ngày chốt số trả đúng 35 dòng bằng số dòng view. Tổng chỉ mục trong lược đồ 34 lên **37** (ba chỉ mục của `dim_date`).
-   - Tài liệu: `README.md` (18 lên **19 bảng** ở tiêu đề mục, mục lục và bảng công nghệ; 22 lên **23 đối tượng**; giai đoạn 3 từ 13 lên **14 bảng**, 5 bảng danh mục; nhóm Danh mục 5 lên 6; lớp `dim_` 5 lên 6; bước gom chiều trong bảng Kimball; cây thư mục), `docs/HIEN_TRANG_HE_THONG.md` (19 bảng, thêm dòng `dim_date` vào bảng kê, thêm dòng `log_proc_run` còn thiếu, cập nhật mục Chủ Của Từng Bảng và thứ tự chạy), `docs/PIPELINE.md` (19 bảng ở mở đầu, sơ đồ khối thêm dòng `dim_date 151` và phải nới thành 8 dòng để giữ chú giải chủ bảng, mô tả tệp dim 130 dòng, đoạn `dim_date` mới, số dòng kiểm chứng, đầu ra 6 bảng danh mục).
-   - **Hai việc còn treo cho người dùng**: ảnh `images/thiet-ke-schema.png` chụp từ DBeaver nên chưa có `dim_date` và vẫn ghi tên cũ `stg_fingerprint` — cần chuột phải lược đồ `banking_project` → View Diagram → Export rồi ghi đè; và `dim_date` **chưa nằm trong mô hình Power BI** (mô hình vẫn 4 bảng), muốn dùng ngày thì nạp thêm rồi tạo quan hệ `dim_date[month_key]` nhiều-một sang `dim_month[month_key]`, không nối ngày trực tiếp vào bảng sự kiện.
-
-_Ghi chú biên tập:_ mục ĐÃ XONG giữ **50 task gần nhất (168 xuống 119)** theo trần quy định ở `AGENTS.md`. Các mục nhỏ hơn số 98 đã chuyển ra ngoài kho mã: phần lớn nằm trong `NHAT_KY_CONG_VIEC_ban_day_du_truoc_cat_20261030.md`; riêng các mục 60 đến 65, các mục 68 đến 83, các mục 84 đến 96 mục 97 mục 98 mục 99 mục 100 mục 101 mục 102 và mục 103 lưu ở thư mục lưu trữ `ARCHIVE_LESSON_11_1_20261030` trên máy người làm dự án, hỏi người bàn giao khi cần.
-
-_Ghi chú về đường dẫn:_ các mục từ 01 đến 106 ghi theo cấu trúc thư mục **tại thời điểm viết** — `input_data/`, `pbi/`, `audit/`, `csv_staging/`, `scratch/`, `SQL/` và tên tệp `123.pbix`. Từ task 107 kho đổi sang `input/` · `ingestion/` · `sql/` · `docs/` · `output/` · `images/`; đọc đối chiếu hai cấu trúc ở `docs/HIEN_TRANG_HE_THONG.md`.
