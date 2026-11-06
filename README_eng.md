@@ -459,7 +459,6 @@ Standardized across 6 operational directories:
 ```text
 .
 ├── input/              # Master parameter mapping files; 3 raw files managed locally due to GitHub limits
-│   └── Tham so va mau doi chieu.xlsx  # Maps 64 provinces to 8 zones, GL account crosswalk, layout specifications for 2 reports
 ├── ingestion/          # Python extraction, transformation, database loading, and reporting scripts
 │                       # run_all.py orchestrates 4-stage ingestion · run_report.py generates Excel workbook
 ├── sql/                # SQL DDL, temporary tables, stored procedures, and reporting views
