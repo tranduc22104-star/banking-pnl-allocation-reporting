@@ -459,7 +459,6 @@ Dự án được chia thành 6 thư mục chính:
 ```text
 .
 ├── input/              # Lưu bảng tham số danh mục ánh xạ; 3 tệp dữ liệu nguồn có dung lượng lớn nên được lưu riêng, không đưa trực tiếp lên GitHub
-│   └── Tham so va mau doi chieu.xlsx  # Bảng quy đổi 64 tỉnh thành về 8 vùng, danh mục tài khoản sổ cái và quy cách biểu mẫu của 2 báo cáo
 ├── ingestion/          # Các chương trình Python đọc dữ liệu Excel, chuẩn hóa dữ liệu, nạp vào kho và xuất báo cáo
 │                       # run_all.py điều phối 4 bước nạp dữ liệu · run_report.py tự động kiểm tra dữ liệu mới và xuất báo cáo Excel
 ├── sql/                # Mã nguồn SQL tạo bảng, bảng tạm, thủ tục lưu trữ và khung nhìn báo cáo
