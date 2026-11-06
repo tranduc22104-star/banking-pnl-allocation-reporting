@@ -4,6 +4,14 @@
 
 ## ĐÃ XONG
 ### 2026-11-06
+208. **Xóa Bỏ Triệt Để Chú Thích Mở Ngoặc Tiếng Anh Rườm Rà Trong README**
+   - Rà soát và xóa bỏ toàn diện 40 vị trí mở ngoặc chú thích tiếng Anh rườm rà không cần thiết trong `README.md` theo yêu cầu của người dùng:
+     * Mục 7 Phần B: Xóa sạch các cụm `(Observed Facts)`, `(Business Inferences)`, `(Hypotheses Requiring Further Verification)` ở cả 4 vùng kinh doanh.
+     * Mục 7 Phần C: Xóa các cụm dịch thuật `(Executive Decision Support)`, `(Executive KPI Cards)`, `(Waterfall Analysis)`.
+     * Các đề mục và nội dung quy tắc: Xóa bỏ các cụm tiếng Anh mở ngoặc như `(Initial Business Request)`, `(Refined Business Requirements)`, `(Data Gap Analysis)`, `(P&L Allocation Framework)`, `(Direct Cost Tracing)`, `(Driver-Based Cost Allocation)`, `(Treasury Cost)`, `(Credit Provisioning)`, `(IT & Operations)`, `(General Overhead)`, `(Multi-dimensional ASM Scorecard)`, `(Rank Scaling)`, `(GL Reconciliation)`, `(Mathematical Invariants)`, `(Data Quality Checks)`, `(Business Sanity Checks)`, `(Independent Recalculation & Cross-Audit)`.
+   - Giữ nguyên vẹn đúng 3 thuật ngữ kỹ thuật và nghiệp vụ ngân hàng cốt lõi thông dụng: `(Area Sales Manager - ASM)`, `(Waterfall)` và `(audit trail)`.
+   - Đối soát thành công 100% bằng `.staging/check_toc.py` (ok), `.staging/check_int_pair.py` (ok) và `.staging/push_check.py` (ok). Cắt task cũ ở cuối danh sách, duy trì nghiêm ngặt trần 50 task gần nhất (208 xuống 159).
+
 207. **Tinh Chỉnh Mục 7 Phần C README Thành Báo Cáo Tóm Tắt Nghiệp Vụ Độc Lập**
    - Tinh chỉnh Mục 7 Phần C trong cả hai bản tài liệu `README.md` (tiếng Việt) và `README_eng.md` (tiếng Anh) theo đúng định hướng sản phẩm của người dùng: README là bản báo cáo tóm tắt độc lập (Executive Summary), song song với bảng điều khiển trực quan Power BI để người đọc có thể linh hoạt lựa chọn phương thức tiếp cận.
    - Loại bỏ hoàn toàn tiền tố tham chiếu "Trang 5: " và không chèn ảnh Power BI vào nội dung văn bản trong Phần C. Viết lại phần mở đầu theo hướng tổng hợp các phát hiện chuyên sâu và căn cứ ra quyết định điều hành (Executive Decision Support Framework).
@@ -698,17 +706,3 @@ split_pos = nhatky.find("### 2026-10-31\
    - Người dùng yêu cầu: "Bỏ khúc đầu đi TỔNG QUAN DỰ ÁN...".
    - Xoá bỏ hoàn toàn khối trích dẫn `> **TỔNG QUAN DỰ ÁN** ...` ở đầu `README.md` và `.staging/README_thuan_viet.md`, cùng khối `> **PROJECT OVERVIEW** ...` ở đầu `README_eng.md`.
    - **Verify**: chạy `.staging/check_toc.py` (`ok`), `.staging/check_int_pair.py` (`ok`), `.staging/check_readme_pair.py` (`ok`, 525 dòng đối xứng), `.staging/push_check.py` (`32 tệp, 4.87 MiB`, 0 liên kết gãy, 0 liên kết ngoài kho).
-
-158. **Hoàn Thiện README Chuẩn Mực Business-Driven Data Analytics 3 Tầng Và Đồng Bộ Song Ngữ**
-   - Hoàn thiện toàn diện `README.md`, `README_eng.md` và `.staging/README_thuan_viet.md`:
-     + Đổi tiêu đề H1 thành: *Xây Dựng Báo Cáo Quản Trị Kết Quả Kinh Doanh Thẻ Tín Dụng Và Đánh Giá Hiệu Quả Hoạt Động ASM*.
-     + Thêm khối Project Overview (TỔNG QUAN DỰ ÁN) cô đọng ngay đầu tài liệu trước mục lục.
-     + Chuẩn hoá số dòng sao kê hợp đồng thẻ thống nhất `2.932.922` dòng (`2,932,922` bản tiếng Anh).
-     + Sửa biên độ tỷ lệ nợ xấu NPL thực tế 7 vùng thành `10,11% đến 21,99%` xuyên suốt 5 tháng (riêng tháng 5/2023 từ `11,24% đến 21,99%`).
-     + Làm rõ định nghĩa NPL mở rộng (*NPL trước Write-Off lũy kế*, mã `204`) = (Nhóm 3-5 + Write-off) / (Tổng dư nợ + Write-off) × 100 nhằm phản ánh trung thực chất lượng tài sản và triệt tiêu kỹ thuật xóa nợ làm đẹp bảng cân đối.
-     + Chuẩn hoá cấu trúc bộ thẻ điểm đánh giá đa chiều ASM (*Multi-dimensional Scorecard*) cân bằng 50/50 danh nghĩa giữa 2 trụ cột (4 chỉ tiêu mỗi bên, xếp hạng độc lập từ 1 đến $N$), phân định rõ cấp cá nhân (3 chỉ tiêu bán hàng) và cấp trách nhiệm vùng (5 chỉ tiêu tài chính & rủi ro dùng chung địa bàn).
-     + Chuẩn hoá tiêu thức phân bổ chi phí Hội sở thực tế trong SQL Stored Procedures: `d1` (dư nợ nhóm 1), `d25_sau`/`dtruoc` (dư nợ nhóm 2-5), `psdn` (hợp đồng phát sinh dư nợ bình quân), `sm_count` (định biên nhân sự).
-     + Chuẩn hoá vai trò tệp `input/Tham so va mau doi chieu.xlsx` (tham số ánh xạ, quy cách biểu mẫu và mốc kiểm chứng lịch sử: LNTT T2 92.226,35 trđ, T5 250.450,06 trđ, Top 1 Nam 34đ) trong mối tương quan với khung kiểm chứng độc lập 5 lớp.
-     + Phân định rõ 3 cấp độ nhận định dữ liệu tại Chương 8 (*Dữ kiện quan sát được* — *Suy luận nghiệp vụ* — *Giả thuyết cần xác minh thêm*); đổi tên phát hiện vùng ĐBSH thành *Lợi nhuận tăng nhờ chi phí dự phòng ròng giảm*.
-     + Tinh lọc triệt để văn phong: loại bỏ hoàn toàn đại từ xưng hô, thay thế các cụm từ kịch tính; sửa lỗi neo mục lục emoji `\ufe0f`.
-   - **Verify**: chạy `.staging/check_toc.py` (`ok`), `.staging/check_int_pair.py` (`ok`, 0 lệch số $\ge 10$), `.staging/check_readme_pair.py` (`ok`, 534 dòng đối xứng), `.staging/push_check.py` (`32 tệp, 4.88 MiB`, 0 liên kết gãy, 0 liên kết ngoài kho).
