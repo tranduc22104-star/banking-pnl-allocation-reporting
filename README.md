@@ -448,7 +448,7 @@ Các công cụ được chọn theo yêu cầu của từng giai đoạn trong 
 | **Python 3.10** | `openpyxl`, `zipfile`, `xml.etree` | Đọc dữ liệu Excel thô gần 3 triệu dòng, chuẩn hóa ký tự và nạp dữ liệu vào kho | Đọc dữ liệu theo luồng để xử lý tệp 117,2 MB mà không phải nạp toàn bộ dữ liệu vào RAM |
 | **PostgreSQL 15** | PL/pgSQL, Stored Procedure | Lưu trữ kho dữ liệu Star Schema (19 bảng, 4 `view`), thực thi logic phân bổ chi phí và xếp hạng | Khả năng xử lý tập dữ liệu lớn với độ chính xác cao và kiểm soát transaction chặt chẽ |
 | **Power BI Desktop** | Import Mode, 72 Measure DAX | Xây dựng 5 trang dashboard để theo dõi và phân tích số liệu | Giúp Ban lãnh đạo theo dõi, lọc và phân tích số liệu trực quan |
-| **Microsoft Excel** | XLSX, Advanced Formulas | Xuất báo cáo quản trị 7 sheet tự động qua tập lệnh Python | Phục vụ việc kiểm tra và đối chiếu công thức đến từng ô của Phòng Kế toán - Tài chính |
+| **Microsoft Excel** | XLSX, Automated Reports | Xuất báo cáo quản trị 7 sheet tự động qua tập lệnh Python | Phục vụ công tác kiểm tra và đối soát số liệu chi tiết của Phòng Kế toán - Quản trị |
 
 ---
 
@@ -458,8 +458,8 @@ Dự án được chia thành 6 thư mục chính:
 
 ```text
 .
-├── input/              # Lưu tệp tham số và mẫu báo cáo; 3 tệp dữ liệu nguồn có dung lượng lớn nên được lưu riêng, không đưa trực tiếp lên GitHub
-│   └── Tham so va mau doi chieu.xlsx  # Bảng ánh xạ 64 tỉnh thành vào 8 vùng, danh mục tài khoản sổ cái và biểu mẫu của 2 báo cáo
+├── input/              # Lưu bảng tham số danh mục ánh xạ; 3 tệp dữ liệu nguồn có dung lượng lớn nên được lưu riêng, không đưa trực tiếp lên GitHub
+│   └── Tham so va mau doi chieu.xlsx  # Bảng quy đổi 64 tỉnh thành về 8 vùng, danh mục tài khoản sổ cái và quy cách biểu mẫu của 2 báo cáo
 ├── ingestion/          # Các chương trình Python đọc dữ liệu Excel, chuẩn hóa dữ liệu, nạp vào kho và xuất báo cáo
 │                       # run_all.py điều phối 4 bước nạp dữ liệu · run_report.py tự động kiểm tra dữ liệu mới và xuất báo cáo Excel
 ├── sql/                # Mã nguồn SQL tạo bảng, bảng tạm, thủ tục lưu trữ và khung nhìn báo cáo

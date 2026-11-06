@@ -448,7 +448,7 @@ Tools were chosen based on fit for purpose across project stages:
 | **Python 3.10** | `openpyxl`, `zipfile`, `xml.etree` | Ingestion of raw 3M-row statements, text normalization, and database loading | Streaming parsing handles 117.2 MB file without memory exhaustion |
 | **PostgreSQL 15** | PL/pgSQL, Stored Procedures | Kimball Star Schema repository (19 tables, 4 `views`), cost allocation, and ranking logic | High-performance relational calculation with strict ACID transaction controls |
 | **Power BI Desktop** | Import Mode, 72 DAX Measures | 5-page interactive dashboard suite with multi-dimensional slicing | Delivers instant executive exploration and diagnostic drill-downs |
-| **Microsoft Excel** | XLSX, Advanced Formulas | Automated generation of 7-sheet management report workbooks | Accommodates accounting reconciliation habits with cell-level formulas |
+| **Microsoft Excel** | XLSX, Automated Reports | Automated generation of 7-sheet management report workbooks | Facilitates detailed financial verification and accounting reconciliation |
 
 ---
 
@@ -458,8 +458,8 @@ Standardized across 6 operational directories:
 
 ```text
 .
-├── input/              # Business parameter files and templates; 3 raw files managed locally due to GitHub limits
-│   └── Tham so va mau doi chieu.xlsx  # Maps 64 provinces to 8 zones, GL account crosswalk, report templates
+├── input/              # Master parameter mapping files; 3 raw files managed locally due to GitHub limits
+│   └── Tham so va mau doi chieu.xlsx  # Maps 64 provinces to 8 zones, GL account crosswalk, layout specifications for 2 reports
 ├── ingestion/          # Python extraction, transformation, database loading, and reporting scripts
 │                       # run_all.py orchestrates 4-stage ingestion · run_report.py generates Excel workbook
 ├── sql/                # SQL DDL, temporary tables, stored procedures, and reporting views
