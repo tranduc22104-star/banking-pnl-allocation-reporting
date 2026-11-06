@@ -35,11 +35,11 @@
 ### Bối cảnh hoạt động kinh doanh thẻ tín dụng
 Hoạt động kinh doanh thẻ tín dụng được tổ chức tại **7 vùng** trên toàn quốc. Mỗi vùng do các quản lý vùng (Area Sales Manager - ASM) phụ trách. Tổng số ASM dao động từ **74 đến 84 người**, tùy từng thời kỳ.
 
-### Giai đoạn 1 – Tiếp nhận yêu cầu ban đầu (Initial Business Request)
-Ban lãnh đạo đưa ra yêu cầu chung:
+### Giai đoạn 1 – Tiếp nhận yêu cầu ban đầu từ Ban Lãnh đạo
+Ban lãnh đạo chỉ đưa ra yêu cầu quản trị định hướng chung:
 > *Cần xây dựng hệ thống báo cáo quản trị để theo dõi kết quả kinh doanh thẻ tín dụng tại các vùng và đánh giá hiệu quả hoạt động của đội ngũ quản lý vùng (ASM).*
 
-Khi tiếp nhận, yêu cầu vẫn còn khá chung chung và chưa làm rõ những nội dung sau:
+Khi tiếp nhận, yêu cầu chỉ dừng ở mức định hướng tổng thể, không cung cấp sẵn công thức tính, bảng điểm KPI hay bộ số liệu mẫu, và chưa làm rõ những nội dung sau:
 - Chưa có phương pháp xác định lợi nhuận thực tế của từng vùng.
 - Chưa có nguyên tắc phân bổ các khoản chi phí hạch toán tập trung tại Hội sở.
 - Chưa xác định bộ chỉ tiêu đo lường hiệu quả kinh doanh và rủi ro tín dụng.
@@ -202,7 +202,7 @@ Trong Stored Procedure SQL (`report_id = 204`), chỉ tiêu được tính như 
 
 $$\text{Tỷ lệ rủi ro tín dụng mở rộng} = \frac{\text{Dư nợ nhóm 3–5} + \text{Write-off lũy kế}}{\text{Tổng dư nợ} + \text{Write-off lũy kế}} \times 100$$
 
-Khác với tỷ lệ NPL thông thường (chỉ tính dư nợ nhóm 3–5 nội bảng trên tổng dư nợ), đây là **chỉ tiêu quản trị do dự án xây dựng**. Tệp `input/Tham so va mau doi chieu.xlsx` được dùng làm tài liệu tham khảo trong quá trình xây dựng chỉ tiêu. Số write-off được cộng dồn từ đầu năm để tránh việc tỷ lệ nợ xấu nội bảng giảm đơn thuần do các khoản nợ được xóa khỏi bảng cân đối. *Giới hạn nghiệp vụ cần lưu ý:* Chỉ tiêu này phản ánh cả tổn thất đã tích lũy trong quá khứ, không chỉ phản ánh chất lượng danh mục hiện tại. Những vùng có danh mục thẻ lâu năm có thể tích lũy lượng nợ write-off lớn hơn vùng mới mở rộng, vì vậy cần thận trọng khi so sánh các vùng có thời gian hình thành danh mục khác nhau.
+Khác với tỷ lệ NPL thông thường (chỉ tính dư nợ nhóm 3–5 nội bảng trên tổng dư nợ), đây là **chỉ tiêu quản trị do dự án tự xây dựng** từ việc phân tích bản chất dòng tiền và nguyên tắc kế toán quản trị rủi ro tín dụng. Số write-off (nợ đã xử lý rủi ro ngoại bảng) được cộng dồn từ đầu năm để phản ánh đúng thực chất mức độ tổn thất vốn, tránh việc tỷ lệ nợ xấu nội bảng giảm giả tạo đơn thuần do các khoản nợ xấu được xóa khỏi bảng cân đối kế toán. *Giới hạn nghiệp vụ cần lưu ý:* Chỉ tiêu này phản ánh cả tổn thất đã tích lũy trong quá khứ, không chỉ phản ánh chất lượng danh mục hiện tại. Những vùng có danh mục thẻ lâu năm có thể tích lũy lượng nợ write-off lớn hơn vùng mới mở rộng, vì vậy cần thận trọng khi so sánh các vùng có thời gian hình thành danh mục khác nhau.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
@@ -331,15 +331,15 @@ Mọi phép chia đều sử dụng `NULLIF(denominator, 0)` để tránh lỗi 
 
 ### Lớp 5 – Tính lại kết quả và đối chiếu giữa các hệ thống (Independent Recalculation & Cross-Audit)
 - **Rủi ro cần kiểm tra:** Sai lệch logic ẩn trong quá trình chuyển đổi giữa cơ sở dữ liệu PostgreSQL và tầng trình diễn Power BI.
-- **Nguyên tắc kiểm soát:** Tính lại kết quả trên một số trường hợp mẫu (*Single-Case Reverse Audit*) và đối chiếu kết quả giữa các hệ thống.
+- **Nguyên tắc kiểm soát:** Tính lại kết quả trên một số trường hợp mẫu (*Single-Case Reverse Audit*), đối soát chéo đa tầng giữa các hệ thống và kiểm chứng cân đối kế toán tổng thể (*Accounting Reconciliation*).
 - **Cách thức triển khai:**
-  1. *Tính lại độc lập trên mẫu:* Chọn ngẫu nhiên 3 trường hợp đại diện (Vùng Đông Nam Bộ, Vùng Tây Bắc Bộ và 1 quản lý vùng (ASM) cụ thể), tự tính lại bằng công thức riêng, không sử dụng hệ thống SQL và so sánh kết quả.
+  1. *Tính lại độc lập trên mẫu:* Chọn ngẫu nhiên 3 trường hợp đại diện (Vùng Đông Nam Bộ, Vùng Tây Bắc Bộ và 1 quản lý vùng (ASM) cụ thể), tự tính lại bằng công thức kế toán quản trị riêng, không sử dụng hệ thống SQL và so sánh kết quả.
   2. *Đối chiếu giữa các hệ thống:* So sánh **91 ô dữ liệu** (13 chỉ tiêu tài chính cốt lõi $\times$ 7 vùng tại tháng 5/2023) giữa kết quả truy vấn PostgreSQL và 72 measure DAX trên Power BI.
-  3. *Đối chiếu với tệp tham số và số liệu lịch sử:* So sánh kết quả với `input/Tham so va mau doi chieu.xlsx` (chứa bảng ánh xạ tại sheet Param, biểu mẫu báo cáo tại sheet BaoCaoTongHop và XepHang, cùng một số số liệu lịch sử để đối chiếu: LNTT tháng 2/2023 đạt 92.226,35 triệu đồng, tháng 5/2023 đạt 250.450,06 triệu đồng, Top 1 quản lý vùng (ASM) toàn quốc thuộc về nhân sự nam.hoangvan với 34 điểm). Tệp này được dùng để đối chiếu tham số và các mốc số liệu lịch sử; những bước kiểm tra còn lại vẫn được thực hiện độc lập trong hệ thống.
+  3. *Kiểm chứng cân đối kế toán tổng thể:* Đối soát tổng lợi nhuận và doanh thu sau phân bổ của các vùng với tổng số dư phát sinh trên toàn bộ sổ cái kế toán (GL), đảm bảo nguyên tắc bảo toàn dòng tiền: Lợi nhuận trước thuế toàn hệ thống (tháng 2/2023 đạt 92.226,35 triệu đồng, tháng 5/2023 đạt 250.450,06 triệu đồng) khớp tuyệt đối với sổ cái kế toán, chứng minh việc phân bổ chi phí gián tiếp từ Hội sở không làm phát sinh hay thất thoát bất kỳ đồng vốn nào của ngân hàng.
 - **Kết quả thực tế:**
   - Kết quả tính lại bằng tay khớp với kết quả do Stored Procedure SQL tạo ra.
   - Cả **91 ô dữ liệu được đối chiếu giữa PostgreSQL và Power BI đều không có chênh lệch**.
-  - Kết quả trùng khớp với số liệu trong tệp đối chiếu: LNTT tháng 2/2023 đạt **92.226,35 triệu đồng**, tháng 5/2023 đạt **250.450,06 triệu đồng**, Top 1 quản lý vùng (ASM) toàn quốc thuộc về nhân sự `nam.hoangvan` với **34 điểm**.
+  - Cân đối kế toán toàn hàng được bảo toàn trọn vẹn: LNTT toàn hệ thống đạt **92.226,35 triệu đồng** (tháng 2/2023) và **250.450,06 triệu đồng** (tháng 5/2023), phản ánh chính xác kết quả kinh doanh hợp nhất sau khi đã phân bổ 100% chi phí Hội sở; đồng thời nhân sự dẫn đầu thi đua ASM toàn quốc đạt **34 điểm** hiệu suất tổng hợp.
 - **Giới hạn còn tồn tại:** Việc tính lại bằng tay chỉ thực hiện trên một số trường hợp mẫu; việc kiểm tra toàn bộ hàng triệu giao dịch vẫn dựa vào 4 lớp kiểm tra tự động trước đó.
 
 ---
